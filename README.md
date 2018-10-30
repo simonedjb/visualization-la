@@ -109,25 +109,25 @@
 
 ## Visualizations
 
-### View 1: 
+### View 001
 - `[MP-011]` Engagement in the online environment, as measured by assessment did on the environment.
 - `[RQ-04]` Identify student interest patterns on the course.
 - `[RQ-11]` Identify self-regulated students.
 
-### View 2:
+### View 002
 - `[MP-012]` Engagement in the online environment, as measured by materials accessed on the environment.
 - `[RQ-04]` Identify student interest patterns on the course.
 
-### View 3: 
+### View 003
 - `[MP-013]` Engagement in the online environment, as measured by total hits, readings, and postings.
 - `[RQ-04]` Identify student interest patterns on the course.
 
-### View 4: 
+### View 004
 - `[MP-014]` Engagement in the online environment, as measured by how long students are watching each video.
 - `[MP-068]` Students often do not watch the entire videos.
 - `[RQ-04]` Identify student interest patterns on the course.
 
-### View 5: 
+### View 005
 - `[MP-017]` Students can be clustered into different groups based on their access or interaction patterns.
 - `[MP-020]` Students with a satisfatory performance ignore part of the materials in distance courses.
 - `[MP-028]` Student groups that use more forums tend to have a good performance.
@@ -147,20 +147,20 @@
 - `[RQ-18]` Relate video length and student performance.
 - `[RQ-21]` Relate video script and student performance.
 
-### View 6: 
+### View 006
 - `[MP-026]` Older students participate more in forums.
 
-### View 7: 
+### View 007
 - `[MP-037]` Completing activities or assessment can be used as a predictor of students completing the course.
 - `[MP-040]` It is possible to obtain accurate classification models to predict students’ drop out through the analysis of the students’ interaction.
 - `[MP-051]` Forum can be used as a predictor of students completing the course.
 - `[MP-079]` It is possible to obtain accurate classification models to predict students’ performance through the analysis of the students’ interaction.
 - `[RQ-06]` Predict student performance.
 
-### View 8: 
+### View 008
 - `[MP-008]` Access in the online environment resources increase in periods close exams or assessment deadline.
 
-### View 9:
+### View 009
 - `[RQ-01]` Statistics of interactions on video (e.g., access, re-watch, seek).
 - `[RQ-16]` Know if the student is watching the video.
 - `[RQ-20]` Know what videos (or segments) the students have liked.
@@ -168,10 +168,10 @@
 - `[RQ-26]` Know how students navigate in the video.
 - `[RQ-28]` Know when students has connection problems.
 
-### View 10:
+### View 010
 - `[RQ-12]` Know if the student has understood the video.
 - `[RQ-20]` Know what videos (or segments) the students have liked.
 
-### View 11:
+### View 011
 - `[RQ-10]` Identify student navigate patterns on the VLE.
 - `[RQ-25]` Know how students navigate among the video lectures.
