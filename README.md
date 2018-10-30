@@ -103,7 +103,9 @@
 - `*[RQ-36]` Provide achievements to engage the students.
 - `*[RQ-37]` Relate content presentation with student behavior.
 - `*[RQ-38]` VLE show a schedule customized to student.
-
+````bash
+*Do not taked into account in the visualizations proposed. 
+````
 
 ## Visualizations
 
