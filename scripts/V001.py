@@ -14,7 +14,7 @@ class V001:
     _assigns = pd.DataFrame()
 
     def __init__(self, number_students = 21):
-        self.NUMBER_STUDENTS = number_students
+        self.NUMBER_STUDENTS = number_students+1
         self.generate_dataset()
 
     def generate_dataset(self):
@@ -50,16 +50,20 @@ class V001:
 
     # Table presenting raw data    
     def graph_01(self):
-        print (self.DATASET)
+        df = self.DATASET
+        # df.replace(value="", to_replace=0, inplace=True)
+        # df.replace(value="x", to_replace=1, inplace=True)
+
         trace = Table(
-            header=dict(values=list(self.DATASET.columns),
-            fill = dict(color='#C2D4FF'),
-            align = ['left'] * 5),
+            header=dict(
+                values=list(df.columns),
+                fill = dict(color='#C2D4FF'),
+                align = 'center'
+            ),
             cells=dict(
-                values=self.DATASET.values,
-                # cells=dict(values=[df.Rank, df.State, df.Postal, df.Population],
+                values=[df[i].tolist() for i in df.columns[:]],                
                 fill = dict(color='#F5F8FF'),
-                align = ['left'] * 5
+                align = ['left','center']
             )
         )
 
@@ -129,15 +133,52 @@ class V001:
 
         fig011_2 = Figure(data=data011_2, layout=layout011_2)
         iplot(fig011_2, filename='011_2')
+        
+    def graph_04(self):
+        # df = self.DATASET
+        # df.replace(value="", to_replace=0, inplace=True)
+        # df.replace(value="x", to_replace=1, inplace=True)
 
-    # def graph_04(self):
+        df = pd.DataFrame(columns=self.DATASET.Students.values)
+        df.insert(loc=0,column="Assign",value=self.DATASET.columns[1:])
+        
+        for i in range(0, len(self.DATASET.values)):
+            for j in range(0,len(self.DATASET.columns[1:])):
+                df.iat[j,i+1] = self.DATASET.iat[i,j+1]
+                # if self.DATASET.iat[i,j+1] == 1:
+                    # df.iat[j,i+1] = "x"
+                # else:
+                    # df.iat[j,i+1] = ""
+
+        # df.replace(value="", to_replace=0, inplace=True)
+        # df.replace(value="x", to_replace=1, inplace=True)
+
+        # print(df)
+
+        trace = Table(
+            header=dict(
+                values=list(df.columns),
+                fill = dict(color='#C2D4FF'),
+                align = 'center'
+            ),
+            cells=dict(
+                values=[df[i].tolist() for i in df.columns[:]],                
+                fill = dict(color='#F5F8FF'),
+                align = ['left','center']
+            )
+        )
+
+        data = [trace] 
+        iplot(data, filename = 'pandas_table')
+
+        
 
 
     def print_all_graphs(self):
         self.graph_01()
-        # self.graph_02()
-        # self.graph_03()
-        # self.graph_04()
+        self.graph_02()
+        self.graph_03()
+        self.graph_04()
 
-inst = V001(50)
-inst.print_all_graphs()
+instance = V001(20)
+instance.print_all_graphs()
