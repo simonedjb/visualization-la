@@ -170,7 +170,6 @@ class V001:
 
         data = [trace] 
         iplot(data, filename = 'pandas_table')
-
         
 
 
