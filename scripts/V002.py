@@ -110,30 +110,32 @@ class V002:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='012_3')
 
-    def graph_04(self):        
-        max_value=0
+    def graph_04(self):
+        #https://plot.ly/python/bubble-charts/
+        #https://plot.ly/python/reference/#layout-xaxis
+        # https://plot.ly/python/axes/#subcategory-axes
+        # https://plot.ly/python/axes/#subcategory-axes
+        max_value=0        
         for i in range(0, len(self.DATASET)): #Take the max value in whole dataframe
             if max(self.DATASET.iloc[:,1:].values[i]) > max_value:
                 max_value = max(self.DATASET.iloc[:,1:].values[i])
         
-        # sizeref = 2.*max_value/(100**2)
         sizeref = 2.*max_value/(max_value**2)
         # print (sizeref)
 
         trace = []
         # for i in range(1, len(self.DATASET.columns)):
-        for i in range(0, len(self.DATASET)):
-        # for i in range(0, 1):
-            st=self.DATASET.iloc[i,0]
+        for i in range(0, len(self.DATASET)):                    
             trace.append(
                 Scatter(
                     # x=self.DATASET.iloc[:,0].values, #Students
                     # x=[self.DATASET.iloc[i,0]], #Students
-                    x=[st,st,st,st,st,st,st,st],
+                    x=[self.DATASET.iloc[i,0]]*len(self.DATASET.columns), #
                     y=self.DATASET.columns[1:], #Materials
                     mode='markers',
                     # name=self.DATASET.iloc[i,0], #each student name
-                    name=st,
+                    name=self.DATASET.iloc[i,0], #student name
+                    # orientation = "h",
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
