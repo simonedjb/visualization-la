@@ -18,7 +18,7 @@ class V002:
         self.DATASET = pd.DataFrame(columns=["Students","Video1","Video2",'Quiz1','Quiz2','Pdf1','Pdf2','Ebook1','Ebook2'])
         for i in range(1,self.NUMBER_STUDENTS):
             self.DATASET.loc[i] = [np.random.randint(0,30) for n in range(len(self.DATASET.columns))]
-            self.DATASET.loc[i,"Students"] = "Student_"+str(i) 
+            self.DATASET.loc[i,"Students"] = "Student_"+str(i)             
 
     # Table presenting raw data    
     def graph_01(self):
@@ -53,7 +53,8 @@ class V002:
 
         data = trace
         layout = Layout(
-                title='Number of access in the materials groupes by student',
+                title='Número de acessos nos materiais agrupados por estudante',
+                # title='Number of access in the materials grouped by student',
                 yaxis=dict(
         #             title='AXIS TITLE',
                     titlefont=dict(
@@ -85,7 +86,8 @@ class V002:
 
         data = [trace]
         layout = Layout(
-                title='Number of access in the materials by student',
+                title='Número de acessos nos materiais por estudante',
+                # title='Number of access in the materials by student',
                 yaxis=dict(
         #             title='AXIS TITLE',
                     titlefont=dict(
@@ -108,18 +110,73 @@ class V002:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='012_3')
 
-    def graph_04(self):
-        trace = Scatter(
-            x=self.DATASET.columns[1:], #Materials
-            y=self.DATASET.iloc[:,0].values, #Students
-            mode='markers',
-            marker=dict(
-        #         size=[[40,10], [60], [80], [100]],
+    def graph_04(self):        
+        max_value=0
+        for i in range(0, len(self.DATASET)): #Take the max value in whole dataframe
+            if max(self.DATASET.iloc[:,1:].values[i]) > max_value:
+                max_value = max(self.DATASET.iloc[:,1:].values[i])
+        
+        # sizeref = 2.*max_value/(100**2)
+        sizeref = 2.*max_value/(max_value**2)
+        # print (sizeref)
+
+        trace = []
+        # for i in range(1, len(self.DATASET.columns)):
+        for i in range(0, len(self.DATASET)):
+        # for i in range(0, 1):
+            st=self.DATASET.iloc[i,0]
+            trace.append(
+                Scatter(
+                    # x=self.DATASET.iloc[:,0].values, #Students
+                    # x=[self.DATASET.iloc[i,0]], #Students
+                    x=[st,st,st,st,st,st,st,st],
+                    y=self.DATASET.columns[1:], #Materials
+                    mode='markers',
+                    # name=self.DATASET.iloc[i,0], #each student name
+                    name=st,
+                    marker=dict(
+                        symbol='circle',
+                        sizemode='area',
+                        sizeref=sizeref,
+                        # size=self.DATASET.iloc[:,i].values.tolist(),
+                        size=self.DATASET.iloc[i,1:].values.tolist(),
+                        line=dict(
+                            width=2
+                        )
+                    )
+                )
+            )
+
+        layout = Layout(
+            title='Número de acessos nos materiais por estudante',
+            # title='Number of access in the materials grouped by student',
+            xaxis = dict(
+                autorange = False,
+                categoryorder = "category ascending",
+                # domain = [0, 1],
+                fixedrange = False,
+                range = [-1, len(self.DATASET)],
+                rangemode = "normal",
+                showline = True,
+                title = "Estudantes",
+                type = "category"
+            ),
+            yaxis = dict(
+                autorange = False,
+                categoryorder = "category ascending",
+                # domain = [0, 1],
+                fixedrange = False,
+                range = [-1, len(self.DATASET.columns[1:])],
+                rangemode = "normal",
+                showline = True,
+                title = "Materiais",
+                type = "category"
             )
         )
 
-        data = [trace]
-        iplot(data, filename='bubblechart-size')        
+        data = trace
+        fig=Figure(data=data, layout=layout)
+        iplot(fig, filename='bubblechart-size')        
 
     def print_all_graphs(self):
         self.graph_01()
