@@ -111,10 +111,10 @@ class V002:
         iplot(fig, filename='012_3')
 
     def graph_04(self):
-        #https://plot.ly/python/bubble-charts/
-        #https://plot.ly/python/reference/#layout-xaxis
+        # https://plot.ly/python/bubble-charts/
+        # https://plot.ly/python/reference/#layout-xaxis
         # https://plot.ly/python/axes/#subcategory-axes
-        # https://plot.ly/python/axes/#subcategory-axes
+        
         max_value=0        
         for i in range(0, len(self.DATASET)): #Take the max value in whole dataframe
             if max(self.DATASET.iloc[:,1:].values[i]) > max_value:
@@ -128,14 +128,15 @@ class V002:
         for i in range(0, len(self.DATASET)):                    
             trace.append(
                 Scatter(
-                    # x=self.DATASET.iloc[:,0].values, #Students
+                    # x=self.DATASET.iloc[:,0].values, #students
                     # x=[self.DATASET.iloc[i,0]], #Students
-                    x=[self.DATASET.iloc[i,0]]*len(self.DATASET.columns), #
-                    y=self.DATASET.columns[1:], #Materials
+                    x=[self.DATASET.iloc[i,0]]*len(self.DATASET.columns), #student
+                    y=self.DATASET.columns[1:], #materials
                     mode='markers',
                     # name=self.DATASET.iloc[i,0], #each student name
                     name=self.DATASET.iloc[i,0], #student name
                     # orientation = "h",
+                    text = self.DATASET.iloc[i,1:].values.tolist(),
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
@@ -152,6 +153,8 @@ class V002:
         layout = Layout(
             title='Número de acessos nos materiais por estudante',
             # title='Number of access in the materials grouped by student',
+            hovermode = "closest",
+            showlegend = True,
             xaxis = dict(
                 autorange = False,
                 categoryorder = "category ascending",
