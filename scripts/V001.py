@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-from plotly.graph_objs import Figure, Layout, Bar, Table
+from plotly.graph_objs import Figure, Layout, Bar, Table, Scatter
 from plotly.offline import init_notebook_mode, iplot
 
 init_notebook_mode(connected=True) # initiate notebook for offline plot
@@ -133,45 +133,73 @@ class V001:
 
         fig011_2 = Figure(data=data011_2, layout=layout011_2)
         iplot(fig011_2, filename='011_2')
+    
         
     def graph_04(self):
-        # df = self.DATASET
-        # df.replace(value="", to_replace=0, inplace=True)
-        # df.replace(value="x", to_replace=1, inplace=True)
-
-        df = pd.DataFrame(columns=self.DATASET.Students.values)
-        df.insert(loc=0,column="Assign",value=self.DATASET.columns[1:])
+        # https://plot.ly/python/bubble-charts/
+        # https://plot.ly/python/reference/#layout-xaxis
+        # https://plot.ly/python/axes/#subcategory-axes
         
-        for i in range(0, len(self.DATASET.values)):
-            for j in range(0,len(self.DATASET.columns[1:])):
-                df.iat[j,i+1] = self.DATASET.iat[i,j+1]
-                # if self.DATASET.iat[i,j+1] == 1:
-                    # df.iat[j,i+1] = "x"
-                # else:
-                    # df.iat[j,i+1] = ""
+        sizeref = 0.01
+        # print (sizeref)
 
-        # df.replace(value="", to_replace=0, inplace=True)
-        # df.replace(value="x", to_replace=1, inplace=True)
+        trace = []
+        # for i in range(1, len(self.DATASET.columns)):
+        for i in range(0, len(self.DATASET)):                    
+            trace.append(
+                Scatter(                    
+                    x=[self.DATASET.iloc[i,0]]*len(self.DATASET.columns), #student
+                    y=self.DATASET.columns[1:], #assigns
+                    mode='markers',
+                    # name=self.DATASET.iloc[i,0], #each student name
+                    name=self.DATASET.iloc[i,0], #student name
+                    # orientation = "h",
+                    text = self.DATASET.iloc[i,1:].values.tolist(),
+                    marker=dict(
+                        symbol='circle',
+                        sizemode='area',
+                        sizeref=sizeref,
+                        # size=self.DATASET.iloc[:,i].values.tolist(),
+                        size=self.DATASET.iloc[i,1:].values.tolist(),
+                        line=dict(
+                            width=2
+                        )
+                    )
+                )
+            )
 
-        # print(df)
-
-        trace = Table(
-            header=dict(
-                values=list(df.columns),
-                fill = dict(color='#C2D4FF'),
-                align = 'center'
+        layout = Layout(
+            title='Atividades feitas por estudante',
+            # title='Number of access in the materials grouped by student',
+            hovermode = "closest",
+            showlegend = True,
+            xaxis = dict(
+                autorange = False,
+                categoryorder = "category ascending",
+                # domain = [0, 1],
+                fixedrange = False,
+                range = [-1, len(self.DATASET)],
+                rangemode = "normal",
+                showline = True,
+                title = "Estudantes",
+                type = "category"
             ),
-            cells=dict(
-                values=[df[i].tolist() for i in df.columns[:]],                
-                fill = dict(color='#F5F8FF'),
-                align = ['left','center']
+            yaxis = dict(
+                autorange = False,
+                categoryorder = "category ascending",
+                # domain = [0, 1],
+                fixedrange = False,
+                range = [-1, len(self.DATASET.columns[1:])],
+                rangemode = "normal",
+                showline = True,
+                title = "Atividades",
+                type = "category"
             )
         )
 
-        data = [trace] 
-        iplot(data, filename = 'pandas_table')
-        
-
+        data = trace
+        fig=Figure(data=data, layout=layout)
+        iplot(fig, filename='bubblechart-size')        
 
     def print_all_graphs(self):
         self.graph_01()
