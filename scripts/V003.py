@@ -9,7 +9,7 @@ init_notebook_mode(connected=True) # initiate notebook for offline plot
 class V003:
     NUMBER_STUDENTS = 21
     DATASET = pd.DataFrame()
-    
+
     _students = pd.DataFrame()
     _assigns = pd.DataFrame()
 
@@ -25,7 +25,7 @@ class V003:
 
         self.get_students_frame()
         self.get_interactions_frame()
-        
+
     def print_dataset(self):
         print(self.DATASET)
 
@@ -43,7 +43,7 @@ class V003:
             self._assigns.loc[i,"Name"] = self.DATASET.columns[i+1]
         # print (self._assigns)
 
-    # Table presenting raw data    
+    # Table presenting raw data
     def graph_01(self):
         df = self.DATASET
         # df.replace(value="", to_replace=0, inplace=True)
@@ -56,45 +56,49 @@ class V003:
                 align = 'center'
             ),
             cells=dict(
-                values=[df[i].tolist() for i in df.columns[:]],                
+                values=[df[i].tolist() for i in df.columns[:]],
                 fill = dict(color='#F5F8FF'),
                 align = ['left','center']
             )
         )
 
-        data = [trace] 
+        data = [trace]
         iplot(data, filename = 'pandas_table')
-    # Histogram number of assessments completed for each student
+
     def graph_02(self):
-        trace = [Bar(
-             x=self._students.Name.values,
-             y=self._students.Interactions.values
-         )]
+        trace = []
+        for i in range(len(self.DATASET.columns[1:])):
+            trace.append(Bar(
+                    x=self.DATASET.Students.values,
+                    y=self.DATASET.iloc[:,i+1].values,
+                    name=self.DATASET.columns[i+1]
+            ))
 
         data = trace
         layout = Layout(
-            title='Quantidade de tarefas feitas por alunos',
-            yaxis=dict(
-               # title='AXIS TITLE',
-                   titlefont=dict(
-                      family='Arial, sans-serif',
-                      # size=18,
-                      color='lightgrey'
-                  ),
-                   showticklabels=True,
-                   tick0=0,
-                   dtick=1,
-                   # ticklen=4,
-                   # tickwidth=4,
-                   exponentformat='e',
-                   showexponent='all',
-                   gridcolor='#bdbdbd',
-                   # range=[0, 4.1]
-               )
+                title='Número de acessos a Posts, Leituras e Likes agrupados por estudante',
+                # title='Number of access in the materials grouped by student',
+                yaxis=dict(
+        #             title='AXIS TITLE',
+                    titlefont=dict(
+                        family='Arial, sans-serif',
+        #                 size=18,
+                        color='lightgrey'
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=1,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
             )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='011_1')
+        iplot(fig, filename='012_2')
 
 
     def print_all_graphs(self):
