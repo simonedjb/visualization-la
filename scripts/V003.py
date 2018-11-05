@@ -1,8 +1,9 @@
 import pandas as pd
 import numpy as np
 
-from plotly.graph_objs import Figure, Layout, Bar, Table
+from plotly.graph_objs import Figure, Layout, Bar, Table, Heatmap, Scatter
 from plotly.offline import init_notebook_mode, iplot
+
 
 init_notebook_mode(connected=True) # initiate notebook for offline plot
 
@@ -100,10 +101,72 @@ class V003:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='012_2')
 
+    def graph_03(self):
+
+        max_value=0
+        for i in range(0, len(self.DATASET)): #Take the max value in whole dataframe
+            if max(self.DATASET.iloc[:,1:].values[i]) > max_value:
+                max_value = max(self.DATASET.iloc[:,1:].values[i])
+
+        sizeref = 2.*max_value/(max_value**2)
+        # print (sizeref)
+
+        trace = []
+        # for i in range(1, len(self.DATASET.columns)):
+        for i in range(0, len(self.DATASET)):
+            trace.append(
+                Scatter(
+                    x=[self.DATASET.iloc[i,0]]*len(self.DATASET.columns), #student
+                    y=self.DATASET.columns[1:], #materials
+                    mode='markers',
+                    name=self.DATASET.iloc[i,0], #student name
+                    text = self.DATASET.iloc[i,1:].values.tolist(),
+                    marker=dict(
+                        symbol='circle',
+                        sizemode='area',
+                        sizeref=sizeref,
+                        size=self.DATASET.iloc[i,1:].values.tolist(),
+                        line=dict(
+                            width=2
+                        )
+                    )
+                )
+            )
+
+        layout = Layout(
+            title='Número de acessos a Posts, Leituras e Likes por estudante',
+            # title='Number of access in the materials grouped by student',
+            hovermode = "closest",
+            showlegend = True,
+            xaxis = dict(
+                autorange = False,
+                categoryorder = "category ascending",
+                fixedrange = False,
+                range = [-1, len(self.DATASET)],
+                rangemode = "normal",
+                showline = True,
+                title = "Estudantes",
+                type = "category"
+            ),
+            yaxis = dict(
+                autorange = False,
+                categoryorder = "category ascending",
+                fixedrange = False,
+                range = [-1, len(self.DATASET.columns[1:])],
+                rangemode = "normal",
+                showline = True,
+                type = "category"
+            )
+        )
+
+        data = trace
+        fig=Figure(data=data, layout=layout)
+        iplot(fig, filename='bubblechart-size')
 
     def print_all_graphs(self):
         self.graph_01()
         self.graph_02()
+        self.graph_03()
 
 instance = V003(20)
 instance.print_all_graphs()
