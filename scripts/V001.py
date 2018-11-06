@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-from plotly.graph_objs import Figure, Layout, Bar, Table, Scatter
+from plotly.graph_objs import Figure, Layout, Bar, Table, Heatmap, Scatter
 from plotly.offline import init_notebook_mode, iplot
 
 init_notebook_mode(connected=True) # initiate notebook for offline plot
@@ -70,7 +70,7 @@ class V001:
         data = [trace] 
         iplot(data, filename = 'pandas_table')
     
-    # Histogram number of assessments completed for each student
+    # Barchart number of assessments completed for each student
     def graph_02(self):
         trace = [Bar(
             x=self._students.Name.values,
@@ -102,7 +102,7 @@ class V001:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='011_1')
 
-    # Histogram number of student that have completed each assessment
+    # Barchart number of student that have completed each assessment
     def graph_03(self):
         trace011_2 = [Bar(
             x=self._assigns.Name.values,
@@ -201,11 +201,45 @@ class V001:
         fig=Figure(data=data, layout=layout)
         iplot(fig, filename='bubblechart-size')        
 
+    def graph_05(self):
+        trace = Heatmap(z=self.DATASET.iloc[:,1:].values,
+                        x=self.DATASET.columns[1:], #Assigns
+                        y=self.DATASET.iloc[:,0].values, #Students
+                        colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                    )
+
+        data = [trace]
+        layout = Layout(
+                title='Atividades feitas por estudante',
+                # title='Number of access in the materials by student',
+                yaxis=dict(
+        #             title='AXIS TITLE',
+                    titlefont=dict(
+                        family='Arial, sans-serif',
+        #                 size=18,
+                        color='lightgrey'
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=1,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='012_3')
+
     def print_all_graphs(self):
         self.graph_01()
         self.graph_02()
         self.graph_03()
         self.graph_04()
+        self.graph_05()
 
 instance = V001(20)
 instance.print_all_graphs()
