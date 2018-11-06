@@ -18,7 +18,7 @@ class V002:
         self.DATASET = pd.DataFrame(columns=["Students","Video1","Video2",'Quiz1','Quiz2','Pdf1','Pdf2','Ebook1','Ebook2'])
         for i in range(1,self.NUMBER_STUDENTS):
             self.DATASET.loc[i] = [np.random.randint(0,30) for n in range(len(self.DATASET.columns))]
-            self.DATASET.loc[i,"Students"] = "Student_"+str(i)             
+            self.DATASET.loc[i,"Students"] = "Student_"+str(i)
 
     # Table presenting raw data    
     def graph_01(self):
