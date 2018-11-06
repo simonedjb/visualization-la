@@ -163,10 +163,44 @@ class V003:
         fig=Figure(data=data, layout=layout)
         iplot(fig, filename='bubblechart-size')
 
+    def graph_04(self):
+        trace = Heatmap(z=self.DATASET.iloc[:,1:].values,
+                        x=self.DATASET.columns[1:], #Forum actions
+                        y=self.DATASET.iloc[:,0].values, #Students
+                        colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                    )
+
+        data = [trace]
+        layout = Layout(
+                title='Número de acessos a Posts, Leituras e Likes por estudante',
+                # title='Number of access in the materials by student',
+                yaxis=dict(
+        #             title='AXIS TITLE',
+                    titlefont=dict(
+                        family='Arial, sans-serif',
+        #                 size=18,
+                        color='lightgrey'
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=1,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='012_3')
+
     def print_all_graphs(self):
         self.graph_01()
         self.graph_02()
         self.graph_03()
+        self.graph_04()
 
 instance = V003(20)
 instance.print_all_graphs()
