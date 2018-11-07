@@ -1,14 +1,19 @@
 import pandas as pd
 import numpy as np
 
+
+
 from plotly.graph_objs import Figure, Layout, Bar, Table, Heatmap, Scatter
 from plotly.offline import init_notebook_mode, iplot
+
+from sklearn import metrics
+from sklearn.cluster import KMeans
 
 
 init_notebook_mode(connected=True) # initiate notebook for offline plot
 
 class V005:
-    NUMBER_STUDENTS = 31
+    NUMBER_STUDENTS = 50
     DATASET = pd.DataFrame()
 
     _students = pd.DataFrame()
@@ -22,7 +27,7 @@ class V005:
         self.DATASET = pd.DataFrame(columns=["Students","Grade","Access", "Forum Post", "Forum Access"])
         for i in range(1,self.NUMBER_STUDENTS):
             self.DATASET.loc[i,"Students"] = "Student_"+str(i)
-            self.DATASET.loc[i,"Grade"] = int(np.random.triangular(0,75,100))
+            self.DATASET.loc[i,"Grade"] = int(np.random.triangular(0,60,100))
             if (self.DATASET.loc[i,"Grade"] <= 50):
                 self.DATASET.loc[i,"Access"] = int(np.random.triangular(0,10,30))
                 self.DATASET.loc[i,"Forum Post"] = int(np.random.triangular(0,0,3))
@@ -53,25 +58,10 @@ class V005:
                 self.DATASET.loc[i,"Forum Post"] = int(np.random.triangular(0,10,40))
                 self.DATASET.loc[i,"Forum Access"] = self.DATASET.loc[i,"Forum Post"] + int(np.random.triangular(0,45,80))
 
-        self.get_students_frame()
-        self.get_interactions_frame()
 
-    def print_dataset(self):
-        print(self.DATASET)
-
-    def get_student(self, row):
-        return row["Students"]
-
-    def get_students_frame(self):
-        self._students = pd.DataFrame(columns=["Name"])
-        self._students["Name"] = self.DATASET.apply(self.get_student, axis=1)
-        # print (self._students)
-
-    def get_interactions_frame(self):
-        self._interactions = pd.DataFrame(columns=["Name"])
-        for i in range (0, len(self.DATASET.columns[1:])):
-            self._assigns.loc[i,"Name"] = self.DATASET.columns[i+1]
-        # print (self._assigns)
+        dfk = self.DATASET.iloc[0:,1:4]
+        kmeans = KMeans(n_clusters=3).fit(dfk)
+        self.DATASET["Cluster"] = np.asarray(kmeans.labels_)
 
         # Table presenting raw data
     def graph_01(self):
@@ -96,8 +86,32 @@ class V005:
         iplot(data, filename = 'pandas_table')
 
 
+    def graph_02(self):
+
+        trace1 = Scatter(
+        x = self.DATASET.iloc[0:,2],
+        y = self.DATASET.iloc[0:,1],
+        text = self.DATASET.iloc[0:,0],
+
+        mode='markers',
+        marker=dict(
+            size=12,
+            symbol = self.DATASET.iloc[0:,5],
+            color = self.DATASET.iloc[0:,5], #set color equal to a variable
+            colorscale='Viridis',
+            )
+        )
+        data = [trace1]
+        layout = Layout(
+            legend=dict(orientation="h")
+        )
+        fig = Figure(data=data, layout=layout)
+
+        iplot(data, filename='scatter-plot')
+
     def print_all_graphs(self):
         self.graph_01()
+        self.graph_02()
 
-instance = V005(20)
+instance = V005(50)
 instance.print_all_graphs()
