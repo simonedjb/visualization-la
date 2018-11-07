@@ -29,8 +29,13 @@ class V001:
     def print_dataset(self):
         print(self.DATASET)
 
-    def sum_assigns(self, row):
-        return row["Assign1"]+row["Assign2"]+row["Assign3"]+row["Assign4"]    
+    def sum_assigns(self,row):
+        lst = self.DATASET.columns[1:].tolist()
+        sum_value = 0
+        for i in range(len(lst)):
+            sum_value += row[lst[i]]
+
+        return sum_value    
 
     def get_student(self, row):
         return row["Students"]
