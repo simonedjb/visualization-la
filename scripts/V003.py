@@ -140,7 +140,7 @@ class V003:
             showlegend = True,
             xaxis = dict(
                 autorange = False,
-                categoryorder = "category ascending",
+                # categoryorder = "category ascending",
                 fixedrange = False,
                 range = [-1, len(self.DATASET)],
                 rangemode = "normal",
