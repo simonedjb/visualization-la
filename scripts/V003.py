@@ -102,6 +102,79 @@ class V003:
         iplot(fig, filename='012_2')
 
     def graph_03(self):
+        trace = []
+        for i in range(len(self.DATASET.columns[1:])):
+            trace.append(Bar(
+                    x=self.DATASET.Students.values,
+                    y=self.DATASET.iloc[:,i+1].values,
+                    name=self.DATASET.columns[i+1]
+            ))
+
+        data = trace
+        layout = Layout(
+                title='Número de acessos a Posts, Leituras e Likes agrupados por estudante',
+                # title='Number of access in the materials grouped by student',
+                barmode='stack',
+                yaxis=dict(
+        #             title='AXIS TITLE',
+                    titlefont=dict(
+                        family='Arial, sans-serif',
+        #                 size=18,
+                        color='lightgrey'
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=5,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='012_2')
+    
+    def graph_04(self):
+        trace = []
+        for i in range(len(self.DATASET.columns[1:])):
+            trace.append(Bar(                    
+                    x=self.DATASET.iloc[:,i+1].values,
+                    y=self.DATASET.Students.values,
+                    name=self.DATASET.columns[i+1],
+                    orientation = 'h'
+            ))
+
+        data = trace
+        layout = Layout(
+                title='Número de acessos a Posts, Leituras e Likes agrupados por estudante',
+                # title='Number of access in the materials grouped by student',
+                barmode='stack',
+                yaxis=dict(
+        #             title='AXIS TITLE',
+                    titlefont=dict(
+                        family='Arial, sans-serif',
+        #                 size=18,
+                        color='lightgrey'
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=1,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='012_2')
+
+    def graph_05(self):
 
         max_value=0
         for i in range(0, len(self.DATASET)): #Take the max value in whole dataframe
@@ -163,7 +236,7 @@ class V003:
         fig=Figure(data=data, layout=layout)
         iplot(fig, filename='bubblechart-size')
 
-    def graph_04(self):
+    def graph_06(self):
         trace = Heatmap(z=self.DATASET.iloc[:,1:].values,
                         x=self.DATASET.columns[1:], #Forum actions
                         y=self.DATASET.iloc[:,0].values, #Students
@@ -201,6 +274,8 @@ class V003:
         self.graph_02()
         self.graph_03()
         self.graph_04()
+        self.graph_05()
+        self.graph_06()
 
 instance = V003(20)
 instance.print_all_graphs()

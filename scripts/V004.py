@@ -10,6 +10,7 @@ class V004:
     NUMBER_STUDENTS = 20
     DATASET = pd.DataFrame()
     _material_name = []
+    _df_sum = []
 
     def __init__(self, number_students = 20):
         self.NUMBER_STUDENTS = number_students
@@ -36,13 +37,25 @@ class V004:
 
         self.DATASET["Total"] = self.DATASET.apply(self.sum_times, axis=1)
 
+        self._df_sum = pd.DataFrame(columns=self._material_name)
+        self._df_sum.insert(loc=len(self._material_name),column="Total",value=self.DATASET.Total) #Add into the self._df_sum a column to assign Total values
+        
+        lst = self.DATASET.columns[1:].tolist() #Get all columns after students
+        for i in range(0, self.NUMBER_STUDENTS):
+            for j in range(0,len(lst)-1): #Iterate all columns, except Total                
+                sum_value = sum(self.DATASET.loc[i,lst[j]])
+                # max_value = max(sum_value,max_value)
+                self._df_sum.loc[i,self._material_name[j]] = sum_value
+        
+        # print(self._df_sum)
+
     def sum_times(self,row):
         lst = self.DATASET.columns[1:].tolist()
         sum_value = 0
         for i in range(len(lst)-1):
             sum_value += sum(row[lst[i]])
 
-        return sum_value
+        return sum_value    
     
 
     # Table presenting raw data    
@@ -74,20 +87,15 @@ class V004:
         max_value = 0
         
         lst = self.DATASET.columns[1:].tolist() #Get all columns after students
-        sum_value = 0
-        df_sum = pd.DataFrame(columns=self._material_name)        
-        df_sum.insert(loc=len(self._material_name),column="Total",value=self.DATASET.Total) #Add into the df_sum a column to assign Total values
-        df_sum.Total = self.DATASET.Total
+        sum_value = 0        
 
         for i in range(0, self.NUMBER_STUDENTS):
             for j in range(0,len(lst)-1): #Iterate all columns, except Total                
                 sum_value = sum(self.DATASET.loc[i,lst[j]])
                 max_value = max(sum_value,max_value)
-                df_sum.loc[i,self._material_name[j]] = sum_value
-
+                
         # sizeref = max_value/(max_value**3)
-        sizeref=4.*max_value/(max_value)
-        # print(df_sum)
+        sizeref=4.5*max_value/(max_value)        
         # print (max_value)
         # print(sizeref)
         trace = []        
@@ -96,19 +104,19 @@ class V004:
                 Scatter(
                     # x=self.DATASET.iloc[:,0].values, #students
                     # x=[self.DATASET.iloc[i,0]], #Students
-                    x=[self.DATASET.iloc[i,0]]*len(df_sum.columns), #student
-                    y=df_sum.columns, #videos
+                    x=[self.DATASET.iloc[i,0]]*len(self._df_sum.columns), #student
+                    y=self._df_sum.columns, #videos
                     mode='markers',
                     name=self.DATASET.iloc[i,0], #each student name                    
                     # orientation = "h",
-                    text = df_sum.iloc[i,:].values.tolist(),
+                    text = self._df_sum.iloc[i,:].values.tolist(),
                     # text = str(s),
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
                         sizeref=sizeref,
                         # size=self.DATASET.iloc[:,i].values.tolist(),
-                        size=df_sum.iloc[i,:].values.tolist(),
+                        size=self._df_sum.iloc[i,:].values.tolist(),
                         line=dict(
                             width=2
                         )
@@ -137,7 +145,7 @@ class V004:
                 # categoryorder = "category descending",
                 # domain = [0, 1],
                 fixedrange = False,
-                range = [-1, len(df_sum.columns)],
+                range = [-1, len(self._df_sum.columns)],
                 rangemode = "normal",
                 showline = True,
                 title = "Videos",
@@ -149,12 +157,123 @@ class V004:
         fig=Figure(data=data, layout=layout)
         iplot(fig, filename='bubblechart-size')
 
+    def graph_03(self):
+        trace = []
+        for i in range(len(self._df_sum.columns[1:])):
+            trace.append(Bar(
+                    x=self.DATASET.Students.values,
+                    y=self._df_sum.iloc[:,i].values,
+                    name=self._df_sum.columns[i]
+                    # name=self.DATASET.iloc[i,0], #each student name
+            ))
+
+        data = trace
+        layout = Layout(
+                title='Número de acessos aos vídeos agrupados por estudante',
+                # title='Number of access in the materials grouped by student',
+                yaxis=dict(
+        #             title='AXIS TITLE',
+                    titlefont=dict(
+                        family='Arial, sans-serif',
+        #                 size=18,
+                        color='lightgrey'
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=100,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='012_2')
+
+    def graph_04(self):
+        trace = []
+        for i in range(len(self._df_sum.columns[1:])):
+            trace.append(Bar(
+                    x=self.DATASET.Students.values,
+                    y=self._df_sum.iloc[:,i].values,
+                    name=self._df_sum.columns[i]
+                    # name=self.DATASET.iloc[i,0], #each student name
+            ))
+
+        data = trace
+        layout = Layout(
+                title='Número de acessos aos vídeos agrupados por estudante',
+                # title='Number of access in the materials grouped by student',
+                barmode='stack',
+                yaxis=dict(
+        #             title='AXIS TITLE',
+                    titlefont=dict(
+                        family='Arial, sans-serif',
+        #                 size=18,
+                        color='lightgrey'
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=300,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='012_2')
+
+    def graph_05(self):
+        trace = []
+        for i in range(len(self._df_sum.columns[1:])):
+            trace.append(Bar(
+                    x=self._df_sum.iloc[:,i].values,
+                    y=self.DATASET.Students.values,
+                    name=self._df_sum.columns[i],
+                    # name=self.DATASET.iloc[i,0], #each student name
+                    orientation = 'h'
+            ))
+
+        data = trace
+        layout = Layout(
+                title='Número de acessos aos vídeos agrupados por estudante',
+                # title='Number of access in the materials grouped by student',
+                barmode='stack',
+                yaxis=dict(
+        #             title='AXIS TITLE',
+                    titlefont=dict(
+                        family='Arial, sans-serif',
+        #                 size=18,
+                        color='lightgrey'
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=1,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='012_2')
 
     def print_all_graphs(self):
         self.graph_01()
         self.graph_02()
-        # self.graph_03()
-        # self.graph_04()
+        self.graph_03()
+        self.graph_04()
+        self.graph_05()
 
 instance = V004(20)
 instance.print_all_graphs()        
