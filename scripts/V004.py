@@ -85,29 +85,30 @@ class V004:
                 max_value = max(sum_value,max_value)
                 df_sum.loc[i,self._material_name[j]] = sum_value
 
-        sizeref = 2.*max_value/(max_value**2)
-        print(df_sum)
+        # sizeref = max_value/(max_value**3)
+        sizeref=4.*max_value/(max_value)
+        # print(df_sum)
         # print (max_value)
-        print(sizeref)
+        # print(sizeref)
         trace = []        
         for i in range(0, self.NUMBER_STUDENTS):
             trace.append(
                 Scatter(
                     # x=self.DATASET.iloc[:,0].values, #students
                     # x=[self.DATASET.iloc[i,0]], #Students
-                    x=[self.DATASET.iloc[i,0]]*len(self.DATASET.columns), #student
+                    x=[self.DATASET.iloc[i,0]]*len(df_sum.columns), #student
                     y=df_sum.columns, #videos
                     mode='markers',
-                    # name=self.DATASET.iloc[i,0], #each student name
-                    name=self.DATASET.iloc[i,0], #student name
+                    name=self.DATASET.iloc[i,0], #each student name                    
                     # orientation = "h",
-                    # text = self.DATASET.iloc[i,1:].values.tolist(),
+                    text = df_sum.iloc[i,:].values.tolist(),
+                    # text = str(s),
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
                         sizeref=sizeref,
                         # size=self.DATASET.iloc[:,i].values.tolist(),
-                        # size=df_sum.iloc[i,:].values.tolist(),
+                        size=df_sum.iloc[i,:].values.tolist(),
                         line=dict(
                             width=2
                         )
