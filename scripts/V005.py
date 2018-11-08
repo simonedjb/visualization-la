@@ -16,177 +16,182 @@ class V005:
     NUMBER_STUDENTS = 50
     DATASET = pd.DataFrame()
 
-    _students = pd.DataFrame()
-    _assigns = pd.DataFrame()
+    _df_sum = []
 
-    def __init__(self, number_students = 21):
-        self.NUMBER_STUDENTS = number_students+1
+    def __init__(self, number_students = 20):
+        self.NUMBER_STUDENTS = number_students
         self.generate_dataset()
 
     def generate_dataset(self):
-        self.DATASET = pd.DataFrame(columns=["Students","Grade","Access","Forum Access","Forum Post","Forum Replies","Forum Add Thread", 
-                                                "Assign1","Assign2","Assign3","Assign4","AssignTotal","Video1","Video2", 
-                                                "Quiz1","Quiz2","Pdf1","Pdf2","Ebook1","Ebook2","MaterialTotal"])
-        for i in range(1,self.NUMBER_STUDENTS):
-            self.DATASET.loc[i,"Students"] = "Student_"+str(i)
-            self.DATASET.loc[i,"Grade"] = int(np.random.triangular(0,50,100))
+        self._df_sum = pd.DataFrame(columns=["AssignTotal","MaterialTotal"])
+
+        self.DATASET = pd.DataFrame(columns=["Students","Grade","Access",
+                                                "Forum Access","Forum Post","Forum Replies","Forum Add Thread", 
+                                                "Assign1","Assign2","Assign3","Assign4","Video1","Video2", 
+                                                "Quiz1","Quiz2","Pdf1","Pdf2","Ebook1","Ebook2",])
+        
+        self.DATASET.Grade = np.random.triangular(0,50,100,self.NUMBER_STUDENTS)
+        self.DATASET["Grade"] = self.DATASET.apply(self.convert_to_int, axis=1)
+        
+        for i in range(0,self.NUMBER_STUDENTS):
+            self.DATASET.loc[i,"Students"] = "Student_"+str(i+1)
+            
             if (self.DATASET.loc[i,"Grade"] <= 50):
-                self.DATASET.loc[i,"Access"] = int(np.random.triangular(5,15,25))
-                self.DATASET.loc[i,"Forum Post"] = int(np.random.triangular(0,0,3))
-                self.DATASET.loc[i,"Forum Replies"] = int(np.random.triangular(0,0,3))
-                self.DATASET.loc[i,"Forum Add Thread"] = int(np.random.triangular(0,0,3))
+                self.DATASET.loc[i,"Access"] = np.random.randint(5,26)
+                self.DATASET.loc[i,"Forum Post"] = np.random.randint(0,4)
+                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,4)
+                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,4)
 
-                self.DATASET.loc[i,"Assign1"] = int(np.random.triangular(0,0,1))
-                self.DATASET.loc[i,"Assign2"] = int(np.random.triangular(0,0,1))
-                self.DATASET.loc[i,"Assign3"] = int(np.random.triangular(0,0,1))
-                self.DATASET.loc[i,"Assign4"] = int(np.random.triangular(0,0,1))
+                self.DATASET.loc[i,"Assign1"] = int(0)
+                self.DATASET.loc[i,"Assign2"] = int(0)
+                self.DATASET.loc[i,"Assign3"] = int(0)
+                self.DATASET.loc[i,"Assign4"] = int(0)
 
-                self.DATASET.loc[i,"Video1"] = int(np.random.triangular(0,0,1))
-                self.DATASET.loc[i,"Video2"] = int(np.random.triangular(0,0,1))
-                self.DATASET.loc[i,"Quiz1"] = int(np.random.triangular(0,0,1))
-                self.DATASET.loc[i,"Quiz2"] = int(np.random.triangular(0,0,1))
-                self.DATASET.loc[i,"Pdf1"] = int(np.random.triangular(0,0,1))
-                self.DATASET.loc[i,"Pdf2"] = int(np.random.triangular(0,0,1))
-                self.DATASET.loc[i,"Ebook1"] = int(np.random.triangular(0,0,1))
-                self.DATASET.loc[i,"Ebook2"] = int(np.random.triangular(0,0,1))
+                self.DATASET.loc[i,"Video1"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Video2"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Quiz1"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Quiz2"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Pdf1"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Pdf2"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Ebook1"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Ebook2"] = np.random.randint(0,2)
 
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + int(np.random.triangular(0,3,6))
-                self.DATASET.loc[i,"AssignTotal"] = self.DATASET.loc[i,"Assign1"] + self.DATASET.loc[i,"Assign2"] + self.DATASET.loc[i,"Assign3"] + self.DATASET.loc[i,"Assign4"]
-                self.DATASET.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]  
-
+                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(0,7)
+                self._df_sum.loc[i,"AssignTotal"] = self.DATASET.loc[i,"Assign1"] + self.DATASET.loc[i,"Assign2"] + self.DATASET.loc[i,"Assign3"] + self.DATASET.loc[i,"Assign4"]
+                self._df_sum.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]  
 
             elif (self.DATASET.loc[i,"Grade"] <= 60):
-                self.DATASET.loc[i,"Access"] = int(np.random.triangular(20,30,40))
-                self.DATASET.loc[i,"Forum Post"] = int(np.random.triangular(0,2,7))
-                self.DATASET.loc[i,"Forum Replies"] = int(np.random.triangular(0,2,7))
-                self.DATASET.loc[i,"Forum Add Thread"] = int(np.random.triangular(0,2,3))
+                self.DATASET.loc[i,"Access"] = np.random.randint(20,41)
+                self.DATASET.loc[i,"Forum Post"] = np.random.randint(0,8)
+                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,8)
+                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,4)
 
-                self.DATASET.loc[i,"Assign1"] = int(np.random.triangular(0,0,1))
-                self.DATASET.loc[i,"Assign2"] = int(np.random.triangular(0,0,1))
-                self.DATASET.loc[i,"Assign3"] = int(np.random.triangular(0,0,1))
-                self.DATASET.loc[i,"Assign4"] = int(np.random.triangular(0,0,1))
+                self.DATASET.loc[i,"Assign1"] = int(1)
+                self.DATASET.loc[i,"Assign2"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Assign3"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Assign4"] = np.random.randint(0,2)
 
-                self.DATASET.loc[i,"Video1"] = int(np.random.triangular(0,1,3))
-                self.DATASET.loc[i,"Video2"] = int(np.random.triangular(0,1,3))
-                self.DATASET.loc[i,"Quiz1"] = int(np.random.triangular(0,1,3))
-                self.DATASET.loc[i,"Quiz2"] = int(np.random.triangular(0,1,3))
-                self.DATASET.loc[i,"Pdf1"] = int(np.random.triangular(0,1,3))
-                self.DATASET.loc[i,"Pdf2"] = int(np.random.triangular(0,1,3))
-                self.DATASET.loc[i,"Ebook1"] = int(np.random.triangular(0,1,3))
-                self.DATASET.loc[i,"Ebook2"] = int(np.random.triangular(0,1,3))
+                self.DATASET.loc[i,"Video1"] = np.random.randint(0,5)
+                self.DATASET.loc[i,"Video2"] = np.random.randint(0,5)
+                self.DATASET.loc[i,"Quiz1"] = np.random.randint(0,5)
+                self.DATASET.loc[i,"Quiz2"] = np.random.randint(0,5)
+                self.DATASET.loc[i,"Pdf1"] = np.random.randint(0,5)
+                self.DATASET.loc[i,"Pdf2"] = np.random.randint(0,5)
+                self.DATASET.loc[i,"Ebook1"] = np.random.randint(0,5)
+                self.DATASET.loc[i,"Ebook2"] = np.random.randint(0,5)
 
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + int(np.random.triangular(0,7,20))
-                self.DATASET.loc[i,"AssignTotal"] = self.DATASET.loc[i,"Assign1"] + self.DATASET.loc[i,"Assign2"] + self.DATASET.loc[i,"Assign3"] + self.DATASET.loc[i,"Assign4"]
-                self.DATASET.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]  
+                self.DATASET.loc[i,"Forum Access"] = self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(0,22)
+                self._df_sum.loc[i,"AssignTotal"] = self.DATASET.loc[i,"Assign1"] + self.DATASET.loc[i,"Assign2"] + self.DATASET.loc[i,"Assign3"] + self.DATASET.loc[i,"Assign4"]
+                self._df_sum.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]
 
             elif (self.DATASET.loc[i,"Grade"] <= 70):
-                self.DATASET.loc[i,"Access"] = int(np.random.triangular(35,45,55))
-                self.DATASET.loc[i,"Forum Post"] = int(np.random.triangular(1,5,10))
-                self.DATASET.loc[i,"Forum Replies"] = int(np.random.triangular(0,5,10))
-                self.DATASET.loc[i,"Forum Add Thread"] = int(np.random.triangular(0,4,6))
+                self.DATASET.loc[i,"Access"] = np.random.randint(35,57)
+                self.DATASET.loc[i,"Forum Post"] = np.random.randint(1,12)
+                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,12)
+                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,8)
 
-                self.DATASET.loc[i,"Assign1"] = int(np.random.triangular(0,1,1))
-                self.DATASET.loc[i,"Assign2"] = int(np.random.triangular(0,1,1))
-                self.DATASET.loc[i,"Assign3"] = int(np.random.triangular(0,1,1))
-                self.DATASET.loc[i,"Assign4"] = int(np.random.triangular(0,1,1))
-
-                self.DATASET.loc[i,"Video1"] = int(np.random.triangular(0,2,5))
-                self.DATASET.loc[i,"Video2"] = int(np.random.triangular(0,2,5))
-                self.DATASET.loc[i,"Quiz1"] = int(np.random.triangular(0,2,5))
-                self.DATASET.loc[i,"Quiz2"] = int(np.random.triangular(0,2,5))
-                self.DATASET.loc[i,"Pdf1"] = int(np.random.triangular(0,2,5))
-                self.DATASET.loc[i,"Pdf2"] = int(np.random.triangular(0,2,5))
-                self.DATASET.loc[i,"Ebook1"] = int(np.random.triangular(0,2,5))
-                self.DATASET.loc[i,"Ebook2"] = int(np.random.triangular(0,2,5))
-
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + int(np.random.triangular(2,10,25))
-                self.DATASET.loc[i,"AssignTotal"] = self.DATASET.loc[i,"Assign1"] + self.DATASET.loc[i,"Assign2"] + self.DATASET.loc[i,"Assign3"] + self.DATASET.loc[i,"Assign4"]
-                self.DATASET.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]  
-
-            elif (self.DATASET.loc[i,"Grade"] <= 80):
-                self.DATASET.loc[i,"Access"] = int(np.random.triangular(50,60,70))
-                self.DATASET.loc[i,"Forum Post"] = int(np.random.triangular(2,10,20))
-                self.DATASET.loc[i,"Forum Replies"] = int(np.random.triangular(2,10,20))
-                self.DATASET.loc[i,"Forum Add Thread"] = int(np.random.triangular(0,4,6))
-
-                self.DATASET.loc[i,"Assign1"] = int(np.random.triangular(0,1,1))
-                self.DATASET.loc[i,"Assign2"] = int(np.random.triangular(0,1,1))
-                self.DATASET.loc[i,"Assign3"] = int(np.random.triangular(0,1,1))
-                self.DATASET.loc[i,"Assign4"] = int(np.random.triangular(0,1,1))
-
-                self.DATASET.loc[i,"Video1"] = int(np.random.triangular(0,5,10))
-                self.DATASET.loc[i,"Video2"] = int(np.random.triangular(1,5,10))
-                self.DATASET.loc[i,"Quiz1"] = int(np.random.triangular(0,5,10))
-                self.DATASET.loc[i,"Quiz2"] = int(np.random.triangular(1,5,10))
-                self.DATASET.loc[i,"Pdf1"] = int(np.random.triangular(0,5,10))
-                self.DATASET.loc[i,"Pdf2"] = int(np.random.triangular(1,5,10))
-                self.DATASET.loc[i,"Ebook1"] = int(np.random.triangular(0,5,10))
-                self.DATASET.loc[i,"Ebook2"] = int(np.random.triangular(1,5,10))
-
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + int(np.random.triangular(4,15,30))
-                self.DATASET.loc[i,"AssignTotal"] = self.DATASET.loc[i,"Assign1"] + self.DATASET.loc[i,"Assign2"] + self.DATASET.loc[i,"Assign3"] + self.DATASET.loc[i,"Assign4"]
-                self.DATASET.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]  
-
-            elif (self.DATASET.loc[i,"Grade"] <= 90):
-                self.DATASET.loc[i,"Access"] = int(np.random.triangular(65,75,85))
-                self.DATASET.loc[i,"Forum Post"] = int(np.random.triangular(5,15,35))
-                self.DATASET.loc[i,"Forum Replies"] = int(np.random.triangular(5,15,35))
-                self.DATASET.loc[i,"Forum Add Thread"] = int(np.random.triangular(1,7,10))
-
-                self.DATASET.loc[i,"Assign1"] = int(np.random.triangular(0,1,1))
-                self.DATASET.loc[i,"Assign2"] = int(1)
-                self.DATASET.loc[i,"Assign3"] = int(np.random.triangular(0,1,1))
+                self.DATASET.loc[i,"Assign1"] = int(1)
+                self.DATASET.loc[i,"Assign2"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Assign3"] = np.random.randint(0,2)
                 self.DATASET.loc[i,"Assign4"] = int(1)
 
-                self.DATASET.loc[i,"Video1"] = int(np.random.triangular(1,4,9))
-                self.DATASET.loc[i,"Video2"] = int(np.random.triangular(3,8,13))
-                self.DATASET.loc[i,"Quiz1"] = int(np.random.triangular(1,4,9))
-                self.DATASET.loc[i,"Quiz2"] = int(np.random.triangular(3,8,13))
-                self.DATASET.loc[i,"Pdf1"] = int(np.random.triangular(1,4,9))
-                self.DATASET.loc[i,"Pdf2"] = int(np.random.triangular(3,8,13))
-                self.DATASET.loc[i,"Ebook1"] = int(np.random.triangular(1,4,9))
-                self.DATASET.loc[i,"Ebook2"] = int(np.random.triangular(3,8,13))
+                self.DATASET.loc[i,"Video1"] = np.random.randint(0,6)
+                self.DATASET.loc[i,"Video2"] = np.random.randint(0,6)
+                self.DATASET.loc[i,"Quiz1"] = np.random.randint(0,6)
+                self.DATASET.loc[i,"Quiz2"] = np.random.randint(0,6)
+                self.DATASET.loc[i,"Pdf1"] = np.random.randint(0,6)
+                self.DATASET.loc[i,"Pdf2"] = np.random.randint(0,6)
+                self.DATASET.loc[i,"Ebook1"] = np.random.randint(0,6)
+                self.DATASET.loc[i,"Ebook2"] = np.random.randint(0,6)
 
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + int(np.random.triangular(6,18,35))
-                self.DATASET.loc[i,"AssignTotal"] = self.DATASET.loc[i,"Assign1"] + self.DATASET.loc[i,"Assign2"] + self.DATASET.loc[i,"Assign3"] + self.DATASET.loc[i,"Assign4"]
-                self.DATASET.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]  
+                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(2,26)
+                self._df_sum.loc[i,"AssignTotal"] = self.DATASET.loc[i,"Assign1"] + self.DATASET.loc[i,"Assign2"] + self.DATASET.loc[i,"Assign3"] + self.DATASET.loc[i,"Assign4"]
+                self._df_sum.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]
 
+            elif (self.DATASET.loc[i,"Grade"] <= 80):
+                self.DATASET.loc[i,"Access"] = np.random.randint(50,71)
+                self.DATASET.loc[i,"Forum Post"] = np.random.randint(2,21)
+                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(2,21)
+                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,7)
+
+                self.DATASET.loc[i,"Assign1"] = int(1)
+                self.DATASET.loc[i,"Assign2"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Assign3"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Assign4"] = int(1)
+
+                self.DATASET.loc[i,"Video1"] = np.random.randint(0,11)
+                self.DATASET.loc[i,"Video2"] = np.random.randint(1,11)
+                self.DATASET.loc[i,"Quiz1"] = np.random.randint(0,11)
+                self.DATASET.loc[i,"Quiz2"] = np.random.randint(1,11)
+                self.DATASET.loc[i,"Pdf1"] = np.random.randint(0,11)
+                self.DATASET.loc[i,"Pdf2"] = np.random.randint(1,11)
+                self.DATASET.loc[i,"Ebook1"] = np.random.randint(0,11)
+                self.DATASET.loc[i,"Ebook2"] = np.random.randint(1,11)
+
+                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(4,31)
+                self._df_sum.loc[i,"AssignTotal"] = self.DATASET.loc[i,"Assign1"] + self.DATASET.loc[i,"Assign2"] + self.DATASET.loc[i,"Assign3"] + self.DATASET.loc[i,"Assign4"]
+                self._df_sum.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]
+
+            elif (self.DATASET.loc[i,"Grade"] <= 90):
+                self.DATASET.loc[i,"Access"] = np.random.randint(65,86)
+                self.DATASET.loc[i,"Forum Post"] = np.random.randint(5,36)
+                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(5,36)
+                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(1,11)
+
+                self.DATASET.loc[i,"Assign1"] = int(1)
+                self.DATASET.loc[i,"Assign2"] = int(1)
+                self.DATASET.loc[i,"Assign3"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Assign4"] = int(1)
+
+                self.DATASET.loc[i,"Video1"] = np.random.randint(1,10)
+                self.DATASET.loc[i,"Video2"] = np.random.randint(3,14)
+                self.DATASET.loc[i,"Quiz1"] = np.random.randint(1,10)
+                self.DATASET.loc[i,"Quiz2"] = np.random.randint(3,14)
+                self.DATASET.loc[i,"Pdf1"] = np.random.randint(1,10)
+                self.DATASET.loc[i,"Pdf2"] = np.random.randint(3,14)
+                self.DATASET.loc[i,"Ebook1"] = np.random.randint(1,10)
+                self.DATASET.loc[i,"Ebook2"] = np.random.randint(3,14)
+
+                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(6,36)
+                self._df_sum.loc[i,"AssignTotal"] = self.DATASET.loc[i,"Assign1"] + self.DATASET.loc[i,"Assign2"] + self.DATASET.loc[i,"Assign3"] + self.DATASET.loc[i,"Assign4"]
+                self._df_sum.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]
 
             else:
-                self.DATASET.loc[i,"Access"] = int(np.random.triangular(80,90,100))
-                self.DATASET.loc[i,"Forum Post"] = int(np.random.triangular(10,20,40))
-                self.DATASET.loc[i,"Forum Replies"] = int(np.random.triangular(10,20,40))
-                self.DATASET.loc[i,"Forum Add Thread"] = int(np.random.triangular(3,9,13))
+                self.DATASET.loc[i,"Access"] = np.random.randint(80,101)
+                self.DATASET.loc[i,"Forum Post"] = np.random.randint(10,41)
+                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(10,41)
+                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(3,14)
 
                 self.DATASET.loc[i,"Assign1"] = int(1)
                 self.DATASET.loc[i,"Assign2"] = int(1)
                 self.DATASET.loc[i,"Assign3"] = int(1)
                 self.DATASET.loc[i,"Assign4"] = int(1)
 
-                self.DATASET.loc[i,"Video1"] = int(np.random.triangular(2,6,12))
-                self.DATASET.loc[i,"Video2"] = int(np.random.triangular(4,8,14))
-                self.DATASET.loc[i,"Quiz1"] = int(np.random.triangular(2,6,12))
-                self.DATASET.loc[i,"Quiz2"] = int(np.random.triangular(4,8,14))
-                self.DATASET.loc[i,"Pdf1"] = int(np.random.triangular(2,6,12))
-                self.DATASET.loc[i,"Pdf2"] = int(np.random.triangular(4,8,14))
-                self.DATASET.loc[i,"Ebook1"] = int(np.random.triangular(2,6,12))
-                self.DATASET.loc[i,"Ebook2"] = int(np.random.triangular(4,8,14))
+                self.DATASET.loc[i,"Video1"] = np.random.randint(2,13)
+                self.DATASET.loc[i,"Video2"] = np.random.randint(4,15)
+                self.DATASET.loc[i,"Quiz1"] = np.random.randint(2,13)
+                self.DATASET.loc[i,"Quiz2"] = np.random.randint(4,15)
+                self.DATASET.loc[i,"Pdf1"] = np.random.randint(2,13)
+                self.DATASET.loc[i,"Pdf2"] = np.random.randint(4,15)
+                self.DATASET.loc[i,"Ebook1"] = np.random.randint(2,13)
+                self.DATASET.loc[i,"Ebook2"] = np.random.randint(4,15)
 
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + int(np.random.triangular(10,20,40))
-                self.DATASET.loc[i,"AssignTotal"] = self.DATASET.loc[i,"Assign1"] + self.DATASET.loc[i,"Assign2"] + self.DATASET.loc[i,"Assign3"] + self.DATASET.loc[i,"Assign4"]
-                self.DATASET.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]  
+                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(10,41)
+                self._df_sum.loc[i,"AssignTotal"] = self.DATASET.loc[i,"Assign1"] + self.DATASET.loc[i,"Assign2"] + self.DATASET.loc[i,"Assign3"] + self.DATASET.loc[i,"Assign4"]
+                self._df_sum.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]  
 
 
-        dfk = self.DATASET.iloc[0:,1:4]
-        kmeans = KMeans(n_clusters=3).fit(dfk)
-        self.DATASET["Cluster"] = np.asarray(kmeans.labels_)
+        df_k = self.DATASET.iloc[:,1:] #Selecting features to cluster
+        kmeans = KMeans(n_clusters=4, init='random').fit(df_k) #Clustering
+        self._df_sum["Cluster"] = np.asarray(kmeans.labels_)
 
-        # Table presenting raw data
+    def convert_to_int(self,row):
+        return int(row["Grade"])
+
+    # Table presenting raw data
     def graph_01(self):
         df = self.DATASET
-        # df.replace(value="", to_replace=0, inplace=True)
-        # df.replace(value="x", to_replace=1, inplace=True)
-
+        
         trace = Table(
             header=dict(
                 values=list(df.columns),
@@ -203,173 +208,174 @@ class V005:
         data = [trace]
         iplot(data, filename = 'pandas_table')
 
-
     def graph_02(self):
+        Clusters = self._df_sum.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(255,255,255)","rgb(0,255,0)"]
 
-        trace1 = Scatter(
-        x = self.DATASET.iloc[0:,2],
-        y = self.DATASET.iloc[0:,1],
-        text = self.DATASET.iloc[0:,0],
-
-        mode='markers',
-        marker=dict(
-            size=12,
-            symbol = self.DATASET.iloc[0:,21],
-            color = self.DATASET.iloc[0:,21], #set color equal to a variable
-            colorscale='Viridis',
-            line = dict(
-            color = 'rgb(105, 105, 105)',
-            width = 1
-          )
+        trace = []
+        for i in range(0, self.NUMBER_STUDENTS):
+            trace.append(
+                Scatter(
+                    x=[self.DATASET.Access[i]], #Access
+                    y=[self.DATASET.Grade[i]], #Grade
+                    mode='markers',
+                    name=self.DATASET.Students[i], #each student name                    
+                    text = [str(self.DATASET.Students[i])],                    
+                    marker=dict(
+                        size=12,
+                        symbol=self._df_sum.Cluster[i],
+                        color = color[self._df_sum.Cluster[i]],
+                        colorscale='Viridis',
+                        line=dict(
+                            width=2
+                        )
+                    )
+                )
             )
-        )
-        data = [trace1]
+
         layout = Layout(
-            title='Notas dos estudantes vs acesso ao sistema',
-            # title='Number of access in the materials grouped by student',
+            title='Notas dos estudantes vs acesso ao AVA',
             hovermode = "closest",
             showlegend = True,
             xaxis = dict(
+                autorange = False,
                 fixedrange = False,
-                title = "Notas",
-                type = "category"
+                range = [0, self.DATASET.Access.max()+10],
+                rangemode = "normal",
+                zeroline= False,
+                showline = True,
+                title = "Acessos ao AVA",
+                # type = "category"
             ),
             yaxis = dict(
-                categoryorder = "category ascending",
+                autorange = False,
                 fixedrange = False,
-                title = "Acesso ao Sistema",
-                type = "category"
+                range = [0, self.DATASET.Grade.max()+10],
+                rangemode = "normal",
+                showline = True,
+                title = "Notas",
+                # type = "category"
             )
         )
+
+        data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(data, filename='scatter-plot')
+        iplot(fig, filename='scatter-plot')
 
     def graph_03(self):
+        Clusters = self._df_sum.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(255,255,255)","rgb(0,255,0)"]
 
-        trace1 = Scatter(
-        x = self.DATASET.iloc[0:,2],
-        y = self.DATASET.iloc[0:,18],
-        text = self.DATASET.iloc[0:,0],
-
-        mode='markers',
-        marker=dict(
-            size=12,
-            symbol = self.DATASET.iloc[0:,21],
-            color = self.DATASET.iloc[0:,21], #set color equal to a variable
-            colorscale='Viridis',
-            line = dict(
-            color = 'rgb(105, 105, 105)',
-            width = 1
-          )
+        trace = []
+        for i in range(0, self.NUMBER_STUDENTS):
+            trace.append(
+                Scatter(
+                    x=[self._df_sum.MaterialTotal[i]], #Material Access
+                    y=[self.DATASET.Grade[i]], #Grade
+                    mode='markers',
+                    name=self.DATASET.Students[i], #each student name                    
+                    text = [str(self.DATASET.Students[i])],                    
+                    marker=dict(
+                        size=12,
+                        symbol=self._df_sum.Cluster[i],
+                        color = color[self._df_sum.Cluster[i]],
+                        colorscale='Viridis',
+                        line=dict(
+                            width=2
+                        )
+                    )
+                )
             )
-        )
-        data = [trace1]
+
         layout = Layout(
-            title='Notas dos estudantes vs acesso ao sistema',
-            # title='Number of access in the materials grouped by student',
+            title='Notas dos estudantes vs acesso aos materiais',
             hovermode = "closest",
             showlegend = True,
             xaxis = dict(
+                autorange = False,
                 fixedrange = False,
-                title = "Notas",
-                type = "category"
+                range = [0, self._df_sum.MaterialTotal.max()+10],
+                rangemode = "normal",
+                zeroline= False,
+                showline = True,
+                title = "Acesso aos materiais",                
             ),
             yaxis = dict(
-                categoryorder = "category ascending",
+                autorange = False,
                 fixedrange = False,
-                title = "Acesso ao Sistema",
-                type = "category"
+                range = [0, self.DATASET.Grade.max()+10],
+                rangemode = "normal",
+                showline = True,
+                title = "Notas",
             )
         )
+
+        data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(data, filename='scatter-plot')
+        iplot(fig, filename='scatter-plot')
 
     def graph_04(self):
+        Clusters = self._df_sum.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(255,255,255)","rgb(0,255,0)"]
 
-        trace1 = Scatter(
-        x = self.DATASET.iloc[0:,2],
-        y = self.DATASET.iloc[0:,19],
-        text = self.DATASET.iloc[0:,0],
-
-        mode='markers',
-        marker=dict(
-            size=12,
-            symbol = self.DATASET.iloc[0:,21],
-            color = self.DATASET.iloc[0:,21], #set color equal to a variable
-            colorscale='Viridis',
-            line = dict(
-            color = 'rgb(105, 105, 105)',
-            width = 1
-          )
+        trace = []
+        for i in range(0, self.NUMBER_STUDENTS):
+            trace.append(
+                Scatter(
+                    x=[self._df_sum.AssignTotal[i]], #AssignAnswered
+                    y=[self.DATASET.Grade[i]], #Grade
+                    mode='markers',
+                    name=self.DATASET.Students[i], #each student name                    
+                    text = [str(self.DATASET.Students[i])],                    
+                    marker=dict(
+                        size=12,
+                        symbol=self._df_sum.Cluster[i],
+                        color = color[self._df_sum.Cluster[i]],
+                        colorscale='Viridis',
+                        line=dict(
+                            width=2
+                        )
+                    )
+                )
             )
-        )
-        data = [trace1]
+
         layout = Layout(
-            title='Notas dos estudantes vs acesso ao sistema',
-            # title='Number of access in the materials grouped by student',
+            title='Notas dos estudantes vs atividades respondidas',
             hovermode = "closest",
             showlegend = True,
             xaxis = dict(
+                autorange = False,
                 fixedrange = False,
-                title = "Notas",
-                type = "category"
+                range = [0, self._df_sum.AssignTotal.max()+10],
+                rangemode = "normal",
+                zeroline= False,
+                showline = True,
+                title = "Atividades respondidas",                
             ),
             yaxis = dict(
-                categoryorder = "category ascending",
+                autorange = False,
                 fixedrange = False,
-                title = "Acesso ao Sistema",
-                type = "category"
-            )
-        )
-        fig = Figure(data=data, layout=layout)
-        iplot(data, filename='scatter-plot')
-
-    def graph_05(self):
-
-        trace1 = Scatter(
-        x = self.DATASET.iloc[0:,2],
-        y = self.DATASET.iloc[0:,20],
-        text = self.DATASET.iloc[0:,0],
-
-        mode='markers',
-        marker=dict(
-            size=12,
-            symbol = self.DATASET.iloc[0:,21],
-            color = self.DATASET.iloc[0:,21], #set color equal to a variable
-            colorscale='Viridis',
-            line = dict(
-            color = 'rgb(105, 105, 105)',
-            width = 1
-          )
-            )
-        )
-        data = [trace1]
-        layout = Layout(
-            title='Notas dos estudantes vs acesso ao sistema',
-            # title='Number of access in the materials grouped by student',
-            hovermode = "closest",
-            showlegend = True,
-            xaxis = dict(
-                fixedrange = False,
+                range = [0, self.DATASET.Grade.max()+10],
+                rangemode = "normal",
+                showline = True,
                 title = "Notas",
-                type = "category"
-            ),
-            yaxis = dict(
-                categoryorder = "category ascending",
-                fixedrange = False,
-                title = "Acesso ao Sistema",
-                type = "category"
             )
         )
+
+        data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(data, filename='scatter-plot')
+        iplot(fig, filename='scatter-plot')
+
+
+    # def graph_05(self):
+
 
     def print_all_graphs(self):
         self.graph_01()
         self.graph_02()
         self.graph_03()
-#        self.graph_04()
-        self.graph_05()
+        self.graph_04()
+        # self.graph_05()
 
 instance = V005(60)
 instance.print_all_graphs()

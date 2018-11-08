@@ -21,7 +21,7 @@ class V003:
     def generate_dataset(self):
         self.DATASET = pd.DataFrame(columns=["Students","Hits","Readings","Posts"])
         for i in range(1,self.NUMBER_STUDENTS):
-            self.DATASET.loc[i] = [np.random.randint(0,20) for n in range(len(self.DATASET.columns))]
+            self.DATASET.loc[i] = [np.random.randint(0,21) for n in range(len(self.DATASET.columns))]
             self.DATASET.loc[i,"Students"] = "Student_"+str(i)
 
         self.get_students_frame()

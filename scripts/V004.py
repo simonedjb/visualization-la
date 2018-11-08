@@ -98,7 +98,7 @@ class V004:
         sizeref=4.5*max_value/(max_value)        
         # print (max_value)
         # print(sizeref)
-        trace = []        
+        trace = []
         for i in range(0, self.NUMBER_STUDENTS):
             trace.append(
                 Scatter(
