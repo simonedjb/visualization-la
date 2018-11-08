@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-from plotly.graph_objs import Figure, Layout, Bar, Table, Heatmap, Scatter
+from plotly.graph_objs import Figure, Layout, Table, Scatter, Box
 from plotly.offline import init_notebook_mode, iplot
 
 from sklearn import metrics
@@ -21,14 +21,14 @@ class V005:
         self.generate_dataset()
 
     def generate_dataset(self):
-        self._df_sum = pd.DataFrame(columns=["AssignTotal","MaterialTotal"])
+        self._df_sum = pd.DataFrame(columns=["Students","Grade","AssignTotal","MaterialTotal"])
 
         self.DATASET = pd.DataFrame(columns=["Students","Grade","Access",
                                                 "Forum Access","Forum Post","Forum Replies","Forum Add Thread", 
                                                 "Assign1","Assign2","Assign3","Assign4","Video1","Video2", 
                                                 "Quiz1","Quiz2","Pdf1","Pdf2","Ebook1","Ebook2",])
         
-        self.DATASET.Grade = np.random.triangular(0,50,100,self.NUMBER_STUDENTS)
+        self.DATASET.Grade = np.random.triangular(0,85,100,self.NUMBER_STUDENTS)
         self.DATASET["Grade"] = self.DATASET.apply(self.convert_to_int, axis=1)
         
         for i in range(0,self.NUMBER_STUDENTS):
@@ -182,6 +182,13 @@ class V005:
         df_k = self.DATASET.iloc[:,1:] #Selecting features to cluster
         kmeans = KMeans(n_clusters=4, init='random').fit(df_k) #Clustering
         self._df_sum["Cluster"] = np.asarray(kmeans.labels_)
+        self._df_sum["Students"] = self.DATASET["Students"]
+        self._df_sum["Grade"] = self.DATASET["Grade"]
+        self._df_sum["Access"] = self.DATASET["Access"]
+        self._df_sum["Forum Access"] = self.DATASET["Forum Access"]
+        self._df_sum["Forum Post"] = self.DATASET["Forum Post"]
+        self._df_sum["Forum Replies"] = self.DATASET["Forum Replies"]
+        self._df_sum["Forum Add Thread"] = self.DATASET["Forum Add Thread"]
 
     def convert_to_int(self,row):
         return int(row["Grade"])
@@ -207,8 +214,13 @@ class V005:
         iplot(data, filename = 'pandas_table')
 
     def graph_02(self):
-        Clusters = self._df_sum.Cluster.unique()
-        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(255,255,255)","rgb(0,255,0)"]
+        df = self._df_sum.sort_values(by="Grade")
+        Clusters = df.Cluster.unique()        
+        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(127,0,127)","rgb(0,255,0)"]        
+        color[Clusters[0]] = "rgb(255,0,0)"
+        color[Clusters[1]] = "rgb(127,0,127)"
+        color[Clusters[2]] = "rgb(0,0,255)"        
+        color[Clusters[3]] = "rgb(0,255,0)"
 
         trace = []
         for i in range(0, self.NUMBER_STUDENTS):
@@ -261,8 +273,13 @@ class V005:
         iplot(fig, filename='scatter-plot')
 
     def graph_03(self):
-        Clusters = self._df_sum.Cluster.unique()
-        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(255,255,255)","rgb(0,255,0)"]
+        df = self._df_sum.sort_values(by="Grade")
+        Clusters = df.Cluster.unique()        
+        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(127,0,127)","rgb(0,255,0)"]        
+        color[Clusters[0]] = "rgb(255,0,0)"
+        color[Clusters[1]] = "rgb(127,0,127)"
+        color[Clusters[2]] = "rgb(0,0,255)"        
+        color[Clusters[3]] = "rgb(0,255,0)"
 
         trace = []
         for i in range(0, self.NUMBER_STUDENTS):
@@ -313,8 +330,13 @@ class V005:
         iplot(fig, filename='scatter-plot')
 
     def graph_04(self):
-        Clusters = self._df_sum.Cluster.unique()
-        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(255,255,255)","rgb(0,255,0)"]
+        df = self._df_sum.sort_values(by="Grade")
+        Clusters = df.Cluster.unique()        
+        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(127,0,127)","rgb(0,255,0)"]        
+        color[Clusters[0]] = "rgb(255,0,0)"
+        color[Clusters[1]] = "rgb(127,0,127)"
+        color[Clusters[2]] = "rgb(0,0,255)"        
+        color[Clusters[3]] = "rgb(0,255,0)"
 
         trace = []
         for i in range(0, self.NUMBER_STUDENTS):
@@ -365,8 +387,13 @@ class V005:
         iplot(fig, filename='scatter-plot')
 
     def graph_05(self):
-        Clusters = self._df_sum.Cluster.unique()
-        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(255,255,255)","rgb(0,255,0)"]
+        df = self._df_sum.sort_values(by="Grade")
+        Clusters = df.Cluster.unique()        
+        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(127,0,127)","rgb(0,255,0)"]        
+        color[Clusters[0]] = "rgb(255,0,0)"
+        color[Clusters[1]] = "rgb(127,0,127)"
+        color[Clusters[2]] = "rgb(0,0,255)"        
+        color[Clusters[3]] = "rgb(0,255,0)"
 
         trace = []
         for i in range(0, self.NUMBER_STUDENTS):
@@ -417,8 +444,13 @@ class V005:
         iplot(fig, filename='scatter-plot')
 
     def graph_06(self):
-        Clusters = self._df_sum.Cluster.unique()
-        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(255,255,255)","rgb(0,255,0)"]
+        df = self._df_sum.sort_values(by="Grade")
+        Clusters = df.Cluster.unique()        
+        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(127,0,127)","rgb(0,255,0)"]        
+        color[Clusters[0]] = "rgb(255,0,0)"
+        color[Clusters[1]] = "rgb(127,0,127)"
+        color[Clusters[2]] = "rgb(0,0,255)"        
+        color[Clusters[3]] = "rgb(0,255,0)"
 
         trace = []
         for i in range(0, self.NUMBER_STUDENTS):
@@ -469,8 +501,13 @@ class V005:
         iplot(fig, filename='scatter-plot')
 
     def graph_07(self):
-        Clusters = self._df_sum.Cluster.unique()
-        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(255,255,255)","rgb(0,255,0)"]
+        df = self._df_sum.sort_values(by="Grade")
+        Clusters = df.Cluster.unique()        
+        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(127,0,127)","rgb(0,255,0)"]        
+        color[Clusters[0]] = "rgb(255,0,0)"
+        color[Clusters[1]] = "rgb(127,0,127)"
+        color[Clusters[2]] = "rgb(0,0,255)"        
+        color[Clusters[3]] = "rgb(0,255,0)"
 
         trace = []
         for i in range(0, self.NUMBER_STUDENTS):
@@ -521,9 +558,14 @@ class V005:
         iplot(fig, filename='scatter-plot')
 
     def graph_08(self):
-        Clusters = self._df_sum.Cluster.unique()
-        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(255,255,255)","rgb(0,255,0)"]
-
+        df = self._df_sum.sort_values(by="Grade")
+        Clusters = df.Cluster.unique()        
+        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(127,0,127)","rgb(0,255,0)"]
+        color[Clusters[0]] = "rgb(255,0,0)"
+        color[Clusters[1]] = "rgb(127,0,127)"
+        color[Clusters[2]] = "rgb(0,0,255)"        
+        color[Clusters[3]] = "rgb(0,255,0)"
+        
         trace = []
         for i in range(0, self.NUMBER_STUDENTS):
             trace.append(
@@ -572,15 +614,297 @@ class V005:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='scatter-plot')
 
+    def graph_09(self):        
+        df = self._df_sum.sort_values(by="Grade")
+        Clusters = df.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
+        # print(Clusters)
+        trace = []
+        for i in range(0,len(Clusters)):
+            trace.append(
+                Box(
+                    y=df.Grade.loc[df['Cluster']==Clusters[i]].values.tolist(), #Access
+                    name="Cluster "+str(i+1),
+                    marker=dict(
+                        color = color[i],
+                        line=dict(
+                            width=3
+                        )                        
+                    ),
+                    boxmean=True
+                )
+            )
+
+        layout = Layout(
+            title='Variação de notas por cluster',
+            # hovermode = "closest",
+            showlegend = True,
+            yaxis = dict(
+                fixedrange = False,
+                range = [0, self.DATASET.Grade.max()+10],
+                rangemode = "normal",
+                # showline = True,
+                title = "Notas",
+                zeroline = False,
+            )
+        )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='box-plot')
+
+    def graph_10(self):        
+        df = self._df_sum.sort_values(by="Grade")
+        Clusters = df.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
+        # print(Clusters)
+        trace = []
+        for i in range(0,len(Clusters)):
+            trace.append(
+                Box(
+                    y=df.Access.loc[df['Cluster']==Clusters[i]].values.tolist(), #Access
+                    name="Cluster "+str(i+1),
+                    marker=dict(
+                        color = color[i],
+                        line=dict(
+                            width=3
+                        )                        
+                    ),
+                    boxmean=True
+                )
+            )
+
+        layout = Layout(
+            title='Variação de acessos por cluster',
+            # hovermode = "closest",
+            showlegend = True,
+            yaxis = dict(
+                fixedrange = False,
+                range = [0, self.DATASET.Access.max()+10],
+                rangemode = "normal",
+                # showline = True,
+                title = "Acessos",
+                zeroline = False,
+            )
+        )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='box-plot')
+
+    def graph_11(self):        
+        df = self._df_sum.sort_values(by="Grade")
+        Clusters = df.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
+        # print(Clusters)
+        trace = []
+        for i in range(0,len(Clusters)):
+            trace.append(
+                Box(
+                    y=df.AssignTotal.loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    name="Cluster "+str(i+1),
+                    marker=dict(
+                        color = color[i],
+                        line=dict(
+                            width=3
+                        )                        
+                    ),
+                    boxmean=True
+                )
+            )
+
+        layout = Layout(
+            title='Variação de atividades respondidas por cluster',
+            # hovermode = "closest",
+            showlegend = True,
+            yaxis = dict(
+                fixedrange = False,
+                range = [0, df.AssignTotal.max()+10],
+                rangemode = "normal",
+                # showline = True,
+                title = "Atividades respondidas",
+                zeroline = False,
+            )
+        )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='box-plot')
+
+    def graph_12(self):        
+        df = self._df_sum.sort_values(by="Grade")
+        Clusters = df.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
+        # print(Clusters)
+        trace = []
+        for i in range(0,len(Clusters)):
+            trace.append(
+                Box(
+                    y=df["Forum Access"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    name="Cluster "+str(i+1),
+                    marker=dict(
+                        color = color[i],
+                        line=dict(
+                            width=3
+                        )                        
+                    ),
+                    boxmean=True
+                )
+            )
+
+        layout = Layout(
+            title='Variação de acesso ao fórum por cluster',
+            # hovermode = "closest",
+            showlegend = True,
+            yaxis = dict(
+                fixedrange = False,
+                range = [0, self.DATASET["Forum Access"].max()+10],
+                rangemode = "normal",
+                # showline = True,
+                title = "Acesso ao fórum",
+                zeroline = False,
+            )
+        )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='box-plot')
+
+    def graph_13(self):
+        df = self._df_sum.sort_values(by="Grade")
+        Clusters = df.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
+        # print(Clusters)
+        trace = []
+        for i in range(0,len(Clusters)):
+            trace.append(
+                Box(
+                    y=df["Forum Post"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    name="Cluster "+str(i+1),
+                    marker=dict(
+                        color = color[i],
+                        line=dict(
+                            width=3
+                        )                        
+                    ),
+                    boxmean=True
+                )
+            )
+
+        layout = Layout(
+            title='Variação de postagem no fórum por cluster',
+            # hovermode = "closest",
+            showlegend = True,
+            yaxis = dict(
+                fixedrange = False,
+                range = [0, self.DATASET["Forum Post"].max()+10],
+                rangemode = "normal",
+                # showline = True,
+                title = "Postagem no fórum",
+                zeroline = False,
+            )
+        )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='box-plot')
+
+    def graph_14(self):
+        df = self._df_sum.sort_values(by="Grade")
+        Clusters = df.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
+        # print(Clusters)
+        trace = []
+        for i in range(0,len(Clusters)):
+            trace.append(
+                Box(
+                    y=df["Forum Replies"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    name="Cluster "+str(i+1),
+                    marker=dict(
+                        color = color[i],
+                        line=dict(
+                            width=3
+                        )                        
+                    ),
+                    boxmean=True
+                )
+            )
+
+        layout = Layout(
+            title='Variação de postagem respondidas no fórum por cluster',
+            # hovermode = "closest",
+            showlegend = True,
+            yaxis = dict(
+                fixedrange = False,
+                range = [0, self.DATASET["Forum Replies"].max()+10],
+                rangemode = "normal",
+                # showline = True,
+                title = "Postagens respondidas no fórum",
+                zeroline = False,
+            )
+        )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='box-plot')
+
+    def graph_15(self):
+        df = self._df_sum.sort_values(by="Grade")
+        Clusters = df.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
+        # print(Clusters)
+        trace = []
+        for i in range(0,len(Clusters)):
+            trace.append(
+                Box(
+                    y=df["Forum Add Thread"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    name="Cluster "+str(i+1),
+                    marker=dict(
+                        color = color[i],
+                        line=dict(
+                            width=3
+                        )                        
+                    ),
+                    boxmean=True
+                )
+            )
+
+        layout = Layout(
+            title='Variação de threads iniciadas no fórum por cluster',
+            # hovermode = "closest",
+            showlegend = True,
+            yaxis = dict(
+                fixedrange = False,
+                range = [0, self.DATASET["Forum Add Thread"].max()+10],
+                rangemode = "normal",
+                # showline = True,
+                title = "Threads iniciadas no fórum",
+                zeroline = False,
+            )
+        )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='box-plot')
+
     def print_all_graphs(self):
         self.graph_01()
         self.graph_02()
         self.graph_03()
         self.graph_04()
         self.graph_05()
-        self.graph_06() #"Forum Post",
-        self.graph_07() #"Forum Replies"
-        self.graph_08() #"Forum Add Thread"
+        self.graph_06()
+        self.graph_07()
+        self.graph_08()
+        self.graph_09()
+        self.graph_10()
+        self.graph_11()
+        self.graph_12()
+        self.graph_13()
+        self.graph_14()
+        self.graph_15()
+
+        # Forum Post
 
 instance = V005(60)
 instance.print_all_graphs()
