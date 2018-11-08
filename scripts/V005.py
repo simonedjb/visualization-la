@@ -1,8 +1,6 @@
 import pandas as pd
 import numpy as np
 
-
-
 from plotly.graph_objs import Figure, Layout, Bar, Table, Heatmap, Scatter
 from plotly.offline import init_notebook_mode, iplot
 
@@ -366,16 +364,242 @@ class V005:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='scatter-plot')
 
+    def graph_05(self):
+        Clusters = self._df_sum.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(255,255,255)","rgb(0,255,0)"]
 
-    # def graph_05(self):
+        trace = []
+        for i in range(0, self.NUMBER_STUDENTS):
+            trace.append(
+                Scatter(
+                    x=[self.DATASET["Forum Access"][i]], #Acesso ao fórum
+                    y=[self.DATASET.Grade[i]], #Grade
+                    mode='markers',
+                    name=self.DATASET.Students[i], #each student name                    
+                    text = [str(self.DATASET.Students[i])],                    
+                    marker=dict(
+                        size=12,
+                        symbol=self._df_sum.Cluster[i],
+                        color = color[self._df_sum.Cluster[i]],
+                        colorscale='Viridis',
+                        line=dict(
+                            width=2
+                        )
+                    )
+                )
+            )
 
+        layout = Layout(
+            title='Notas dos estudantes vs acesso ao fórum',
+            hovermode = "closest",
+            showlegend = True,
+            xaxis = dict(
+                autorange = False,
+                fixedrange = False,
+                range = [0, self.DATASET["Forum Access"].max()+10],
+                rangemode = "normal",
+                zeroline= False,
+                showline = True,
+                title = "Acesso ao fórum",
+            ),
+            yaxis = dict(
+                autorange = False,
+                fixedrange = False,
+                range = [0, self.DATASET.Grade.max()+10],
+                rangemode = "normal",
+                showline = True,
+                title = "Notas",
+            )
+        )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='scatter-plot')
+
+    def graph_06(self):
+        Clusters = self._df_sum.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(255,255,255)","rgb(0,255,0)"]
+
+        trace = []
+        for i in range(0, self.NUMBER_STUDENTS):
+            trace.append(
+                Scatter(
+                    x=[self.DATASET["Forum Post"][i]], #Postagem no fórum
+                    y=[self.DATASET.Grade[i]], #Grade
+                    mode='markers',
+                    name=self.DATASET.Students[i], #each student name                    
+                    text = [str(self.DATASET.Students[i])],                    
+                    marker=dict(
+                        size=12,
+                        symbol=self._df_sum.Cluster[i],
+                        color = color[self._df_sum.Cluster[i]],
+                        colorscale='Viridis',
+                        line=dict(
+                            width=2
+                        )
+                    )
+                )
+            )
+
+        layout = Layout(
+            title='Notas dos estudantes vs postagens no fórum',
+            hovermode = "closest",
+            showlegend = True,
+            xaxis = dict(
+                autorange = False,
+                fixedrange = False,
+                range = [0, self.DATASET["Forum Post"].max()+10],
+                rangemode = "normal",
+                zeroline= False,
+                showline = True,
+                title = "Postagem no fórum",
+            ),
+            yaxis = dict(
+                autorange = False,
+                fixedrange = False,
+                range = [0, self.DATASET.Grade.max()+10],
+                rangemode = "normal",
+                showline = True,
+                title = "Notas",
+            )
+        )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='scatter-plot')
+
+    def graph_07(self):
+        Clusters = self._df_sum.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(255,255,255)","rgb(0,255,0)"]
+
+        trace = []
+        for i in range(0, self.NUMBER_STUDENTS):
+            trace.append(
+                Scatter(
+                    x=[self.DATASET["Forum Replies"][i]], #Replies
+                    y=[self.DATASET.Grade[i]], #Grade
+                    mode='markers',
+                    name=self.DATASET.Students[i], #each student name                    
+                    text = [str(self.DATASET.Students[i])],                    
+                    marker=dict(
+                        size=12,
+                        symbol=self._df_sum.Cluster[i],
+                        color = color[self._df_sum.Cluster[i]],
+                        colorscale='Viridis',
+                        line=dict(
+                            width=2
+                        )
+                    )
+                )
+            )
+
+        layout = Layout(
+            title='Notas dos estudantes vs postagens respondidas no fórum',
+            hovermode = "closest",
+            showlegend = True,
+            xaxis = dict(
+                autorange = False,
+                fixedrange = False,
+                range = [0, self.DATASET["Forum Replies"].max()+10],
+                rangemode = "normal",
+                zeroline= False,
+                showline = True,
+                title = "Postagens respondidas no fórum",
+            ),
+            yaxis = dict(
+                autorange = False,
+                fixedrange = False,
+                range = [0, self.DATASET.Grade.max()+10],
+                rangemode = "normal",
+                showline = True,
+                title = "Notas",
+            )
+        )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='scatter-plot')
+
+    def graph_08(self):
+        Clusters = self._df_sum.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(255,255,255)","rgb(0,255,0)"]
+
+        trace = []
+        for i in range(0, self.NUMBER_STUDENTS):
+            trace.append(
+                Scatter(
+                    x=[self.DATASET["Forum Add Thread"][i]], #Init threads in forum
+                    y=[self.DATASET.Grade[i]], #Grade
+                    mode='markers',
+                    name=self.DATASET.Students[i], #each student name                    
+                    text = [str(self.DATASET.Students[i])],                    
+                    marker=dict(
+                        size=12,
+                        symbol=self._df_sum.Cluster[i],
+                        color = color[self._df_sum.Cluster[i]],
+                        colorscale='Viridis',
+                        line=dict(
+                            width=2
+                        )
+                    )
+                )
+            )
+
+        layout = Layout(
+            title='Notas dos estudantes vs threads iniciadas no fórum',
+            hovermode = "closest",
+            showlegend = True,
+            xaxis = dict(
+                autorange = False,
+                fixedrange = False,
+                range = [0, self.DATASET["Forum Add Thread"].max()+10],
+                rangemode = "normal",
+                zeroline= False,
+                showline = True,
+                title = "Threads iniciadas no fórum",
+            ),
+            yaxis = dict(
+                autorange = False,
+                fixedrange = False,
+                range = [0, self.DATASET.Grade.max()+10],
+                rangemode = "normal",
+                showline = True,
+                title = "Notas",
+            )
+        )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='scatter-plot')
 
     def print_all_graphs(self):
         self.graph_01()
         self.graph_02()
         self.graph_03()
         self.graph_04()
-        # self.graph_05()
+        self.graph_05()
+        self.graph_06() #"Forum Post",
+        self.graph_07() #"Forum Replies"
+        self.graph_08() #"Forum Add Thread"
 
 instance = V005(60)
 instance.print_all_graphs()
+
+# *[MP-017] Students can be clustered into different groups based on their access or interaction patterns.
+# *[MP-020] Students with a satisfatory performance ignore part of the materials in distance courses.
+# *[MP-028] Student groups that use more forums tend to have a good performance.
+# [MP-030] Students groups that do more replies in forums tend to have a good performance.
+# [MP-031] Students groups that init threads in forums tend to have a good performance.
+# [MP-035] Successful students are more frequently and regularly participating and engaged in online activities.
+# [MP-106] Student groups that have more posts are more likely to complete the course.
+# *[RQ-02] Identify student access patterns (e.g., login, materials).
+# *[RQ-03] Identify student performance patterns.
+# [RQ-04] Identify student interest patterns on the course.
+# *[RQ-05] Identify student usage patterns on the forum.
+# *[RQ-07] Identify student interaction patterns (e.g., materials).
+# [RQ-08] Identify student participation patterns on the course.
+# [RQ-09] Identify student drop out patterns.
+# [RQ-14] Identify pace learning student.
+# [RQ-17] Relate both students' navigation and performance.
+# [RQ-18] Relate video length and student performance.
+# [RQ-21] Relate video script and student performance.
