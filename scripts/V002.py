@@ -64,7 +64,7 @@ class V002:
                     ),
                     showticklabels=True,
                     tick0=0,
-                    dtick=1,
+                    dtick=5,
         #             ticklen=4,
         #             tickwidth=4,
                     exponentformat='e',

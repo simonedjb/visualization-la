@@ -24,12 +24,14 @@ class V005:
         self.generate_dataset()
 
     def generate_dataset(self):
-        self.DATASET = pd.DataFrame(columns=["Students","Grade","Access", "Forum Post", "Forum Replies", "Forum Add Thread", "Assign1", "Assign2", "Assign3", "Assign4", "Video1", "Video2", "Quiz1", "Quiz2", "Pdf1", "Pdf2", "Ebook1", "Ebook2", "Forum Access", "AssignTotal", "MaterialTotal"])
+        self.DATASET = pd.DataFrame(columns=["Students","Grade","Access","Forum Access","Forum Post","Forum Replies","Forum Add Thread", 
+                                                "Assign1","Assign2","Assign3","Assign4","AssignTotal","Video1","Video2", 
+                                                "Quiz1","Quiz2","Pdf1","Pdf2","Ebook1","Ebook2","MaterialTotal"])
         for i in range(1,self.NUMBER_STUDENTS):
             self.DATASET.loc[i,"Students"] = "Student_"+str(i)
-            self.DATASET.loc[i,"Grade"] = int(np.random.triangular(0,60,100))
+            self.DATASET.loc[i,"Grade"] = int(np.random.triangular(0,50,100))
             if (self.DATASET.loc[i,"Grade"] <= 50):
-                self.DATASET.loc[i,"Access"] = int(np.random.triangular(5,10,30))
+                self.DATASET.loc[i,"Access"] = int(np.random.triangular(5,15,25))
                 self.DATASET.loc[i,"Forum Post"] = int(np.random.triangular(0,0,3))
                 self.DATASET.loc[i,"Forum Replies"] = int(np.random.triangular(0,0,3))
                 self.DATASET.loc[i,"Forum Add Thread"] = int(np.random.triangular(0,0,3))
@@ -48,16 +50,16 @@ class V005:
                 self.DATASET.loc[i,"Ebook1"] = int(np.random.triangular(0,0,1))
                 self.DATASET.loc[i,"Ebook2"] = int(np.random.triangular(0,0,1))
 
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + int(np.random.triangular(0,5,10))
+                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + int(np.random.triangular(0,3,6))
                 self.DATASET.loc[i,"AssignTotal"] = self.DATASET.loc[i,"Assign1"] + self.DATASET.loc[i,"Assign2"] + self.DATASET.loc[i,"Assign3"] + self.DATASET.loc[i,"Assign4"]
-                self.DATASET.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]
+                self.DATASET.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]  
 
 
             elif (self.DATASET.loc[i,"Grade"] <= 60):
-                self.DATASET.loc[i,"Access"] = int(np.random.triangular(7,30,50))
+                self.DATASET.loc[i,"Access"] = int(np.random.triangular(20,30,40))
                 self.DATASET.loc[i,"Forum Post"] = int(np.random.triangular(0,2,7))
-                self.DATASET.loc[i,"Forum Replies"] = int(np.random.triangular(0,5,15))
-                self.DATASET.loc[i,"Forum Add Thread"] = int(np.random.triangular(0,2,7))
+                self.DATASET.loc[i,"Forum Replies"] = int(np.random.triangular(0,2,7))
+                self.DATASET.loc[i,"Forum Add Thread"] = int(np.random.triangular(0,2,3))
 
                 self.DATASET.loc[i,"Assign1"] = int(np.random.triangular(0,0,1))
                 self.DATASET.loc[i,"Assign2"] = int(np.random.triangular(0,0,1))
@@ -67,93 +69,112 @@ class V005:
                 self.DATASET.loc[i,"Video1"] = int(np.random.triangular(0,1,3))
                 self.DATASET.loc[i,"Video2"] = int(np.random.triangular(0,1,3))
                 self.DATASET.loc[i,"Quiz1"] = int(np.random.triangular(0,1,3))
-                self.DATASET.loc[i,"Quiz2"] = int(np.random.triangular(0,0,3))
-                self.DATASET.loc[i,"Pdf1"] = int(np.random.triangular(0,0,1))
-                self.DATASET.loc[i,"Pdf2"] = int(np.random.triangular(0,0,1))
-                self.DATASET.loc[i,"Ebook1"] = int(np.random.triangular(0,0,1))
-                self.DATASET.loc[i,"Ebook2"] = int(np.random.triangular(0,0,1))
+                self.DATASET.loc[i,"Quiz2"] = int(np.random.triangular(0,1,3))
+                self.DATASET.loc[i,"Pdf1"] = int(np.random.triangular(0,1,3))
+                self.DATASET.loc[i,"Pdf2"] = int(np.random.triangular(0,1,3))
+                self.DATASET.loc[i,"Ebook1"] = int(np.random.triangular(0,1,3))
+                self.DATASET.loc[i,"Ebook2"] = int(np.random.triangular(0,1,3))
 
                 self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + int(np.random.triangular(0,7,20))
                 self.DATASET.loc[i,"AssignTotal"] = self.DATASET.loc[i,"Assign1"] + self.DATASET.loc[i,"Assign2"] + self.DATASET.loc[i,"Assign3"] + self.DATASET.loc[i,"Assign4"]
-                self.DATASET.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]
+                self.DATASET.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]  
 
             elif (self.DATASET.loc[i,"Grade"] <= 70):
-                    self.DATASET.loc[i,"Access"] = int(np.random.triangular(0,45,80))
-                    self.DATASET.loc[i,"Forum Post"] = int(np.random.triangular(0,3,10))
-                    self.DATASET.loc[i,"Forum Replies"] = int(np.random.triangular(0,5,15))
-                    self.DATASET.loc[i,"Forum Add Thread"] = int(np.random.triangular(0,4,15))
+                self.DATASET.loc[i,"Access"] = int(np.random.triangular(35,45,55))
+                self.DATASET.loc[i,"Forum Post"] = int(np.random.triangular(1,5,10))
+                self.DATASET.loc[i,"Forum Replies"] = int(np.random.triangular(0,5,10))
+                self.DATASET.loc[i,"Forum Add Thread"] = int(np.random.triangular(0,4,6))
 
-                    self.DATASET.loc[i,"Assign1"] = int(np.random.triangular(0,1,1))
-                    self.DATASET.loc[i,"Assign2"] = int(np.random.triangular(0,1,1))
-                    self.DATASET.loc[i,"Assign3"] = int(np.random.triangular(0,1,1))
-                    self.DATASET.loc[i,"Assign4"] = int(np.random.triangular(0,1,1))
+                self.DATASET.loc[i,"Assign1"] = int(np.random.triangular(0,1,1))
+                self.DATASET.loc[i,"Assign2"] = int(np.random.triangular(0,1,1))
+                self.DATASET.loc[i,"Assign3"] = int(np.random.triangular(0,1,1))
+                self.DATASET.loc[i,"Assign4"] = int(np.random.triangular(0,1,1))
 
-                    self.DATASET.loc[i,"Video1"] = int(np.random.triangular(0,1,4))
-                    self.DATASET.loc[i,"Video2"] = int(np.random.triangular(0,1,5))
-                    self.DATASET.loc[i,"Quiz1"] = int(np.random.triangular(0,1,2))
-                    self.DATASET.loc[i,"Quiz2"] = int(np.random.triangular(0,1,1))
-                    self.DATASET.loc[i,"Pdf1"] = int(np.random.triangular(0,1,5))
-                    self.DATASET.loc[i,"Pdf2"] = int(np.random.triangular(0,1,2))
-                    self.DATASET.loc[i,"Ebook1"] = int(np.random.triangular(0,1,2))
-                    self.DATASET.loc[i,"Ebook2"] = int(np.random.triangular(0,1,2))
+                self.DATASET.loc[i,"Video1"] = int(np.random.triangular(0,2,5))
+                self.DATASET.loc[i,"Video2"] = int(np.random.triangular(0,2,5))
+                self.DATASET.loc[i,"Quiz1"] = int(np.random.triangular(0,2,5))
+                self.DATASET.loc[i,"Quiz2"] = int(np.random.triangular(0,2,5))
+                self.DATASET.loc[i,"Pdf1"] = int(np.random.triangular(0,2,5))
+                self.DATASET.loc[i,"Pdf2"] = int(np.random.triangular(0,2,5))
+                self.DATASET.loc[i,"Ebook1"] = int(np.random.triangular(0,2,5))
+                self.DATASET.loc[i,"Ebook2"] = int(np.random.triangular(0,2,5))
 
-                    self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + int(np.random.triangular(0,10,25))
-                    self.DATASET.loc[i,"AssignTotal"] = self.DATASET.loc[i,"Assign1"] + self.DATASET.loc[i,"Assign2"] + self.DATASET.loc[i,"Assign3"] + self.DATASET.loc[i,"Assign4"]
-                    self.DATASET.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]
+                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + int(np.random.triangular(2,10,25))
+                self.DATASET.loc[i,"AssignTotal"] = self.DATASET.loc[i,"Assign1"] + self.DATASET.loc[i,"Assign2"] + self.DATASET.loc[i,"Assign3"] + self.DATASET.loc[i,"Assign4"]
+                self.DATASET.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]  
 
             elif (self.DATASET.loc[i,"Grade"] <= 80):
-                self.DATASET.loc[i,"Access"] = int(np.random.triangular(0,60,100))
-                self.DATASET.loc[i,"Forum Post"] = int(np.random.triangular(0,5,20))
-                self.DATASET.loc[i,"Forum Replies"] = int(np.random.triangular(0,7,30))
-                self.DATASET.loc[i,"Forum Add Thread"] = int(np.random.triangular(0,7,30))
+                self.DATASET.loc[i,"Access"] = int(np.random.triangular(50,60,70))
+                self.DATASET.loc[i,"Forum Post"] = int(np.random.triangular(2,10,20))
+                self.DATASET.loc[i,"Forum Replies"] = int(np.random.triangular(2,10,20))
+                self.DATASET.loc[i,"Forum Add Thread"] = int(np.random.triangular(0,4,6))
 
                 self.DATASET.loc[i,"Assign1"] = int(np.random.triangular(0,1,1))
                 self.DATASET.loc[i,"Assign2"] = int(np.random.triangular(0,1,1))
                 self.DATASET.loc[i,"Assign3"] = int(np.random.triangular(0,1,1))
                 self.DATASET.loc[i,"Assign4"] = int(np.random.triangular(0,1,1))
 
-                self.DATASET.loc[i,"Video1"] = int(np.random.triangular(0,1,4))
-                self.DATASET.loc[i,"Video2"] = int(np.random.triangular(0,1,5))
-                self.DATASET.loc[i,"Quiz1"] = int(np.random.triangular(0,1,2))
-                self.DATASET.loc[i,"Quiz2"] = int(np.random.triangular(0,1,1))
-                self.DATASET.loc[i,"Pdf1"] = int(np.random.triangular(0,0,5))
-                self.DATASET.loc[i,"Pdf2"] = int(np.random.triangular(0,0,2))
-                self.DATASET.loc[i,"Ebook1"] = int(np.random.triangular(0,0,2))
-                self.DATASET.loc[i,"Ebook2"] = int(np.random.triangular(0,0,2))
+                self.DATASET.loc[i,"Video1"] = int(np.random.triangular(0,5,10))
+                self.DATASET.loc[i,"Video2"] = int(np.random.triangular(1,5,10))
+                self.DATASET.loc[i,"Quiz1"] = int(np.random.triangular(0,5,10))
+                self.DATASET.loc[i,"Quiz2"] = int(np.random.triangular(1,5,10))
+                self.DATASET.loc[i,"Pdf1"] = int(np.random.triangular(0,5,10))
+                self.DATASET.loc[i,"Pdf2"] = int(np.random.triangular(1,5,10))
+                self.DATASET.loc[i,"Ebook1"] = int(np.random.triangular(0,5,10))
+                self.DATASET.loc[i,"Ebook2"] = int(np.random.triangular(1,5,10))
 
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + int(np.random.triangular(0,10,25))
+                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + int(np.random.triangular(4,15,30))
                 self.DATASET.loc[i,"AssignTotal"] = self.DATASET.loc[i,"Assign1"] + self.DATASET.loc[i,"Assign2"] + self.DATASET.loc[i,"Assign3"] + self.DATASET.loc[i,"Assign4"]
-                self.DATASET.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]
+                self.DATASET.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]  
 
             elif (self.DATASET.loc[i,"Grade"] <= 90):
-                self.DATASET.loc[i,"Access"] = int(np.random.triangular(0,70,110))
-                self.DATASET.loc[i,"Forum Post"] = int(np.random.triangular(0,7,35))
-                self.DATASET.loc[i,"Forum Replies"] = int(np.random.triangular(0,7,20))
-                self.DATASET.loc[i,"Forum Add Thread"] = int(np.random.triangular(0,7,20))
+                self.DATASET.loc[i,"Access"] = int(np.random.triangular(65,75,85))
+                self.DATASET.loc[i,"Forum Post"] = int(np.random.triangular(5,15,35))
+                self.DATASET.loc[i,"Forum Replies"] = int(np.random.triangular(5,15,35))
+                self.DATASET.loc[i,"Forum Add Thread"] = int(np.random.triangular(1,7,10))
 
                 self.DATASET.loc[i,"Assign1"] = int(np.random.triangular(0,1,1))
-                self.DATASET.loc[i,"Assign2"] = int(np.random.triangular(0,1,1))
+                self.DATASET.loc[i,"Assign2"] = int(1)
                 self.DATASET.loc[i,"Assign3"] = int(np.random.triangular(0,1,1))
-                self.DATASET.loc[i,"Assign4"] = int(np.random.triangular(0,1,1))
+                self.DATASET.loc[i,"Assign4"] = int(1)
 
-                self.DATASET.loc[i,"Video1"] = int(np.random.triangular(0,3,8))
-                self.DATASET.loc[i,"Video2"] = int(np.random.triangular(0,2,6))
-                self.DATASET.loc[i,"Quiz1"] = int(np.random.triangular(0,1,2))
-                self.DATASET.loc[i,"Quiz2"] = int(np.random.triangular(0,1,1))
-                self.DATASET.loc[i,"Pdf1"] = int(np.random.triangular(0,1,5))
-                self.DATASET.loc[i,"Pdf2"] = int(np.random.triangular(0,1,2))
-                self.DATASET.loc[i,"Ebook1"] = int(np.random.triangular(0,1,2))
-                self.DATASET.loc[i,"Ebook2"] = int(np.random.triangular(0,1,2))
+                self.DATASET.loc[i,"Video1"] = int(np.random.triangular(1,4,9))
+                self.DATASET.loc[i,"Video2"] = int(np.random.triangular(3,8,13))
+                self.DATASET.loc[i,"Quiz1"] = int(np.random.triangular(1,4,9))
+                self.DATASET.loc[i,"Quiz2"] = int(np.random.triangular(3,8,13))
+                self.DATASET.loc[i,"Pdf1"] = int(np.random.triangular(1,4,9))
+                self.DATASET.loc[i,"Pdf2"] = int(np.random.triangular(3,8,13))
+                self.DATASET.loc[i,"Ebook1"] = int(np.random.triangular(1,4,9))
+                self.DATASET.loc[i,"Ebook2"] = int(np.random.triangular(3,8,13))
 
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + int(np.random.triangular(0,10,25))
+                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + int(np.random.triangular(6,18,35))
                 self.DATASET.loc[i,"AssignTotal"] = self.DATASET.loc[i,"Assign1"] + self.DATASET.loc[i,"Assign2"] + self.DATASET.loc[i,"Assign3"] + self.DATASET.loc[i,"Assign4"]
-                self.DATASET.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]
+                self.DATASET.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]  
 
 
             else:
-                self.DATASET.loc[i,"Access"] = int(np.random.triangular(0,85,120))
-                self.DATASET.loc[i,"Forum Post"] = int(np.random.triangular(0,10,40))
-                self.DATASET.loc[i,"Forum Access"] = self.DATASET.loc[i,"Forum Post"] + int(np.random.triangular(0,45,80))
+                self.DATASET.loc[i,"Access"] = int(np.random.triangular(80,90,100))
+                self.DATASET.loc[i,"Forum Post"] = int(np.random.triangular(10,20,40))
+                self.DATASET.loc[i,"Forum Replies"] = int(np.random.triangular(10,20,40))
+                self.DATASET.loc[i,"Forum Add Thread"] = int(np.random.triangular(3,9,13))
+
+                self.DATASET.loc[i,"Assign1"] = int(1)
+                self.DATASET.loc[i,"Assign2"] = int(1)
+                self.DATASET.loc[i,"Assign3"] = int(1)
+                self.DATASET.loc[i,"Assign4"] = int(1)
+
+                self.DATASET.loc[i,"Video1"] = int(np.random.triangular(2,6,12))
+                self.DATASET.loc[i,"Video2"] = int(np.random.triangular(4,8,14))
+                self.DATASET.loc[i,"Quiz1"] = int(np.random.triangular(2,6,12))
+                self.DATASET.loc[i,"Quiz2"] = int(np.random.triangular(4,8,14))
+                self.DATASET.loc[i,"Pdf1"] = int(np.random.triangular(2,6,12))
+                self.DATASET.loc[i,"Pdf2"] = int(np.random.triangular(4,8,14))
+                self.DATASET.loc[i,"Ebook1"] = int(np.random.triangular(2,6,12))
+                self.DATASET.loc[i,"Ebook2"] = int(np.random.triangular(4,8,14))
+
+                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + int(np.random.triangular(10,20,40))
+                self.DATASET.loc[i,"AssignTotal"] = self.DATASET.loc[i,"Assign1"] + self.DATASET.loc[i,"Assign2"] + self.DATASET.loc[i,"Assign3"] + self.DATASET.loc[i,"Assign4"]
+                self.DATASET.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]  
 
 
         dfk = self.DATASET.iloc[0:,1:4]
@@ -350,5 +371,5 @@ class V005:
 #        self.graph_04()
         self.graph_05()
 
-instance = V005(50)
+instance = V005(60)
 instance.print_all_graphs()

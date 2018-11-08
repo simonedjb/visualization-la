@@ -107,8 +107,44 @@ class V001:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='011_1')
 
-    # Barchart number of student that have completed each assessment
     def graph_03(self):
+        trace = [Bar(
+            x=self._students.Total.values,
+            y=self._students.Name.values,
+            orientation = 'h'            
+        )]
+
+        data = trace
+        layout = Layout(
+            title='Quantidade de tarefas feitas por alunos',
+            xaxis=dict(
+                tick0=0,
+                dtick=1,
+            ),
+            yaxis=dict(
+                # title='AXIS TITLE',
+                titlefont=dict(
+                    family='Arial, sans-serif',
+                    # size=18,
+                    color='lightgrey'
+                ),
+                showticklabels=True,
+                tick0=0,
+                dtick=1,
+                # ticklen=4,
+                # tickwidth=4,
+                exponentformat='e',
+                showexponent='all',
+                gridcolor='#bdbdbd',
+                # range=[0, 4.1]
+            )
+        )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='011_1')
+
+    # Barchart number of student that have completed each assessment
+    def graph_04(self):
         trace011_2 = [Bar(
             x=self._assigns.Name.values,
             y=self._assigns.Total.values
@@ -140,7 +176,7 @@ class V001:
         iplot(fig011_2, filename='011_2')
     
         
-    def graph_04(self):
+    def graph_05(self):
         # https://plot.ly/python/bubble-charts/
         # https://plot.ly/python/reference/#layout-xaxis
         # https://plot.ly/python/axes/#subcategory-axes
@@ -206,7 +242,7 @@ class V001:
         fig=Figure(data=data, layout=layout)
         iplot(fig, filename='bubblechart-size')        
 
-    def graph_05(self):
+    def graph_06(self):
         trace = Heatmap(z=self.DATASET.iloc[:,1:].values,
                         x=self.DATASET.columns[1:], #Assigns
                         y=self.DATASET.iloc[:,0].values, #Students
@@ -232,7 +268,7 @@ class V001:
                     exponentformat='e',
                     showexponent='all',
                     gridcolor='#bdbdbd',
-        #             range=[0, 4.1]
+                    # range=[0, 4.1]
                 )
             )
 
@@ -245,6 +281,7 @@ class V001:
         self.graph_03()
         self.graph_04()
         self.graph_05()
+        self.graph_06()
 
 instance = V001(20)
 instance.print_all_graphs()
