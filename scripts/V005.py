@@ -625,10 +625,12 @@ class V005:
                 Box(
                     y=df.Grade.loc[df['Cluster']==Clusters[i]].values.tolist(), #Access
                     name="Cluster "+str(i+1),
+                    text=df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    boxpoints = 'all',
                     marker=dict(
                         color = color[i],
                         line=dict(
-                            width=3
+                            width=1
                         )                        
                     ),
                     boxmean=True
@@ -641,7 +643,7 @@ class V005:
             showlegend = True,
             yaxis = dict(
                 fixedrange = False,
-                range = [0, self.DATASET.Grade.max()+10],
+                range = [-1, self.DATASET.Grade.max()+10],
                 rangemode = "normal",
                 # showline = True,
                 title = "Notas",
@@ -664,10 +666,12 @@ class V005:
                 Box(
                     y=df.Access.loc[df['Cluster']==Clusters[i]].values.tolist(), #Access
                     name="Cluster "+str(i+1),
+                    text=df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    boxpoints = 'all',
                     marker=dict(
                         color = color[i],
                         line=dict(
-                            width=3
+                            width=1
                         )                        
                     ),
                     boxmean=True
@@ -680,7 +684,7 @@ class V005:
             showlegend = True,
             yaxis = dict(
                 fixedrange = False,
-                range = [0, self.DATASET.Access.max()+10],
+                range = [-1, self.DATASET.Access.max()+10],
                 rangemode = "normal",
                 # showline = True,
                 title = "Acessos",
@@ -703,10 +707,12 @@ class V005:
                 Box(
                     y=df.AssignTotal.loc[df['Cluster']==Clusters[i]].values.tolist(),
                     name="Cluster "+str(i+1),
+                    text=df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    boxpoints = 'all',
                     marker=dict(
                         color = color[i],
                         line=dict(
-                            width=3
+                            width=1
                         )                        
                     ),
                     boxmean=True
@@ -719,7 +725,7 @@ class V005:
             showlegend = True,
             yaxis = dict(
                 fixedrange = False,
-                range = [0, df.AssignTotal.max()+10],
+                range = [-1, df.AssignTotal.max()+10],
                 rangemode = "normal",
                 # showline = True,
                 title = "Atividades respondidas",
@@ -742,10 +748,12 @@ class V005:
                 Box(
                     y=df["Forum Access"].loc[df['Cluster']==Clusters[i]].values.tolist(),
                     name="Cluster "+str(i+1),
+                    text=df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    boxpoints = 'all',
                     marker=dict(
                         color = color[i],
                         line=dict(
-                            width=3
+                            width=1
                         )                        
                     ),
                     boxmean=True
@@ -758,7 +766,7 @@ class V005:
             showlegend = True,
             yaxis = dict(
                 fixedrange = False,
-                range = [0, self.DATASET["Forum Access"].max()+10],
+                range = [-1, self.DATASET["Forum Access"].max()+10],
                 rangemode = "normal",
                 # showline = True,
                 title = "Acesso ao fórum",
@@ -781,10 +789,12 @@ class V005:
                 Box(
                     y=df["Forum Post"].loc[df['Cluster']==Clusters[i]].values.tolist(),
                     name="Cluster "+str(i+1),
+                    text=df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    boxpoints = 'all',
                     marker=dict(
                         color = color[i],
                         line=dict(
-                            width=3
+                            width=1
                         )                        
                     ),
                     boxmean=True
@@ -797,7 +807,7 @@ class V005:
             showlegend = True,
             yaxis = dict(
                 fixedrange = False,
-                range = [0, self.DATASET["Forum Post"].max()+10],
+                range = [-1, self.DATASET["Forum Post"].max()+10],
                 rangemode = "normal",
                 # showline = True,
                 title = "Postagem no fórum",
@@ -820,10 +830,12 @@ class V005:
                 Box(
                     y=df["Forum Replies"].loc[df['Cluster']==Clusters[i]].values.tolist(),
                     name="Cluster "+str(i+1),
+                    text=df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    boxpoints = 'all',
                     marker=dict(
                         color = color[i],
                         line=dict(
-                            width=3
+                            width=1
                         )                        
                     ),
                     boxmean=True
@@ -836,7 +848,7 @@ class V005:
             showlegend = True,
             yaxis = dict(
                 fixedrange = False,
-                range = [0, self.DATASET["Forum Replies"].max()+10],
+                range = [-1, self.DATASET["Forum Replies"].max()+10],
                 rangemode = "normal",
                 # showline = True,
                 title = "Postagens respondidas no fórum",
@@ -859,10 +871,12 @@ class V005:
                 Box(
                     y=df["Forum Add Thread"].loc[df['Cluster']==Clusters[i]].values.tolist(),
                     name="Cluster "+str(i+1),
+                    text=df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    boxpoints = 'all',
                     marker=dict(
-                        color = color[i],
+                        color = color[i],                        
                         line=dict(
-                            width=3
+                            width=1
                         )                        
                     ),
                     boxmean=True
@@ -875,7 +889,7 @@ class V005:
             showlegend = True,
             yaxis = dict(
                 fixedrange = False,
-                range = [0, self.DATASET["Forum Add Thread"].max()+10],
+                range = [-1, self.DATASET["Forum Add Thread"].max()+10],
                 rangemode = "normal",
                 # showline = True,
                 title = "Threads iniciadas no fórum",
@@ -903,8 +917,6 @@ class V005:
         self.graph_13()
         self.graph_14()
         self.graph_15()
-
-        # Forum Post
 
 instance = V005(60)
 instance.print_all_graphs()
