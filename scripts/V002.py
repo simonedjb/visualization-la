@@ -216,6 +216,7 @@ class V002:
                         sizeref=sizeref,
                         # size=self.DATASET.iloc[:,i].values.tolist(),
                         size=self.DATASET.iloc[i,1:].values.tolist(),
+                        color = 'rgb(0,0,255)',
                         line=dict(
                             width=2
                         )

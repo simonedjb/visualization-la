@@ -19,9 +19,11 @@ class V001:
 
     def generate_dataset(self):
         self.DATASET = pd.DataFrame(columns=["Students","Assign1","Assign2",'Assign3','Assign4'])
+        names = pd.read_csv("names.csv")
+
         for i in range(1,self.NUMBER_STUDENTS):
             self.DATASET.loc[i] = [np.random.randint(0,2) for n in range(len(self.DATASET.columns))]
-            self.DATASET.loc[i,"Students"] = "Student_"+str(i)
+            self.DATASET.loc[i,"Students"] = names.group_name[np.random.randint(0,len(names.group_name)+1)]
 
         self.get_students_frame()
         self.get_assigns_frame()
@@ -55,9 +57,7 @@ class V001:
 
     # Table presenting raw data    
     def graph_01(self):
-        df = self.DATASET
-        # df.replace(value="", to_replace=0, inplace=True)
-        # df.replace(value="x", to_replace=1, inplace=True)
+        df = self.DATASET.sort_values(by=["Students"])
 
         trace = Table(
             header=dict(
@@ -302,7 +302,7 @@ class V001:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='Lollipop')
 
-    def graph_07(self):        
+    def graph_07(self):
         df = self._students.sort_values(by=["Total","Name"])
         # df = self._students
         trace = []
@@ -459,26 +459,28 @@ class V001:
         # https://plot.ly/python/reference/#layout-xaxis
         # https://plot.ly/python/axes/#subcategory-axes
         
+        df = self.DATASET.sort_values(by=["Students"])
+
         sizeref = 0.01
         # print (sizeref)
 
         trace = []
-        # for i in range(1, len(self.DATASET.columns)):
-        for i in range(0, len(self.DATASET)):                    
+        # for i in range(1, len(df.columns)):
+        for i in range(0, len(df)):                    
             trace.append(
                 Scatter(
-                    x=[self.DATASET.iloc[i,0]]*len(self.DATASET.columns), #student
-                    y=self.DATASET.columns[1:], #assigns
+                    x=[df.iloc[i,0]]*len(df.columns), #student
+                    y=df.columns[1:], #assigns
                     mode='markers',
-                    # name=self.DATASET.iloc[i,0], #each student name
-                    name=self.DATASET.iloc[i,0], #student name
-                    # text = self.DATASET.iloc[i,1:].values.tolist(),
+                    # name=df.iloc[i,0], #each student name
+                    name=df.iloc[i,0], #student name
+                    # text = df.iloc[i,1:].values.tolist(),
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
                         sizeref=sizeref,
-                        # size=self.DATASET.iloc[:,i].values.tolist(),
-                        size=self.DATASET.iloc[i,1:].values.tolist(),
+                        # size=df.iloc[:,i].values.tolist(),
+                        size=df.iloc[i,1:].values.tolist(),
                         color = 'rgb(0,0,255)',
                         line=dict(
                             width=2
@@ -497,7 +499,7 @@ class V001:
                 # categoryorder = "category ascending",
                 # domain = [0, 1],
                 fixedrange = False,
-                range = [-1, len(self.DATASET)],
+                range = [-1, len(df)],
                 rangemode = "normal",
                 showline = True,
                 title = "Estudantes",
@@ -508,7 +510,7 @@ class V001:
                 categoryorder = "category ascending",
                 # domain = [0, 1],
                 fixedrange = False,
-                range = [-1, len(self.DATASET.columns[1:])],
+                range = [-1, len(df.columns[1:])],
                 rangemode = "normal",
                 showline = True,
                 title = "Atividades",
@@ -521,13 +523,14 @@ class V001:
         iplot(fig, filename='bubblechart-size')        
 
     def graph_11(self):
+        df = self.DATASET.sort_values(by=["Students"])
         z = []
-        for i in range (1, len(self.DATASET.columns)):
-            z.append(self.DATASET.iloc[:,i].values.tolist())
+        for i in range (1, len(df.columns)):
+            z.append(df.iloc[:,i].values.tolist())
 
         trace = Heatmap(z=z,
-                        y=self.DATASET.columns[1:], #Assigns
-                        x=self.DATASET.iloc[:,0], #Students
+                        y=df.columns[1:], #Assigns
+                        x=df.iloc[:,0], #Students
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
                         showscale = False
                     )

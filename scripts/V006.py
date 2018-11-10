@@ -1,8 +1,6 @@
 import pandas as pd
 import numpy as np
 
-
-
 from plotly.graph_objs import Figure, Layout, Bar, Table, Heatmap, Scatter
 from plotly.offline import init_notebook_mode, iplot
 
@@ -28,19 +26,19 @@ class V006:
             self.DATASET.loc[i,"Students"] = "Student_"+str(i)
 
             self.DATASET.loc[i,"Age"]=np.random.normal(16,80)
-            if self.DATASET.loc[i,"Age"] < 20
+            if self.DATASET.loc[i,"Age"] < 20:
                 self.DATASET.loc[i,"Forum Posts"]=np.random.triangular(0,3,10)
-            elif self.DATASET.loc[i,"Age"] < 30
+            elif self.DATASET.loc[i,"Age"] < 30:
                 self.DATASET.loc[i,"Forum Posts"]=np.random.triangular(0,2,15)
-            elif self.DATASET.loc[i,"Age"] < 40
+            elif self.DATASET.loc[i,"Age"] < 40:
                 self.DATASET.loc[i,"Forum Posts"]=np.random.triangular(0,7,20)
-            elif self.DATASET.loc[i,"Age"] < 50
+            elif self.DATASET.loc[i,"Age"] < 50:
                 self.DATASET.loc[i,"Forum Posts"]=np.random.triangular(0,9,25)
-            elif self.DATASET.loc[i,"Age"] < 60
+            elif self.DATASET.loc[i,"Age"] < 60:
                 self.DATASET.loc[i,"Forum Posts"]=np.random.triangular(0,11,30)
-            elif self.DATASET.loc[i,"Age"] < 70
+            elif self.DATASET.loc[i,"Age"] < 70:
                 self.DATASET.loc[i,"Forum Posts"]=np.random.triangular(0,15,35)
-            elif self.DATASET.loc[i,"Age"] < 80
+            elif self.DATASET.loc[i,"Age"] < 80:
                 self.DATASET.loc[i,"Forum Posts"]=np.random.triangular(0,20,40)
 
         self.get_students_frame()
