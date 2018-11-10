@@ -20,6 +20,7 @@ class V004:
         video_dur = []
         video_dur = [np.random.randint(240,600) for n in range(7)] #video duration ranging between 240 and 600 seconds
         self._material_name = ['Video1','Video2','Video3','Video4','Video5']
+        names = pd.read_csv("names.csv")
 
         self.DATASET = pd.DataFrame(columns=['Students',str(self._material_name[0])+' ('+str(video_dur[0])+'s)',
                         str(self._material_name[1])+' ('+str(video_dur[1])+'s)',str(self._material_name[2])+' ('+str(video_dur[2])+'s)',
@@ -31,8 +32,8 @@ class V004:
                 list_aux.append(                        
                         [np.random.randint(5,video_dur[j]) for n in range(np.random.randint(0,5))] #user access ranging between  
                     )                                                                       
-            self.DATASET.loc[i] = list_aux            
-            self.DATASET.loc[i,"Students"] = "Student_"+str(i+1)
+            self.DATASET.loc[i] = list_aux
+            self.DATASET.loc[i,"Students"] = names.group_name[np.random.randint(0,len(names.group_name)+1)]
             list_aux.clear()
 
         self.DATASET["Total"] = self.DATASET.apply(self.sum_times, axis=1)
@@ -60,7 +61,7 @@ class V004:
 
     # Table presenting raw data    
     def graph_01(self):
-        df = self.DATASET
+        df = self.DATASET.sort_values(by=["Students"])
         
         trace = Table(
             header=dict(

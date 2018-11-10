@@ -22,7 +22,7 @@ class V005:
 
     def generate_dataset(self):
         self._df_sum = pd.DataFrame(columns=["Students","Grade","AssignTotal","MaterialTotal"])
-
+        names = pd.read_csv("names.csv")
         self.DATASET = pd.DataFrame(columns=["Students","Grade","Access",
                                                 "Forum Access","Forum Post","Forum Replies","Forum Add Thread", 
                                                 "Assign1","Assign2","Assign3","Assign4","Video1","Video2", 
@@ -32,7 +32,7 @@ class V005:
         self.DATASET["Grade"] = self.DATASET.apply(self.convert_to_int, axis=1)
         
         for i in range(0,self.NUMBER_STUDENTS):
-            self.DATASET.loc[i,"Students"] = "Student_"+str(i+1)
+            self.DATASET.loc[i,"Students"] = names.group_name[np.random.randint(0,len(names.group_name)+1)]
             
             if (self.DATASET.loc[i,"Grade"] <= 50):
                 self.DATASET.loc[i,"Access"] = np.random.randint(5,26)
@@ -195,7 +195,7 @@ class V005:
 
     # Table presenting raw data
     def graph_01(self):
-        df = self.DATASET
+        df = self.DATASET.sort_values(by=["Students"])
         
         trace = Table(
             header=dict(
@@ -214,7 +214,7 @@ class V005:
         iplot(data, filename = 'pandas_table')
 
     def graph_02(self):
-        df = self._df_sum.sort_values(by="Grade")
+        df = self._df_sum.sort_values(by=["Grade"])
         Clusters = df.Cluster.unique()        
         color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(127,0,127)","rgb(0,255,0)"]        
         color[Clusters[0]] = "rgb(255,0,0)"

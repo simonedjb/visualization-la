@@ -20,9 +20,10 @@ class V003:
 
     def generate_dataset(self):
         self.DATASET = pd.DataFrame(columns=["Students","Hits","Readings","Posts"])
+        names = pd.read_csv("names.csv")
         for i in range(1,self.NUMBER_STUDENTS):
             self.DATASET.loc[i] = [np.random.randint(0,21) for n in range(len(self.DATASET.columns))]
-            self.DATASET.loc[i,"Students"] = "Student_"+str(i)
+            self.DATASET.loc[i,"Students"] = names.group_name[np.random.randint(0,len(names.group_name)+1)]
 
         self.get_students_frame()
         self.get_interactions_frame()
@@ -46,10 +47,8 @@ class V003:
 
     # Table presenting raw data
     def graph_01(self):
-        df = self.DATASET
-        # df.replace(value="", to_replace=0, inplace=True)
-        # df.replace(value="x", to_replace=1, inplace=True)
-
+        df = self.DATASET.sort_values(by=["Students"])
+        
         trace = Table(
             header=dict(
                 values=list(df.columns),

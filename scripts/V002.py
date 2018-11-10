@@ -15,25 +15,34 @@ class V002:
         self.generate_dataset()
 
     def generate_dataset(self):
-        self.DATASET = pd.DataFrame(columns=["Students","Video1","Video2",'Quiz1','Quiz2','Pdf1','Pdf2','Ebook1','Ebook2'])
+        self.DATASET = pd.DataFrame(columns=["Students","Video1","Video2",'Quiz1','Quiz2','Pdf1','Pdf2','Ebook1','Ebook2','Total'])
+        names = pd.read_csv("names.csv")
+
         for i in range(1,self.NUMBER_STUDENTS):
-            self.DATASET.loc[i] = [np.random.randint(0,30) for n in range(len(self.DATASET.columns))]
-            self.DATASET.loc[i,"Students"] = "Student_"+str(i)
+            self.DATASET.loc[i] = [np.random.randint(0,30) for n in range(len(self.DATASET.columns))]            
+            self.DATASET.loc[i,"Students"] = names.group_name[np.random.randint(0,len(names.group_name)+1)]
+        
+        self.DATASET['Total'] = self.DATASET.apply(self.sum_row,axis=1)
+
+    def sum_row(self,row):
+        total = 0
+        for i in range(1, len(row[1:])):
+            total += row[i]
+
+        return total
 
     # Table presenting raw data    
     def graph_01(self):
-        df = self.DATASET
-        # df.replace(value="", to_replace=0, inplace=True)
-        # df.replace(value="x", to_replace=1, inplace=True)
-
+        df = self.DATASET.sort_values(by=["Students"])
+        
         trace = Table(
             header=dict(
-                values=list(df.columns),
+                values=list(df.columns[:len(df.columns)-1]),
                 fill = dict(color='#C2D4FF'),
                 align = 'center'
             ),
             cells=dict(
-                values=[df[i].tolist() for i in df.columns[:]],                
+                values=[df[i].tolist() for i in df.columns[:len(df.columns)-1]],
                 fill = dict(color='#F5F8FF'),
                 align = ['left','center']
             )
@@ -43,12 +52,13 @@ class V002:
         iplot(data, filename = 'pandas_table')
 
     def graph_02(self):
+        df = self.DATASET.sort_values(by=["Students"])
         trace = []
-        for i in range(len(self.DATASET.columns[1:])):
+        for i in range(1,len(df.columns[1:len(df.columns)])):
             trace.append(Bar(
-                    x=self.DATASET.Students.values,
-                    y=self.DATASET.iloc[:,i+1].values,
-                    name=self.DATASET.columns[i+1]
+                    x=df.Students.values,
+                    y=df.iloc[:,i].values,
+                    name=df.columns[i]
             ))
 
         data = trace
@@ -78,12 +88,13 @@ class V002:
         iplot(fig, filename='012_2')
 
     def graph_03(self):
+        df = self.DATASET.sort_values(by=["Students"])
         trace = []
-        for i in range(len(self.DATASET.columns[1:])):
+        for i in range(1,len(df.columns[1:len(df.columns)])):
             trace.append(Bar(
-                    x=self.DATASET.Students.values,
-                    y=self.DATASET.iloc[:,i+1].values,
-                    name=self.DATASET.columns[i+1]
+                    x=df.Students.values,
+                    y=df.iloc[:,i].values,
+                    name=df.columns[i]
             ))
 
         data = trace
@@ -114,12 +125,51 @@ class V002:
         iplot(fig, filename='012_2')
 
     def graph_04(self):
+        df = self.DATASET.sort_values(by=["Total","Students"])
+        
         trace = []
-        for i in range(len(self.DATASET.columns[1:])):
+        for i in range(1,len(df.columns[1:len(df.columns)])):
             trace.append(Bar(
-                    x=self.DATASET.iloc[:,i+1].values,
-                    y=self.DATASET.Students.values,                    
-                    name=self.DATASET.columns[i+1],
+                    x=df.Students.values,
+                    y=df.iloc[:,i].values,
+                    name=df.columns[i]
+            ))
+
+        data = trace
+        layout = Layout(
+                title='Número de acessos nos materiais agrupados por estudante',
+                # title='Number of access in the materials grouped by student',
+                barmode='stack',
+                yaxis=dict(
+        #             title='AXIS TITLE',
+                    titlefont=dict(
+                        family='Arial, sans-serif',
+        #                 size=18,
+                        color='lightgrey'
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=15,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='012_2')
+
+    def graph_05(self):
+        df = self.DATASET.sort_values(by=["Students"])
+        trace = []
+        for i in range(1,len(df.columns[1:len(df.columns)])):
+            trace.append(Bar(
+                    x=df.iloc[:,i].values,
+                    y=df.Students.values,
+                    name=df.columns[i],
                     orientation = 'h'
             ))
 
@@ -150,10 +200,50 @@ class V002:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='012_2')
 
-    def graph_05(self):
-        trace = Heatmap(z=self.DATASET.iloc[:,1:].values,
-                        x=self.DATASET.columns[1:], #Materials
-                        y=self.DATASET.iloc[:,0].values, #Students
+    def graph_06(self):
+        df = self.DATASET.sort_values(by=["Total","Students"])
+        trace = []
+        for i in range(1,len(df.columns[1:len(df.columns)])):
+            trace.append(Bar(
+                    x=df.iloc[:,i].values,
+                    y=df.Students.values,                    
+                    name=df.columns[i],
+                    orientation = 'h'
+            ))
+
+        data = trace
+        layout = Layout(
+                title='Número de acessos nos materiais agrupados por estudante',
+                # title='Number of access in the materials grouped by student',
+                barmode='stack',
+                yaxis=dict(
+        #             title='AXIS TITLE',
+                    titlefont=dict(
+                        family='Arial, sans-serif',
+        #                 size=18,
+                        color='lightgrey'
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=1,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='012_2')
+
+    def graph_07(self):
+        df = self.DATASET.sort_values(by=["Students"])
+        
+        trace = Heatmap(z=df.iloc[:,1:len(df.columns)-1].values,
+                        x=df.columns[1:len(df.columns)-1], #Materials
+                        y=df.iloc[:,0].values, #Students
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
                     )
 
@@ -181,41 +271,86 @@ class V002:
             )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='012_3')
+        iplot(fig, filename='Heatmap')
 
-    def graph_06(self):
+    def graph_08(self):
+        df = self.DATASET.sort_values(by=["Students"])
+        
+        trace = Heatmap(z=df.iloc[:,1:len(df.columns)-1].values,
+                        x=df.columns[1:len(df.columns)-1], #Materials
+                        y=df.iloc[:,0].values, #Students
+                        colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],                        
+                    )
+
+        annotations=[]
+        for i in range(1,len(df.columns)-1):
+            for j in range(0,len(df)):
+                annotations.append({
+                    "text":str(df.iloc[j,i]),
+                    "x":df.columns.values[i],
+                    "y":df.iloc[j,0],
+                    "xref":'x1', 
+                    "yref":'y1',
+                    "showarrow":False
+                })
+
+        data = [trace]
+        layout = Layout(
+                title='Número de acessos nos materiais por estudante',
+                # title='Number of access in the materials by student',
+                yaxis=dict(
+        #             title='AXIS TITLE',
+                    titlefont=dict(
+                        family='Arial, sans-serif',
+        #                 size=18,
+                        color='lightgrey'
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=1,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                ),
+                annotations = annotations
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Heatmap')
+
+    def graph_09(self):
         # https://plot.ly/python/bubble-charts/
         # https://plot.ly/python/reference/#layout-xaxis
         # https://plot.ly/python/axes/#subcategory-axes
-        
-        max_value=0        
-        for i in range(0, len(self.DATASET)): #Take the max value in whole dataframe
-            if max(self.DATASET.iloc[:,1:].values[i]) > max_value:
-                max_value = max(self.DATASET.iloc[:,1:].values[i])
+        df = self.DATASET.sort_values(by=["Students"])        
+        max_value=0
+        for i in range(0, len(df)): #Take the max value in whole dataframe
+            if max(df.iloc[:,1:len(df.columns)-1].values[i]) > max_value:
+                max_value = max(df.iloc[:,1:len(df.columns)-1].values[i])
         
         sizeref = 2.*max_value/(max_value**2)
         # print (sizeref)
 
         trace = []
-        # for i in range(1, len(self.DATASET.columns)):
-        for i in range(0, len(self.DATASET)):                    
+        # for i in range(1, len(df.columns)):
+        for i in range(0, len(df)):                    
             trace.append(
                 Scatter(
-                    # x=self.DATASET.iloc[:,0].values, #students
-                    # x=[self.DATASET.iloc[i,0]], #Students
-                    x=[self.DATASET.iloc[i,0]]*len(self.DATASET.columns), #student
-                    y=self.DATASET.columns[1:], #materials
+                    x=[df.iloc[i,0]]*len(df.columns), #student
+                    y=df.columns[1:len(df.columns)-1], #materials
                     mode='markers',
-                    # name=self.DATASET.iloc[i,0], #each student name
-                    name=self.DATASET.iloc[i,0], #student name
+                    # name=df.iloc[i,0], #each student name
+                    name=df.iloc[i,0], #student name
                     # orientation = "h",
-                    text = self.DATASET.iloc[i,1:].values.tolist(),
+                    text = df.iloc[i,1:len(df.columns)-1].values.tolist(),
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
                         sizeref=sizeref,
-                        # size=self.DATASET.iloc[:,i].values.tolist(),
-                        size=self.DATASET.iloc[i,1:].values.tolist(),
+                        size=df.iloc[i,1:len(df.columns)-1].values.tolist(),
                         color = 'rgb(0,0,255)',
                         line=dict(
                             width=2
@@ -264,6 +399,9 @@ class V002:
         self.graph_04()
         self.graph_05()
         self.graph_06()
+        self.graph_07()
+        self.graph_08()
+        self.graph_09()
 
 instance = V002(20)
 instance.print_all_graphs()
