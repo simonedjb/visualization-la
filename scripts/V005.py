@@ -614,7 +614,7 @@ class V005:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='scatter-plot')
 
-    def graph_09(self):        
+    def graph_09(self):
         df = self._df_sum.sort_values(by="Grade")
         Clusters = df.Cluster.unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
@@ -655,7 +655,7 @@ class V005:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='box-plot')
 
-    def graph_10(self):        
+    def graph_10(self):
         df = self._df_sum.sort_values(by="Grade")
         Clusters = df.Cluster.unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
@@ -696,7 +696,7 @@ class V005:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='box-plot')
 
-    def graph_11(self):        
+    def graph_11(self):
         df = self._df_sum.sort_values(by="Grade")
         Clusters = df.Cluster.unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
@@ -737,7 +737,7 @@ class V005:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='box-plot')
 
-    def graph_12(self):        
+    def graph_12(self):
         df = self._df_sum.sort_values(by="Grade")
         Clusters = df.Cluster.unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
@@ -761,7 +761,7 @@ class V005:
             )
 
         layout = Layout(
-            title='Variação de acesso ao fórum por cluster',
+            title='Variação de acessos ao fórum por cluster',
             # hovermode = "closest",
             showlegend = True,
             yaxis = dict(
@@ -769,7 +769,7 @@ class V005:
                 range = [-1, self.DATASET["Forum Access"].max()+10],
                 rangemode = "normal",
                 # showline = True,
-                title = "Acesso ao fórum",
+                title = "Acessos ao fórum",
                 zeroline = False,
             )
         )
@@ -802,7 +802,7 @@ class V005:
             )
 
         layout = Layout(
-            title='Variação de postagem no fórum por cluster',
+            title='Variação de postagens no fórum por cluster',
             # hovermode = "closest",
             showlegend = True,
             yaxis = dict(
@@ -810,7 +810,7 @@ class V005:
                 range = [-1, self.DATASET["Forum Post"].max()+10],
                 rangemode = "normal",
                 # showline = True,
-                title = "Postagem no fórum",
+                title = "Postagens no fórum",
                 zeroline = False,
             )
         )
@@ -843,7 +843,7 @@ class V005:
             )
 
         layout = Layout(
-            title='Variação de postagem respondidas no fórum por cluster',
+            title='Variação de postagens respondidas no fórum por cluster',
             # hovermode = "closest",
             showlegend = True,
             yaxis = dict(
@@ -908,38 +908,355 @@ class V005:
         Clusters = df.Cluster.unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
         # print(Clusters)
-        data = []
+        trace = []
         for i in range(0,len(Clusters)):
-            trace = {
-                "type":'violin',
-                "x":["Cluster "+str(i+1)],
-                "y":df["Grade"].loc[df['Cluster']==Clusters[i]].values.tolist(),
-                "name":"Cluster "+str(i+1),
-                "box":{
-                    "visible":True
+            trace.append(
+                {
+                    "type":'violin',
+                    "x":["Cluster "+str(i+1)]*len(df.Grade.loc[df['Cluster']==Clusters[i]]),
+                    "y":df.Grade.loc[df['Cluster']==Clusters[i]],
+                    "name":"Cluster "+str(i+1),
+                    "text":df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    "box":{
+                        "visible":True
+                        },
+                    "points": 'all',
+                    "meanline":{
+                        "visible":True
+                        },
+                    "line":{
+                        "color":color[i],
                     },
-                "meanline":{
-                    "visible":True
-                    }                
-            }
-
+                    "marker": {
+                        "line": {
+                            "width": 1,
+                        }
+                    },
+                }
+            )
+        
         layout = Layout(
             title='Variação de notas por cluster',
-            # hovermode = "closest",
+            hovermode = "closest",
             showlegend = True,
             yaxis = dict(
                 fixedrange = False,
-                range = [-1, self.DATASET["Forum Add Thread"].max()+10],
+                range = [-15, self.DATASET.Grade.max()+10],                
                 rangemode = "normal",
-                # showline = True,
+                title = "Notas",
+                zeroline = False,
+            )
+        )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='violin',validate = False)
+    
+    def graph_17(self):
+        # https://plot.ly/python/violin/#reference
+        # https://plot.ly/python/reference/#violin
+        df = self._df_sum.sort_values(by="Grade")
+        Clusters = df.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
+        # print(Clusters)
+        trace = []
+        for i in range(0,len(Clusters)):
+            trace.append(
+                {
+                    "type":'violin',
+                    "x":["Cluster "+str(i+1)]*len(df.Grade.loc[df['Cluster']==Clusters[i]]),
+                    "y":df.Access.loc[df['Cluster']==Clusters[i]],
+                    "name":"Cluster "+str(i+1),
+                    "text":df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    "box":{
+                        "visible":True
+                        },
+                    "points": 'all',
+                    "meanline":{
+                        "visible":True
+                        },
+                    "line":{
+                        "color":color[i],
+                    },
+                    "marker": {
+                        "line": {
+                            "width": 1,
+                        }
+                    },
+                }
+            )
+        
+        layout = Layout(
+            title='Variação de acessos por cluster',
+            hovermode = "closest",
+            showlegend = True,
+            yaxis = dict(
+                fixedrange = False,
+                range = [-15, self.DATASET.Access.max()+10],                
+                rangemode = "normal",
+                title = "Acessos",
+                zeroline = False,
+            )
+        )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='violin', validate = False)
+
+    def graph_18(self):
+        # https://plot.ly/python/violin/#reference
+        # https://plot.ly/python/reference/#violin
+        df = self._df_sum.sort_values(by="Grade")
+        Clusters = df.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
+        # print(Clusters)
+        trace = []
+        for i in range(0,len(Clusters)):
+            trace.append(
+                {
+                    "type":'violin',
+                    "x":["Cluster "+str(i+1)]*len(df.Grade.loc[df['Cluster']==Clusters[i]]),
+                    "y":df.AssignTotal.loc[df['Cluster']==Clusters[i]],
+                    "name":"Cluster "+str(i+1),
+                    "text":df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    "box":{
+                        "visible":True
+                        },
+                    "points": 'all',
+                    "meanline":{
+                        "visible":True
+                        },
+                    "line":{
+                        "color":color[i],
+                    },
+                    "marker": {
+                        "line": {
+                            "width": 1,
+                        }
+                    },
+                }
+            )
+        
+        layout = Layout(
+            title='Variação de atividades respondidas por cluster',
+            hovermode = "closest",
+            showlegend = True,
+            yaxis = dict(
+                fixedrange = False,
+                range = [-15, df.AssignTotal.max()+10],                
+                rangemode = "normal",
+                title = "Atividades respondidas",
+                zeroline = False,
+            )
+        )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='violin', validate = False)
+
+    def graph_19(self):
+        # https://plot.ly/python/violin/#reference
+        # https://plot.ly/python/reference/#violin
+        df = self._df_sum.sort_values(by="Grade")
+        Clusters = df.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
+        # print(Clusters)
+        trace = []
+        for i in range(0,len(Clusters)):
+            trace.append(
+                {
+                    "type":'violin',
+                    "x":["Cluster "+str(i+1)]*len(df.Grade.loc[df['Cluster']==Clusters[i]]),
+                    "y":df["Forum Access"].loc[df['Cluster']==Clusters[i]],
+                    "name":"Cluster "+str(i+1),
+                    "text":df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    "box":{
+                        "visible":True
+                        },
+                    "points": 'all',
+                    "meanline":{
+                        "visible":True
+                        },
+                    "line":{
+                        "color":color[i],
+                    },
+                    "marker": {
+                        "line": {
+                            "width": 1,
+                        }
+                    },
+                }
+            )
+        
+        layout = Layout(
+            title='Variação de acessos ao fórum por cluster',
+            hovermode = "closest",
+            showlegend = True,
+            yaxis = dict(
+                fixedrange = False,
+                range = [-15, self.DATASET["Forum Access"].max()+10],                
+                rangemode = "normal",
+                title = "Acessos ao fórum",
+                zeroline = False,
+            )
+        )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='violin', validate = False)
+
+    def graph_20(self):
+        # https://plot.ly/python/violin/#reference
+        # https://plot.ly/python/reference/#violin
+        df = self._df_sum.sort_values(by="Grade")
+        Clusters = df.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
+        # print(Clusters)
+        trace = []
+        for i in range(0,len(Clusters)):
+            trace.append(
+                {
+                    "type":'violin',
+                    "x":["Cluster "+str(i+1)]*len(df.Grade.loc[df['Cluster']==Clusters[i]]),
+                    "y":df["Forum Post"].loc[df['Cluster']==Clusters[i]],
+                    "name":"Cluster "+str(i+1),
+                    "text":df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    "box":{
+                        "visible":True
+                        },
+                    "points": 'all',
+                    "meanline":{
+                        "visible":True
+                        },
+                    "line":{
+                        "color":color[i],
+                    },
+                    "marker": {
+                        "line": {
+                            "width": 1,
+                        }
+                    },
+                }
+            )
+        
+        layout = Layout(
+            title='Variação de postagens no fórum por cluster',
+            hovermode = "closest",
+            showlegend = True,
+            yaxis = dict(
+                fixedrange = False,
+                range = [-15, self.DATASET["Forum Post"].max()+10],                
+                rangemode = "normal",
+                title = "Postagens no fórum",
+                zeroline = False,
+            )
+        )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='violin', validate = False)
+
+    def graph_21(self):
+        # https://plot.ly/python/violin/#reference
+        # https://plot.ly/python/reference/#violin
+        df = self._df_sum.sort_values(by="Grade")
+        Clusters = df.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
+        # print(Clusters)
+        trace = []
+        for i in range(0,len(Clusters)):
+            trace.append(
+                {
+                    "type":'violin',
+                    "x":["Cluster "+str(i+1)]*len(df.Grade.loc[df['Cluster']==Clusters[i]]),
+                    "y":df["Forum Replies"].loc[df['Cluster']==Clusters[i]],
+                    "name":"Cluster "+str(i+1),
+                    "text":df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    "box":{
+                        "visible":True
+                        },
+                    "points": 'all',
+                    "meanline":{
+                        "visible":True
+                        },
+                    "line":{
+                        "color":color[i],
+                    },
+                    "marker": {
+                        "line": {
+                            "width": 1,
+                        }
+                    },
+                }
+            )
+        
+        layout = Layout(
+            title='Variação de postagens respondidas no fórum por cluster',
+            hovermode = "closest",
+            showlegend = True,
+            yaxis = dict(
+                fixedrange = False,
+                range = [-15, self.DATASET["Forum Replies"].max()+10],                
+                rangemode = "normal",
+                title = "Postagens respondidas no fórum",
+                zeroline = False,
+            )
+        )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='violin', validate = False)
+
+    def graph_22(self):
+        # https://plot.ly/python/violin/#reference
+        # https://plot.ly/python/reference/#violin
+        df = self._df_sum.sort_values(by="Grade")
+        Clusters = df.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
+        # print(Clusters)
+        trace = []
+        for i in range(0,len(Clusters)):
+            trace.append(
+                {
+                    "type":'violin',
+                    "x":["Cluster "+str(i+1)]*len(df.Grade.loc[df['Cluster']==Clusters[i]]),
+                    "y":df["Forum Add Thread"].loc[df['Cluster']==Clusters[i]],
+                    "name":"Cluster "+str(i+1),
+                    "text":df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    "box":{
+                        "visible":True
+                        },
+                    "points": 'all',
+                    "meanline":{
+                        "visible":True
+                        },
+                    "line":{
+                        "color":color[i],
+                    },
+                    "marker": {
+                        "line": {
+                            "width": 1,
+                        }
+                    },
+                }
+            )
+        
+        layout = Layout(
+            title='Variação de threads iniciadas no fórum por cluster',
+            hovermode = "closest",
+            showlegend = True,
+            yaxis = dict(
+                fixedrange = False,
+                range = [-15, self.DATASET["Forum Add Thread"].max()+10],                
+                rangemode = "normal",
                 title = "Threads iniciadas no fórum",
                 zeroline = False,
             )
         )
 
-        data.append(trace)
+        data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='box-plot')
+        iplot(fig, filename='violin', validate = False)
 
     def print_all_graphs(self):
         self.graph_01() #Table raw
@@ -958,6 +1275,12 @@ class V005:
         self.graph_14()
         self.graph_15()
         self.graph_16() #Violin
+        self.graph_17()
+        self.graph_18()
+        self.graph_19()
+        self.graph_20()
+        self.graph_21()
+        self.graph_22()
 
 instance = V005(60)
 instance.print_all_graphs()
