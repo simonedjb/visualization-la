@@ -77,9 +77,10 @@ class V001:
     
     # Barchart number of assessments completed for each student
     def graph_02(self):
+        df = self._students.sort_values(by=["Name"])
         trace = [Bar(
-            x=self._students.Name.values,
-            y=self._students.Total.values
+            x=df.Name.values,
+            y=df.Total.values
         )]
 
         data = trace
@@ -108,9 +109,42 @@ class V001:
         iplot(fig, filename='011_1')
 
     def graph_03(self):
+        df = self._students.sort_values(by=["Total","Name"])
         trace = [Bar(
-            x=self._students.Total.values,
-            y=self._students.Name.values,
+            x=df.Name.values,
+            y=df.Total.values
+        )]
+        
+        data = trace
+        layout = Layout(
+            title='Quantidade de tarefas feitas por alunos',
+            yaxis=dict(
+                # title='AXIS TITLE',
+                titlefont=dict(
+                    family='Arial, sans-serif',
+                    # size=18,
+                    color='lightgrey'
+                ),
+                showticklabels=True,
+                tick0=0,
+                dtick=1,
+                # ticklen=4,
+                # tickwidth=4,
+                exponentformat='e',
+                showexponent='all',
+                gridcolor='#bdbdbd',
+                # range=[0, 4.1]
+            )
+        )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='011_1')
+
+    def graph_04(self):
+        df = self._students.sort_values(by=["Name"])
+        trace = [Bar(
+            x=df.Total.values,
+            y=df.Name.values,
             orientation = 'h'            
         )]
 
@@ -143,11 +177,224 @@ class V001:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='011_1')
 
+    def graph_05(self):
+        df = self._students.sort_values(by=["Total","Name"])
+        trace = [Bar(
+            x=df.Total.values,
+            y=df.Name.values,
+            orientation = 'h'            
+        )]
+
+        data = trace
+        layout = Layout(
+            title='Quantidade de tarefas feitas por alunos',
+            xaxis=dict(
+                tick0=0,
+                dtick=1,
+            ),
+            yaxis=dict(
+                # title='AXIS TITLE',
+                titlefont=dict(
+                    family='Arial, sans-serif',
+                    # size=18,
+                    color='lightgrey'
+                ),
+                showticklabels=True,
+                tick0=0,
+                dtick=1,
+                # ticklen=4,
+                # tickwidth=4,
+                exponentformat='e',
+                showexponent='all',
+                gridcolor='#bdbdbd',
+                # range=[0, 4.1]
+            )
+        )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='011_1')
+
+    # Lollipop number of assessments completed for each student
+    def graph_06(self):
+        df = self._students.sort_values(by=["Name"])
+        # df = self._students
+        trace = []
+        trace.append(
+            Bar(
+                x=df.Total.values,
+                y=df.Name.values,
+                width=[0.07]*20,
+                orientation = 'h',
+                name="",
+                text="",
+                marker=dict(
+                        color = 'lightgray',
+                        # line=dict(
+                        #     color = 'lightgray',
+                        #     width=2
+                        # )
+                    )
+            )
+        )
+        
+        for i in range(1, len(self.DATASET.columns)):
+            text=str(i)+" tarefas",
+            if i==1:
+                text=str(i)+" tarefa",
+
+            trace.append(
+                Scatter(
+                    x=[i]*len(df.Name.loc[df["Total"]==i]),
+                    # x=[3]*20, #student
+                    y=df.Name.loc[df["Total"]==i].values.tolist(),
+                    mode='markers',
+                    # name=self.DATASET.iloc[i,0], #each student name
+                    # name=self.DATASET.iloc[i,0], #student name
+                    # orientation = "h",
+                    name = "",                    
+                    text=text*len(df.Name.loc[df["Total"]==i]),                    
+                    marker=dict(
+                        symbol='circle',
+                        sizemode='area',
+                        # sizeref=sizeref,
+                        # size=self.DATASET.iloc[:,i].values.tolist(),
+                        # size=self.DATASET.iloc[i,1:].values.tolist(),
+                        color = 'rgb(0,0,255)',
+                        line=dict(
+                            width=2
+                        )
+                    )
+                )        
+            )
+
+        data = trace
+        
+        layout = Layout(
+            title='Quantidade de tarefas feitas por alunos',
+            showlegend=False,
+            # showgrid=False,
+            hovermode = "closest",
+            xaxis=dict(
+                tick0=0,
+                dtick=1,
+                showgrid=True
+            ),
+            yaxis=dict(
+                # title='AXIS TITLE',
+                titlefont=dict(
+                    family='Arial, sans-serif',
+                    # size=18,
+                    # color='lightgrey'
+                ),
+                showticklabels=True,
+                tick0=0,
+                dtick=1,
+                showgrid=False,
+                # ticklen=4,
+                # tickwidth=4,
+                exponentformat='e',
+                showexponent='all',
+                gridcolor='#bdbdbd',
+                # range=[0, 4.1]
+            )
+        )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Lollipop')
+
+    def graph_07(self):        
+        df = self._students.sort_values(by=["Total","Name"])
+        # df = self._students
+        trace = []
+        trace.append(
+            Bar(
+                x=df.Total.values,
+                y=df.Name.values,
+                width=[0.07]*20,
+                orientation = 'h',
+                name="",
+                text="",
+                marker=dict(
+                        color = 'lightgray',
+                        # line=dict(
+                        #     color = 'lightgray',
+                        #     width=2
+                        # )
+                    )
+            )
+        )
+        
+        for i in range(1, len(self.DATASET.columns)):
+            text=str(i)+" tarefas",
+            if i==1:
+                text=str(i)+" tarefa",
+
+            trace.append(
+                Scatter(
+                    x=[i]*len(df.Name.loc[df["Total"]==i]),
+                    # x=[3]*20, #student
+                    y=df.Name.loc[df["Total"]==i].values.tolist(),
+                    mode='markers',
+                    # name=self.DATASET.iloc[i,0], #each student name
+                    # name=self.DATASET.iloc[i,0], #student name
+                    # orientation = "h",
+                    name = "",                    
+                    text=text*len(df.Name.loc[df["Total"]==i]),                    
+                    marker=dict(
+                        symbol='circle',
+                        sizemode='area',
+                        # sizeref=sizeref,
+                        # size=self.DATASET.iloc[:,i].values.tolist(),
+                        # size=self.DATASET.iloc[i,1:].values.tolist(),
+                        color = 'rgb(0,0,255)',
+                        line=dict(
+                            width=2
+                        )
+                    )
+                )        
+            )
+
+        data = trace
+        
+        layout = Layout(
+            title='Quantidade de tarefas feitas por alunos',
+            showlegend=False,
+            # showgrid=False,
+            hovermode = "closest",
+            xaxis=dict(
+                tick0=0,
+                dtick=1,
+                showgrid=True
+            ),
+            yaxis=dict(
+                # title='AXIS TITLE',
+                titlefont=dict(
+                    family='Arial, sans-serif',
+                    # size=18,
+                    # color='lightgrey'
+                ),
+                showticklabels=True,
+                tick0=0,
+                dtick=1,
+                showgrid=False,
+                # ticklen=4,
+                # tickwidth=4,
+                exponentformat='e',
+                showexponent='all',
+                gridcolor='#bdbdbd',
+                # range=[0, 4.1]
+            )
+        )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Lollipop')
+
     # Barchart number of student that have completed each assessment
-    def graph_04(self):
+    def graph_08(self):
+        df = self._students.sort_values(by=["Name"])
         trace011_2 = [Bar(
-            x=self._assigns.Name.values,
-            y=self._assigns.Total.values
+            x=df.Name.values,
+            y=df.Total.values
         )]
 
         data011_2 = trace011_2
@@ -175,8 +422,39 @@ class V001:
         fig011_2 = Figure(data=data011_2, layout=layout011_2)
         iplot(fig011_2, filename='011_2')
     
+    def graph_09(self):
+        df = self._students.sort_values(by=["Total","Name"])
+        trace011_2 = [Bar(
+            x=df.Name.values,
+            y=df.Total.values
+        )]
+
+        data011_2 = trace011_2
+        layout011_2 = Layout(
+            title='Quantidade de alunos que fizeram as tarefas',
+            yaxis=dict(
+                # title='Número de alunos',
+                titlefont=dict(
+                    family='Arial, sans-serif',
+                    # size=18,
+                    color='lightgrey'
+                ),
+                showticklabels=True,
+                tick0=0,
+                dtick=1,
+                # ticklen=4,
+                # tickwidth=4,
+                exponentformat='e',
+                showexponent='all',
+                gridcolor='#bdbdbd',
+                # range=[0, 13]
+            )
+        )
+
+        fig011_2 = Figure(data=data011_2, layout=layout011_2)
+        iplot(fig011_2, filename='011_2')
         
-    def graph_05(self):
+    def graph_10(self):
         # https://plot.ly/python/bubble-charts/
         # https://plot.ly/python/reference/#layout-xaxis
         # https://plot.ly/python/axes/#subcategory-axes
@@ -188,20 +466,20 @@ class V001:
         # for i in range(1, len(self.DATASET.columns)):
         for i in range(0, len(self.DATASET)):                    
             trace.append(
-                Scatter(                    
+                Scatter(
                     x=[self.DATASET.iloc[i,0]]*len(self.DATASET.columns), #student
                     y=self.DATASET.columns[1:], #assigns
                     mode='markers',
                     # name=self.DATASET.iloc[i,0], #each student name
                     name=self.DATASET.iloc[i,0], #student name
-                    # orientation = "h",
-                    text = self.DATASET.iloc[i,1:].values.tolist(),
+                    # text = self.DATASET.iloc[i,1:].values.tolist(),
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
                         sizeref=sizeref,
                         # size=self.DATASET.iloc[:,i].values.tolist(),
                         size=self.DATASET.iloc[i,1:].values.tolist(),
+                        color = 'rgb(0,0,255)',
                         line=dict(
                             width=2
                         )
@@ -242,38 +520,43 @@ class V001:
         fig=Figure(data=data, layout=layout)
         iplot(fig, filename='bubblechart-size')        
 
-    def graph_06(self):
-        trace = Heatmap(z=self.DATASET.iloc[:,1:].values,
-                        x=self.DATASET.columns[1:], #Assigns
-                        y=self.DATASET.iloc[:,0].values, #Students
-                        colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
-                    )
+    def graph_11(self):
+        z = []
+        for i in range (1, len(self.DATASET.columns)):
+            z.append(self.DATASET.iloc[:,i].values.tolist())
 
-        data = [trace]
+        trace = Heatmap(z=z,
+                        y=self.DATASET.columns[1:], #Assigns
+                        x=self.DATASET.iloc[:,0], #Students
+                        colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        showscale = False
+                    )
+        
         layout = Layout(
                 title='Atividades feitas por estudante',
                 # title='Number of access in the materials by student',
+                autosize=False,
+                width=950,
+                height=350,
+                hovermode = "closest",
+                xaxis=dict(
+                    title='Estudantes',                    
+                ),                
                 yaxis=dict(
-        #             title='AXIS TITLE',
-                    titlefont=dict(
-                        family='Arial, sans-serif',
-        #                 size=18,
-                        color='lightgrey'
-                    ),
+                    title='Atividades',                    
                     showticklabels=True,
+                    type="category",                    
                     tick0=0,
                     dtick=1,
-        #             ticklen=4,
-        #             tickwidth=4,
                     exponentformat='e',
                     showexponent='all',
-                    gridcolor='#bdbdbd',
-                    # range=[0, 4.1]
+                    gridcolor='#bdbdbd',                    
                 )
             )
 
+        data = [trace]
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='012_3')
+        iplot(fig, filename='Heatmap')
 
     def print_all_graphs(self):
         self.graph_01()
@@ -282,6 +565,11 @@ class V001:
         self.graph_04()
         self.graph_05()
         self.graph_06()
+        self.graph_07()
+        self.graph_08()
+        self.graph_09()
+        self.graph_10()
+        self.graph_11()
 
 instance = V001(20)
 instance.print_all_graphs()
