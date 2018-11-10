@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-from plotly.graph_objs import Figure, Layout, Table, Scatter, Box
+from plotly.graph_objs import Figure, Layout, Table, Scatter, Box, Violin
 from plotly.offline import init_notebook_mode, iplot
 
 from sklearn import metrics
@@ -901,22 +901,63 @@ class V005:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='box-plot')
 
+    def graph_16(self):
+        # https://plot.ly/python/violin/#reference
+        # https://plot.ly/python/reference/#violin
+        df = self._df_sum.sort_values(by="Grade")
+        Clusters = df.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
+        # print(Clusters)
+        data = []
+        for i in range(0,len(Clusters)):
+            trace = {
+                "type":'violin',
+                "x":["Cluster "+str(i+1)],
+                "y":df["Grade"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                "name":"Cluster "+str(i+1),
+                "box":{
+                    "visible":True
+                    },
+                "meanline":{
+                    "visible":True
+                    }                
+            }
+
+        layout = Layout(
+            title='Variação de notas por cluster',
+            # hovermode = "closest",
+            showlegend = True,
+            yaxis = dict(
+                fixedrange = False,
+                range = [-1, self.DATASET["Forum Add Thread"].max()+10],
+                rangemode = "normal",
+                # showline = True,
+                title = "Threads iniciadas no fórum",
+                zeroline = False,
+            )
+        )
+
+        data.append(trace)
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='box-plot')
+
     def print_all_graphs(self):
-        self.graph_01()
-        self.graph_02()
+        self.graph_01() #Table raw
+        self.graph_02() #Scatter
         self.graph_03()
         self.graph_04()
         self.graph_05()
         self.graph_06()
         self.graph_07()
         self.graph_08()
-        self.graph_09()
+        self.graph_09() #Box
         self.graph_10()
         self.graph_11()
         self.graph_12()
         self.graph_13()
         self.graph_14()
         self.graph_15()
+        self.graph_16() #Violin
 
 instance = V005(60)
 instance.print_all_graphs()
