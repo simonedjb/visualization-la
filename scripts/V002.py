@@ -19,7 +19,7 @@ class V002:
         names = pd.read_csv("names.csv")
 
         for i in range(1,self.NUMBER_STUDENTS):
-            self.DATASET.loc[i] = [np.random.randint(0,30) for n in range(len(self.DATASET.columns))]            
+            self.DATASET.loc[i] = [np.random.randint(0,30) for n in range(len(self.DATASET.columns))]
             self.DATASET.loc[i,"Students"] = names.group_name[np.random.randint(0,len(names.group_name)+1)]
         
         self.DATASET['Total'] = self.DATASET.apply(self.sum_row,axis=1)

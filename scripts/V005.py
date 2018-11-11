@@ -31,8 +31,11 @@ class V005:
         self.DATASET.Grade = np.random.triangular(0,85,100,self.NUMBER_STUDENTS)
         self.DATASET["Grade"] = self.DATASET.apply(self.convert_to_int, axis=1)
         
+        rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
+        rand_names.sort()
+        
         for i in range(0,self.NUMBER_STUDENTS):
-            self.DATASET.loc[i,"Students"] = names.group_name[np.random.randint(0,len(names.group_name)+1)]
+            self.DATASET.loc[i,"Students"] = rand_names[i]
             
             if (self.DATASET.loc[i,"Grade"] <= 50):
                 self.DATASET.loc[i,"Access"] = np.random.randint(5,26)
@@ -195,7 +198,7 @@ class V005:
 
     # Table presenting raw data
     def graph_01(self):
-        df = self.DATASET.sort_values(by=["Students"])
+        df = self.DATASET
         
         trace = Table(
             header=dict(
@@ -224,29 +227,30 @@ class V005:
 
         trace = []
         for i in range(0, self.NUMBER_STUDENTS):
+            # print(df.Students[i])
             trace.append(
                 Scatter(
-                    x=[self.DATASET.Access[i]], #Access
-                    y=[self.DATASET.Grade[i]], #Grade
+                    x=[df.Access[i]], #Access
+                    y=[df.Grade[i]], #Grade
                     mode='markers',
-                    name=self.DATASET.Students[i], #each student name                    
-                    text = [str(self.DATASET.Students[i])],                    
+                    name=df.Students[i], #each student name                    
+                    text = [str(df.Students[i])],
                     marker=dict(
                         size=12,
-                        symbol=self._df_sum.Cluster[i],
-                        color = color[self._df_sum.Cluster[i]],
+                        symbol=df.Cluster[i],
+                        color = color[df.Cluster[i]],
                         colorscale='Viridis',
                         line=dict(
                             width=2
                         )
-                    )
+                    )                    
                 )
             )
 
         layout = Layout(
             title='Notas dos estudantes vs acesso ao AVA',
             hovermode = "closest",
-            showlegend = True,
+            showlegend = True,            
             xaxis = dict(
                 autorange = False,
                 fixedrange = False,

@@ -241,7 +241,7 @@ class V003:
         # https://plot.ly/python/bubble-charts/
         # https://plot.ly/python/reference/#layout-xaxis
         # https://plot.ly/python/axes/#subcategory-axes
-        df = self.DATASET.sort_values(by=["Students"])        
+        df = self.DATASET.sort_values(by=["Students"])
         max_value=0
         for i in range(0, len(df)): #Take the max value in whole dataframe
             if max(df.iloc[:,1:len(df.columns)-1].values[i]) > max_value:

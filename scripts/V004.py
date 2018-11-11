@@ -373,4 +373,4 @@ class V004:
         self.graph_08()
 
 instance = V004(20)
-instance.print_all_graphs()        
+instance.print_all_graphs()
