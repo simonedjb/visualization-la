@@ -280,12 +280,15 @@ class V002:
     def graph_08(self):
         df = self.DATASET.sort_values(by=["Students"])
         z = []
+        max_value = 0
         
         for i in range (1, len(df.columns)-1):
             z.append(df.iloc[:,i].values.tolist())
+            max_local = max(df.iloc[:,i].values.tolist())
+            max_value = max(max_local,max_value)
         
         trace = Heatmap(z=z,
-                        y=df.columns[1:len(df.columns)-1], #Assigns
+                        y=df.columns[1:len(df.columns)-1],
                         x=df.iloc[:,0], #Students
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
                         showscale = True
@@ -294,13 +297,21 @@ class V002:
         annotations=[]
         for i in range(1,len(df.columns)-1):
             for j in range(0,len(df)):
+                color = 'rgb(0,0,0)'
+                if df.iloc[j,i] > max_value/2:
+                    color = 'rgb(255,255,255)'
                 annotations.append({
                     "text":str(df.iloc[j,i]),
                     "y":df.columns.values[i],
                     "x":df.iloc[j,0],
                     "xref":'x1', 
                     "yref":'y1',
-                    "showarrow":False
+                    "showarrow":False,
+                    "font":{
+                        # family='Courier New, monospace',
+                        # size=16,
+                        "color":color
+                    }
                 })
         
         layout = Layout(
