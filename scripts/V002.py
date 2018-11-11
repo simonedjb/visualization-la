@@ -240,46 +240,55 @@ class V002:
 
     def graph_07(self):
         df = self.DATASET.sort_values(by=["Students"])
+        z = []
+        for i in range (1, len(df.columns)-1):
+            z.append(df.iloc[:,i].values.tolist())
         
-        trace = Heatmap(z=df.iloc[:,1:len(df.columns)-1].values,
-                        x=df.columns[1:len(df.columns)-1], #Materials
-                        y=df.iloc[:,0].values, #Students
+        trace = Heatmap(z=z,
+                        y=df.columns[1:len(df.columns)-1], #Assigns
+                        x=df.iloc[:,0], #Students
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        showscale = True
                     )
-
-        data = [trace]
+        
         layout = Layout(
                 title='Número de acessos nos materiais por estudante',
                 # title='Number of access in the materials by student',
+                autosize=False,
+                width=950,
+                height=350,
+                hovermode = "closest",
+                xaxis=dict(
+                    title='Estudantes',                    
+                ),                
                 yaxis=dict(
-        #             title='AXIS TITLE',
-                    titlefont=dict(
-                        family='Arial, sans-serif',
-        #                 size=18,
-                        color='lightgrey'
-                    ),
+                    title='Materiais',                    
                     showticklabels=True,
+                    type="category",                    
                     tick0=0,
                     dtick=1,
-        #             ticklen=4,
-        #             tickwidth=4,
                     exponentformat='e',
                     showexponent='all',
-                    gridcolor='#bdbdbd',
-        #             range=[0, 4.1]
+                    gridcolor='#bdbdbd',                    
                 )
             )
 
+        data = [trace]
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='Heatmap')
 
     def graph_08(self):
         df = self.DATASET.sort_values(by=["Students"])
+        z = []
         
-        trace = Heatmap(z=df.iloc[:,1:len(df.columns)-1].values,
-                        x=df.columns[1:len(df.columns)-1], #Materials
-                        y=df.iloc[:,0].values, #Students
-                        colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],                        
+        for i in range (1, len(df.columns)-1):
+            z.append(df.iloc[:,i].values.tolist())
+        
+        trace = Heatmap(z=z,
+                        y=df.columns[1:len(df.columns)-1], #Assigns
+                        x=df.iloc[:,0], #Students
+                        colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        showscale = True
                     )
 
         annotations=[]
@@ -287,37 +296,37 @@ class V002:
             for j in range(0,len(df)):
                 annotations.append({
                     "text":str(df.iloc[j,i]),
-                    "x":df.columns.values[i],
-                    "y":df.iloc[j,0],
+                    "y":df.columns.values[i],
+                    "x":df.iloc[j,0],
                     "xref":'x1', 
                     "yref":'y1',
                     "showarrow":False
                 })
-
-        data = [trace]
+        
         layout = Layout(
                 title='Número de acessos nos materiais por estudante',
                 # title='Number of access in the materials by student',
+                autosize=False,
+                width=950,
+                height=350,
+                hovermode = "closest",
+                xaxis=dict(
+                    title='Estudantes',                    
+                ),                
                 yaxis=dict(
-        #             title='AXIS TITLE',
-                    titlefont=dict(
-                        family='Arial, sans-serif',
-        #                 size=18,
-                        color='lightgrey'
-                    ),
+                    title='Materiais',                    
                     showticklabels=True,
+                    type="category",                    
                     tick0=0,
                     dtick=1,
-        #             ticklen=4,
-        #             tickwidth=4,
                     exponentformat='e',
                     showexponent='all',
-                    gridcolor='#bdbdbd',
-        #             range=[0, 4.1]
+                    gridcolor='#bdbdbd',                    
                 ),
                 annotations = annotations
             )
 
+        data = [trace]
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='Heatmap')
 
@@ -339,7 +348,7 @@ class V002:
         for i in range(0, len(df)):                    
             trace.append(
                 Scatter(
-                    x=[df.iloc[i,0]]*len(df.columns), #student
+                    x=[df.iloc[i,0]]*(len(df.columns)-2), #student
                     y=df.columns[1:len(df.columns)-1], #materials
                     mode='markers',
                     # name=df.iloc[i,0], #each student name
@@ -390,7 +399,7 @@ class V002:
 
         data = trace
         fig=Figure(data=data, layout=layout)
-        iplot(fig, filename='bubblechart-size')        
+        iplot(fig, filename='bubblechart-size')
 
     def print_all_graphs(self):
         self.graph_01()

@@ -27,9 +27,6 @@ class V001:
 
         self.get_students_frame()
         self.get_assigns_frame()
-        
-    def print_dataset(self):
-        print(self.DATASET)
 
     def sum_assigns(self,row):
         lst = self.DATASET.columns[1:].tolist()

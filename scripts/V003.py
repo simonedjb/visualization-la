@@ -11,39 +11,25 @@ class V003:
     NUMBER_STUDENTS = 21
     DATASET = pd.DataFrame()
 
-    _students = pd.DataFrame()
-    _assigns = pd.DataFrame()
-
     def __init__(self, number_students = 21):
         self.NUMBER_STUDENTS = number_students+1
         self.generate_dataset()
 
     def generate_dataset(self):
-        self.DATASET = pd.DataFrame(columns=["Students","Hits","Readings","Posts"])
+        self.DATASET = pd.DataFrame(columns=["Students","Likes","Readings","Posts","Total"])
         names = pd.read_csv("names.csv")
         for i in range(1,self.NUMBER_STUDENTS):
             self.DATASET.loc[i] = [np.random.randint(0,21) for n in range(len(self.DATASET.columns))]
             self.DATASET.loc[i,"Students"] = names.group_name[np.random.randint(0,len(names.group_name)+1)]
 
-        self.get_students_frame()
-        self.get_interactions_frame()
+        self.DATASET['Total'] = self.DATASET.apply(self.sum_row,axis=1)
 
-    def print_dataset(self):
-        print(self.DATASET)
+    def sum_row(self,row):
+        total = 0
+        for i in range(1, len(row[1:])):
+            total += row[i]
 
-    def get_student(self, row):
-        return row["Students"]
-
-    def get_students_frame(self):
-        self._students = pd.DataFrame(columns=["Name"])
-        self._students["Name"] = self.DATASET.apply(self.get_student, axis=1)
-        # print (self._students)
-
-    def get_interactions_frame(self):
-        self._interactions = pd.DataFrame(columns=["Name"])
-        for i in range (0, len(self.DATASET.columns[1:])):
-            self._assigns.loc[i,"Name"] = self.DATASET.columns[i+1]
-        # print (self._assigns)
+        return total
 
     # Table presenting raw data
     def graph_01(self):
@@ -51,27 +37,28 @@ class V003:
         
         trace = Table(
             header=dict(
-                values=list(df.columns),
+                values=list(df.columns[:len(df.columns)-1]),
                 fill = dict(color='#C2D4FF'),
                 align = 'center'
             ),
             cells=dict(
-                values=[df[i].tolist() for i in df.columns[:]],
+                values=[df[i].tolist() for i in df.columns[:len(df.columns)-1]],
                 fill = dict(color='#F5F8FF'),
                 align = ['left','center']
             )
         )
 
-        data = [trace]
+        data = [trace] 
         iplot(data, filename = 'pandas_table')
 
     def graph_02(self):
+        df = self.DATASET.sort_values(by=["Students"])        
         trace = []
-        for i in range(len(self.DATASET.columns[1:])):
+        for i in range(1,len(df.columns[1:len(df.columns)])):        
             trace.append(Bar(
-                    x=self.DATASET.Students.values,
-                    y=self.DATASET.iloc[:,i+1].values,
-                    name=self.DATASET.columns[i+1]
+                    x=df.Students.values,
+                    y=df.iloc[:,i].values,
+                    name=df.columns[i]
             ))
 
         data = trace
@@ -99,14 +86,15 @@ class V003:
 
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='012_2')
-
+    
     def graph_03(self):
+        df = self.DATASET.sort_values(by=["Students"])
         trace = []
-        for i in range(len(self.DATASET.columns[1:])):
+        for i in range(1,len(df.columns[1:len(df.columns)])):         
             trace.append(Bar(
-                    x=self.DATASET.Students.values,
-                    y=self.DATASET.iloc[:,i+1].values,
-                    name=self.DATASET.columns[i+1]
+                    x=df.Students.values,
+                    y=df.iloc[:,i].values,
+                    name=df.columns[i]
             ))
 
         data = trace
@@ -137,12 +125,50 @@ class V003:
         iplot(fig, filename='012_2')
     
     def graph_04(self):
+        df = self.DATASET.sort_values(by=["Total","Students"])
         trace = []
-        for i in range(len(self.DATASET.columns[1:])):
+        for i in range(1,len(df.columns[1:len(df.columns)])):         
+            trace.append(Bar(
+                    x=df.Students.values,
+                    y=df.iloc[:,i].values,
+                    name=df.columns[i]
+            ))
+
+        data = trace
+        layout = Layout(
+                title='Número de acessos a Posts, Leituras e Likes agrupados por estudante',
+                # title='Number of access in the materials grouped by student',
+                barmode='stack',
+                yaxis=dict(
+        #             title='AXIS TITLE',
+                    titlefont=dict(
+                        family='Arial, sans-serif',
+        #                 size=18,
+                        color='lightgrey'
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=5,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='012_2')
+
+    def graph_05(self):
+        df = self.DATASET.sort_values(by=["Students"])
+        trace = []
+        for i in range(1,len(df.columns[1:len(df.columns)])):
             trace.append(Bar(                    
-                    x=self.DATASET.iloc[:,i+1].values,
-                    y=self.DATASET.Students.values,
-                    name=self.DATASET.columns[i+1],
+                    x=df.iloc[:,i].values,
+                    y=df.Students.values,
+                    name=df.columns[i],
                     orientation = 'h'
             ))
 
@@ -173,79 +199,22 @@ class V003:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='012_2')
 
-    def graph_05(self):
-
-        max_value=0
-        for i in range(0, len(self.DATASET)): #Take the max value in whole dataframe
-            if max(self.DATASET.iloc[:,1:].values[i]) > max_value:
-                max_value = max(self.DATASET.iloc[:,1:].values[i])
-
-        sizeref = 2.*max_value/(max_value**2)
-        # print (sizeref)
-
+    def graph_06(self):
+        df = self.DATASET.sort_values(by=["Total","Students"])
         trace = []
-        # for i in range(1, len(self.DATASET.columns)):
-        for i in range(0, len(self.DATASET)):
-            trace.append(
-                Scatter(
-                    x=[self.DATASET.iloc[i,0]]*len(self.DATASET.columns), #student
-                    y=self.DATASET.columns[1:], #materials
-                    mode='markers',
-                    name=self.DATASET.iloc[i,0], #student name
-                    text = self.DATASET.iloc[i,1:].values.tolist(),
-                    marker=dict(
-                        symbol='circle',
-                        sizemode='area',
-                        sizeref=sizeref,
-                        size=self.DATASET.iloc[i,1:].values.tolist(),
-                        line=dict(
-                            width=2
-                        )
-                    )
-                )
-            )
-
-        layout = Layout(
-            title='Número de acessos a Posts, Leituras e Likes por estudante',
-            # title='Number of access in the materials grouped by student',
-            hovermode = "closest",
-            showlegend = True,
-            xaxis = dict(
-                autorange = False,
-                # categoryorder = "category ascending",
-                fixedrange = False,
-                range = [-1, len(self.DATASET)],
-                rangemode = "normal",
-                showline = True,
-                title = "Estudantes",
-                type = "category"
-            ),
-            yaxis = dict(
-                autorange = False,
-                categoryorder = "category ascending",
-                fixedrange = False,
-                range = [-1, len(self.DATASET.columns[1:])],
-                rangemode = "normal",
-                showline = True,
-                type = "category"
-            )
-        )
+        for i in range(1,len(df.columns[1:len(df.columns)])):
+            trace.append(Bar(                    
+                    x=df.iloc[:,i].values,
+                    y=df.Students.values,
+                    name=df.columns[i],
+                    orientation = 'h'
+            ))
 
         data = trace
-        fig=Figure(data=data, layout=layout)
-        iplot(fig, filename='bubblechart-size')
-
-    def graph_06(self):
-        trace = Heatmap(z=self.DATASET.iloc[:,1:].values,
-                        x=self.DATASET.columns[1:], #Forum actions
-                        y=self.DATASET.iloc[:,0].values, #Students
-                        colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
-                    )
-
-        data = [trace]
         layout = Layout(
-                title='Número de acessos a Posts, Leituras e Likes por estudante',
-                # title='Number of access in the materials by student',
+                title='Número de acessos a Posts, Leituras e Likes agrupados por estudante',
+                # title='Number of access in the materials grouped by student',
+                barmode='stack',
                 yaxis=dict(
         #             title='AXIS TITLE',
                     titlefont=dict(
@@ -266,7 +235,168 @@ class V003:
             )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='012_3')
+        iplot(fig, filename='012_2')
+
+    def graph_07(self):
+        # https://plot.ly/python/bubble-charts/
+        # https://plot.ly/python/reference/#layout-xaxis
+        # https://plot.ly/python/axes/#subcategory-axes
+        df = self.DATASET.sort_values(by=["Students"])        
+        max_value=0
+        for i in range(0, len(df)): #Take the max value in whole dataframe
+            if max(df.iloc[:,1:len(df.columns)-1].values[i]) > max_value:
+                max_value = max(df.iloc[:,1:len(df.columns)-1].values[i])
+        
+        sizeref = 2.*max_value/(max_value**2)
+        # print (sizeref)
+
+        trace = []
+        # for i in range(1, len(df.columns)):
+        for i in range(0, len(df)):                    
+            trace.append(
+                Scatter(
+                    x=[df.iloc[i,0]]*(len(df.columns)-2), #student
+                    y=df.columns[1:len(df.columns)-1], #materials
+                    mode='markers',
+                    # name=df.iloc[i,0], #each student name
+                    name=df.iloc[i,0], #student name
+                    # orientation = "h",
+                    text = df.iloc[i,1:len(df.columns)-1].values.tolist(),
+                    marker=dict(
+                        symbol='circle',
+                        sizemode='area',
+                        sizeref=sizeref,
+                        size=df.iloc[i,1:len(df.columns)-1].values.tolist(),
+                        color = 'rgb(0,0,255)',
+                        line=dict(
+                            width=2
+                        )
+                    )
+                )
+            )
+
+        layout = Layout(
+            title='Número de acessos a Posts, Leituras e Likes por estudante',            
+            hovermode = "closest",
+            showlegend = True,
+            xaxis = dict(
+                autorange = False,
+                # categoryorder = "category ascending",
+                # domain = [0, 1],
+                fixedrange = False,
+                range = [-1, len(self.DATASET)],
+                rangemode = "normal",
+                showline = True,
+                title = "Estudantes",
+                type = "category"
+            ),
+            yaxis = dict(
+                autorange = False,
+                categoryorder = "category ascending",
+                # domain = [0, 1],
+                fixedrange = False,
+                range = [-1, len(self.DATASET.columns[1:])],
+                rangemode = "normal",
+                showline = True,
+                # title = "Materiais",
+                type = "category"
+            )
+        )
+
+        data = trace
+        fig=Figure(data=data, layout=layout)
+        iplot(fig, filename='bubblechart-size')
+
+    def graph_08(self):
+        df = self.DATASET.sort_values(by=["Students"])
+        z = []
+        for i in range (1, len(df.columns)-1):
+            z.append(df.iloc[:,i].values.tolist())
+        
+        trace = Heatmap(z=z,
+                        y=df.columns[1:len(df.columns)-1], #Assigns
+                        x=df.iloc[:,0], #Students
+                        colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        showscale = True
+                    )
+        
+        layout = Layout(
+                title='Número de acessos a Posts, Leituras e Likes por estudante',
+                autosize=False,
+                width=950,
+                height=350,
+                hovermode = "closest",
+                xaxis=dict(
+                    title='Estudantes',                    
+                ),                
+                yaxis=dict(
+                    # title='Materiais',                    
+                    showticklabels=True,
+                    type="category",                    
+                    tick0=0,
+                    dtick=1,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',                    
+                )
+            )
+
+        data = [trace]
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Heatmap')
+
+    def graph_09(self):
+        df = self.DATASET.sort_values(by=["Students"])
+        z = []
+        
+        for i in range (1, len(df.columns)-1):
+            z.append(df.iloc[:,i].values.tolist())
+        
+        trace = Heatmap(z=z,
+                        y=df.columns[1:len(df.columns)-1], #Assigns
+                        x=df.iloc[:,0], #Students
+                        colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        showscale = True
+                    )
+
+        annotations=[]
+        for i in range(1,len(df.columns)-1):
+            for j in range(0,len(df)):
+                annotations.append({
+                    "text":str(df.iloc[j,i]),
+                    "y":df.columns.values[i],
+                    "x":df.iloc[j,0],
+                    "xref":'x1', 
+                    "yref":'y1',
+                    "showarrow":False
+                })
+        
+        layout = Layout(
+                title='Número de acessos a Posts, Leituras e Likes por estudante',
+                autosize=False,
+                width=950,
+                height=350,
+                hovermode = "closest",
+                xaxis=dict(
+                    title='Estudantes',                    
+                ),                
+                yaxis=dict(
+                    # title='Materiais',                    
+                    showticklabels=True,
+                    type="category",                    
+                    tick0=0,
+                    dtick=1,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',                    
+                ),
+                annotations = annotations
+            )
+
+        data = [trace]
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Heatmap')
+
 
     def print_all_graphs(self):
         self.graph_01()
@@ -275,6 +405,9 @@ class V003:
         self.graph_04()
         self.graph_05()
         self.graph_06()
+        self.graph_07()
+        self.graph_08()
+        self.graph_09()        
 
 instance = V003(20)
 instance.print_all_graphs()
