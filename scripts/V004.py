@@ -39,13 +39,13 @@ class V004:
         self.DATASET["Total"] = self.DATASET.apply(self.sum_times, axis=1)
 
         self._df_sum = pd.DataFrame(columns=self._material_name)
-        self._df_sum.insert(loc=len(self._material_name),column="Total",value=self.DATASET.Total) #Add into the self._df_sum a column to assign Total values
+        self._df_sum.insert(loc=0,column="Students",value=self.DATASET.Students)
+        self._df_sum.insert(loc=len(self._material_name)+1,column="Total",value=self.DATASET.Total) #Add into the self._df_sum a column to assign Total values
         
         lst = self.DATASET.columns[1:].tolist() #Get all columns after students
         for i in range(0, self.NUMBER_STUDENTS):
             for j in range(0,len(lst)-1): #Iterate all columns, except Total                
-                sum_value = sum(self.DATASET.loc[i,lst[j]])
-                # max_value = max(sum_value,max_value)
+                sum_value = sum(self.DATASET.loc[i,lst[j]])                
                 self._df_sum.loc[i,self._material_name[j]] = sum_value
         
         # print(self._df_sum)
@@ -57,7 +57,6 @@ class V004:
             sum_value += sum(row[lst[i]])
 
         return sum_value    
-    
 
     # Table presenting raw data    
     def graph_01(self):
@@ -79,21 +78,36 @@ class V004:
         data = [trace] 
         iplot(data, filename = 'pandas_table')
 
-
     def graph_02(self):
+        df = self._df_sum.sort_values(by=["Students"])
+        
+        trace = Table(
+            header=dict(
+                values=list(df.columns),
+                fill = dict(color='#C2D4FF'),
+                align = 'center'
+            ),
+            cells=dict(
+                values=[df[i].tolist() for i in df.columns[:]],                
+                fill = dict(color='#F5F8FF'),
+                align = ['left','center']
+            )
+        )
+
+        data = [trace] 
+        iplot(data, filename = 'pandas_table')
+
+    def graph_03(self):
         # https://plot.ly/python/bubble-charts/
         # https://plot.ly/python/reference/#layout-xaxis
         # https://plot.ly/python/axes/#subcategory-axes
+        df = self._df_sum.sort_values(by=["Students"])
+        max_value = 0        
+        sum_value = 0
         
-        max_value = 0
-        
-        lst = self.DATASET.columns[1:].tolist() #Get all columns after students
-        sum_value = 0        
-
-        for i in range(0, self.NUMBER_STUDENTS):
-            for j in range(0,len(lst)-1): #Iterate all columns, except Total                
-                sum_value = sum(self.DATASET.loc[i,lst[j]])
-                max_value = max(sum_value,max_value)
+        for i in range(1,len(df.columns)-1): #Iterate all columns, except Total
+            max_local = max(df.iloc[1:,i].values.tolist())
+            max_value = max(max_local,max_value)
                 
         # sizeref = max_value/(max_value**3)
         sizeref=4.5*max_value/(max_value)        
@@ -103,21 +117,20 @@ class V004:
         for i in range(0, self.NUMBER_STUDENTS):
             trace.append(
                 Scatter(
-                    # x=self.DATASET.iloc[:,0].values, #students
-                    # x=[self.DATASET.iloc[i,0]], #Students
-                    x=[self.DATASET.iloc[i,0]]*len(self._df_sum.columns), #student
-                    y=self._df_sum.columns, #videos
+                    x=[df.iloc[i,0]]*len(df.columns[1:]), #student
+                    y=df.columns[1:], #videos
                     mode='markers',
-                    name=self.DATASET.iloc[i,0], #each student name                    
+                    name=df.iloc[i,0], #each student name                    
                     # orientation = "h",
-                    text = self._df_sum.iloc[i,:].values.tolist(),
+                    text = df.iloc[i,1:].values.tolist(),
                     # text = str(s),
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
                         sizeref=sizeref,
-                        # size=self.DATASET.iloc[:,i].values.tolist(),
-                        size=self._df_sum.iloc[i,:].values.tolist(),
+                        # size=df.iloc[:,i].values.tolist(),
+                        size=df.iloc[i,1:].values.tolist(),
+                        color="rgb(0,0,255)",
                         line=dict(
                             width=2
                         )
@@ -135,7 +148,7 @@ class V004:
                 # categoryorder = "category ascending",
                 # domain = [0, 1],
                 fixedrange = False,
-                range = [-1, len(self.DATASET)],
+                range = [-1, len(df)],
                 rangemode = "normal",
                 showline = True,
                 title = "Estudantes",
@@ -146,7 +159,7 @@ class V004:
                 # categoryorder = "category descending",
                 # domain = [0, 1],
                 fixedrange = False,
-                range = [-1, len(self._df_sum.columns)],
+                range = [-1, len(df.columns[1:])],
                 rangemode = "normal",
                 showline = True,
                 title = "Videos",
@@ -158,14 +171,15 @@ class V004:
         fig=Figure(data=data, layout=layout)
         iplot(fig, filename='bubblechart-size')
 
-    def graph_03(self):
+    def graph_04(self):
+        df = self._df_sum.sort_values(by=["Students"])
         trace = []
-        for i in range(len(self._df_sum.columns[1:])):
+        for i in range(1,len(df.columns[1:])):
             trace.append(Bar(
-                    x=self.DATASET.Students.values,
-                    y=self._df_sum.iloc[:,i].values,
-                    name=self._df_sum.columns[i]
-                    # name=self.DATASET.iloc[i,0], #each student name
+                    x=df.Students.values,
+                    y=df.iloc[:,i].values,
+                    name=df.columns[i]
+                    # name=df.iloc[i,0], #each student name
             ))
 
         data = trace
@@ -194,14 +208,15 @@ class V004:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='012_2')
 
-    def graph_04(self):
+    def graph_05(self):
+        df = self._df_sum.sort_values(by=["Students"])
         trace = []
-        for i in range(len(self._df_sum.columns[1:])):
+        for i in range(1,len(df.columns[1:])):
             trace.append(Bar(
-                    x=self.DATASET.Students.values,
-                    y=self._df_sum.iloc[:,i].values,
-                    name=self._df_sum.columns[i]
-                    # name=self.DATASET.iloc[i,0], #each student name
+                    x=df.Students.values,
+                    y=df.iloc[:,i].values,
+                    name=df.columns[i]
+                    # name=df.iloc[i,0], #each student name
             ))
 
         data = trace
@@ -231,17 +246,95 @@ class V004:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='012_2')
 
-    def graph_05(self):
+    def graph_06(self):
+        df = self._df_sum.sort_values(by=["Total","Students"])
         trace = []
-        for i in range(len(self._df_sum.columns[1:])):
+        for i in range(1,len(df.columns[1:])):
             trace.append(Bar(
-                    x=self._df_sum.iloc[:,i].values,
-                    y=self.DATASET.Students.values,
-                    name=self._df_sum.columns[i],
-                    # name=self.DATASET.iloc[i,0], #each student name
-                    orientation = 'h'
+                    x=df.Students.values,
+                    y=df.iloc[:,i].values,
+                    name=df.columns[i]
+                    # name=df.iloc[i,0], #each student name
             ))
 
+        data = trace
+        layout = Layout(
+                title='Número de acessos aos vídeos agrupados por estudante',
+                # title='Number of access in the materials grouped by student',
+                barmode='stack',
+                yaxis=dict(
+        #             title='AXIS TITLE',
+                    titlefont=dict(
+                        family='Arial, sans-serif',
+        #                 size=18,
+                        color='lightgrey'
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=300,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='012_2')
+
+    def graph_07(self):
+        df = self._df_sum.sort_values(by=["Students"])
+        trace = []
+        for i in range(1,len(df.columns[1:])):
+            trace.append(Bar(
+                    x=df.iloc[:,i].values,
+                    y=df.Students.values,
+                    name=df.columns[i],
+                    orientation = 'h'
+                    # name=df.iloc[i,0], #each student name
+            ))
+        
+        data = trace
+        layout = Layout(
+                title='Número de acessos aos vídeos agrupados por estudante',
+                # title='Number of access in the materials grouped by student',
+                barmode='stack',
+                yaxis=dict(
+        #             title='AXIS TITLE',
+                    titlefont=dict(
+                        family='Arial, sans-serif',
+        #                 size=18,
+                        color='lightgrey'
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=1,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='012_2')
+
+    def graph_08(self):
+        df = self._df_sum.sort_values(by=["Total","Students"])
+        trace = []
+        for i in range(1,len(df.columns[1:])):
+            trace.append(Bar(
+                    x=df.iloc[:,i].values,
+                    y=df.Students.values,
+                    name=df.columns[i],
+                    orientation = 'h'
+                    # name=df.iloc[i,0], #each student name
+            ))
+        
         data = trace
         layout = Layout(
                 title='Número de acessos aos vídeos agrupados por estudante',
@@ -275,6 +368,9 @@ class V004:
         self.graph_03()
         self.graph_04()
         self.graph_05()
+        self.graph_06()
+        self.graph_07()
+        self.graph_08()
 
 instance = V004(20)
 instance.print_all_graphs()        
