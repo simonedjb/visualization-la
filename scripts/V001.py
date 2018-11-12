@@ -74,7 +74,7 @@ class V001:
         data = [trace] 
         iplot(data, filename = 'pandas_table')
     
-    # Barchart number of assessments completed for each student
+    # Barchart number of assign completed for each student
     def graph_02(self):
         legend = {"title":"Quantidade de tarefas feitas por alunos",
                     "xaxis":"",
@@ -280,16 +280,20 @@ class V001:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='011_1')
 
-    # Lollipop number of assessments completed for each student
+    # Lollipop number of assign completed for each student
     def graph_06(self):
         legend = {"title":"Quantidade de tarefas feitas por alunos",
                     "xaxis":"Número de atividades",
                     "yaxis":"",
+                    "text_s":"atividades",
+                    "text_p":"atividades",
                 }
         if (self._language == "en"):
             legend = {"title":"Number of assigns completed by students",
                         "xaxis":"Number of assigns",
                         "yaxis":"",
+                        "text_s":"assign",
+                        "text_p":"assigns",
                     }
         df = self._students.sort_values(by=["Name"])
         # df = self._students
@@ -313,9 +317,9 @@ class V001:
         )
         
         for i in range(1, len(self.DATASET.columns)):
-            text=str(i)+" tarefas",
+            text=str(i)+" "+legend['text_p'],
             if i==1:
-                text=str(i)+" tarefa",
+                text=str(i)+" "+legend['text_s'],
 
             trace.append(
                 Scatter(
@@ -387,11 +391,15 @@ class V001:
         legend = {"title":"Quantidade de tarefas feitas por alunos",
                     "xaxis":"Número de atividades",
                     "yaxis":"",
+                    "text_s":"atividades",
+                    "text_p":"atividades",
                 }
         if (self._language == "en"):
             legend = {"title":"Number of assigns completed by students",
                         "xaxis":"Number of assigns",
                         "yaxis":"",
+                        "text_s":"assign",
+                        "text_p":"assigns",
                     }
         df = self._students.sort_values(by=["Total","Name"])
         # df = self._students
@@ -415,9 +423,9 @@ class V001:
         )
         
         for i in range(1, len(self.DATASET.columns)):
-            text=str(i)+" tarefas",
+            text=str(i)+" "+legend['text_p'],
             if i==1:
-                text=str(i)+" tarefa",
+                text=str(i)+" "+legend['text_s'],
 
             trace.append(
                 Scatter(
@@ -485,11 +493,11 @@ class V001:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='Lollipop')
 
-    # Barchart number of student that have completed each assessment
+    # Barchart number of students that have completed each assign
     def graph_08(self):
-        legend = {"title":"Quantidade de alunos que fizeram as tarefas",
+        legend = {"title":"Quantidade de estudantes que fizeram as tarefas",
                     "xaxis":"",
-                    "yaxis":"Número de alunos",
+                    "yaxis":"Número de estudantes",
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students that completed the assigns",
@@ -583,8 +591,320 @@ class V001:
 
         fig011_2 = Figure(data=data011_2, layout=layout011_2)
         iplot(fig011_2, filename='011_2')
-        
+  
     def graph_10(self):
+        legend = {"title":"Quantidade de estudantes feitas por alunos",
+                    "xaxis":"Número de estudantes",
+                    "yaxis":"",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of students that completed the assigns",
+                        "xaxis":"Number of students",
+                        "yaxis":"",
+                    }
+        df = self._assigns.sort_values(by=["Name"])
+        trace = [Bar(
+            x=df.Total.values,
+            y=df.Name.values,
+            orientation = 'h'            
+        )]
+
+        data = trace
+        layout = Layout(
+            title = legend["title"],
+            xaxis=dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                tick0=0,
+                dtick=1,
+            ),
+            yaxis=dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                showticklabels=True,
+                tick0=0,
+                dtick=1,
+                # ticklen=4,
+                # tickwidth=4,
+                exponentformat='e',
+                showexponent='all',
+                gridcolor='#bdbdbd',
+                # range=[0, 4.1]
+            )
+        )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='011_1')
+
+    def graph_11(self):
+        legend = {"title":"Quantidade de estudantes feitas por alunos",
+                    "xaxis":"Número de estudantes",
+                    "yaxis":"",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of students that completed the assigns",
+                        "xaxis":"Number of students",
+                        "yaxis":"",
+                    }
+        df = self._assigns.sort_values(by=["Total","Name"])
+        trace = [Bar(
+            x=df.Total.values,
+            y=df.Name.values,
+            orientation = 'h'            
+        )]
+
+        data = trace
+        layout = Layout(
+            title = legend["title"],
+            xaxis=dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                tick0=0,
+                dtick=1,
+            ),
+            yaxis=dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                showticklabels=True,
+                tick0=0,
+                dtick=1,
+                # ticklen=4,
+                # tickwidth=4,
+                exponentformat='e',
+                showexponent='all',
+                gridcolor='#bdbdbd',
+                # range=[0, 4.1]
+            )
+        )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='011_1')
+
+    # Lollipop number of students that have completed each assign
+    def graph_12(self):
+        legend = {"title":"Quantidade de estudantes feitas por alunos",
+                    "xaxis":"Número de estudantes",
+                    "yaxis":"",
+                    "text_s":"estudante",
+                    "text_p":"estudantes",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of students that completed the assigns",
+                        "xaxis":"Number of students",
+                        "yaxis":"",
+                        "text_s":"student",
+                        "text_p":"students",
+                    }
+        df = self._assigns.sort_values(by=["Name"])
+        
+        trace = []
+        trace.append(
+            Bar(
+                x=df.Total.values,
+                y=df.Name.values,
+                width=[0.04]*20,
+                orientation = 'h',
+                name="",
+                text="",
+                marker=dict(
+                        color = 'lightgray',
+                        # line=dict(
+                        #     color = 'lightgray',
+                        #     width=2
+                        # )
+                    )
+            )
+        )
+        
+        for i in range(0, max(df.Total.tolist())+1):
+            text=str(i)+" "+legend['text_p'],
+            if i==1:
+                text=str(i)+" "+legend['text_s'],
+
+            trace.append(
+                Scatter(
+                    x=[i]*len(df.Name.loc[df["Total"]==i]),
+                    # x=[3]*20, #student
+                    y=df.Name.loc[df["Total"]==i].values.tolist(),
+                    mode='markers',
+                    name = "",                    
+                    text=text*len(df.Name.loc[df["Total"]==i]),                    
+                    marker=dict(
+                        symbol='circle',
+                        sizemode='area',
+                        # sizeref=sizeref,
+                        # size=self.DATASET.iloc[:,i].values.tolist(),
+                        # size=self.DATASET.iloc[i,1:].values.tolist(),
+                        color = 'rgb(0,0,255)',
+                        line=dict(
+                            width=2
+                        )
+                    )
+                )        
+            )
+
+        data = trace
+        
+        layout = Layout(
+            title = legend["title"],
+            showlegend=False,
+            # showgrid=False,
+            hovermode = "closest",
+            xaxis=dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                tick0=0,
+                dtick=1,
+                showgrid=True
+            ),
+            yaxis=dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                showticklabels=True,
+                tick0=0,
+                dtick=1,
+                showgrid=False,
+                # ticklen=4,
+                # tickwidth=4,
+                exponentformat='e',
+                showexponent='all',
+                gridcolor='#bdbdbd',
+                # range=[0, 4.1]
+            )
+        )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Lollipop')
+
+    def graph_13(self):
+        legend = {"title":"Quantidade de estudantes feitas por alunos",
+                    "xaxis":"Número de estudantes",
+                    "yaxis":"",
+                    "text_s":"estudante",
+                    "text_p":"estudantes",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of students that completed the assigns",
+                        "xaxis":"Number of students",
+                        "yaxis":"",
+                        "text_s":"student",
+                        "text_p":"students",
+                    }
+        df = self._assigns.sort_values(by=["Total","Name"])
+        
+        trace = []
+        trace.append(
+            Bar(
+                x=df.Total.values,
+                y=df.Name.values,
+                width=[0.04]*20,
+                orientation = 'h',
+                name="",
+                text="",
+                marker=dict(
+                        color = 'lightgray',
+                        # line=dict(
+                        #     color = 'lightgray',
+                        #     width=2
+                        # )
+                    )
+            )
+        )
+        
+        for i in range(0, max(df.Total.tolist())+1):
+            text=str(i)+" "+legend['text_p'],
+            if i==1:
+                text=str(i)+" "+legend['text_s'],
+
+            trace.append(
+                Scatter(
+                    x=[i]*len(df.Name.loc[df["Total"]==i]),
+                    # x=[3]*20, #student
+                    y=df.Name.loc[df["Total"]==i].values.tolist(),
+                    mode='markers',
+                    name = "",                    
+                    text=text*len(df.Name.loc[df["Total"]==i]),                    
+                    marker=dict(
+                        symbol='circle',
+                        sizemode='area',
+                        # sizeref=sizeref,
+                        # size=self.DATASET.iloc[:,i].values.tolist(),
+                        # size=self.DATASET.iloc[i,1:].values.tolist(),
+                        color = 'rgb(0,0,255)',
+                        line=dict(
+                            width=2
+                        )
+                    )
+                )        
+            )
+
+        data = trace
+        
+        layout = Layout(
+            title = legend["title"],
+            showlegend=False,
+            # showgrid=False,
+            hovermode = "closest",
+            xaxis=dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                tick0=0,
+                dtick=1,
+                showgrid=True
+            ),
+            yaxis=dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                showticklabels=True,
+                tick0=0,
+                dtick=1,
+                showgrid=False,
+                # ticklen=4,
+                # tickwidth=4,
+                exponentformat='e',
+                showexponent='all',
+                gridcolor='#bdbdbd',
+                # range=[0, 4.1]
+            )
+        )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Lollipop')
+    
+    # Scatter assigns completed by each students
+    def graph_14(self):
         # https://plot.ly/python/bubble-charts/
         # https://plot.ly/python/reference/#layout-xaxis
         # https://plot.ly/python/axes/#subcategory-axes
@@ -670,7 +990,8 @@ class V001:
         fig=Figure(data=data, layout=layout)
         iplot(fig, filename='bubblechart-size')        
 
-    def graph_11(self):
+    # Heatmap assigns completed by each students
+    def graph_15(self):
         legend = {"title":"Atividades feitas por estudante",
                     "xaxis":"",
                     "yaxis":"",
@@ -736,11 +1057,15 @@ class V001:
         self.graph_05()
         self.graph_06() # Lollipop
         self.graph_07()
-        self.graph_08() # Barchart  #Errada
-        self.graph_09()             #Errada
-        self.graph_10() # Scatter
-        self.graph_11() # Heatmap
+        self.graph_08() # Barchart
+        self.graph_09()
+        self.graph_10()
+        self.graph_11()
+        self.graph_12() # Lollipop
+        self.graph_13()            
+        self.graph_14() # Scatter
+        self.graph_15() # Heatmap
 
 instance = V001(20)
-instance.print_all_graphs("pt")
-# instance.print_all_graphs("en")
+# instance.print_all_graphs("pt")
+instance.print_all_graphs("en")
