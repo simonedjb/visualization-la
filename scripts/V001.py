@@ -36,7 +36,7 @@ class V001:
         for i in range(len(lst)):
             sum_value += row[lst[i]]
 
-        return sum_value    
+        return sum_value
 
     def get_student(self, row):
         return row["Students"]
