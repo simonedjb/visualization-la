@@ -9,13 +9,16 @@ init_notebook_mode(connected=True) # initiate notebook for offline plot
 class V004:
     NUMBER_STUDENTS = 20
     DATASET = pd.DataFrame()
+    
+    _language = "pt"
     _material_name = []
     _df_sum = []
 
-    def __init__(self, number_students = 20):
+    def __init__(self, number_students = 20, language = "pt"):
         self.NUMBER_STUDENTS = number_students
+        self._language = language
         self.generate_dataset()
-
+    
     def generate_dataset(self):
         video_dur = []
         video_dur = [np.random.randint(240,600) for n in range(7)] #video duration ranging between 240 and 600 seconds
@@ -98,6 +101,15 @@ class V004:
         iplot(data, filename = 'pandas_table')
 
     def graph_03(self):
+        legend = {"title":"Tempo de acesso aos vídeos por estudante",
+                    "xaxis":"",
+                    "yaxis":"",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Length of access to videos grouped by student",
+                        "xaxis":"",
+                        "yaxis":"",
+                    }
         # https://plot.ly/python/bubble-charts/
         # https://plot.ly/python/reference/#layout-xaxis
         # https://plot.ly/python/axes/#subcategory-axes
@@ -139,30 +151,39 @@ class V004:
             )
 
         layout = Layout(
-            title='Tempo de acesso aos vídeos por estudante',
-            # title='Number of access in the materials grouped by student',
+            title=legend['title'],
             hovermode = "closest",
             showlegend = True,
             xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 autorange = False,
                 # categoryorder = "category ascending",
                 # domain = [0, 1],
                 fixedrange = False,
                 range = [-1, len(df)],
                 rangemode = "normal",
-                showline = True,
-                title = "Estudantes",
+                showline = True,                
                 type = "category"
             ),
             yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 autorange = False,
                 # categoryorder = "category descending",
                 # domain = [0, 1],
                 fixedrange = False,
                 range = [-1, len(df.columns[1:])],
                 rangemode = "normal",
-                showline = True,
-                title = "Videos",
+                showline = True,                
                 type = "category"
             )
         )
@@ -172,6 +193,15 @@ class V004:
         iplot(fig, filename='bubblechart-size')
 
     def graph_04(self):
+        legend = {"title":"Tempo de acesso aos vídeos por estudante",
+                    "xaxis":"",
+                    "yaxis":"Tempo de acesso em segundos",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Length of access to videos grouped by student",
+                        "xaxis":"",
+                        "yaxis":"Length of access in seconds",
+                    }
         df = self._df_sum.sort_values(by=["Students"])
         trace = []
         for i in range(1,len(df.columns[1:])):
@@ -184,14 +214,21 @@ class V004:
 
         data = trace
         layout = Layout(
-                title='Número de acessos aos vídeos agrupados por estudante',
-                # title='Number of access in the materials grouped by student',
-                yaxis=dict(
-        #             title='AXIS TITLE',
+                title=legend['title'],
+                xaxis = dict(
+                    title = legend["xaxis"],
                     titlefont=dict(
-                        family='Arial, sans-serif',
-        #                 size=18,
-                        color='lightgrey'
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
                     ),
                     showticklabels=True,
                     tick0=0,
@@ -209,6 +246,15 @@ class V004:
         iplot(fig, filename='012_2')
 
     def graph_05(self):
+        legend = {"title":"Tempo de acesso aos vídeos por estudante",
+                    "xaxis":"",
+                    "yaxis":"Tempo de acesso em segundos",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Length of access to videos grouped by student",
+                        "xaxis":"",
+                        "yaxis":"Length of access in seconds",
+                    }
         df = self._df_sum.sort_values(by=["Students"])
         trace = []
         for i in range(1,len(df.columns[1:])):
@@ -221,15 +267,22 @@ class V004:
 
         data = trace
         layout = Layout(
-                title='Número de acessos aos vídeos agrupados por estudante',
-                # title='Number of access in the materials grouped by student',
+                title=legend['title'],
                 barmode='stack',
-                yaxis=dict(
-        #             title='AXIS TITLE',
+                xaxis = dict(
+                    title = legend["xaxis"],
                     titlefont=dict(
-                        family='Arial, sans-serif',
-        #                 size=18,
-                        color='lightgrey'
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
                     ),
                     showticklabels=True,
                     tick0=0,
@@ -247,6 +300,15 @@ class V004:
         iplot(fig, filename='012_2')
 
     def graph_06(self):
+        legend = {"title":"Tempo de acesso aos vídeos por estudante",
+                    "xaxis":"",
+                    "yaxis":"Tempo de acesso em segundos",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Length of access to videos grouped by student",
+                        "xaxis":"",
+                        "yaxis":"Length of access in seconds",
+                    }        
         df = self._df_sum.sort_values(by=["Total","Students"])
         trace = []
         for i in range(1,len(df.columns[1:])):
@@ -259,15 +321,22 @@ class V004:
 
         data = trace
         layout = Layout(
-                title='Número de acessos aos vídeos agrupados por estudante',
-                # title='Number of access in the materials grouped by student',
+                title=legend['title'],
                 barmode='stack',
-                yaxis=dict(
-        #             title='AXIS TITLE',
+                xaxis = dict(
+                    title = legend["xaxis"],
                     titlefont=dict(
-                        family='Arial, sans-serif',
-        #                 size=18,
-                        color='lightgrey'
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
                     ),
                     showticklabels=True,
                     tick0=0,
@@ -285,6 +354,15 @@ class V004:
         iplot(fig, filename='012_2')
 
     def graph_07(self):
+        legend = {"title":"Tempo de acesso aos vídeos por estudante",
+                    "xaxis":"Tempo de acesso em segundos",
+                    "yaxis":"",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Length of access to videos grouped by student",
+                        "xaxis":"Length of access in seconds",
+                        "yaxis":"",
+                    }
         df = self._df_sum.sort_values(by=["Students"])
         trace = []
         for i in range(1,len(df.columns[1:])):
@@ -298,15 +376,22 @@ class V004:
         
         data = trace
         layout = Layout(
-                title='Número de acessos aos vídeos agrupados por estudante',
-                # title='Number of access in the materials grouped by student',
+                title=legend['title'],
                 barmode='stack',
-                yaxis=dict(
-        #             title='AXIS TITLE',
+                xaxis = dict(
+                    title = legend["xaxis"],
                     titlefont=dict(
-                        family='Arial, sans-serif',
-        #                 size=18,
-                        color='lightgrey'
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
                     ),
                     showticklabels=True,
                     tick0=0,
@@ -324,6 +409,15 @@ class V004:
         iplot(fig, filename='012_2')
 
     def graph_08(self):
+        legend = {"title":"Tempo de acesso aos vídeos por estudante",
+                    "xaxis":"Tempo de acesso em segundos",
+                    "yaxis":"",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Length of access to videos grouped by student",
+                        "xaxis":"Length of access in seconds",
+                        "yaxis":"",
+                    }
         df = self._df_sum.sort_values(by=["Total","Students"])
         trace = []
         for i in range(1,len(df.columns[1:])):
@@ -337,15 +431,22 @@ class V004:
         
         data = trace
         layout = Layout(
-                title='Número de acessos aos vídeos agrupados por estudante',
-                # title='Number of access in the materials grouped by student',
+                title=legend["title"],
                 barmode='stack',
-                yaxis=dict(
-        #             title='AXIS TITLE',
+                xaxis = dict(
+                    title = legend["xaxis"],
                     titlefont=dict(
-                        family='Arial, sans-serif',
-        #                 size=18,
-                        color='lightgrey'
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
                     ),
                     showticklabels=True,
                     tick0=0,
@@ -362,7 +463,8 @@ class V004:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='012_2')
 
-    def print_all_graphs(self):
+    def print_all_graphs(self,language="pt"):
+        self._language = language
         self.graph_01()
         self.graph_02()
         self.graph_03()
@@ -373,4 +475,5 @@ class V004:
         self.graph_08()
 
 instance = V004(20)
-instance.print_all_graphs()
+instance.print_all_graphs("pt")
+# instance.print_all_graphs("en")
