@@ -15,7 +15,7 @@ class V005:
     DATASET = pd.DataFrame()
 
     _language = "pt"
-    _df_sum = []
+    _df_sum = pd.DataFrame()
 
     def __init__(self, number_students = 20, language = "pt"):
         self.NUMBER_STUDENTS = number_students
