@@ -14,10 +14,12 @@ class V005:
     NUMBER_STUDENTS = 50
     DATASET = pd.DataFrame()
 
+    _language = "pt"
     _df_sum = []
 
-    def __init__(self, number_students = 20):
+    def __init__(self, number_students = 20, language = "pt"):
         self.NUMBER_STUDENTS = number_students
+        self._language = language
         self.generate_dataset()
 
     def generate_dataset(self):
@@ -202,12 +204,12 @@ class V005:
         
         trace = Table(
             header=dict(
-                values=list(df.columns),
+                values=list(df.columns[:3]),
                 fill = dict(color='#C2D4FF'),
                 align = 'center'
             ),
             cells=dict(
-                values=[df[i].tolist() for i in df.columns[:]],
+                values=[df[i].tolist() for i in df.columns[:3]],
                 fill = dict(color='#F5F8FF'),
                 align = ['left','center']
             )
@@ -216,7 +218,17 @@ class V005:
         data = [trace]
         iplot(data, filename = 'pandas_table')
 
+    # Scatter
     def graph_02(self):
+        legend = {"title":"Relação entre as notas dos estudantes e seus acessos no AVA",
+                    "xaxis":"Acessos no AVA",
+                    "yaxis":"Notas",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Relation between either students' grades and their access in the VLE",
+                        "xaxis":"Access in the VLE",
+                        "yaxis":"Grades",
+                    }
         df = self._df_sum.sort_values(by=["Grade"])
         Clusters = df.Cluster.unique()        
         color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(127,0,127)","rgb(0,255,0)"]        
@@ -248,27 +260,37 @@ class V005:
             )
 
         layout = Layout(
-            title='Notas dos estudantes vs acesso ao AVA',
+            title=legend["title"],            
             hovermode = "closest",
             showlegend = True,            
             xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 autorange = False,
                 fixedrange = False,
                 range = [0, self.DATASET.Access.max()+10],
                 rangemode = "normal",
                 zeroline= False,
-                showline = True,
-                title = "Acessos ao AVA",
+                showline = True,                
                 # type = "category"
             ),
             yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 autorange = False,
                 fixedrange = False,
                 range = [0, self.DATASET.Grade.max()+10],
                 rangemode = "normal",
-                showline = True,
-                title = "Notas",
-                # type = "category"
+                showline = True,                
+                # type = "category",
             )
         )
 
@@ -277,6 +299,15 @@ class V005:
         iplot(fig, filename='scatter-plot')
 
     def graph_03(self):
+        legend = {"title":"Relação entre as notas dos estudantes e seus acessos nos materiais",
+                    "xaxis":"Acessos nos materiais",
+                    "yaxis":"Notas",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Relation between either students' grades and their access in the materials",
+                        "xaxis":"Access in the materials",
+                        "yaxis":"Grades",
+                    }
         df = self._df_sum.sort_values(by="Grade")
         Clusters = df.Cluster.unique()        
         color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(127,0,127)","rgb(0,255,0)"]        
@@ -307,25 +338,35 @@ class V005:
             )
 
         layout = Layout(
-            title='Notas dos estudantes vs acesso aos materiais',
+            title=legend['title'],
             hovermode = "closest",
             showlegend = True,
             xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 autorange = False,
                 fixedrange = False,
                 range = [0, self._df_sum.MaterialTotal.max()+10],
                 rangemode = "normal",
                 zeroline= False,
                 showline = True,
-                title = "Acesso aos materiais",                
             ),
             yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 autorange = False,
                 fixedrange = False,
                 range = [0, self.DATASET.Grade.max()+10],
                 rangemode = "normal",
                 showline = True,
-                title = "Notas",
             )
         )
 
@@ -334,6 +375,15 @@ class V005:
         iplot(fig, filename='scatter-plot')
 
     def graph_04(self):
+        legend = {"title":"Relação entre as notas dos estudantes e as atividades concluídas por eles",
+                    "xaxis":"Atividades concluídas",
+                    "yaxis":"Notas",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Relation between either students' grades and the activities completed by them",
+                        "xaxis":"Activities completed",
+                        "yaxis":"Grades",
+                    }
         df = self._df_sum.sort_values(by="Grade")
         Clusters = df.Cluster.unique()        
         color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(127,0,127)","rgb(0,255,0)"]        
@@ -364,25 +414,35 @@ class V005:
             )
 
         layout = Layout(
-            title='Notas dos estudantes vs atividades respondidas',
+            title=legend['title'],
             hovermode = "closest",
             showlegend = True,
             xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 autorange = False,
                 fixedrange = False,
                 range = [0, self._df_sum.AssignTotal.max()+10],
                 rangemode = "normal",
                 zeroline= False,
-                showline = True,
-                title = "Atividades respondidas",                
+                showline = True,                
             ),
             yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 autorange = False,
                 fixedrange = False,
                 range = [0, self.DATASET.Grade.max()+10],
                 rangemode = "normal",
-                showline = True,
-                title = "Notas",
+                showline = True,                
             )
         )
 
@@ -391,6 +451,15 @@ class V005:
         iplot(fig, filename='scatter-plot')
 
     def graph_05(self):
+        legend = {"title":"Relação entre as notas dos estudantes e seus acessos no fórum",
+                    "xaxis":"Acessos no fórum",
+                    "yaxis":"Notas",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Relation between either students' grades and their access in the forum",
+                        "xaxis":"Access in the forum",
+                        "yaxis":"Grades",
+                    }
         df = self._df_sum.sort_values(by="Grade")
         Clusters = df.Cluster.unique()        
         color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(127,0,127)","rgb(0,255,0)"]        
@@ -421,25 +490,35 @@ class V005:
             )
 
         layout = Layout(
-            title='Notas dos estudantes vs acesso ao fórum',
+            title=legend['title'],
             hovermode = "closest",
             showlegend = True,
             xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 autorange = False,
                 fixedrange = False,
                 range = [0, self.DATASET["Forum Access"].max()+10],
                 rangemode = "normal",
                 zeroline= False,
                 showline = True,
-                title = "Acesso ao fórum",
             ),
             yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 autorange = False,
                 fixedrange = False,
                 range = [0, self.DATASET.Grade.max()+10],
                 rangemode = "normal",
-                showline = True,
-                title = "Notas",
+                showline = True,                
             )
         )
 
@@ -448,6 +527,15 @@ class V005:
         iplot(fig, filename='scatter-plot')
 
     def graph_06(self):
+        legend = {"title":"Relação entre as notas dos estudantes e suas postagens no fórum",
+                    "xaxis":"Postagens no fórum",
+                    "yaxis":"Notas",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Relation between either students' grades and their posts in the forum",
+                        "xaxis":"Posts in the forum",
+                        "yaxis":"Grades",
+                    }
         df = self._df_sum.sort_values(by="Grade")
         Clusters = df.Cluster.unique()        
         color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(127,0,127)","rgb(0,255,0)"]        
@@ -478,25 +566,35 @@ class V005:
             )
 
         layout = Layout(
-            title='Notas dos estudantes vs postagens no fórum',
+            title=legend['title'],
             hovermode = "closest",
             showlegend = True,
             xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 autorange = False,
                 fixedrange = False,
                 range = [0, self.DATASET["Forum Post"].max()+10],
                 rangemode = "normal",
                 zeroline= False,
-                showline = True,
-                title = "Postagem no fórum",
+                showline = True,                
             ),
             yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 autorange = False,
                 fixedrange = False,
                 range = [0, self.DATASET.Grade.max()+10],
                 rangemode = "normal",
-                showline = True,
-                title = "Notas",
+                showline = True,                
             )
         )
 
@@ -505,6 +603,15 @@ class V005:
         iplot(fig, filename='scatter-plot')
 
     def graph_07(self):
+        legend = {"title":"Relação entre as notas dos estudantes e suas réplicas no fórum",
+                    "xaxis":"Réplicas no fórum",
+                    "yaxis":"Notas",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Relation between either students' grades and their replies in the forum",
+                        "xaxis":"Replies in the forum",
+                        "yaxis":"Grades",
+                    }
         df = self._df_sum.sort_values(by="Grade")
         Clusters = df.Cluster.unique()        
         color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(127,0,127)","rgb(0,255,0)"]        
@@ -535,25 +642,35 @@ class V005:
             )
 
         layout = Layout(
-            title='Notas dos estudantes vs postagens respondidas no fórum',
+            title=legend['title'],
             hovermode = "closest",
             showlegend = True,
             xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 autorange = False,
                 fixedrange = False,
                 range = [0, self.DATASET["Forum Replies"].max()+10],
                 rangemode = "normal",
                 zeroline= False,
                 showline = True,
-                title = "Postagens respondidas no fórum",
             ),
             yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 autorange = False,
                 fixedrange = False,
                 range = [0, self.DATASET.Grade.max()+10],
                 rangemode = "normal",
                 showline = True,
-                title = "Notas",
             )
         )
 
@@ -562,6 +679,15 @@ class V005:
         iplot(fig, filename='scatter-plot')
 
     def graph_08(self):
+        legend = {"title":"Relação entre as notas dos estudantes e seus tópicos adicionados no fórum",
+                    "xaxis":"Tópicos no fórum",
+                    "yaxis":"Notas",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Relation between either students' grades and their threads added in the forum",
+                        "xaxis":"Threads in the forum",
+                        "yaxis":"Grades",
+                    }
         df = self._df_sum.sort_values(by="Grade")
         Clusters = df.Cluster.unique()        
         color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(127,0,127)","rgb(0,255,0)"]
@@ -592,25 +718,35 @@ class V005:
             )
 
         layout = Layout(
-            title='Notas dos estudantes vs threads iniciadas no fórum',
+            title=legend['title'],
             hovermode = "closest",
             showlegend = True,
             xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 autorange = False,
                 fixedrange = False,
                 range = [0, self.DATASET["Forum Add Thread"].max()+10],
                 rangemode = "normal",
                 zeroline= False,
                 showline = True,
-                title = "Threads iniciadas no fórum",
             ),
             yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 autorange = False,
                 fixedrange = False,
                 range = [0, self.DATASET.Grade.max()+10],
                 rangemode = "normal",
                 showline = True,
-                title = "Notas",
             )
         )
 
@@ -618,7 +754,17 @@ class V005:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='scatter-plot')
 
+    # Box
     def graph_09(self):
+        legend = {"title":"Variação de notas dos estudantes por cluster",
+                    "xaxis":"",
+                    "yaxis":"Notas",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Students' grades variation by cluster",
+                        "xaxis":"",
+                        "yaxis":"Grades",
+                    }
         df = self._df_sum.sort_values(by="Grade")
         Clusters = df.Cluster.unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
@@ -642,15 +788,28 @@ class V005:
             )
 
         layout = Layout(
-            title='Variação de notas por cluster',
+            title=legend['title'],
             # hovermode = "closest",
             showlegend = True,
+            xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
             yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 fixedrange = False,
                 range = [-1, self.DATASET.Grade.max()+10],
                 rangemode = "normal",
-                # showline = True,
-                title = "Notas",
+                # showline = True,                
                 zeroline = False,
             )
         )
@@ -660,6 +819,15 @@ class V005:
         iplot(fig, filename='box-plot')
 
     def graph_10(self):
+        legend = {"title":"Variação de acessos no AVA por cluster",
+                    "xaxis":"",
+                    "yaxis":"Acessos no AVA",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Variation of students' access in the VLE by cluster",
+                        "xaxis":"",
+                        "yaxis":"Access in the VLE",
+                    }
         df = self._df_sum.sort_values(by="Grade")
         Clusters = df.Cluster.unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
@@ -683,15 +851,28 @@ class V005:
             )
 
         layout = Layout(
-            title='Variação de acessos por cluster',
+            title=legend['title'],
             # hovermode = "closest",
             showlegend = True,
+            xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
             yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 fixedrange = False,
                 range = [-1, self.DATASET.Access.max()+10],
                 rangemode = "normal",
-                # showline = True,
-                title = "Acessos",
+                # showline = True,                
                 zeroline = False,
             )
         )
@@ -701,6 +882,78 @@ class V005:
         iplot(fig, filename='box-plot')
 
     def graph_11(self):
+        legend = {"title":"Variação de acessos nos materiais por cluster",
+                    "xaxis":"",
+                    "yaxis":"Acessos nos materiais",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Variation of students' access in the materials by cluster",
+                        "xaxis":"",
+                        "yaxis":"Access in the materials",
+                    }
+        df = self._df_sum.sort_values(by="Grade")
+        Clusters = df.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
+        # print(Clusters)
+        trace = []
+        for i in range(0,len(Clusters)):
+            trace.append(
+                Box(
+                    y=df.MaterialTotal.loc[df['Cluster']==Clusters[i]].values.tolist(), #Access
+                    name="Cluster "+str(i+1),
+                    text=df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    boxpoints = 'all',
+                    marker=dict(
+                        color = color[i],
+                        line=dict(
+                            width=1
+                        )                        
+                    ),
+                    boxmean=True
+                )
+            )
+
+        layout = Layout(
+            title=legend['title'],
+            # hovermode = "closest",
+            showlegend = True,
+            xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
+            yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                fixedrange = False,
+                range = [-1, self._df_sum.MaterialTotal.max()+10],
+                rangemode = "normal",
+                # showline = True,                
+                zeroline = False,
+            )
+        )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='box-plot')        
+
+    def graph_12(self):
+        legend = {"title":"Variação de atividades concluídas por cluster",
+                    "xaxis":"",
+                    "yaxis":"Atividades concluídas",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Activities completed variation by cluster",
+                        "xaxis":"",
+                        "yaxis":"Activities completed",
+                    }
         df = self._df_sum.sort_values(by="Grade")
         Clusters = df.Cluster.unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
@@ -724,15 +977,28 @@ class V005:
             )
 
         layout = Layout(
-            title='Variação de atividades respondidas por cluster',
+            title=legend['title'],
             # hovermode = "closest",
             showlegend = True,
+            xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
             yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 fixedrange = False,
                 range = [-1, df.AssignTotal.max()+10],
                 rangemode = "normal",
                 # showline = True,
-                title = "Atividades respondidas",
                 zeroline = False,
             )
         )
@@ -741,7 +1007,16 @@ class V005:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='box-plot')
 
-    def graph_12(self):
+    def graph_13(self):
+        legend = {"title":"Variação de acessos no fórum por cluster",
+                    "xaxis":"",
+                    "yaxis":"Acessos no fórum",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Variation of students' access in the forum by cluster",
+                        "xaxis":"",
+                        "yaxis":"Access in the forum",
+                    }
         df = self._df_sum.sort_values(by="Grade")
         Clusters = df.Cluster.unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
@@ -765,15 +1040,28 @@ class V005:
             )
 
         layout = Layout(
-            title='Variação de acessos ao fórum por cluster',
+            title=legend['title'],
             # hovermode = "closest",
             showlegend = True,
+            xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
             yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 fixedrange = False,
                 range = [-1, self.DATASET["Forum Access"].max()+10],
                 rangemode = "normal",
                 # showline = True,
-                title = "Acessos ao fórum",
                 zeroline = False,
             )
         )
@@ -782,7 +1070,16 @@ class V005:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='box-plot')
 
-    def graph_13(self):
+    def graph_14(self):
+        legend = {"title":"Variação de postagens no fórum por cluster",
+                    "xaxis":"",
+                    "yaxis":"Postagens no fórum",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Variation of students' posts in the forum by cluster",
+                        "xaxis":"",
+                        "yaxis":"Posts in the forum",
+                    }
         df = self._df_sum.sort_values(by="Grade")
         Clusters = df.Cluster.unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
@@ -806,15 +1103,28 @@ class V005:
             )
 
         layout = Layout(
-            title='Variação de postagens no fórum por cluster',
+            title=legend['title'],
             # hovermode = "closest",
             showlegend = True,
+            xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
             yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 fixedrange = False,
                 range = [-1, self.DATASET["Forum Post"].max()+10],
                 rangemode = "normal",
                 # showline = True,
-                title = "Postagens no fórum",
                 zeroline = False,
             )
         )
@@ -823,7 +1133,16 @@ class V005:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='box-plot')
 
-    def graph_14(self):
+    def graph_15(self):
+        legend = {"title":"Variação de réplicas no fórum por cluster",
+                    "xaxis":"",
+                    "yaxis":"Réplicas no fórum",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Variation of students' replies in the forum by cluster",
+                        "xaxis":"",
+                        "yaxis":"Replies in the forum",
+                    }
         df = self._df_sum.sort_values(by="Grade")
         Clusters = df.Cluster.unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
@@ -847,15 +1166,28 @@ class V005:
             )
 
         layout = Layout(
-            title='Variação de postagens respondidas no fórum por cluster',
+            title=legend['title'],
             # hovermode = "closest",
             showlegend = True,
+            xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
             yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 fixedrange = False,
                 range = [-1, self.DATASET["Forum Replies"].max()+10],
                 rangemode = "normal",
                 # showline = True,
-                title = "Postagens respondidas no fórum",
                 zeroline = False,
             )
         )
@@ -864,7 +1196,16 @@ class V005:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='box-plot')
 
-    def graph_15(self):
+    def graph_16(self):
+        legend = {"title":"Variação de tópicos adicionados no fórum por cluster",
+                    "xaxis":"",
+                    "yaxis":"Tópicos no fórum",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Variation of students' threads added in the forum by cluster",
+                        "xaxis":"",
+                        "yaxis":"Threads in the forum",
+                    }
         df = self._df_sum.sort_values(by="Grade")
         Clusters = df.Cluster.unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
@@ -888,15 +1229,28 @@ class V005:
             )
 
         layout = Layout(
-            title='Variação de threads iniciadas no fórum por cluster',
+            title=legend['title'],
             # hovermode = "closest",
             showlegend = True,
+            xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
             yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 fixedrange = False,
                 range = [-1, self.DATASET["Forum Add Thread"].max()+10],
                 rangemode = "normal",
                 # showline = True,
-                title = "Threads iniciadas no fórum",
                 zeroline = False,
             )
         )
@@ -905,7 +1259,17 @@ class V005:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='box-plot')
 
-    def graph_16(self):
+    # Violin
+    def graph_17(self):
+        legend = {"title":"Variação de notas dos estudantes por cluster",
+                    "xaxis":"",
+                    "yaxis":"Notas",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Students' grades variation by cluster",
+                        "xaxis":"",
+                        "yaxis":"Grades",
+                    }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
         df = self._df_sum.sort_values(by="Grade")
@@ -940,14 +1304,27 @@ class V005:
             )
         
         layout = Layout(
-            title='Variação de notas por cluster',
+            title=legend['title'],
             hovermode = "closest",
             showlegend = True,
+            xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
             yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 fixedrange = False,
                 range = [-15, self.DATASET.Grade.max()+10],                
                 rangemode = "normal",
-                title = "Notas",
                 zeroline = False,
             )
         )
@@ -956,7 +1333,16 @@ class V005:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='violin',validate = False)
     
-    def graph_17(self):
+    def graph_18(self):
+        legend = {"title":"Variação de acessos no AVA por cluster",
+                    "xaxis":"",
+                    "yaxis":"Acessos no AVA",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Variation of students' access in the VLE by cluster",
+                        "xaxis":"",
+                        "yaxis":"Access in the VLE",
+                    }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
         df = self._df_sum.sort_values(by="Grade")
@@ -991,14 +1377,28 @@ class V005:
             )
         
         layout = Layout(
-            title='Variação de acessos por cluster',
+            title=legend['title'],
+            # title='Variação de acessos por cluster',
             hovermode = "closest",
             showlegend = True,
+            xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
             yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 fixedrange = False,
                 range = [-15, self.DATASET.Access.max()+10],                
                 rangemode = "normal",
-                title = "Acessos",
                 zeroline = False,
             )
         )
@@ -1007,7 +1407,89 @@ class V005:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='violin', validate = False)
 
-    def graph_18(self):
+    def graph_19(self):
+        legend = {"title":"Variação de acessos nos materiais por cluster",
+                    "xaxis":"",
+                    "yaxis":"Acessos nos materiais",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Variation of students' access in the materials by cluster",
+                        "xaxis":"",
+                        "yaxis":"Access in the materials",
+                    }
+        # https://plot.ly/python/violin/#reference
+        # https://plot.ly/python/reference/#violin
+        df = self._df_sum.sort_values(by="Grade")
+        Clusters = df.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
+        # print(Clusters)
+        trace = []
+        for i in range(0,len(Clusters)):
+            trace.append(
+                {
+                    "type":'violin',
+                    "x":["Cluster "+str(i+1)]*len(df.Grade.loc[df['Cluster']==Clusters[i]]),
+                    "y":df.MaterialTotal.loc[df['Cluster']==Clusters[i]],
+                    "name":"Cluster "+str(i+1),
+                    "text":df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    "box":{
+                        "visible":True
+                        },
+                    "points": 'all',
+                    "meanline":{
+                        "visible":True
+                        },
+                    "line":{
+                        "color":color[i],
+                    },
+                    "marker": {
+                        "line": {
+                            "width": 1,
+                        }
+                    },
+                }
+            )
+        
+        layout = Layout(
+            title=legend['title'],
+            hovermode = "closest",
+            showlegend = True,
+            xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
+            yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                fixedrange = False,
+                range = [-15, self._df_sum.MaterialTotal.max()+10],
+                rangemode = "normal",
+                zeroline = False,
+            )
+        )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='violin', validate = False)
+
+    def graph_20(self):
+        legend = {"title":"Variação de atividades concluídas por cluster",
+                    "xaxis":"",
+                    "yaxis":"Atividades concluídas",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Activities completed variation by cluster",
+                        "xaxis":"",
+                        "yaxis":"Activities completed",
+                    }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
         df = self._df_sum.sort_values(by="Grade")
@@ -1042,14 +1524,27 @@ class V005:
             )
         
         layout = Layout(
-            title='Variação de atividades respondidas por cluster',
+            title=legend['title'],
             hovermode = "closest",
             showlegend = True,
+            xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
             yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 fixedrange = False,
                 range = [-15, df.AssignTotal.max()+10],                
                 rangemode = "normal",
-                title = "Atividades respondidas",
                 zeroline = False,
             )
         )
@@ -1058,7 +1553,16 @@ class V005:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='violin', validate = False)
 
-    def graph_19(self):
+    def graph_21(self):
+        legend = {"title":"Variação de acessos no fórum por cluster",
+                    "xaxis":"",
+                    "yaxis":"Acessos no fórum",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Variation of students' access in the forum by cluster",
+                        "xaxis":"",
+                        "yaxis":"Access in the forum",
+                    }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
         df = self._df_sum.sort_values(by="Grade")
@@ -1093,14 +1597,27 @@ class V005:
             )
         
         layout = Layout(
-            title='Variação de acessos ao fórum por cluster',
+            title=legend['title'],
             hovermode = "closest",
             showlegend = True,
+            xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
             yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 fixedrange = False,
                 range = [-15, self.DATASET["Forum Access"].max()+10],                
                 rangemode = "normal",
-                title = "Acessos ao fórum",
                 zeroline = False,
             )
         )
@@ -1109,7 +1626,16 @@ class V005:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='violin', validate = False)
 
-    def graph_20(self):
+    def graph_22(self):
+        legend = {"title":"Variação de postagens no fórum por cluster",
+                    "xaxis":"",
+                    "yaxis":"Postagens no fórum",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Variation of students' posts in the forum by cluster",
+                        "xaxis":"",
+                        "yaxis":"Posts in the forum",
+                    }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
         df = self._df_sum.sort_values(by="Grade")
@@ -1144,14 +1670,27 @@ class V005:
             )
         
         layout = Layout(
-            title='Variação de postagens no fórum por cluster',
+            title=legend['title'],
             hovermode = "closest",
             showlegend = True,
+            xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
             yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 fixedrange = False,
                 range = [-15, self.DATASET["Forum Post"].max()+10],                
                 rangemode = "normal",
-                title = "Postagens no fórum",
                 zeroline = False,
             )
         )
@@ -1160,7 +1699,16 @@ class V005:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='violin', validate = False)
 
-    def graph_21(self):
+    def graph_23(self):
+        legend = {"title":"Variação de réplicas no fórum por cluster",
+                    "xaxis":"",
+                    "yaxis":"Réplicas no fórum",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Variation of students' replies in the forum by cluster",
+                        "xaxis":"",
+                        "yaxis":"Replies in the forum",
+                    }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
         df = self._df_sum.sort_values(by="Grade")
@@ -1195,14 +1743,27 @@ class V005:
             )
         
         layout = Layout(
-            title='Variação de postagens respondidas no fórum por cluster',
+            title=legend['title'],
             hovermode = "closest",
             showlegend = True,
+            xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
             yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 fixedrange = False,
                 range = [-15, self.DATASET["Forum Replies"].max()+10],                
                 rangemode = "normal",
-                title = "Postagens respondidas no fórum",
                 zeroline = False,
             )
         )
@@ -1211,7 +1772,16 @@ class V005:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='violin', validate = False)
 
-    def graph_22(self):
+    def graph_24(self):
+        legend = {"title":"Variação de tópicos adicionados no fórum por cluster",
+                    "xaxis":"",
+                    "yaxis":"Tópicos no fórum",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Variation of students' threads added in the forum by cluster",
+                        "xaxis":"",
+                        "yaxis":"Threads in the forum",
+                    }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
         df = self._df_sum.sort_values(by="Grade")
@@ -1246,14 +1816,27 @@ class V005:
             )
         
         layout = Layout(
-            title='Variação de threads iniciadas no fórum por cluster',
+            title=legend['title'],
             hovermode = "closest",
             showlegend = True,
+            xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
             yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
                 fixedrange = False,
                 range = [-15, self.DATASET["Forum Add Thread"].max()+10],                
                 rangemode = "normal",
-                title = "Threads iniciadas no fórum",
                 zeroline = False,
             )
         )
@@ -1262,7 +1845,8 @@ class V005:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='violin', validate = False)
 
-    def print_all_graphs(self):
+    def print_all_graphs(self,language="pt"):
+        self._language = language
         self.graph_01() #Table raw
         self.graph_02() #Scatter
         self.graph_03()
@@ -1278,30 +1862,33 @@ class V005:
         self.graph_13()
         self.graph_14()
         self.graph_15()
-        self.graph_16() #Violin
-        self.graph_17()
+        self.graph_16()
+        self.graph_17() #Violin
         self.graph_18()
         self.graph_19()
         self.graph_20()
         self.graph_21()
         self.graph_22()
+        self.graph_23()
+        self.graph_24()
 
 instance = V005(60)
-instance.print_all_graphs()
+instance.print_all_graphs("pt")
+# instance.print_all_graphs("en")
 
 # *[MP-017] Students can be clustered into different groups based on their access or interaction patterns.
 # *[MP-020] Students with a satisfatory performance ignore part of the materials in distance courses.
 # *[MP-028] Student groups that use more forums tend to have a good performance.
-# [MP-030] Students groups that do more replies in forums tend to have a good performance.
-# [MP-031] Students groups that init threads in forums tend to have a good performance.
-# [MP-035] Successful students are more frequently and regularly participating and engaged in online activities.
+# *[MP-030] Students groups that do more replies in forums tend to have a good performance.
+# *[MP-031] Students groups that init threads in forums tend to have a good performance.
+# *[MP-035] Successful students are more frequently and regularly participating and engaged in online activities.
 # [MP-106] Student groups that have more posts are more likely to complete the course.
 # *[RQ-02] Identify student access patterns (e.g., login, materials).
 # *[RQ-03] Identify student performance patterns.
-# [RQ-04] Identify student interest patterns on the course.
+# *[RQ-04] Identify student interest patterns on the course.
 # *[RQ-05] Identify student usage patterns on the forum.
 # *[RQ-07] Identify student interaction patterns (e.g., materials).
-# [RQ-08] Identify student participation patterns on the course.
+# *[RQ-08] Identify student participation patterns on the course.
 # [RQ-09] Identify student drop out patterns.
 # [RQ-14] Identify pace learning student.
 # [RQ-17] Relate both students' navigation and performance.

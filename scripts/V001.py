@@ -1067,5 +1067,5 @@ class V001:
         self.graph_15() # Heatmap
 
 instance = V001(20)
-# instance.print_all_graphs("pt")
-instance.print_all_graphs("en")
+instance.print_all_graphs("pt")
+# instance.print_all_graphs("en")
