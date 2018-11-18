@@ -968,5 +968,5 @@ class V006:
         self.graph_13()
 
 instance = V006(60)
-# instance.print_all_graphs("pt")
-instance.print_all_graphs("en")
+instance.print_all_graphs("pt")
+# instance.print_all_graphs("en")
