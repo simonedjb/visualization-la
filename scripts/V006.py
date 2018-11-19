@@ -15,7 +15,6 @@ class V006:
     DATASET = pd.DataFrame()
 
     _language = "pt"
-    # _df_sum = pd.DataFrame()
 
     def __init__(self, number_students = 20, language = "pt"):
         self.NUMBER_STUDENTS = number_students
@@ -82,16 +81,6 @@ class V006:
 
                 self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(10,41)
                 self.DATASET.loc[i,"Cluster"] = 6
-        
-        # df_k = self.DATASET.iloc[:,1:] #Selecting features to cluster
-        # kmeans = KMeans(n_clusters=5, init='random').fit(df_k) #Clustering
-        # self._df_sum["Cluster"] = np.asarray(kmeans.labels_)
-        # self._df_sum["Students"] = self.DATASET["Students"]
-        # self._df_sum["Age"] = self.DATASET["Age"]
-        # self._df_sum["Forum Access"] = self.DATASET["Forum Access"]
-        # self._df_sum["Forum Post"] = self.DATASET["Forum Post"]
-        # self._df_sum["Forum Replies"] = self.DATASET["Forum Replies"]
-        # self._df_sum["Forum Add Thread"] = self.DATASET["Forum Add Thread"]
 
     def convert_to_int(self,row):
         return int(row["Age"])
