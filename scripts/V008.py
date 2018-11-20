@@ -475,14 +475,14 @@ class V008:
     def graph_08(self):
         legend = {"title":"Número de acessos dos estudantes por dia",
                     "xaxis":"",
-                    "yaxis":"",
+                    "yaxis":"Acessos",
                     "columns":{1:"Dom", 2:"Seg", 3:"Ter", 4:"Qua", 5:"Qui", 6:"Sex", 0:"Sáb"},
                     "misc":{1:"dia", 2:"Trabalho", 3:"Prova"},
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students' access by day",
                         "xaxis":"",
-                        "yaxis":"",
+                        "yaxis":"Access",
                         "columns":{1:"Sun", 2:"Mon", 3:"Tue", 4:"Wed", 5:"Thu", 6:"Fri", 0:"Sat"},
                         "misc":{1:"day", 2:"Work", 3:"Test"},
                     }
@@ -552,14 +552,14 @@ class V008:
     def graph_09(self):
         legend = {"title":"Número de acessos dos estudantes por semana",
                     "xaxis":"",
-                    "yaxis":"",
+                    "yaxis":"Acessos",
                     "columns":'semana',
                     "misc":{1:"Trabalho", 2:"Prova"},
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students' access by week",
                         "xaxis":"",
-                        "yaxis":"",
+                        "yaxis":"Access",
                         "columns":"week",
                         "misc":{1:"Work", 2:"Test"},
                     }
@@ -627,6 +627,177 @@ class V008:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='box-plot')
 
+    # Violin
+    def graph_10(self):
+        legend = {"title":"Número de acessos dos estudantes por dia",
+                    "xaxis":"",
+                    "yaxis":"Acessos",
+                    "columns":{1:"Dom", 2:"Seg", 3:"Ter", 4:"Qua", 5:"Qui", 6:"Sex", 0:"Sáb"},
+                    "misc":{1:"dia", 2:"Trabalho", 3:"Prova"},
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of students' access by day",
+                        "xaxis":"",
+                        "yaxis":"Access",
+                        "columns":{1:"Sun", 2:"Mon", 3:"Tue", 4:"Wed", 5:"Thu", 6:"Fri", 0:"Sat"},
+                        "misc":{1:"day", 2:"Work", 3:"Test"},
+                    }
+        
+        df = self._df_all_day
+        max_value = 0
+        for i in range (1, len(df.columns)):            
+            max_local = max(df.iloc[:,i].values.tolist())
+            max_value = max(max_local,max_value)
+
+        lst = [legend["columns"][(int((i+1)%7))]+", "+legend["misc"][1]+" "+str(i+1) for i in range (0,len(df.columns[1:]))]
+        lst[self._work_deadline-1] = "<b>"+legend["columns"][(int(self._work_deadline%7))]+", "+legend["misc"][2]+"</b>"
+        lst[self._test_day-1] = "<b>"+legend["columns"][(int(self._test_day%7))]+", "+legend["misc"][3]+"</b>"
+                
+        trace = []
+        for i in range(1,len(df.columns)):
+            color = "rgb(0,0,255)"
+            if i == self._work_deadline or i == self._test_day:
+                color = "rgb(255,0,0)"
+            trace.append(
+                {
+                    "type":'violin',
+                    "x":[lst[i-1]]*len(df),
+                    "y":df.iloc[:,i].values.tolist(), #Access
+                    "name":lst[i-1],
+                    "text":df["Students"].values.tolist(),
+                    "box":{
+                        "visible":True
+                        },
+                    "points": 'all',
+                    "meanline":{
+                        "visible":True
+                        },
+                    "line":{
+                        "color":color,
+                    },
+                    "marker": {
+                        "line": {
+                            "width": 1,
+                        }
+                    },
+                }
+            )
+        
+        layout = Layout(
+            title=legend['title'],
+            hovermode = "closest",
+            showlegend = True,
+            xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
+            yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                fixedrange = False,
+                range = [-15, max_value+10],
+                rangemode = "normal",
+                zeroline = False,
+            )
+        )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='violin', validate = False)
+
+    def graph_11(self):
+        legend = {"title":"Número de acessos dos estudantes por semana",
+                    "xaxis":"",
+                    "yaxis":"Acessos",
+                    "columns":'semana',
+                    "misc":{1:"Trabalho", 2:"Prova"},
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of students' access by week",
+                        "xaxis":"",
+                        "yaxis":"Access",
+                        "columns":"week",
+                        "misc":{1:"Work", 2:"Test"},
+                    }
+        
+        df = self._df_sum_week
+        max_value = 0
+        for i in range (1, len(df.columns)):            
+            max_local = max(df.iloc[:,i].values.tolist())
+            max_value = max(max_local,max_value)
+
+        lst = [legend["columns"]+" "+str(i+1) for i in range (0,len(df.columns[1:]))]
+        lst[int(self._work_deadline/7)-1] = "<b>"+legend["columns"]+" "+str(int(self._work_deadline/7))+",<br>"+legend["misc"][1]+"</b>"
+        lst[int(self._test_day/7)-1] = "<b>"+legend["columns"]+" "+str(int(self._test_day/7))+",<br>"+legend["misc"][2]+"</b>"
+                
+        trace = []
+        for i in range(1,len(df.columns)):
+            color = "rgb(0,0,255)"            
+            if i == int(self._work_deadline/7) or i == int(self._test_day/7):
+                color = "rgb(255,0,0)"
+            trace.append(
+                {
+                    "type":'violin',
+                    "x":[lst[i-1]]*len(df),
+                    "y":df.iloc[:,i].values.tolist(), #Access
+                    "name":lst[i-1],
+                    "text":df["Students"].values.tolist(),
+                    "box":{
+                        "visible":True
+                        },
+                    "points": 'all',
+                    "meanline":{
+                        "visible":True
+                        },
+                    "line":{
+                        "color":color,
+                    },
+                    "marker": {
+                        "line": {
+                            "width": 1,
+                        }
+                    },
+                }
+            )
+        
+        layout = Layout(
+            title=legend['title'],
+            hovermode = "closest",
+            showlegend = True,
+            xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
+            yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                fixedrange = False,
+                range = [-15, max_value+10],
+                rangemode = "normal",
+                zeroline = False,
+            )
+        )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='violin', validate = False)
+
     def print_all_graphs(self,language="pt"):
         self._language = language
         self.graph_01() #Table raw
@@ -638,11 +809,9 @@ class V008:
         self.graph_07()
         self.graph_08() #Box
         self.graph_09()
-        # self.graph_10() #Violin
-        # self.graph_11()
-        # self.graph_12()
-        # self.graph_13()
+        self.graph_10() #Violin
+        self.graph_11()        
 
 instance = V008(number_students=35, number_weeks=7)
-# instance.print_all_graphs("pt")
-instance.print_all_graphs("en")
+instance.print_all_graphs("pt")
+# instance.print_all_graphs("en")
