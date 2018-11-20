@@ -560,12 +560,12 @@ class V003:
                         color='rgb(180,180,180)',
                     ),
                     showticklabels=True,
-                    type="category",                    
+                    type="category",
                     tick0=0,
                     dtick=1,
                     exponentformat='e',
                     showexponent='all',
-                    gridcolor='#bdbdbd',                    
+                    gridcolor='#bdbdbd',
                 ),
                 annotations = annotations
             )
