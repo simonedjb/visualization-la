@@ -32,7 +32,7 @@ class V004:
         list_aux = []
         for i in range(0,self.NUMBER_STUDENTS):
             for j  in range(0,len(self.DATASET.columns)):
-                list_aux.append(                        
+                list_aux.append(
                         [np.random.randint(5,video_dur[j]) for n in range(np.random.randint(0,5))] #user access ranging between  
                     )                                                                       
             self.DATASET.loc[i] = list_aux

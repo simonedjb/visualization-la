@@ -15,10 +15,10 @@ class V008:
     NUMBER_WEEKS = 7
     DATASET = pd.DataFrame()
 
-    _language = "pt"    
+    _language = "pt"
     _work_deadline = (int(NUMBER_WEEKS/2)+(NUMBER_WEEKS%2))*7
     _test_day = NUMBER_WEEKS*7
-
+    
     _df_sum_day = pd.DataFrame()
     _df_sum_week = pd.DataFrame()
     _df_all_day = pd.DataFrame()
