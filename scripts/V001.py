@@ -593,7 +593,7 @@ class V001:
         iplot(fig011_2, filename='011_2')
   
     def graph_10(self):
-        legend = {"title":"Quantidade de estudantes feitas por alunos",
+        legend = {"title":"Quantidade de estudantes que fizeram as tarefas",
                     "xaxis":"Número de estudantes",
                     "yaxis":"",
                 }
@@ -645,7 +645,7 @@ class V001:
         iplot(fig, filename='011_1')
 
     def graph_11(self):
-        legend = {"title":"Quantidade de estudantes feitas por alunos",
+        legend = {"title":"Quantidade de estudantes que fizeram as tarefas",
                     "xaxis":"Número de estudantes",
                     "yaxis":"",
                 }
@@ -698,7 +698,7 @@ class V001:
 
     # Lollipop number of students that have completed each assign
     def graph_12(self):
-        legend = {"title":"Quantidade de estudantes feitas por alunos",
+        legend = {"title":"Quantidade de estudantes que fizeram as tarefas",
                     "xaxis":"Número de estudantes",
                     "yaxis":"",
                     "text_s":"estudante",
@@ -801,7 +801,7 @@ class V001:
         iplot(fig, filename='Lollipop')
 
     def graph_13(self):
-        legend = {"title":"Quantidade de estudantes feitas por alunos",
+        legend = {"title":"Quantidade de estudantes que fizeram as tarefas",
                     "xaxis":"Número de estudantes",
                     "yaxis":"",
                     "text_s":"estudante",
@@ -1050,21 +1050,21 @@ class V001:
 
     def print_all_graphs(self,language="pt"):
         self._language = language
-        self.graph_01() # Table
-        self.graph_02() # Barchart
+        self.graph_01() #Table
+        self.graph_02() #Barchart
         self.graph_03()
         self.graph_04()
         self.graph_05()
-        self.graph_06() # Lollipop
+        self.graph_06() #Lollipop
         self.graph_07()
-        self.graph_08() # Barchart
+        self.graph_08() #Barchart
         self.graph_09()
         self.graph_10()
         self.graph_11()
-        self.graph_12() # Lollipop
+        self.graph_12() #Lollipop
         self.graph_13()            
-        self.graph_14() # Scatter
-        self.graph_15() # Heatmap
+        self.graph_14() #Scatter
+        self.graph_15() #Heatmap
 
 instance = V001(20)
 instance.print_all_graphs("pt")

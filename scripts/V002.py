@@ -552,15 +552,15 @@ class V002:
 
     def print_all_graphs(self,language="pt"):
         self._language = language
-        self.graph_01()
-        self.graph_02()
+        self.graph_01() #Table
+        self.graph_02() #Bar
         self.graph_03()
         self.graph_04()
         self.graph_05()
         self.graph_06()
-        self.graph_07()
+        self.graph_07() #Heatmap
         self.graph_08()
-        self.graph_09()
+        self.graph_09() #Scatter
 
 instance = V002(20)
 instance.print_all_graphs("pt")

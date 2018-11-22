@@ -800,10 +800,10 @@ class V008:
 
     def print_all_graphs(self,language="pt"):
         self._language = language
-        self.graph_01() #Table raw
+        self.graph_01() #Table
         self.graph_02() 
         self.graph_03()
-        self.graph_04() # Heatmap
+        self.graph_04() #Heatmap
         self.graph_05()
         self.graph_06() 
         self.graph_07()

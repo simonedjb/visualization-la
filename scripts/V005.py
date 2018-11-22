@@ -1847,7 +1847,7 @@ class V005:
 
     def print_all_graphs(self,language="pt"):
         self._language = language
-        self.graph_01() #Table raw
+        self.graph_01() #Table
         self.graph_02() #Scatter
         self.graph_03()
         self.graph_04()

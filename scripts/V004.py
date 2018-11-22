@@ -465,10 +465,10 @@ class V004:
 
     def print_all_graphs(self,language="pt"):
         self._language = language
-        self.graph_01()
+        self.graph_01() #Table
         self.graph_02()
-        self.graph_03()
-        self.graph_04()
+        self.graph_03() #Scatter
+        self.graph_04() #Bar
         self.graph_05()
         self.graph_06()
         self.graph_07()
