@@ -55,7 +55,7 @@ class V001:
         # print (self._assigns)
 
     # Table presenting raw data    
-    def graph_01(self):        
+    def graph_01(self):
         df = self.DATASET.sort_values(by=["Students"])
 
         trace = Table(
@@ -94,7 +94,6 @@ class V001:
 
         data = trace
         layout = Layout(
-            # title='Quantidade de tarefas feitas por alunos',
             title = legend["title"],
             xaxis=dict(
                 title = legend["xaxis"],
@@ -124,7 +123,7 @@ class V001:
         )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='011_1')
+        iplot(fig, filename='Bar')
 
     def graph_03(self):
         legend = {"title":"Quantidade de tarefas feitas por alunos",
@@ -190,7 +189,7 @@ class V001:
         trace = [Bar(
             x=df.Total.values,
             y=df.Name.values,
-            orientation = 'h'            
+            orientation = 'h'
         )]
 
         data = trace
