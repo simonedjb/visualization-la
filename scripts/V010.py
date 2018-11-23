@@ -506,6 +506,7 @@ class V010:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='Lollipop')
 
+    #Scatter
     def graph_09(self):
         # https://plot.ly/python/bubble-charts/
         # https://plot.ly/python/reference/#layout-xaxis
@@ -677,6 +678,91 @@ class V010:
         iplot(fig, filename='bubblechart-size')
 
     def graph_11(self):
+        # https://plot.ly/python/bubble-charts/
+        # https://plot.ly/python/reference/#layout-xaxis
+        # https://plot.ly/python/axes/#subcategory-axes
+        legend = {"title":"Número de estudantes que entenderam os vídeos",
+                    "xaxis":"",
+                    "yaxis":"",
+                    "columns":{1:"Entendidos", 2:"Não<br>entendidos"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of students that understood the videos",
+                        "xaxis":"",
+                        "yaxis":"",
+                        "columns":{1:"Understood", 2:"Misunderstood"}
+                    }
+        df = self._df_sum_feedback.iloc[:,0:3]
+        sizeref = 0.03
+        
+        trace = []
+        for i in range(0, len(df)):                    
+            trace.append(
+                Scatter(
+                    x=[df.iloc[i,0]]*len(df.columns), #videos
+                    # y=df.columns[1:], #features ()
+                    y=[legend["columns"][i] for i in range (1,3)],
+                    mode='markers',                    
+                    name=df.iloc[i,0], #videos
+                    text = df.iloc[i,1:].values.tolist(),
+                    marker=dict(
+                        symbol='circle',
+                        sizemode='area',
+                        sizeref=sizeref,
+                        size=df.iloc[i,1:].values.tolist(),
+                        color = 'rgb(0,0,255)',
+                        line=dict(
+                            width=2
+                        )
+                    )
+                )
+            )
+
+        layout = Layout(
+            title=legend['title'],
+            # title='Number of access in the materials grouped by student',
+            hovermode = "closest",
+            showlegend = True,
+            xaxis = dict(
+                title = legend['xaxis'],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                autorange = False,
+                # categoryorder = "category ascending",
+                # domain = [0, 1],
+                fixedrange = False,
+                range = [-1, len(df)],
+                rangemode = "normal",
+                showline = True,                
+                type = "category"
+            ),
+            yaxis = dict(
+                title = legend['yaxis'],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                autorange = False,
+                # categoryorder = "category ascending",
+                # domain = [0, 1],
+                fixedrange = False,
+                range = [-1, len(df.columns[1:])],
+                rangemode = "normal",
+                showline = True,                
+                type = "category"
+            )
+        )
+
+        data = trace
+        fig=Figure(data=data, layout=layout)
+        iplot(fig, filename='bubblechart-size')
+    
+    #Heatmap
+    def graph_12(self):
         legend = {"title":"Vídeos entendidos por estudante",
                     "xaxis":"",
                     "yaxis":"",
@@ -733,7 +819,7 @@ class V010:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='Heatmap')
 
-    def graph_12(self):
+    def graph_13(self):
         legend = {"title":"Vídeos não entendidos por estudante",
                     "xaxis":"",
                     "yaxis":"",
@@ -794,6 +880,240 @@ class V010:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='Heatmap')
 
+    def graph_14(self):
+        legend = {"title":"Número de estudantes que entenderam os vídeos",
+                    "xaxis":"",
+                    "yaxis":"",
+                    "columns":{1:"Entendidos", 2:"Não<br>entendidos"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of students that understood the videos",
+                        "xaxis":"",
+                        "yaxis":"",
+                        "columns":{1:"Understood", 2:"Misunderstood"}
+                    }
+        df = self._df_sum_feedback.iloc[:,0:3]
+        z = []
+        for i in range (1, len(df.columns)):
+            z.append(df.iloc[:,i].values.tolist())
+
+        trace = Heatmap(z=z,
+                        # y=df.columns[1:], #Videos
+                        y=[legend["columns"][i] for i in range (1,3)],
+                        x=df.iloc[:,0], #Students
+                        colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        showscale = True
+                    )
+        
+        layout = Layout(
+                title = legend['title'],                
+                autosize=False,
+                width=950,
+                height=350,
+                hovermode = "closest",
+                xaxis=dict(
+                    title = legend['xaxis'],
+                    titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                ),                
+                yaxis=dict(
+                    title = legend['yaxis'],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    type="category",                    
+                    tick0=0,
+                    dtick=1,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',                    
+                )
+            )
+
+        data = [trace]
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Heatmap')
+
+    #Grouped Bar
+    def graph_15(self):
+        legend = {"title":"Número de estudantes que entenderam e não entenderam os vídeos",
+                    "xaxis":"",
+                    "yaxis":"",
+                    "columns":{1:"Entendidos", 2:"Não<br>entendidos"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of students that understood and misunderstood the videos",
+                        "xaxis":"",
+                        "yaxis":"",
+                        "columns":{1:"Understood", 2:"Misunderstood"}
+                    }
+        
+        df = self._df_sum_feedback
+        
+        trace = []
+        for i in range(1,len(df.columns[1:len(df.columns)])): 
+            trace.append(Bar(
+                    x=df.Videos.values,
+                    y=df.iloc[:,i].values,
+                    # name=df.columns[i]
+                    name=legend['columns'][i]
+            ))            
+
+        data = trace
+        layout = Layout(
+                title=legend["title"],
+                xaxis=dict(
+                    title = legend["xaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=5,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Grouped_Bar')
+
+    #Stacked Bar
+    def graph_16(self):
+        legend = {"title":"Número de estudantes que entenderam e não entenderam os vídeos",
+                    "xaxis":"",
+                    "yaxis":"",
+                    "columns":{1:"Entendidos", 2:"Não<br>entendidos"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of students that understood and misunderstood the videos",
+                        "xaxis":"",
+                        "yaxis":"",
+                        "columns":{1:"Understood", 2:"Misunderstood"}
+                    }
+
+        df = self._df_sum_feedback
+        trace = []
+        for i in range(1,len(df.columns[1:len(df.columns)])):         
+            trace.append(Bar(
+                    x=df.Videos.values,
+                    y=df.iloc[:,i].values,
+                    # name=df.columns[i]
+                    name=legend['columns'][i]
+            ))
+
+        data = trace
+        layout = Layout(
+                title=legend["title"],
+                xaxis=dict(
+                    title = legend["xaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                barmode='stack',
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=5,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Stacked_Bar')
+
+    def graph_17(self):
+        legend = {"title":"Número de estudantes que entenderam e não entenderam os vídeos",
+                    "xaxis":"",
+                    "yaxis":"",
+                    "columns":{1:"Entendidos", 2:"Não<br>entendidos"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of students that understood and misunderstood the videos",
+                        "xaxis":"",
+                        "yaxis":"",
+                        "columns":{1:"Understood", 2:"Misunderstood"}
+                    }
+
+        df = self._df_sum_feedback
+        trace = []
+        for i in range(1,len(df.columns[1:len(df.columns)])):
+            trace.append(Bar(                    
+                    x=df.iloc[:,i].values,
+                    y=df.Videos.values,
+                    # name=df.columns[i],
+                    name=legend['columns'][i],
+                    orientation = 'h'
+            ))
+
+        data = trace
+        layout = Layout(
+                title=legend["title"],
+                barmode='stack',
+                xaxis=dict(
+                    title = legend["xaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=1,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Stacked_Bar')
+
     def print_all_graphs(self,language="pt"):
         self._language = language
         self.graph_01() # Table
@@ -806,10 +1126,14 @@ class V010:
         self.graph_08()
         self.graph_09() #Scatter
         self.graph_10()
-        self.graph_11() #Heatmap
-        self.graph_12()
-        # self.graph_13() #Stacked Bar
-        # self.graph_14()
+        self.graph_11()
+        self.graph_12() #Heatmap
+        self.graph_13()
+        self.graph_14()
+        self.graph_15() #Grouped Bar
+        self.graph_16() #Stacked Bar
+        self.graph_17()
+        #Falta apresentar os gráficos de barra ordenados 
         
 
 
