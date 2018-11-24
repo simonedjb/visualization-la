@@ -23,7 +23,10 @@ class V004:
         video_dur = []
         video_dur = [np.random.randint(240,600) for n in range(7)] #video duration ranging between 240 and 600 seconds
         self._material_name = ['Video1','Video2','Video3','Video4','Video5']
+        
         names = pd.read_csv("names.csv")
+        rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
+        rand_names.sort()
 
         self.DATASET = pd.DataFrame(columns=['Students',str(self._material_name[0])+' ('+str(video_dur[0])+'s)',
                         str(self._material_name[1])+' ('+str(video_dur[1])+'s)',str(self._material_name[2])+' ('+str(video_dur[2])+'s)',
@@ -36,7 +39,7 @@ class V004:
                         [np.random.randint(5,video_dur[j]) for n in range(np.random.randint(0,5))] #user access ranging between  
                     )                                                                       
             self.DATASET.loc[i] = list_aux
-            self.DATASET.loc[i,"Students"] = names.group_name[np.random.randint(0,len(names.group_name)+1)]
+            self.DATASET.loc[i,"Students"] = rand_names[i]
             list_aux.clear()
 
         self.DATASET["Total"] = self.DATASET.apply(self.sum_times, axis=1)
@@ -63,7 +66,7 @@ class V004:
 
     # Table presenting raw data    
     def graph_01(self):
-        df = self.DATASET.sort_values(by=["Students"])
+        df = self.DATASET
         
         trace = Table(
             header=dict(
@@ -82,7 +85,7 @@ class V004:
         iplot(data, filename = 'pandas_table')
 
     def graph_02(self):
-        df = self._df_sum.sort_values(by=["Students"])
+        df = self._df_sum
         
         trace = Table(
             header=dict(
@@ -99,7 +102,8 @@ class V004:
 
         data = [trace] 
         iplot(data, filename = 'pandas_table')
-
+    
+    # Scatter
     def graph_03(self):
         legend = {"title":"Tempo de acesso aos vídeos por estudante",
                     "xaxis":"",
@@ -113,7 +117,7 @@ class V004:
         # https://plot.ly/python/bubble-charts/
         # https://plot.ly/python/reference/#layout-xaxis
         # https://plot.ly/python/axes/#subcategory-axes
-        df = self._df_sum.sort_values(by=["Students"])
+        df = self._df_sum
         max_value = 0        
         sum_value = 0
         
@@ -153,7 +157,7 @@ class V004:
         layout = Layout(
             title=legend['title'],
             hovermode = "closest",
-            showlegend = True,
+            showlegend = False,
             xaxis = dict(
                 title = legend["xaxis"],
                 titlefont=dict(
@@ -192,7 +196,289 @@ class V004:
         fig=Figure(data=data, layout=layout)
         iplot(fig, filename='bubblechart-size')
 
+    # Heatmap
     def graph_04(self):
+        legend = {"title":"Tempo de acesso aos vídeos por estudante",
+                    "xaxis":"",
+                    "yaxis":"",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Length of access to videos grouped by student",
+                        "xaxis":"",
+                        "yaxis":"",
+                    }
+        df = self._df_sum
+        
+        z = []
+        for i in range (1, len(df.columns)):
+            z.append(df.iloc[:,i].values.tolist())
+
+        trace = Heatmap(z=z,
+                        y=df.columns[1:], #Videos
+                        x=df.iloc[:,0], #Students
+                        colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        showscale = True
+                    )
+        
+        layout = Layout(
+                title = legend['title'],
+                autosize=False,
+                width=950,
+                height=350,
+                hovermode = "closest",
+                xaxis=dict(
+                    title = legend['xaxis'],
+                    titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                ),                
+                yaxis=dict(
+                    title = legend['yaxis'],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    type="category",                    
+                    tick0=0,
+                    dtick=1,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',                    
+                )
+            )
+
+        data = [trace]
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Heatmap')
+
+    def graph_05(self):
+        legend = {"title":"Tempo de acesso aos vídeos por estudante",
+                    "xaxis":"",
+                    "yaxis":"",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Length of access to videos grouped by student",
+                        "xaxis":"",
+                        "yaxis":"",
+                    }
+        df = self._df_sum
+        
+        z = []
+        max_value = 0
+        for i in range (1, len(df.columns)):
+            z.append(df.iloc[:,i].values.tolist())
+            max_local = max(df.iloc[:,i].values.tolist())
+            max_value = max(max_local,max_value)
+
+        trace = Heatmap(z=z,
+                        y=df.columns[1:], #Videos
+                        x=df.iloc[:,0], #Students
+                        colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        showscale = True
+                    )
+        
+        annotations=[]
+        for i in range(1,len(df.columns)):
+            for j in range(0,len(df)):
+                color = 'rgb(0,0,0)'
+                if df.iloc[j,i] > max_value/2:
+                    color = 'rgb(255,255,255)'
+                annotations.append({
+                    "text":str(df.iloc[j,i]),
+                    "y":df.columns[i],
+                    "x":df.iloc[j,0],
+                    "xref":'x1', 
+                    "yref":'y1',
+                    "showarrow":False,
+                    "font":{
+                        # family='Courier New, monospace',
+                        # size=16,
+                        "color":color
+                    }
+                })
+
+        layout = Layout(
+                title = legend['title'],
+                autosize=False,
+                width=950,
+                height=350,
+                hovermode = "closest",
+                xaxis=dict(
+                    title = legend['xaxis'],
+                    titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                ),
+                yaxis=dict(
+                    title = legend['yaxis'],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    type="category",                    
+                    tick0=0,
+                    dtick=1,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',                    
+                ),
+                annotations = annotations
+            )
+
+        data = [trace]
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Heatmap')
+
+    def graph_06(self):
+        legend = {"title":"Tempo de acesso aos vídeos por estudante",
+                    "xaxis":"",
+                    "yaxis":"",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Length of access to videos grouped by student",
+                        "xaxis":"",
+                        "yaxis":"",
+                    }
+        df = self._df_sum.iloc[:,:len(self._df_sum.columns)-1]
+        
+        z = []
+        for i in range (1, len(df.columns)):
+            z.append(df.iloc[:,i].values.tolist())
+
+        trace = Heatmap(z=z,
+                        y=df.columns[1:], #Videos
+                        x=df.iloc[:,0], #Students
+                        colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        showscale = True
+                    )
+        
+        layout = Layout(
+                title = legend['title'],
+                autosize=False,
+                width=950,
+                height=350,
+                hovermode = "closest",
+                xaxis=dict(
+                    title = legend['xaxis'],
+                    titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                ),                
+                yaxis=dict(
+                    title = legend['yaxis'],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    type="category",                    
+                    tick0=0,
+                    dtick=1,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',                    
+                )
+            )
+
+        data = [trace]
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Heatmap')
+
+    def graph_07(self):
+        legend = {"title":"Tempo de acesso aos vídeos por estudante",
+                    "xaxis":"",
+                    "yaxis":"",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Length of access to videos grouped by student",
+                        "xaxis":"",
+                        "yaxis":"",
+                    }
+        df = self._df_sum.iloc[:,:len(self._df_sum.columns)-1]
+        
+        z = []
+        max_value = 0
+        for i in range (1, len(df.columns)):
+            z.append(df.iloc[:,i].values.tolist())
+            max_local = max(df.iloc[:,i].values.tolist())
+            max_value = max(max_local,max_value)
+
+        trace = Heatmap(z=z,
+                        y=df.columns[1:], #Videos
+                        x=df.iloc[:,0], #Students
+                        colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        showscale = True
+                    )
+        
+        annotations=[]
+        for i in range(1,len(df.columns)):
+            for j in range(0,len(df)):
+                color = 'rgb(0,0,0)'
+                if df.iloc[j,i] > max_value/2:
+                    color = 'rgb(255,255,255)'
+                annotations.append({
+                    "text":str(df.iloc[j,i]),
+                    "y":df.columns[i],
+                    "x":df.iloc[j,0],
+                    "xref":'x1', 
+                    "yref":'y1',
+                    "showarrow":False,
+                    "font":{
+                        # family='Courier New, monospace',
+                        # size=16,
+                        "color":color
+                    }
+                })
+
+        layout = Layout(
+                title = legend['title'],
+                autosize=False,
+                width=950,
+                height=350,
+                hovermode = "closest",
+                xaxis=dict(
+                    title = legend['xaxis'],
+                    titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                ),
+                yaxis=dict(
+                    title = legend['yaxis'],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    type="category",                    
+                    tick0=0,
+                    dtick=1,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',                    
+                ),
+                annotations = annotations
+            )
+
+        data = [trace]
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Heatmap')
+
+    # Grouped Bar
+    def graph_08(self):
         legend = {"title":"Tempo de acesso aos vídeos por estudante",
                     "xaxis":"",
                     "yaxis":"Tempo de acesso em segundos",
@@ -202,7 +488,7 @@ class V004:
                         "xaxis":"",
                         "yaxis":"Length of access in seconds",
                     }
-        df = self._df_sum.sort_values(by=["Students"])
+        df = self._df_sum
         trace = []
         for i in range(1,len(df.columns[1:])):
             trace.append(Bar(
@@ -243,9 +529,10 @@ class V004:
             )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='012_2')
+        iplot(fig, filename='Grouped Bar')
 
-    def graph_05(self):
+    # Stacked Bar
+    def graph_09(self):
         legend = {"title":"Tempo de acesso aos vídeos por estudante",
                     "xaxis":"",
                     "yaxis":"Tempo de acesso em segundos",
@@ -255,7 +542,7 @@ class V004:
                         "xaxis":"",
                         "yaxis":"Length of access in seconds",
                     }
-        df = self._df_sum.sort_values(by=["Students"])
+        df = self._df_sum
         trace = []
         for i in range(1,len(df.columns[1:])):
             trace.append(Bar(
@@ -297,9 +584,9 @@ class V004:
             )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='012_2')
+        iplot(fig, filename='Stacked Bar')
 
-    def graph_06(self):
+    def graph_10(self):
         legend = {"title":"Tempo de acesso aos vídeos por estudante",
                     "xaxis":"",
                     "yaxis":"Tempo de acesso em segundos",
@@ -351,9 +638,9 @@ class V004:
             )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='012_2')
+        iplot(fig, filename='Stacked Bar')
 
-    def graph_07(self):
+    def graph_11(self):
         legend = {"title":"Tempo de acesso aos vídeos por estudante",
                     "xaxis":"Tempo de acesso em segundos",
                     "yaxis":"",
@@ -363,7 +650,7 @@ class V004:
                         "xaxis":"Length of access in seconds",
                         "yaxis":"",
                     }
-        df = self._df_sum.sort_values(by=["Students"])
+        df = self._df_sum
         trace = []
         for i in range(1,len(df.columns[1:])):
             trace.append(Bar(
@@ -406,9 +693,9 @@ class V004:
             )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='012_2')
+        iplot(fig, filename='Stacked Bar')
 
-    def graph_08(self):
+    def graph_12(self):
         legend = {"title":"Tempo de acesso aos vídeos por estudante",
                     "xaxis":"Tempo de acesso em segundos",
                     "yaxis":"",
@@ -461,18 +748,22 @@ class V004:
             )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='012_2')
+        iplot(fig, filename='Stacked Bar')
 
     def print_all_graphs(self,language="pt"):
         self._language = language
         self.graph_01() #Table
         self.graph_02()
         self.graph_03() #Scatter
-        self.graph_04() #Bar
+        self.graph_04() #Heatmap
         self.graph_05()
         self.graph_06()
         self.graph_07()
-        self.graph_08()
+        self.graph_08() #Grouped Bar
+        self.graph_09() #Stacked Bar 
+        self.graph_10()
+        self.graph_11()
+        self.graph_12()
 
 instance = V004(20)
 instance.print_all_graphs("pt")
