@@ -93,7 +93,7 @@ class V001:
     
     # Barchart number of assign completed for each student
     def graph_02(self):
-        legend = {"title":"Quantidade de tarefas feitas por alunos",
+        legend = {"title":"Número de tarefas feitas por alunos",
                     "xaxis":"",
                     "yaxis":"Número de atividades",
                 }
@@ -143,7 +143,7 @@ class V001:
         iplot(fig, filename='Bar')
 
     def graph_03(self):
-        legend = {"title":"Quantidade de tarefas feitas por alunos",
+        legend = {"title":"Número de tarefas feitas por alunos",
                     "xaxis":"",
                     "yaxis":"Número de atividades",
                     }
@@ -193,7 +193,7 @@ class V001:
         iplot(fig, filename='011_1')
 
     def graph_04(self):
-        legend = {"title":"Quantidade de tarefas feitas por alunos",
+        legend = {"title":"Número de tarefas feitas por alunos",
                     "xaxis":"Número de atividades",
                     "yaxis":"",
                     }
@@ -245,7 +245,7 @@ class V001:
         iplot(fig, filename='011_1')
 
     def graph_05(self):
-        legend = {"title":"Quantidade de tarefas feitas por alunos",
+        legend = {"title":"Número de tarefas feitas por alunos",
                     "xaxis":"Número de atividades",
                     "yaxis":"",
                 }
@@ -2663,6 +2663,350 @@ class V001:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='Heatmap')
 
+    #Grouped Bar
+    def graph_38(self):
+        legend = {"title":"Número de atividades feitas e <b>não</b> feitas por aluno",
+                    "xaxis":"",
+                    "yaxis":"Número de atividades",
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of assigns completed and <b>not</b> completed by students",
+                        "xaxis":"",
+                        "yaxis":"Number of assigns",
+                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                    }
+        
+        df = self._students
+        
+        trace = []
+        for i in range(1,len(df.columns)): 
+            trace.append(Bar(
+                    x=df.Name.values,
+                    y=df.iloc[:,i].values,
+                    # name=df.columns[i]
+                    name=legend['columns'][i]
+            ))            
+
+        data = trace
+        layout = Layout(
+                title=legend["title"],
+                xaxis=dict(
+                    title = legend["xaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=5,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Grouped_Bar')
+
+    def graph_39(self):
+        legend = {"title":"Número de atividades feitas e <b>não</b> feitas por aluno",
+                    "xaxis":"",
+                    "yaxis":"Número de atividades",
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of assigns completed and <b>not</b> completed by students",
+                        "xaxis":"",
+                        "yaxis":"Number of assigns",
+                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                    }
+        
+        df = self._students.sort_values(by=["Total_Done","Name"])
+        
+        trace = []
+        for i in range(1,len(df.columns)): 
+            trace.append(Bar(
+                    x=df.Name.values,
+                    y=df.iloc[:,i].values,
+                    # name=df.columns[i]
+                    name=legend['columns'][i]
+            ))            
+
+        data = trace
+        layout = Layout(
+                title=legend["title"],
+                xaxis=dict(
+                    title = legend["xaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=5,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Grouped_Bar')
+
+    def graph_40(self):
+        legend = {"title":"Número de atividades feitas e <b>não</b> feitas por aluno",
+                    "xaxis":"",
+                    "yaxis":"Número de atividades",
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of assigns completed and <b>not</b> completed by students",
+                        "xaxis":"",
+                        "yaxis":"Number of assigns",
+                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                    }
+        
+        df = self._students.sort_values(by=["Total_Undone","Name"])
+        
+        trace = []
+        for i in range(1,len(df.columns)): 
+            trace.append(Bar(
+                    x=df.Name.values,
+                    y=df.iloc[:,i].values,
+                    # name=df.columns[i]
+                    name=legend['columns'][i]
+            ))            
+
+        data = trace
+        layout = Layout(
+                title=legend["title"],
+                xaxis=dict(
+                    title = legend["xaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=5,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Grouped_Bar')
+
+    def graph_41(self):
+        legend = {"title":"Número de alunos que fizeram e <b>não</b> fizeram as atividades",
+                    "xaxis":"",
+                    "yaxis":"Número de estudantes",
+                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of students who completed and <b>not</b> completed the assigns",
+                        "xaxis":"",
+                        "yaxis":"Number of students",
+                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                    }
+        
+        df = self._assigns
+        
+        trace = []
+        for i in range(1,len(df.columns)): 
+            trace.append(Bar(
+                    x=df.Name.values,
+                    y=df.iloc[:,i].values,
+                    # name=df.columns[i]
+                    name=legend['columns'][i]
+            ))            
+
+        data = trace
+        layout = Layout(
+                title=legend["title"],
+                xaxis=dict(
+                    title = legend["xaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=5,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Grouped_Bar')
+
+    def graph_42(self):
+        legend = {"title":"Número de alunos que fizeram e <b>não</b> fizeram as atividades",
+                    "xaxis":"",
+                    "yaxis":"Número de estudantes",
+                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of students who completed and <b>not</b> completed the assigns",
+                        "xaxis":"",
+                        "yaxis":"Number of students",
+                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                    }
+        
+        df = self._assigns.sort_values(by=["Total_Done","Name"])
+        
+        trace = []
+        for i in range(1,len(df.columns)): 
+            trace.append(Bar(
+                    x=df.Name.values,
+                    y=df.iloc[:,i].values,
+                    # name=df.columns[i]
+                    name=legend['columns'][i]
+            ))            
+
+        data = trace
+        layout = Layout(
+                title=legend["title"],
+                xaxis=dict(
+                    title = legend["xaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=5,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Grouped_Bar')
+
+    def graph_43(self):
+        legend = {"title":"Número de alunos que fizeram e <b>não</b> fizeram as atividades",
+                    "xaxis":"",
+                    "yaxis":"Número de estudantes",
+                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of students who completed and <b>not</b> completed the assigns",
+                        "xaxis":"",
+                        "yaxis":"Number of students",
+                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                    }
+        
+        df = self._assigns.sort_values(by=["Total_Undone","Name"])
+        
+        trace = []
+        for i in range(1,len(df.columns)): 
+            trace.append(Bar(
+                    x=df.Name.values,
+                    y=df.iloc[:,i].values,
+                    # name=df.columns[i]
+                    name=legend['columns'][i]
+            ))            
+
+        data = trace
+        layout = Layout(
+                title=legend["title"],
+                xaxis=dict(
+                    title = legend["xaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=5,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Grouped_Bar')
+
+
     def print_all_graphs(self,language="pt"):
         self._language = language
         self.graph_01() #Table
@@ -2702,6 +3046,17 @@ class V001:
         self.graph_35()
         self.graph_36()
         self.graph_37()
+        self.graph_38() #Grouped Bar
+        self.graph_39()
+        self.graph_40() 
+        self.graph_41()
+        self.graph_42()
+        self.graph_43() 
+        # self.graph_44() #Stacked Bar
+        # self.graph_45()
+        # self.graph_46()
+        # self.graph_47()
+        # self.graph_48()
 
 instance = V001()
 instance.generate_dataset(number_students = 20, number_assigns = 10)
