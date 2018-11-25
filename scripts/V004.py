@@ -17,7 +17,6 @@ class V004:
     def __init__(self, number_students = 20, language = "pt"):
         self.NUMBER_STUDENTS = number_students
         self._language = language
-        self.generate_dataset()
     
     def generate_dataset(self):
         video_dur = []
@@ -766,5 +765,6 @@ class V004:
         self.graph_12()
 
 instance = V004(20)
+instance.generate_dataset()
 instance.print_all_graphs("pt")
 # instance.print_all_graphs("en")

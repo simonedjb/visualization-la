@@ -17,7 +17,6 @@ class V001:
     def __init__(self, number_students = 21, language="pt"):
         self.NUMBER_STUDENTS = number_students+1
         self.language = language
-        self.generate_dataset()        
 
     def generate_dataset(self):
         self.DATASET = pd.DataFrame(columns=["Students","Assign1","Assign2",'Assign3','Assign4'])
@@ -1066,5 +1065,6 @@ class V001:
         self.graph_15() #Heatmap
 
 instance = V001(20)
+instance.generate_dataset()
 instance.print_all_graphs("pt")
 # instance.print_all_graphs("en")

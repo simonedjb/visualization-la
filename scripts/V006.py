@@ -19,7 +19,6 @@ class V006:
     def __init__(self, number_students = 20, language = "pt"):
         self.NUMBER_STUDENTS = number_students
         self._language = language
-        self.generate_dataset()
 
     def generate_dataset(self):
         names = pd.read_csv("names.csv")
@@ -957,5 +956,6 @@ class V006:
         self.graph_13()
 
 instance = V006(60)
+instance.generate_dataset()
 instance.print_all_graphs("pt")
 # instance.print_all_graphs("en")

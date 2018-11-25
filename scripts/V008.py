@@ -31,8 +31,6 @@ class V008:
         self._work_deadline = (int(self.NUMBER_WEEKS/2)+(self.NUMBER_WEEKS%2))*7
         self._test_day = self.NUMBER_WEEKS*7
         
-        self.generate_dataset()
-
     def generate_dataset(self):
         names = pd.read_csv("names.csv")
         self.DATASET = pd.DataFrame(columns=["Students","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"])
@@ -813,5 +811,6 @@ class V008:
         self.graph_11()        
 
 instance = V008(number_students=35, number_weeks=7)
+instance.generate_dataset()
 instance.print_all_graphs("pt")
 # instance.print_all_graphs("en")

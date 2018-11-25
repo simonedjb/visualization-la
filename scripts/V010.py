@@ -26,7 +26,6 @@ class V010:
         self.NUMBER_STUDENTS = number_students
         self.NUMBER_VIDEOS = number_video
         self._language = language
-        self.generate_dataset()
 
     def generate_dataset(self):
         self._video_dur = [np.random.randint(240,600) for n in range(self.NUMBER_VIDEOS)] #video duration ranging between 240 and 600 seconds
@@ -2000,5 +1999,6 @@ class V010:
 
 
 instance = V010(number_students=35, number_video=10)
+instance.generate_dataset()
 instance.print_all_graphs("pt")
 # instance.print_all_graphs("en")

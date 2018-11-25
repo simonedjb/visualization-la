@@ -15,7 +15,6 @@ class V003:
     def __init__(self, number_students = 21, language = "pt"):
         self.NUMBER_STUDENTS = number_students+1
         self._language = language
-        self.generate_dataset()
 
     def generate_dataset(self):
         self.DATASET = pd.DataFrame(columns=["Students","Likes","Posts","Access","Total"])
@@ -648,5 +647,6 @@ class V003:
         self.graph_10()
 
 instance = V003(20)
+instance.generate_dataset()
 instance.print_all_graphs("pt")
 # instance.print_all_graphs("en")

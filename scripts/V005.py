@@ -20,7 +20,6 @@ class V005:
     def __init__(self, number_students = 20, language = "pt"):
         self.NUMBER_STUDENTS = number_students
         self._language = language
-        self.generate_dataset()
 
     def generate_dataset(self):
         self._df_sum = pd.DataFrame(columns=["Students","Grade","AssignTotal","MaterialTotal"])
@@ -1873,6 +1872,7 @@ class V005:
         self.graph_24()
 
 instance = V005(60)
+instance.generate_dataset()
 instance.print_all_graphs("pt")
 # instance.print_all_graphs("en")
 
