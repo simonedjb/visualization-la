@@ -22,12 +22,13 @@ class V010:
     _video_dur = []
     _df_sum_feedback = pd.DataFrame()
     
-    def __init__(self, number_students = 20, number_video = 10, language = "pt"):
-        self.NUMBER_STUDENTS = number_students
-        self.NUMBER_VIDEOS = number_video
+    def __init__(self, language = "pt"):        
         self._language = language
 
-    def generate_dataset(self):
+    def generate_dataset(self, number_students = 20, number_video = 10):
+        self.NUMBER_STUDENTS = number_students
+        self.NUMBER_VIDEOS = number_video
+
         self._video_dur = [np.random.randint(240,600) for n in range(self.NUMBER_VIDEOS)] #video duration ranging between 240 and 600 seconds
         self._video_name = ["Video"+str(i+1) for i in range (0, self.NUMBER_VIDEOS)]
         
@@ -1998,7 +1999,7 @@ class V010:
         
 
 
-instance = V010(number_students=35, number_video=10)
-instance.generate_dataset()
+instance = V010()
+instance.generate_dataset(number_students=35, number_video=10)
 instance.print_all_graphs("pt")
 # instance.print_all_graphs("en")

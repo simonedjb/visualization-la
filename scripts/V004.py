@@ -14,11 +14,12 @@ class V004:
     _material_name = []
     _df_sum = []
 
-    def __init__(self, number_students = 20, language = "pt"):
-        self.NUMBER_STUDENTS = number_students
+    def __init__(self, language = "pt"):        
         self._language = language
     
-    def generate_dataset(self):
+    def generate_dataset(self, number_students = 20):
+        self.NUMBER_STUDENTS = number_students
+
         video_dur = []
         video_dur = [np.random.randint(240,600) for n in range(7)] #video duration ranging between 240 and 600 seconds
         self._material_name = ['Video1','Video2','Video3','Video4','Video5']
@@ -764,7 +765,7 @@ class V004:
         self.graph_11()
         self.graph_12()
 
-instance = V004(20)
-instance.generate_dataset()
+instance = V004()
+instance.generate_dataset(number_students = 20)
 instance.print_all_graphs("pt")
 # instance.print_all_graphs("en")

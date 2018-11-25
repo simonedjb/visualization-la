@@ -23,15 +23,16 @@ class V008:
     _df_sum_week = pd.DataFrame()
     _df_all_day = pd.DataFrame()
 
-    def __init__(self, number_students = 20, number_weeks = 7, language = "pt"):
+    def __init__(self, language = "pt"):
+        self._language = language        
+        
+    def generate_dataset(self, number_students = 20, number_weeks = 7):
         self.NUMBER_STUDENTS = number_students
         self.NUMBER_WEEKS = number_weeks
 
-        self._language = language
         self._work_deadline = (int(self.NUMBER_WEEKS/2)+(self.NUMBER_WEEKS%2))*7
         self._test_day = self.NUMBER_WEEKS*7
-        
-    def generate_dataset(self):
+
         names = pd.read_csv("names.csv")
         self.DATASET = pd.DataFrame(columns=["Students","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"])
 
@@ -810,7 +811,7 @@ class V008:
         self.graph_10() #Violin
         self.graph_11()        
 
-instance = V008(number_students=35, number_weeks=7)
-instance.generate_dataset()
+instance = V008()
+instance.generate_dataset(number_students=35, number_weeks=7)
 instance.print_all_graphs("pt")
 # instance.print_all_graphs("en")

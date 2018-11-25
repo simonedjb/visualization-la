@@ -16,11 +16,12 @@ class V006:
 
     _language = "pt"
 
-    def __init__(self, number_students = 20, language = "pt"):
-        self.NUMBER_STUDENTS = number_students
+    def __init__(self, language = "pt"):
         self._language = language
 
-    def generate_dataset(self):
+    def generate_dataset(self, number_students = 20):
+        self.NUMBER_STUDENTS = number_students
+
         names = pd.read_csv("names.csv")
         self.DATASET = pd.DataFrame(columns=["Students","Age","Forum Access","Forum Post","Forum Replies","Forum Add Thread","Cluster"])
 
@@ -955,7 +956,7 @@ class V006:
         self.graph_12()
         self.graph_13()
 
-instance = V006(60)
-instance.generate_dataset()
+instance = V006()
+instance.generate_dataset(number_students = 60)
 instance.print_all_graphs("pt")
 # instance.print_all_graphs("en")

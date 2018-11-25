@@ -17,11 +17,12 @@ class V005:
     _language = "pt"
     _df_sum = pd.DataFrame()
 
-    def __init__(self, number_students = 20, language = "pt"):
-        self.NUMBER_STUDENTS = number_students
+    def __init__(self, language = "pt"):
         self._language = language
 
-    def generate_dataset(self):
+    def generate_dataset(self, number_students = 20):
+        self.NUMBER_STUDENTS = number_students
+        
         self._df_sum = pd.DataFrame(columns=["Students","Grade","AssignTotal","MaterialTotal"])
         names = pd.read_csv("names.csv")
         self.DATASET = pd.DataFrame(columns=["Students","Grade","Access",
@@ -1871,8 +1872,8 @@ class V005:
         self.graph_23()
         self.graph_24()
 
-instance = V005(60)
-instance.generate_dataset()
+instance = V005()
+instance.generate_dataset(number_students = 60)
 instance.print_all_graphs("pt")
 # instance.print_all_graphs("en")
 

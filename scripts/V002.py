@@ -12,17 +12,20 @@ class V002:
     
     _language = "pt"
 
-    def __init__(self, number_students = 21, language = "pt"):
-        self.NUMBER_STUDENTS = number_students+1
+    def __init__(self, language = "pt"):
         self._language = language
     
-    def generate_dataset(self):
+    def generate_dataset(self, number_students = 21):
+        self.NUMBER_STUDENTS = number_students+1
+
         self.DATASET = pd.DataFrame(columns=["Students","Video1","Video2",'Quiz1','Quiz2','Pdf1','Pdf2','Ebook1','Ebook2','Total'])
         names = pd.read_csv("names.csv")
+        rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
+        rand_names.sort()
 
         for i in range(1,self.NUMBER_STUDENTS):
             self.DATASET.loc[i] = [np.random.randint(0,30) for n in range(len(self.DATASET.columns))]
-            self.DATASET.loc[i,"Students"] = names.group_name[np.random.randint(0,len(names.group_name)+1)]
+            self.DATASET.loc[i,"Students"] = rand_names[i]
         
         self.DATASET['Total'] = self.DATASET.apply(self.sum_row,axis=1)
 
@@ -790,7 +793,7 @@ class V002:
 
         #Fazer Heatmap e Scatter apresentando total tbm.
 
-instance = V002(20)
-instance.generate_dataset()
+instance = V002()
+instance.generate_dataset(number_students = 20)
 instance.print_all_graphs("pt")
 # instance.print_all_graphs("en")

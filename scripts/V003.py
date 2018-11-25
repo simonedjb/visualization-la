@@ -12,11 +12,12 @@ class V003:
 
     _language = "pt"
 
-    def __init__(self, number_students = 21, language = "pt"):
-        self.NUMBER_STUDENTS = number_students+1
+    def __init__(self, language = "pt"):        
         self._language = language
 
-    def generate_dataset(self):
+    def generate_dataset(self, number_students = 21):
+        self.NUMBER_STUDENTS = number_students+1
+
         self.DATASET = pd.DataFrame(columns=["Students","Likes","Posts","Access","Total"])
         names = pd.read_csv("names.csv")
         rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
@@ -647,6 +648,6 @@ class V003:
         self.graph_10()
 
 instance = V003(20)
-instance.generate_dataset()
+instance.generate_dataset(number_students = 20)
 instance.print_all_graphs("pt")
 # instance.print_all_graphs("en")
