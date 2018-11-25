@@ -8,26 +8,32 @@ init_notebook_mode(connected=True) # initiate notebook for offline plot
 
 class V001:
     NUMBER_STUDENTS = 20
+    NUMBER_ASSIGNS = 4
     DATASET = pd.DataFrame()
     
+    _language = "pt"
+    _assign_name = []
     _students = pd.DataFrame()
     _assigns = pd.DataFrame()
-    _language = "pt"
 
     def __init__(self, language="pt"):
         self.language = language
 
-    def generate_dataset(self, number_students = 20):
+    def generate_dataset(self, number_students = 20, number_assigns = 4):
         self.NUMBER_STUDENTS = number_students
+        self.NUMBER_ASSIGNS = number_assigns
 
-        self.DATASET = pd.DataFrame(columns=["Students","Assign1","Assign2",'Assign3','Assign4'])
+        self._assign_name = ["Assign"+str(i+1) for i in range (0, self.NUMBER_ASSIGNS)]
+
         names = pd.read_csv("names.csv")
         rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
         rand_names.sort()
 
+        self.DATASET = pd.DataFrame(columns=self._assign_name)
         for i in range(0,self.NUMBER_STUDENTS):
-            self.DATASET.loc[i] = [np.random.randint(0,2) for n in range(len(self.DATASET.columns))]
-            self.DATASET.loc[i,"Students"] = rand_names[i]
+            self.DATASET.loc[i] = [np.random.randint(0,2) for n in range(len(self.DATASET.columns))]            
+        
+        self.DATASET.insert(0,"Students", rand_names)
 
         self.get_students_frame()
         self.get_assigns_frame()
@@ -1774,7 +1780,7 @@ class V001:
                     color='rgb(180,180,180)',
                 ),
                 autorange = False,
-                categoryorder = "category ascending",
+                # categoryorder = "category ascending",
                 # domain = [0, 1],
                 fixedrange = False,
                 range = [-1, len(df.columns[1:])],
@@ -1863,7 +1869,7 @@ class V001:
                     color='rgb(180,180,180)',
                 ),
                 autorange = False,
-                categoryorder = "category ascending",
+                # categoryorder = "category ascending",
                 # domain = [0, 1],
                 fixedrange = False,
                 range = [-1, len(df.columns[1:])],
@@ -1975,7 +1981,7 @@ class V001:
                     color='rgb(180,180,180)',
                 ),
                 autorange = False,
-                categoryorder = "category ascending",
+                # categoryorder = "category ascending",
                 # domain = [0, 1],
                 fixedrange = False,
                 range = [-1, len(df.columns[1:])],
@@ -1989,8 +1995,210 @@ class V001:
         fig=Figure(data=data, layout=layout)
         iplot(fig, filename='bubblechart-size')        
 
-    # Heatmap assigns completed by each students
     def graph_29(self):
+        # https://plot.ly/python/bubble-charts/
+        # https://plot.ly/python/reference/#layout-xaxis
+        # https://plot.ly/python/axes/#subcategory-axes
+        legend = {"title":"Número de atividades feitas e <b>não</b> feitas por estudante",
+                    "xaxis":"",
+                    "yaxis":"",
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of assigns completed and <b>not</b> completed student",
+                        "xaxis":"",
+                        "yaxis":"",
+                        "columns":{1:"Completed", 2:"Not completed"}
+                    }
+        df = self._students.iloc[:,0:3]
+        sizeref = 0.05
+        
+        trace = []
+        for i in range(0, len(df)):                    
+            trace.append(
+                Scatter(
+                    x=[df.iloc[i,0]]*len(df.columns),
+                    y=[legend["columns"][i] for i in range (1,2)],
+                    mode='markers',                    
+                    name=df.iloc[i,0], #videos
+                    text = df.iloc[i,1:].values.tolist(),
+                    marker=dict(
+                        symbol='circle',
+                        sizemode='area',
+                        sizeref=sizeref,
+                        size=df.iloc[i,1:].values.tolist(),
+                        color = 'rgb(0,0,255)',
+                        line=dict(
+                            width=2
+                        )
+                    )
+                )
+            )
+            trace.append(
+                Scatter(
+                    x=[df.iloc[i,0]]*len(df.columns),
+                    y=[legend["columns"][i] for i in range (2,3)],
+                    mode='markers',                    
+                    name=df.iloc[i,0],
+                    text = df.iloc[i,2:].values.tolist(),
+                    marker=dict(
+                        symbol='circle',
+                        sizemode='area',
+                        sizeref=sizeref,
+                        size=df.iloc[i,2:].values.tolist(),
+                        color='rgb(255,126,24)',
+                        line=dict(
+                            width=2
+                        )
+                    )
+                )
+            )
+
+        layout = Layout(
+            title=legend['title'],
+            hovermode = "closest",
+            showlegend = False,
+            xaxis = dict(
+                title = legend['xaxis'],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                autorange = False,
+                # categoryorder = "category ascending",
+                # domain = [0, 1],
+                fixedrange = False,
+                range = [-1, len(df)],
+                rangemode = "normal",
+                showline = True,                
+                type = "category"
+            ),
+            yaxis = dict(
+                title = legend['yaxis'],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                autorange = False,
+                # categoryorder = "category ascending",
+                # domain = [0, 1],
+                fixedrange = False,
+                range = [-1, len(df.columns[1:])],
+                rangemode = "normal",
+                showline = True,                
+                type = "category"
+            )
+        )
+
+        data = trace
+        fig=Figure(data=data, layout=layout)
+        iplot(fig, filename='bubblechart-size')
+
+    def graph_30(self):
+        # https://plot.ly/python/bubble-charts/
+        # https://plot.ly/python/reference/#layout-xaxis
+        # https://plot.ly/python/axes/#subcategory-axes
+        legend = {"title":"Número de estudantes que fizeram e <b>não</b> fizeram as atividades",
+                    "xaxis":"",
+                    "yaxis":"",
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of students who completed and <b>not</b> completed the assigns",
+                        "xaxis":"",
+                        "yaxis":"",
+                        "columns":{1:"Completed", 2:"Not completed"}
+                    }
+        df = self._assigns.iloc[:,0:3]
+        sizeref = 0.05
+        
+        trace = []
+        for i in range(0, len(df)):                    
+            trace.append(
+                Scatter(
+                    x=[df.iloc[i,0]]*len(df.columns),
+                    y=[legend["columns"][i] for i in range (1,2)],
+                    mode='markers',                    
+                    name=df.iloc[i,0], #videos
+                    text = df.iloc[i,1:].values.tolist(),
+                    marker=dict(
+                        symbol='circle',
+                        sizemode='area',
+                        sizeref=sizeref,
+                        size=df.iloc[i,1:].values.tolist(),
+                        color = 'rgb(0,0,255)',
+                        line=dict(
+                            width=2
+                        )
+                    )
+                )
+            )
+            trace.append(
+                Scatter(
+                    x=[df.iloc[i,0]]*len(df.columns),
+                    y=[legend["columns"][i] for i in range (2,3)],
+                    mode='markers',                    
+                    name=df.iloc[i,0],
+                    text = df.iloc[i,2:].values.tolist(),
+                    marker=dict(
+                        symbol='circle',
+                        sizemode='area',
+                        sizeref=sizeref,
+                        size=df.iloc[i,2:].values.tolist(),
+                        color='rgb(255,126,24)',
+                        line=dict(
+                            width=2
+                        )
+                    )
+                )
+            )
+
+        layout = Layout(
+            title=legend['title'],
+            hovermode = "closest",
+            showlegend = False,
+            xaxis = dict(
+                title = legend['xaxis'],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                autorange = False,
+                # categoryorder = "category ascending",
+                # domain = [0, 1],
+                fixedrange = False,
+                range = [-1, len(df)],
+                rangemode = "normal",
+                showline = True,                
+                type = "category"
+            ),
+            yaxis = dict(
+                title = legend['yaxis'],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                autorange = False,
+                # categoryorder = "category ascending",
+                # domain = [0, 1],
+                fixedrange = False,
+                range = [-1, len(df.columns[1:])],
+                rangemode = "normal",
+                showline = True,                
+                type = "category"
+            )
+        )
+
+        data = trace
+        fig=Figure(data=data, layout=layout)
+        iplot(fig, filename='bubblechart-size')
+
+    # Heatmap assigns completed by each students
+    def graph_31(self):
         legend = {"title":"Atividades feitas por estudante",
                     "xaxis":"",
                     "yaxis":"",
@@ -2047,7 +2255,7 @@ class V001:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='Heatmap')
 
-    def graph_30(self):
+    def graph_32(self):
         legend = {"title":"Atividades <b>não</b> feitas por estudante",
                     "xaxis":"",
                     "yaxis":"",
@@ -2110,6 +2318,351 @@ class V001:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='Heatmap')
 
+    def graph_33(self):
+        legend = {"title":"Atividades feitas e <b>não</b> feitas por estudante",
+                    "xaxis":"",
+                    "yaxis":"",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Assigns completed and <b>not</b> completed by students",
+                        "xaxis":"",
+                        "yaxis":"",
+                    }
+        df = self.DATASET
+        z = []
+        for i in range (1, len(df.columns)):
+            z.append(df.iloc[:,i].values.tolist())
+
+        trace = Heatmap(z=z,
+                        y=df.columns[1:], #Assigns
+                        x=df.iloc[:,0], #Students
+                        colorscale=[[0, 'rgb(255,126,24)'], [1, 'rgb(0,0,255)']],
+                        showscale = False
+                    )
+        
+        layout = Layout(
+                title = legend['title'],                
+                autosize=False,
+                width=950,
+                height=350,
+                hovermode = "closest",
+                xaxis=dict(
+                    title = legend['xaxis'],
+                    titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                ),                
+                yaxis=dict(
+                    title = legend['yaxis'],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    type="category",                    
+                    tick0=0,
+                    dtick=1,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',                    
+                )
+            )
+
+        data = [trace]
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Heatmap')
+
+    def graph_34(self):
+        legend = {"title":"Número de atividades feitas e <b>não</b> feitas por estudante",
+                    "xaxis":"",
+                    "yaxis":"",
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of assigns completed and <b>not</b> completed student",
+                        "xaxis":"",
+                        "yaxis":"",
+                        "columns":{1:"Completed", 2:"Not completed"}
+                    }
+        df = self._students.iloc[:,0:3]
+        z = []
+        for i in range (1, len(df.columns)):
+            z.append(df.iloc[:,i].values.tolist())
+        
+        trace = []
+        trace.append(Heatmap(z=z,
+                        y=[legend["columns"][i] for i in range (1,len(df.columns))],
+                        x=df.iloc[:,0], #Students
+                        colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        showscale = True
+                    ))
+
+        layout = Layout(
+                title = legend['title'],                
+                autosize=False,
+                width=950,
+                height=350,
+                hovermode = "closest",
+                xaxis=dict(
+                    title = legend['xaxis'],
+                    titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                ),                
+                yaxis=dict(
+                    title = legend['yaxis'],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    type="category",                    
+                    tick0=0,
+                    dtick=1,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',                    
+                )
+            )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Heatmap')
+
+    def graph_35(self):
+        legend = {"title":"Número de atividades feitas e <b>não</b> feitas por estudante",
+                    "xaxis":"",
+                    "yaxis":"",
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of assigns completed and <b>not</b> completed student",
+                        "xaxis":"",
+                        "yaxis":"",
+                        "columns":{1:"Completed", 2:"Not completed"}
+                    }
+        df = self._students.iloc[:,0:3]
+        z = []
+        max_value = 0
+        for i in range (1, len(df.columns)):
+            z.append(df.iloc[:,i].values.tolist())
+            max_local = max(df.iloc[:,i].values.tolist())
+            max_value = max(max_local,max_value)
+        
+        trace = []
+        trace.append(Heatmap(z=z,
+                        y=[legend["columns"][i] for i in range (1,len(df.columns))],
+                        x=df.iloc[:,0], #Students
+                        colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        showscale = True
+                    ))
+
+        annotations=[]
+        for i in range(1,len(df.columns)):
+            for j in range(0,len(df)):
+                color = 'rgb(0,0,0)'
+                if df.iloc[j,i] > max_value/2:
+                    color = 'rgb(255,255,255)'
+                annotations.append({
+                    "text":str(df.iloc[j,i]),
+                    "y":legend["columns"][i],
+                    "x":df.iloc[j,0],
+                    "xref":'x1', 
+                    "yref":'y1',
+                    "showarrow":False,
+                    "font":{
+                        # family='Courier New, monospace',
+                        # size=16,
+                        "color":color
+                    }
+                })
+
+        layout = Layout(
+                title = legend['title'],                
+                autosize=False,
+                width=950,
+                height=350,
+                hovermode = "closest",
+                xaxis=dict(
+                    title = legend['xaxis'],
+                    titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                ),                
+                yaxis=dict(
+                    title = legend['yaxis'],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    type="category",                    
+                    tick0=0,
+                    dtick=1,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',                    
+                ),
+                annotations = annotations
+            )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Heatmap')
+
+    def graph_36(self):
+        legend = {"title":"Número de estudantes que fizeram e <b>não</b> fizeram as atividades",
+                    "xaxis":"",
+                    "yaxis":"",
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of students who completed and <b>not</b> completed the assigns",
+                        "xaxis":"",
+                        "yaxis":"",
+                        "columns":{1:"Completed", 2:"Not completed"}
+                    }
+        df = self._assigns.iloc[:,0:3]
+        z = []
+        for i in range (1, len(df.columns)):
+            z.append(df.iloc[:,i].values.tolist())
+        
+        trace = []
+        trace.append(Heatmap(z=z,
+                        y=[legend["columns"][i] for i in range (1,len(df.columns))],
+                        x=df.iloc[:,0], #Students
+                        colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        showscale = True
+                    ))
+
+        layout = Layout(
+                title = legend['title'],                
+                autosize=False,
+                width=950,
+                height=350,
+                hovermode = "closest",
+                xaxis=dict(
+                    title = legend['xaxis'],
+                    titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                ),                
+                yaxis=dict(
+                    title = legend['yaxis'],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    type="category",                    
+                    tick0=0,
+                    dtick=1,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',                    
+                )
+            )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Heatmap')
+
+    def graph_37(self):
+        legend = {"title":"Número de estudantes que fizeram e <b>não</b> fizeram as atividades",
+                    "xaxis":"",
+                    "yaxis":"",
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of students who completed and <b>not</b> completed the assigns",
+                        "xaxis":"",
+                        "yaxis":"",
+                        "columns":{1:"Completed", 2:"Not completed"}
+                    }
+        df = self._assigns.iloc[:,0:3]
+        z = []
+        max_value = 0
+        for i in range (1, len(df.columns)):
+            z.append(df.iloc[:,i].values.tolist())
+            max_local = max(df.iloc[:,i].values.tolist())
+            max_value = max(max_local,max_value)
+        
+        trace = []
+        trace.append(Heatmap(z=z,
+                        y=[legend["columns"][i] for i in range (1,len(df.columns))],
+                        x=df.iloc[:,0], #Students
+                        colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        showscale = True
+                    ))
+
+        annotations=[]
+        for i in range(1,len(df.columns)):
+            for j in range(0,len(df)):
+                color = 'rgb(0,0,0)'
+                if df.iloc[j,i] > max_value/2:
+                    color = 'rgb(255,255,255)'
+                annotations.append({
+                    "text":str(df.iloc[j,i]),
+                    "y":legend["columns"][i],
+                    "x":df.iloc[j,0],
+                    "xref":'x1', 
+                    "yref":'y1',
+                    "showarrow":False,
+                    "font":{
+                        # family='Courier New, monospace',
+                        # size=16,
+                        "color":color
+                    }
+                })
+
+        layout = Layout(
+                title = legend['title'],                
+                autosize=False,
+                width=950,
+                height=350,
+                hovermode = "closest",
+                xaxis=dict(
+                    title = legend['xaxis'],
+                    titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                ),                
+                yaxis=dict(
+                    title = legend['yaxis'],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    type="category",                    
+                    tick0=0,
+                    dtick=1,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',                    
+                ),
+                annotations = annotations
+            )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Heatmap')
+
     def print_all_graphs(self,language="pt"):
         self._language = language
         self.graph_01() #Table
@@ -2140,11 +2693,17 @@ class V001:
         self.graph_26() #Scatter
         self.graph_27()
         self.graph_28()
-        self.graph_29() #Heatmap
+        self.graph_29()
         self.graph_30()
-
+        self.graph_31() #Heatmap
+        self.graph_32()
+        self.graph_33()
+        self.graph_34()
+        self.graph_35()
+        self.graph_36()
+        self.graph_37()
 
 instance = V001()
-instance.generate_dataset(number_students = 20)
+instance.generate_dataset(number_students = 20, number_assigns = 10)
 instance.print_all_graphs("pt")
 # instance.print_all_graphs("en")
