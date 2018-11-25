@@ -3006,6 +3006,696 @@ class V001:
         fig = Figure(data=data, layout=layout)
         iplot(fig, filename='Grouped_Bar')
 
+    #Stacked Bar
+    def graph_44(self):
+        legend = {"title":"Número de atividades feitas e <b>não</b> feitas por aluno",
+                    "xaxis":"",
+                    "yaxis":"Número de atividades",
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of assigns completed and <b>not</b> completed by students",
+                        "xaxis":"",
+                        "yaxis":"Number of assigns",
+                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                    }
+
+        df = self._students
+        trace = []
+        for i in range(1,len(df.columns)):
+            trace.append(Bar(
+                    x=df.Name.values,
+                    y=df.iloc[:,i].values,
+                    # name=df.columns[i]
+                    name=legend['columns'][i]
+            ))
+
+        data = trace
+        layout = Layout(
+                title=legend["title"],
+                xaxis=dict(
+                    title = legend["xaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                barmode='stack',
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=5,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Stacked_Bar')
+
+    def graph_45(self):
+        legend = {"title":"Número de atividades feitas e <b>não</b> feitas por aluno",
+                    "xaxis":"",
+                    "yaxis":"Número de atividades",
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of assigns completed and <b>not</b> completed by students",
+                        "xaxis":"",
+                        "yaxis":"Number of assigns",
+                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                    }
+
+        df = self._students.sort_values(by=["Total_Done","Name"])
+        trace = []
+        for i in range(1,len(df.columns)):
+            trace.append(Bar(
+                    x=df.Name.values,
+                    y=df.iloc[:,i].values,
+                    # name=df.columns[i]
+                    name=legend['columns'][i]
+            ))
+
+        data = trace
+        layout = Layout(
+                title=legend["title"],
+                xaxis=dict(
+                    title = legend["xaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                barmode='stack',
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=5,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Stacked_Bar')
+
+    def graph_46(self):
+        legend = {"title":"Número de atividades feitas e <b>não</b> feitas por aluno",
+                    "xaxis":"",
+                    "yaxis":"Número de atividades",
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of assigns completed and <b>not</b> completed by students",
+                        "xaxis":"",
+                        "yaxis":"Number of assigns",
+                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                    }
+
+        df = self._students.sort_values(by=["Total_Undone","Name"])
+        trace = []
+        for i in range(1,len(df.columns)):
+            trace.append(Bar(
+                    x=df.Name.values,
+                    y=df.iloc[:,i].values,
+                    # name=df.columns[i]
+                    name=legend['columns'][i]
+            ))
+
+        data = trace
+        layout = Layout(
+                title=legend["title"],
+                xaxis=dict(
+                    title = legend["xaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                barmode='stack',
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=5,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Stacked_Bar')
+
+    def graph_47(self):
+        legend = {"title":"Número de atividades feitas e <b>não</b> feitas por aluno",
+                    "xaxis":"Número de atividades",
+                    "yaxis":"",
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of assigns completed and <b>not</b> completed by students",
+                        "xaxis":"Number of assigns",
+                        "yaxis":"",
+                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                    }
+
+        df = self._students
+        trace = []
+        for i in range(1,len(df.columns)):
+            trace.append(Bar(                    
+                    x=df.iloc[:,i].values,
+                    y=df.Name.values,
+                    # name=df.columns[i],
+                    name=legend['columns'][i],
+                    orientation = 'h'
+            ))
+
+        data = trace
+        layout = Layout(
+                title=legend["title"],
+                barmode='stack',
+                xaxis=dict(
+                    title = legend["xaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=1,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Stacked_Bar')
+
+    def graph_48(self):
+        legend = {"title":"Número de atividades feitas e <b>não</b> feitas por aluno",
+                    "xaxis":"Número de atividades",
+                    "yaxis":"",
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of assigns completed and <b>not</b> completed by students",
+                        "xaxis":"Number of assigns",
+                        "yaxis":"",
+                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                    }
+
+        df = self._students.sort_values(by=["Total_Done","Name"])
+        trace = []
+        for i in range(1,len(df.columns)):
+            trace.append(Bar(                    
+                    x=df.iloc[:,i].values,
+                    y=df.Name.values,
+                    # name=df.columns[i],
+                    name=legend['columns'][i],
+                    orientation = 'h'
+            ))
+
+        data = trace
+        layout = Layout(
+                title=legend["title"],
+                barmode='stack',
+                xaxis=dict(
+                    title = legend["xaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=1,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Stacked_Bar')
+
+    def graph_49(self):
+        legend = {"title":"Número de atividades feitas e <b>não</b> feitas por aluno",
+                    "xaxis":"Número de atividades",
+                    "yaxis":"",
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of assigns completed and <b>not</b> completed by students",
+                        "xaxis":"Number of assigns",
+                        "yaxis":"",
+                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                    }
+
+        df = self._students.sort_values(by=["Total_Undone","Name"])
+        trace = []
+        for i in range(1,len(df.columns)):
+            trace.append(Bar(                    
+                    x=df.iloc[:,i].values,
+                    y=df.Name.values,
+                    # name=df.columns[i],
+                    name=legend['columns'][i],
+                    orientation = 'h'
+            ))
+
+        data = trace
+        layout = Layout(
+                title=legend["title"],
+                barmode='stack',
+                xaxis=dict(
+                    title = legend["xaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=1,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Stacked_Bar')
+
+    def graph_50(self):
+        legend = {"title":"Número de alunos que fizeram e <b>não</b> fizeram as atividades",
+                    "xaxis":"",
+                    "yaxis":"Número de estudantes",
+                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of students who completed and <b>not</b> completed the assigns",
+                        "xaxis":"",
+                        "yaxis":"Number of students",
+                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                    }
+        
+        df = self._assigns
+        trace = []
+        for i in range(1,len(df.columns)):
+            trace.append(Bar(
+                    x=df.Name.values,
+                    y=df.iloc[:,i].values,
+                    # name=df.columns[i]
+                    name=legend['columns'][i]
+            ))
+
+        data = trace
+        layout = Layout(
+                title=legend["title"],
+                xaxis=dict(
+                    title = legend["xaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                barmode='stack',
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=5,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Stacked_Bar')
+
+    def graph_51(self):
+        legend = {"title":"Número de alunos que fizeram e <b>não</b> fizeram as atividades",
+                    "xaxis":"",
+                    "yaxis":"Número de estudantes",
+                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of students who completed and <b>not</b> completed the assigns",
+                        "xaxis":"",
+                        "yaxis":"Number of students",
+                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                    }
+        
+        df = self._assigns.sort_values(by=["Total_Done","Name"])
+        trace = []
+        for i in range(1,len(df.columns)):
+            trace.append(Bar(
+                    x=df.Name.values,
+                    y=df.iloc[:,i].values,
+                    # name=df.columns[i]
+                    name=legend['columns'][i]
+            ))
+
+        data = trace
+        layout = Layout(
+                title=legend["title"],
+                xaxis=dict(
+                    title = legend["xaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                barmode='stack',
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=5,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Stacked_Bar')
+
+    def graph_52(self):
+        legend = {"title":"Número de alunos que fizeram e <b>não</b> fizeram as atividades",
+                    "xaxis":"",
+                    "yaxis":"Número de estudantes",
+                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of students who completed and <b>not</b> completed the assigns",
+                        "xaxis":"",
+                        "yaxis":"Number of students",
+                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                    }
+        
+        df = self._assigns.sort_values(by=["Total_Undone","Name"])
+        trace = []
+        for i in range(1,len(df.columns)):
+            trace.append(Bar(
+                    x=df.Name.values,
+                    y=df.iloc[:,i].values,
+                    # name=df.columns[i]
+                    name=legend['columns'][i]
+            ))
+
+        data = trace
+        layout = Layout(
+                title=legend["title"],
+                xaxis=dict(
+                    title = legend["xaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                barmode='stack',
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=5,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Stacked_Bar')
+
+    def graph_53(self):
+        legend = {"title":"Número de alunos que fizeram e <b>não</b> fizeram as atividades",
+                    "xaxis":"Número de estudantes",
+                    "yaxis":"",
+                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of students who completed and <b>not</b> completed the assigns",
+                        "xaxis":"Number of students",
+                        "yaxis":"",
+                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                    }
+        
+        df = self._assigns
+        trace = []
+        for i in range(1,len(df.columns)):
+            trace.append(Bar(                    
+                    x=df.iloc[:,i].values,
+                    y=df.Name.values,
+                    # name=df.columns[i],
+                    name=legend['columns'][i],
+                    orientation = 'h'
+            ))
+
+        data = trace
+        layout = Layout(
+                title=legend["title"],
+                barmode='stack',
+                xaxis=dict(
+                    title = legend["xaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=1,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Stacked_Bar')
+
+    def graph_54(self):
+        legend = {"title":"Número de alunos que fizeram e <b>não</b> fizeram as atividades",
+                    "xaxis":"Número de estudantes",
+                    "yaxis":"",
+                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of students who completed and <b>not</b> completed the assigns",
+                        "xaxis":"Number of students",
+                        "yaxis":"",
+                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                    }
+        
+        df = self._assigns.sort_values(by=["Total_Done","Name"])
+        trace = []
+        for i in range(1,len(df.columns)):
+            trace.append(Bar(                    
+                    x=df.iloc[:,i].values,
+                    y=df.Name.values,
+                    # name=df.columns[i],
+                    name=legend['columns'][i],
+                    orientation = 'h'
+            ))
+
+        data = trace
+        layout = Layout(
+                title=legend["title"],
+                barmode='stack',
+                xaxis=dict(
+                    title = legend["xaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=1,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Stacked_Bar')
+
+    def graph_55(self):
+        legend = {"title":"Número de alunos que fizeram e <b>não</b> fizeram as atividades",
+                    "xaxis":"Número de estudantes",
+                    "yaxis":"",
+                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"}
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of students who completed and <b>not</b> completed the assigns",
+                        "xaxis":"Number of students",
+                        "yaxis":"",
+                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                    }
+        
+        df = self._assigns.sort_values(by=["Total_Undone","Name"])
+        trace = []
+        for i in range(1,len(df.columns)):
+            trace.append(Bar(                    
+                    x=df.iloc[:,i].values,
+                    y=df.Name.values,
+                    # name=df.columns[i],
+                    name=legend['columns'][i],
+                    orientation = 'h'
+            ))
+
+        data = trace
+        layout = Layout(
+                title=legend["title"],
+                barmode='stack',
+                xaxis=dict(
+                    title = legend["xaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                ),
+                yaxis=dict(
+                    title = legend["yaxis"],
+                    titlefont=dict(
+                        # family='Arial, sans-serif',
+                        # size=18,
+                        color='rgb(180,180,180)',
+                    ),
+                    showticklabels=True,
+                    tick0=0,
+                    dtick=1,
+        #             ticklen=4,
+        #             tickwidth=4,
+                    exponentformat='e',
+                    showexponent='all',
+                    gridcolor='#bdbdbd',
+        #             range=[0, 4.1]
+                )
+            )
+
+        fig = Figure(data=data, layout=layout)
+        iplot(fig, filename='Stacked_Bar')
 
     def print_all_graphs(self,language="pt"):
         self._language = language
@@ -3052,11 +3742,18 @@ class V001:
         self.graph_41()
         self.graph_42()
         self.graph_43() 
-        # self.graph_44() #Stacked Bar
-        # self.graph_45()
-        # self.graph_46()
-        # self.graph_47()
-        # self.graph_48()
+        self.graph_44() #Stacked Bar
+        self.graph_45()
+        self.graph_46()
+        self.graph_47()
+        self.graph_48()
+        self.graph_49()
+        self.graph_50()
+        self.graph_51()
+        self.graph_52()
+        self.graph_53()
+        self.graph_54()
+        self.graph_55()
 
 instance = V001()
 instance.generate_dataset(number_students = 20, number_assigns = 10)
