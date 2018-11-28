@@ -1,3 +1,7 @@
+import dash
+import dash_core_components as dcc
+import dash_html_components as html
+
 import pandas as pd
 import numpy as np
 
@@ -11,11 +15,13 @@ class V004:
     DATASET = pd.DataFrame()
     
     _language = "pt"
+    _type_result="jupyter-notebook"
     _material_name = []
     _df_sum = []
 
-    def __init__(self, language = "pt"):        
+    def __init__(self, language="pt", type_result = "jupyter-notebook"):
         self._language = language
+        self._type_result = type_result
     
     def generate_dataset(self, number_students = 20):
         self.NUMBER_STUDENTS = number_students

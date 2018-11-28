@@ -1,3 +1,7 @@
+import dash
+import dash_core_components as dcc
+import dash_html_components as html
+
 import pandas as pd
 import numpy as np
 
@@ -16,6 +20,7 @@ class V008:
     DATASET = pd.DataFrame()
 
     _language = "pt"
+    _type_result="jupyter-notebook"
     _work_deadline = (int(NUMBER_WEEKS/2)+(NUMBER_WEEKS%2))*7
     _test_day = NUMBER_WEEKS*7
     
@@ -23,8 +28,9 @@ class V008:
     _df_sum_week = pd.DataFrame()
     _df_all_day = pd.DataFrame()
 
-    def __init__(self, language = "pt"):
-        self._language = language        
+    def __init__(self, language="pt", type_result = "jupyter-notebook"):
+        self._language = language
+        self._type_result = type_result
         
     def generate_dataset(self, number_students = 20, number_weeks = 7):
         self.NUMBER_STUDENTS = number_students
