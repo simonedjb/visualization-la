@@ -222,7 +222,13 @@ class V005:
         )
 
         data = [trace]
-        iplot(data, filename = 'pandas_table')
+        if self._type_result == "jupyter-notebook":
+            iplot(data, filename = 'pandas_table')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V005@1',
+                figure={"data": data}
+            )
 
     # Scatter
     def graph_02(self):
@@ -302,7 +308,13 @@ class V005:
 
         data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='scatter-plot')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Scatter')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V005@2',
+                figure=fig
+            )
 
     def graph_03(self):
         legend = {"title":"Relação entre as notas dos estudantes e seus acessos nos materiais",
@@ -378,7 +390,13 @@ class V005:
 
         data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='scatter-plot')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Scatter')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V005@3',
+                figure=fig
+            )
 
     def graph_04(self):
         legend = {"title":"Relação entre as notas dos estudantes e as atividades concluídas por eles",
@@ -454,7 +472,13 @@ class V005:
 
         data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='scatter-plot')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Scatter')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V005@4',
+                figure=fig
+            )
 
     def graph_05(self):
         legend = {"title":"Relação entre as notas dos estudantes e seus acessos no fórum",
@@ -530,7 +554,13 @@ class V005:
 
         data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='scatter-plot')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Scatter')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V005@5',
+                figure=fig
+            )
 
     def graph_06(self):
         legend = {"title":"Relação entre as notas dos estudantes e suas postagens no fórum",
@@ -606,7 +636,13 @@ class V005:
 
         data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='scatter-plot')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Scatter')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V005@6',
+                figure=fig
+            )
 
     def graph_07(self):
         legend = {"title":"Relação entre as notas dos estudantes e suas réplicas no fórum",
@@ -682,7 +718,13 @@ class V005:
 
         data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='scatter-plot')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Scatter')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V005@7',
+                figure=fig
+            )
 
     def graph_08(self):
         legend = {"title":"Relação entre as notas dos estudantes e seus tópicos adicionados no fórum",
@@ -758,7 +800,13 @@ class V005:
 
         data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='scatter-plot')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Scatter')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V005@8',
+                figure=fig
+            )
 
     # Box
     def graph_09(self):
@@ -822,7 +870,13 @@ class V005:
 
         data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='box-plot')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Box')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V005@9',
+                figure=fig
+            )
 
     def graph_10(self):
         legend = {"title":"Variação de acessos no AVA por cluster",
@@ -885,7 +939,13 @@ class V005:
 
         data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='box-plot')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Box')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V005@10',
+                figure=fig
+            )
 
     def graph_11(self):
         legend = {"title":"Variação de acessos nos materiais por cluster",
@@ -948,7 +1008,13 @@ class V005:
 
         data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='box-plot')        
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Box')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V005@11',
+                figure=fig
+            )
 
     def graph_12(self):
         legend = {"title":"Variação de atividades concluídas por cluster",
@@ -1011,7 +1077,13 @@ class V005:
 
         data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='box-plot')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Box')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V005@12',
+                figure=fig
+            )
 
     def graph_13(self):
         legend = {"title":"Variação de acessos no fórum por cluster",
@@ -1073,8 +1145,14 @@ class V005:
         )
 
         data = trace
-        fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='box-plot')
+        fig = Figure(data=data, layout=layout)        
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Box')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V005@13',
+                figure=fig
+            )
 
     def graph_14(self):
         legend = {"title":"Variação de postagens no fórum por cluster",
@@ -1137,7 +1215,13 @@ class V005:
 
         data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='box-plot')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Box')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V005@14',
+                figure=fig
+            )
 
     def graph_15(self):
         legend = {"title":"Variação de réplicas no fórum por cluster",
@@ -1200,7 +1284,13 @@ class V005:
 
         data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='box-plot')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Box')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V005@15',
+                figure=fig
+            )
 
     def graph_16(self):
         legend = {"title":"Variação de tópicos adicionados no fórum por cluster",
@@ -1263,7 +1353,13 @@ class V005:
 
         data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='box-plot')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Box')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V005@16',
+                figure=fig
+            )
 
     # Violin
     def graph_17(self):
@@ -1337,7 +1433,13 @@ class V005:
 
         data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='violin',validate = False)
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Violin')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V005@17',
+                figure=fig
+            )
     
     def graph_18(self):
         legend = {"title":"Variação de acessos no AVA por cluster",
@@ -1411,7 +1513,13 @@ class V005:
 
         data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='violin', validate = False)
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Violin')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V005@18',
+                figure=fig
+            )
 
     def graph_19(self):
         legend = {"title":"Variação de acessos nos materiais por cluster",
@@ -1484,7 +1592,13 @@ class V005:
 
         data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='violin', validate = False)
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Violin')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V005@19',
+                figure=fig
+            )
 
     def graph_20(self):
         legend = {"title":"Variação de atividades concluídas por cluster",
@@ -1557,7 +1671,13 @@ class V005:
 
         data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='violin', validate = False)
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Violin')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V005@20',
+                figure=fig
+            )
 
     def graph_21(self):
         legend = {"title":"Variação de acessos no fórum por cluster",
@@ -1630,7 +1750,13 @@ class V005:
 
         data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='violin', validate = False)
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Violin')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V005@21',
+                figure=fig
+            )
 
     def graph_22(self):
         legend = {"title":"Variação de postagens no fórum por cluster",
@@ -1703,7 +1829,13 @@ class V005:
 
         data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='violin', validate = False)
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Violin')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V005@22',
+                figure=fig
+            )
 
     def graph_23(self):
         legend = {"title":"Variação de réplicas no fórum por cluster",
@@ -1776,7 +1908,13 @@ class V005:
 
         data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='violin', validate = False)
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Violin')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V005@23',
+                figure=fig
+            )
 
     def graph_24(self):
         legend = {"title":"Variação de tópicos adicionados no fórum por cluster",
@@ -1849,7 +1987,13 @@ class V005:
 
         data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='violin', validate = False)
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Violin')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V005@24',
+                figure=fig
+            )
 
     def print_all_graphs(self,language="pt"):
         self._language = language
@@ -1878,9 +2022,9 @@ class V005:
         self.graph_23()
         self.graph_24()
 
-instance = V005()
-instance.generate_dataset(number_students = 60)
-instance.print_all_graphs("pt")
+# instance = V005()
+# instance.generate_dataset(number_students = 60)
+# instance.print_all_graphs("pt")
 # instance.print_all_graphs("en")
 
 # *[MP-017] Students can be clustered into different groups based on their access or interaction patterns.

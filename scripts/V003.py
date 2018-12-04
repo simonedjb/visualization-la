@@ -60,7 +60,13 @@ class V003:
         )
 
         data = [trace] 
-        iplot(data, filename = 'pandas_table')
+        if self._type_result == "jupyter-notebook":
+            iplot(data, filename = 'pandas_table')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V003@1',
+                figure={"data": data}
+            )
 
     # Grouped Bar
     def graph_02(self):
@@ -117,7 +123,13 @@ class V003:
             )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='012_2')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V003@2',
+                figure=fig
+            )
     
     def graph_03(self):
         legend = {"title":"Número de acessos, postagens e curtidas agrupados por estudante",
@@ -173,7 +185,13 @@ class V003:
             )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='012_2')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V003@3',
+                figure=fig
+            )
     
     # Stacked Bar
     def graph_04(self):
@@ -230,7 +248,13 @@ class V003:
             )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Stacked Bar')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V003@4',
+                figure=fig
+            )
     
     def graph_05(self):
         legend = {"title":"Número de acessos, postagens e curtidas agrupados por estudante",
@@ -285,7 +309,13 @@ class V003:
             )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='012_2')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V003@5',
+                figure=fig
+            )
 
     def graph_06(self):
         legend = {"title":"Número de acessos, postagens e curtidas agrupados por estudante",
@@ -342,7 +372,13 @@ class V003:
             )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='012_2')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V003@6',
+                figure=fig
+            )
 
     def graph_07(self):
         legend = {"title":"Número de acessos, postagens e curtidas agrupados por estudante",
@@ -399,7 +435,13 @@ class V003:
             )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='012_2')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V003@7',
+                figure=fig
+            )
 
     #Scatter
     def graph_08(self):
@@ -490,8 +532,14 @@ class V003:
         )
 
         data = trace
-        fig=Figure(data=data, layout=layout)
-        iplot(fig, filename='bubblechart-size')
+        fig=Figure(data=data, layout=layout)        
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Scatter')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V003@8',
+                figure=fig
+            )
     
     #Heatmap
     def graph_09(self):
@@ -552,7 +600,13 @@ class V003:
 
         data = [trace]
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Heatmap')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Heatmap')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V003@9',
+                figure=fig
+            )
 
     def graph_10(self):
         legend = {"title":"Número de acessos, postagens e curtidas agrupados por estudante",
@@ -638,7 +692,13 @@ class V003:
 
         data = [trace]
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Heatmap')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Heatmap')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V003@10',
+                figure=fig
+            )
 
     def print_all_graphs(self,language="pt"):
         self._language = language
@@ -653,7 +713,7 @@ class V003:
         self.graph_09() #Heatmap
         self.graph_10()
 
-instance = V003(20)
-instance.generate_dataset(number_students = 20)
-instance.print_all_graphs("pt")
+# instance = V003(20)
+# instance.generate_dataset(number_students = 20)
+# instance.print_all_graphs("pt")
 # instance.print_all_graphs("en")

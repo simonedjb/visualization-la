@@ -89,7 +89,13 @@ class V010:
         )
 
         data = [trace]
-        iplot(data, filename = 'pandas_table')
+        if self._type_result == "jupyter-notebook":
+            iplot(data, filename = 'pandas_table')
+        elif self._type_result == "dash":
+            return dcc.Graph(
+                id='V010@1',
+                figure={"data": data}
+            )
 
     def graph_02(self):
         df = self._df_sum_feedback
@@ -108,7 +114,13 @@ class V010:
         )
 
         data = [trace]
-        iplot(data, filename = 'pandas_table')
+        if self._type_result == "jupyter-notebook":
+            iplot(data, filename = 'pandas_table')
+        elif self._type_result == "dash":
+            return dcc.Graph(
+                id='V010@2',
+                figure={"data": data}
+            )
 
     #Bar    
     def graph_03(self):
@@ -159,7 +171,13 @@ class V010:
         )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Bar')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@3',
+                figure=fig
+            )
 
     def graph_04(self):
         legend = {"title":"Número de estudantes que entenderam os vídeos",
@@ -209,7 +227,13 @@ class V010:
         )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Bar')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@4',
+                figure=fig
+            )
 
     def graph_05(self):
         legend = {"title":"Número de estudantes que <b>não</b> entenderam os vídeos",
@@ -262,7 +286,13 @@ class V010:
         )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Bar')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@5',
+                figure=fig
+            )
 
     def graph_06(self):
         legend = {"title":"Número de estudantes que <b>não</b> entenderam os vídeos",
@@ -315,7 +345,13 @@ class V010:
         )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Bar')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@6',
+                figure=fig
+            )
 
     def graph_07(self):
         legend = {"title":"Número de estudantes que entenderam os vídeos",
@@ -366,7 +402,13 @@ class V010:
         )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Bar')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@7',
+                figure=fig
+            )
 
     def graph_08(self):
         legend = {"title":"Número de estudantes que entenderam os vídeos",
@@ -417,7 +459,13 @@ class V010:
         )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Bar')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@8',
+                figure=fig
+            )
 
     def graph_09(self):
         legend = {"title":"Número de estudantes que <b>não</b> entenderam os vídeos",
@@ -471,7 +519,13 @@ class V010:
         )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Bar')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@9',
+                figure=fig
+            )
 
     def graph_10(self):
         legend = {"title":"Número de estudantes que <b>não</b> entenderam os vídeos",
@@ -525,7 +579,13 @@ class V010:
         )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Bar')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@10',
+                figure=fig
+            )
 
     #Lollipop
     def graph_11(self):
@@ -622,7 +682,13 @@ class V010:
         )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Lollipop')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Lollipop')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@11',
+                figure=fig
+            )
 
     def graph_12(self):
         legend = {"title":"Número de estudantes que entenderam os vídeos",
@@ -718,7 +784,13 @@ class V010:
         )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Lollipop')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Lollipop')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@12',
+                figure=fig
+            )
 
     def graph_13(self):
         legend = {"title":"Número de estudantes que <b>não</b> entenderam os vídeos",
@@ -814,7 +886,13 @@ class V010:
         )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Lollipop')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Lollipop')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@13',
+                figure=fig
+            )
 
     def graph_14(self):
         legend = {"title":"Número de estudantes que <b>não</b> entenderam os vídeos",
@@ -910,7 +988,13 @@ class V010:
         )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Lollipop')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Lollipop')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@14',
+                figure=fig
+            )
 
     #Scatter
     def graph_15(self):
@@ -995,7 +1079,13 @@ class V010:
 
         data = trace
         fig=Figure(data=data, layout=layout)
-        iplot(fig, filename='bubblechart-size')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Scatter')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@15',
+                figure=fig
+            )
 
     def graph_16(self):
         # https://plot.ly/python/bubble-charts/
@@ -1082,7 +1172,13 @@ class V010:
 
         data = trace
         fig=Figure(data=data, layout=layout)
-        iplot(fig, filename='bubblechart-size')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Scatter')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@16',
+                figure=fig
+            )
 
     def graph_17(self):
         # https://plot.ly/python/bubble-charts/
@@ -1191,7 +1287,13 @@ class V010:
 
         data = trace
         fig=Figure(data=data, layout=layout)
-        iplot(fig, filename='bubblechart-size')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Scatter')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@17',
+                figure=fig
+            )
 
     def graph_18(self):
         # https://plot.ly/python/bubble-charts/
@@ -1295,7 +1397,13 @@ class V010:
 
         data = trace
         fig=Figure(data=data, layout=layout)
-        iplot(fig, filename='bubblechart-size')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Scatter')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@18',
+                figure=fig
+            )
     
     #Heatmap
     def graph_19(self):
@@ -1353,7 +1461,13 @@ class V010:
 
         data = [trace]
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Heatmap')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Heatmap')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@19',
+                figure=fig
+            )
 
     def graph_20(self):
         legend = {"title":"Vídeos <b>não</b> entendidos por estudante",
@@ -1415,7 +1529,13 @@ class V010:
 
         data = [trace]
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Heatmap')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Heatmap')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@20',
+                figure=fig
+            )
 
     def graph_21(self):
         legend = {"title":"Vídeos entendidos e <b>não</b> entendidos por estudante",
@@ -1472,7 +1592,13 @@ class V010:
 
         data = [trace]
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Heatmap')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Heatmap')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@21',
+                figure=fig
+            )
     
     def graph_22(self):
         legend = {"title":"Número de estudantes que entenderam e <b>não</b> os vídeos",
@@ -1532,7 +1658,13 @@ class V010:
 
         data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Heatmap')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Heatmap')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@22',
+                figure=fig
+            )
 
     def graph_23(self):
         legend = {"title":"Número de estudantes que entenderam e <b>não</b> os vídeos",
@@ -1616,7 +1748,13 @@ class V010:
 
         data = trace
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Heatmap')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Heatmap')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@23',
+                figure=fig
+            )
 
     #Grouped Bar
     def graph_24(self):
@@ -1674,7 +1812,13 @@ class V010:
             )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Grouped_Bar')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@24',
+                figure=fig
+            )
 
     def graph_25(self):
         legend = {"title":"Número de estudantes que entenderam e <b>não</b> entenderam os vídeos",
@@ -1731,7 +1875,13 @@ class V010:
             )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Grouped_Bar')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@25',
+                figure=fig
+            )
 
     def graph_26(self):
         legend = {"title":"Número de estudantes que entenderam e <b>não</b> entenderam os vídeos",
@@ -1788,7 +1938,13 @@ class V010:
             )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Grouped_Bar')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@26',
+                figure=fig
+            )
 
     #Stacked Bar
     def graph_27(self):
@@ -1846,7 +2002,13 @@ class V010:
             )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Stacked_Bar')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@27',
+                figure=fig
+            )
 
     def graph_28(self):
         legend = {"title":"Número de estudantes que entenderam e <b>não</b> entenderam os vídeos",
@@ -1903,7 +2065,13 @@ class V010:
             )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Stacked_Bar')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@28',
+                figure=fig
+            )
 
     def graph_29(self):
         legend = {"title":"Número de estudantes que entenderam e <b>não</b> entenderam os vídeos",
@@ -1960,7 +2128,13 @@ class V010:
             )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Stacked_Bar')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@29',
+                figure=fig
+            )
 
     def graph_30(self):
         legend = {"title":"Número de estudantes que entenderam e <b>não</b> entenderam os vídeos",
@@ -2018,7 +2192,13 @@ class V010:
             )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Stacked_Bar')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@30',
+                figure=fig
+            )
 
     def graph_31(self):
         legend = {"title":"Número de estudantes que entenderam e <b>não</b> entenderam os vídeos",
@@ -2076,7 +2256,13 @@ class V010:
             )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Stacked_Bar')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@31',
+                figure=fig
+            )
 
     def graph_32(self):
         legend = {"title":"Número de estudantes que entenderam e <b>não</b> entenderam os vídeos",
@@ -2134,7 +2320,13 @@ class V010:
             )
 
         fig = Figure(data=data, layout=layout)
-        iplot(fig, filename='Stacked_Bar')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V010@32',
+                figure=fig
+            )
 
     def print_all_graphs(self,language="pt"):
         self._language = language
@@ -2169,9 +2361,10 @@ class V010:
         self.graph_29()
         self.graph_30()
         self.graph_31()
+        self.graph_32()
         
 
-instance = V010()
-instance.generate_dataset(number_students=35, number_video=10)
-instance.print_all_graphs("pt")
+# instance = V010()
+# instance.generate_dataset(number_students=35, number_video=10)
+# instance.print_all_graphs("pt")
 # instance.print_all_graphs("en")
