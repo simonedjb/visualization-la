@@ -25,7 +25,7 @@ class V001:
     def __init__(self, language="pt", type_result = "jupyter-notebook"):
         self._language = language
         self._type_result = type_result
-        self._map = pd.DataFrame(columns=["id","type","graph_ref","family"])
+        self.load_map_view()
 
     def generate_dataset(self, number_students = 20, number_assigns = 4):
         self.NUMBER_STUDENTS = number_students
@@ -4038,283 +4038,374 @@ class V001:
                 figure=fig
             )
 
-    def map_view(self):
-        self._map.append({self._map.columns[0]:1,
-                          self._map.columns[1]:"Table",
-                          self._map.columns[2]:1,
-                          self._map.columns[3]:[1]}, ignore_index=True)
+    def option_01(self, id_ref):
+        return  html.Br()
 
-        self._map.append({self._map.columns[0]:2,
-                          self._map.columns[1]:"Barchart",
-                          self._map.columns[2]:2,
-                          self._map.columns[3]:[2,3]}, ignore_index=True)
+    def option_02(self, id_ref,values=['visible']):
+        legend = {"title":"Valores visíveis"}
+        if (self._language == "en"):
+            legend = {"title":"Visible values"}
+      
+        return  dcc.Checklist(
+                    id=id_ref,
+                    options=[
+                        {'label': legend["title"], 'value': 'visible'}
+                    ],
+                    values=values,
+                    labelStyle={'display': 'inline-block'}
+                )
 
-        self._map.append({self._map.columns[0]:3,
-                          self._map.columns[1]:"Barchart",
-                          self._map.columns[2]:2,
-                          self._map.columns[3]:[2,3]}, ignore_index=True)
+    def get_option_values(self,index):
+        return self._map.interactive_option_values.loc[self._map.id == index].tolist()[0]
 
-        self._map.append({self._map.columns[0]:4,
-                          self._map.columns[1]:"Barchart",
-                          self._map.columns[2]:4,
-                          self._map.columns[3]:[4,5]}, ignore_index=True)
+    def get_option_index(self,index):
+        return self._map.interactive_option.loc[self._map.id == index].tolist()[0]
 
-        self._map.append({self._map.columns[0]:5,
-                          self._map.columns[1]:"Barchart",
-                          self._map.columns[2]:4,
-                          self._map.columns[3]:[4,5]}, ignore_index=True)
+    def get_family_graph(self,index):
+        return self._map.chart_family.loc[self._map.id == index].tolist()[0]
+
+    def get_chart_ref(self,index):
+        return int(self._map.chart_ref.loc[self._map.id == index].to_string(index=False))
+
+    def get_chart_type(self,index):
+        return self._map.type.loc[self._map.id == index].to_string(index=False)
+
+    def load_map_view(self):
+        self._map = pd.DataFrame(columns=["id","type","chart_ref","chart_family","interactive_option","interactive_option_values"])
+
+        self._map = self._map.append({self._map.columns[0]:1,
+                                      self._map.columns[1]:"Table",
+                                      self._map.columns[2]:1,
+                                      self._map.columns[3]:[1],
+                                      self._map.columns[4]:[1]}, ignore_index=True)
+
+        self._map = self._map.append({self._map.columns[0]:2,
+                                      self._map.columns[1]:"Barchart",
+                                      self._map.columns[2]:2,
+                                      self._map.columns[3]:[2,3],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
+
+        self._map = self._map.append({self._map.columns[0]:3,
+                                      self._map.columns[1]:"Barchart",
+                                      self._map.columns[2]:2,
+                                      self._map.columns[3]:[2,3],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
+
+        self._map = self._map.append({self._map.columns[0]:4,
+                                      self._map.columns[1]:"Barchart",
+                                      self._map.columns[2]:4,
+                                      self._map.columns[3]:[4,5],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
+
+        self._map = self._map.append({self._map.columns[0]:5,
+                                      self._map.columns[1]:"Barchart",
+                                      self._map.columns[2]:4,
+                                      self._map.columns[3]:[4,5],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
         
-        self._map.append({self._map.columns[0]:6,
-                          self._map.columns[1]:"Barchart",
-                          self._map.columns[2]:6,
-                          self._map.columns[3]:[6,7]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:6,
+                                      self._map.columns[1]:"Barchart",
+                                      self._map.columns[2]:6,
+                                      self._map.columns[3]:[6,7],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:7,
-                          self._map.columns[1]:"Barchart",
-                          self._map.columns[2]:6,
-                          self._map.columns[3]:[6,7]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:7,
+                                      self._map.columns[1]:"Barchart",
+                                      self._map.columns[2]:6,
+                                      self._map.columns[3]:[6,7],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:8,
-                          self._map.columns[1]:"Barchart",
-                          self._map.columns[2]:8,
-                          self._map.columns[3]:[8,9]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:8,
+                                      self._map.columns[1]:"Barchart",
+                                      self._map.columns[2]:8,
+                                      self._map.columns[3]:[8,9],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:9,
-                          self._map.columns[1]:"Barchart",
-                          self._map.columns[2]:8,
-                          self._map.columns[3]:[8,9]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:9,
+                                      self._map.columns[1]:"Barchart",
+                                      self._map.columns[2]:8,
+                                      self._map.columns[3]:[8,9],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:10,
-                          self._map.columns[1]:"Lollipop",
-                          self._map.columns[2]:10,
-                          self._map.columns[3]:[10,11]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:10,
+                                      self._map.columns[1]:"Lollipop",
+                                      self._map.columns[2]:10,
+                                      self._map.columns[3]:[10,11],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:11,
-                          self._map.columns[1]:"Lollipop",
-                          self._map.columns[2]:10,
-                          self._map.columns[3]:[10,11]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:11,
+                                      self._map.columns[1]:"Lollipop",
+                                      self._map.columns[2]:10,
+                                      self._map.columns[3]:[10,11],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:12,
-                          self._map.columns[1]:"Lollipop",
-                          self._map.columns[2]:12,
-                          self._map.columns[3]:[12,13]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:12,
+                                      self._map.columns[1]:"Lollipop",
+                                      self._map.columns[2]:12,
+                                      self._map.columns[3]:[12,13],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:13,
-                          self._map.columns[1]:"Lollipop",
-                          self._map.columns[2]:12,
-                          self._map.columns[3]:[12,13]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:13,
+                                      self._map.columns[1]:"Lollipop",
+                                      self._map.columns[2]:12,
+                                      self._map.columns[3]:[12,13],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:14,
-                          self._map.columns[1]:"Barchart",
-                          self._map.columns[2]:14,
-                          self._map.columns[3]:[14,15]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:14,
+                                      self._map.columns[1]:"Barchart",
+                                      self._map.columns[2]:14,
+                                      self._map.columns[3]:[14,15],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:15,
-                          self._map.columns[1]:"Barchart",
-                          self._map.columns[2]:14,
-                          self._map.columns[3]:[14,15]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:15,
+                                      self._map.columns[1]:"Barchart",
+                                      self._map.columns[2]:14,
+                                      self._map.columns[3]:[14,15],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:16,
-                          self._map.columns[1]:"Barchart",
-                          self._map.columns[2]:16,
-                          self._map.columns[3]:[16,17]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:16,
+                                      self._map.columns[1]:"Barchart",
+                                      self._map.columns[2]:16,
+                                      self._map.columns[3]:[16,17],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
         
-        self._map.append({self._map.columns[0]:17,
-                          self._map.columns[1]:"Barchart",
-                          self._map.columns[2]:16,
-                          self._map.columns[3]:[16,17]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:17,
+                                      self._map.columns[1]:"Barchart",
+                                      self._map.columns[2]:16,
+                                      self._map.columns[3]:[16,17],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:18,
-                          self._map.columns[1]:"Barchart",
-                          self._map.columns[2]:18,
-                          self._map.columns[3]:[18,19]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:18,
+                                      self._map.columns[1]:"Barchart",
+                                      self._map.columns[2]:18,
+                                      self._map.columns[3]:[18,19],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:19,
-                          self._map.columns[1]:"Barchart",
-                          self._map.columns[2]:18,
-                          self._map.columns[3]:[18,19]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:19,
+                                      self._map.columns[1]:"Barchart",
+                                      self._map.columns[2]:18,
+                                      self._map.columns[3]:[18,19],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:20,
-                          self._map.columns[1]:"Barchart",
-                          self._map.columns[2]:20,
-                          self._map.columns[3]:[20,21]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:20,
+                                      self._map.columns[1]:"Barchart",
+                                      self._map.columns[2]:20,
+                                      self._map.columns[3]:[20,21],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:21,
-                          self._map.columns[1]:"Barchart",
-                          self._map.columns[2]:20,
-                          self._map.columns[3]:[20,21]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:21,
+                                      self._map.columns[1]:"Barchart",
+                                      self._map.columns[2]:20,
+                                      self._map.columns[3]:[20,21],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:22,
-                          self._map.columns[1]:"Lollipop",
-                          self._map.columns[2]:22,
-                          self._map.columns[3]:[22,23]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:22,
+                                      self._map.columns[1]:"Lollipop",
+                                      self._map.columns[2]:22,
+                                      self._map.columns[3]:[22,23],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:23,
-                          self._map.columns[1]:"Lollipop",
-                          self._map.columns[2]:22,
-                          self._map.columns[3]:[22,23]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:23,
+                                      self._map.columns[1]:"Lollipop",
+                                      self._map.columns[2]:22,
+                                      self._map.columns[3]:[22,23],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:24,
-                          self._map.columns[1]:"Lollipop",
-                          self._map.columns[2]:24,
-                          self._map.columns[3]:[24,25]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:24,
+                                      self._map.columns[1]:"Lollipop",
+                                      self._map.columns[2]:24,
+                                      self._map.columns[3]:[24,25],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:25,
-                          self._map.columns[1]:"Lollipop",
-                          self._map.columns[2]:24,
-                          self._map.columns[3]:[24,25]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:25,
+                                      self._map.columns[1]:"Lollipop",
+                                      self._map.columns[2]:24,
+                                      self._map.columns[3]:[24,25],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:26,
-                          self._map.columns[1]:"Scatter",
-                          self._map.columns[2]:26,
-                          self._map.columns[3]:[26,27,28]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:26,
+                                      self._map.columns[1]:"Scatter",
+                                      self._map.columns[2]:26,
+                                      self._map.columns[3]:[26,27,28],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:27,
-                          self._map.columns[1]:"Scatter",
-                          self._map.columns[2]:26,
-                          self._map.columns[3]:[26,27,28]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:27,
+                                      self._map.columns[1]:"Scatter",
+                                      self._map.columns[2]:26,
+                                      self._map.columns[3]:[26,27,28],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:28,
-                          self._map.columns[1]:"Scatter",
-                          self._map.columns[2]:26,
-                          self._map.columns[3]:[26,27,28]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:28,
+                                      self._map.columns[1]:"Scatter",
+                                      self._map.columns[2]:26,
+                                      self._map.columns[3]:[26,27,28],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:29,
-                          self._map.columns[1]:"Scatter",
-                          self._map.columns[2]:29,
-                          self._map.columns[3]:[29]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:29,
+                                      self._map.columns[1]:"Scatter",
+                                      self._map.columns[2]:29,
+                                      self._map.columns[3]:[29],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:30,
-                          self._map.columns[1]:"Scatter",
-                          self._map.columns[2]:30,
-                          self._map.columns[3]:[30]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:30,
+                                      self._map.columns[1]:"Scatter",
+                                      self._map.columns[2]:30,
+                                      self._map.columns[3]:[30],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:31,
-                          self._map.columns[1]:"Heatmap",
-                          self._map.columns[2]:31,
-                          self._map.columns[3]:[31,32,33]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:31,
+                                      self._map.columns[1]:"Heatmap",
+                                      self._map.columns[2]:31,
+                                      self._map.columns[3]:[31,32,33],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:32,
-                          self._map.columns[1]:"Heatmap",
-                          self._map.columns[2]:31,
-                          self._map.columns[3]:[31,32,33]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:32,
+                                      self._map.columns[1]:"Heatmap",
+                                      self._map.columns[2]:31,
+                                      self._map.columns[3]:[31,32,33],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:33,
-                          self._map.columns[1]:"Heatmap",
-                          self._map.columns[2]:31,
-                          self._map.columns[3]:[31,32,33]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:33,
+                                      self._map.columns[1]:"Heatmap",
+                                      self._map.columns[2]:31,
+                                      self._map.columns[3]:[31,32,33],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:34,
-                          self._map.columns[1]:"Heatmap",
-                          self._map.columns[2]:34,
-                          self._map.columns[3]:[34,35]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:34,
+                                      self._map.columns[1]:"Heatmap",
+                                      self._map.columns[2]:34,
+                                      self._map.columns[3]:[34,35],
+                                      self._map.columns[4]:[2],
+                                      self._map.columns[5]:[""]}, ignore_index=True)
 
-        self._map.append({self._map.columns[0]:35,
-                          self._map.columns[1]:"Heatmap",
-                          self._map.columns[2]:34,
-                          self._map.columns[3]:[34,35]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:35,
+                                      self._map.columns[1]:"Heatmap",
+                                      self._map.columns[2]:34,
+                                      self._map.columns[3]:[34,35],
+                                      self._map.columns[4]:[2],
+                                      self._map.columns[5]:["visible"]}, ignore_index=True)
 
-        self._map.append({self._map.columns[0]:36,
-                          self._map.columns[1]:"Heatmap",
-                          self._map.columns[2]:36,
-                          self._map.columns[3]:[36,37]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:36,
+                                      self._map.columns[1]:"Heatmap",
+                                      self._map.columns[2]:34,
+                                      self._map.columns[3]:[34,35],
+                                      self._map.columns[4]:[2],
+                                      self._map.columns[5]:[""]}, ignore_index=True)
 
-        self._map.append({self._map.columns[0]:37,
-                          self._map.columns[1]:"Heatmap",
-                          self._map.columns[2]:36,
-                          self._map.columns[3]:[36,37]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:37,
+                                      self._map.columns[1]:"Heatmap",
+                                      self._map.columns[2]:36,
+                                      self._map.columns[3]:[36,37],
+                                      self._map.columns[4]:[2],
+                                      self._map.columns[5]:["visible"]}, ignore_index=True)
 
-        self._map.append({self._map.columns[0]:38,
-                          self._map.columns[1]:"Grouped Bar",
-                          self._map.columns[2]:38,
-                          self._map.columns[3]:[38,39,40]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:38,
+                                      self._map.columns[1]:"Grouped Bar",
+                                      self._map.columns[2]:38,
+                                      self._map.columns[3]:[38,39,40],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:39,
-                          self._map.columns[1]:"Grouped Bar",
-                          self._map.columns[2]:38,
-                          self._map.columns[3]:[38,39,40]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:39,
+                                      self._map.columns[1]:"Grouped Bar",
+                                      self._map.columns[2]:38,
+                                      self._map.columns[3]:[38,39,40],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:40,
-                          self._map.columns[1]:"Grouped Bar",
-                          self._map.columns[2]:38,
-                          self._map.columns[3]:[38,39,40]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:40,
+                                      self._map.columns[1]:"Grouped Bar",
+                                      self._map.columns[2]:38,
+                                      self._map.columns[3]:[38,39,40],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:41,
-                          self._map.columns[1]:"Grouped Bar",
-                          self._map.columns[2]:41,
-                          self._map.columns[3]:[41,42,43]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:41,
+                                      self._map.columns[1]:"Grouped Bar",
+                                      self._map.columns[2]:41,
+                                      self._map.columns[3]:[41,42,43],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:42,
-                          self._map.columns[1]:"Grouped Bar",
-                          self._map.columns[2]:41,
-                          self._map.columns[3]:[41,42,43]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:42,
+                                      self._map.columns[1]:"Grouped Bar",
+                                      self._map.columns[2]:41,
+                                      self._map.columns[3]:[41,42,43],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:43,
-                          self._map.columns[1]:"Grouped Bar",
-                          self._map.columns[2]:41,
-                          self._map.columns[3]:[41,42,43]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:43,
+                                      self._map.columns[1]:"Grouped Bar",
+                                      self._map.columns[2]:41,
+                                      self._map.columns[3]:[41,42,43],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:44,
-                          self._map.columns[1]:"Stacked Bar",
-                          self._map.columns[2]:44,
-                          self._map.columns[3]:[44,45,46]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:44,
+                                      self._map.columns[1]:"Stacked Bar",
+                                      self._map.columns[2]:44,
+                                      self._map.columns[3]:[44,45,46],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:45,
-                          self._map.columns[1]:"Stacked Bar",
-                          self._map.columns[2]:44,
-                          self._map.columns[3]:[44,45,46]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:45,
+                                      self._map.columns[1]:"Stacked Bar",
+                                      self._map.columns[2]:44,
+                                      self._map.columns[3]:[44,45,46],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:46,
-                          self._map.columns[1]:"Stacked Bar",
-                          self._map.columns[2]:44,
-                          self._map.columns[3]:[44,45,46]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:46,
+                                      self._map.columns[1]:"Stacked Bar",
+                                      self._map.columns[2]:44,
+                                      self._map.columns[3]:[44,45,46],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:47,
-                          self._map.columns[1]:"Stacked Bar",
-                          self._map.columns[2]:47,
-                          self._map.columns[3]:[47,48,49]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:47,
+                                      self._map.columns[1]:"Stacked Bar",
+                                      self._map.columns[2]:47,
+                                      self._map.columns[3]:[47,48,49],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:48,
-                          self._map.columns[1]:"Stacked Bar",
-                          self._map.columns[2]:47,
-                          self._map.columns[3]:[47,48,49]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:48,
+                                      self._map.columns[1]:"Stacked Bar",
+                                      self._map.columns[2]:47,
+                                      self._map.columns[3]:[47,48,49],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:49,
-                          self._map.columns[1]:"Stacked Bar",
-                          self._map.columns[2]:47,
-                          self._map.columns[3]:[47,48,49]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:49,
+                                      self._map.columns[1]:"Stacked Bar",
+                                      self._map.columns[2]:47,
+                                      self._map.columns[3]:[47,48,49],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:50,
-                          self._map.columns[1]:"Stacked Bar",
-                          self._map.columns[2]:50,
-                          self._map.columns[3]:[50,51,52]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:50,
+                                      self._map.columns[1]:"Stacked Bar",
+                                      self._map.columns[2]:50,
+                                      self._map.columns[3]:[50,51,52],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:51,
-                          self._map.columns[1]:"Stacked Bar",
-                          self._map.columns[2]:50,
-                          self._map.columns[3]:[50,51,52]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:51,
+                                      self._map.columns[1]:"Stacked Bar",
+                                      self._map.columns[2]:50,
+                                      self._map.columns[3]:[50,51,52],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:52,
-                          self._map.columns[1]:"Stacked Bar",
-                          self._map.columns[2]:50,
-                          self._map.columns[3]:[50,51,52]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:52,
+                                      self._map.columns[1]:"Stacked Bar",
+                                      self._map.columns[2]:50,
+                                      self._map.columns[3]:[50,51,52],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:53,
-                          self._map.columns[1]:"Stacked Bar",
-                          self._map.columns[2]:53,
-                          self._map.columns[3]:[53,54,55]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:53,
+                                      self._map.columns[1]:"Stacked Bar",
+                                      self._map.columns[2]:53,
+                                      self._map.columns[3]:[53,54,55],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:54,
-                          self._map.columns[1]:"Stacked Bar",
-                          self._map.columns[2]:53,
-                          self._map.columns[3]:[53,54,55]}, ignore_index=True)
+        self._map = self._map.append({self._map.columns[0]:54,
+                                      self._map.columns[1]:"Stacked Bar",
+                                      self._map.columns[2]:53,
+                                      self._map.columns[3]:[53,54,55],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
-        self._map.append({self._map.columns[0]:55,
-                          self._map.columns[1]:"Stacked Bar",
-                          self._map.columns[2]:53,
-                          self._map.columns[3]:[53,54,55]}, ignore_index=True)
-
-        return self._map
+        self._map = self._map.append({self._map.columns[0]:55,
+                                      self._map.columns[1]:"Stacked Bar",
+                                      self._map.columns[2]:53,
+                                      self._map.columns[3]:[53,54,55],
+                                      self._map.columns[4]:[1]}, ignore_index=True) #Change!
 
     def print_all_graphs(self,language="pt",type_result="jupyter-notebook"):
         self._language = language

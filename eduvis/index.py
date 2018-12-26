@@ -25,7 +25,9 @@ import V008 as view8
 import V010 as view10
 # import V011 as view11
 
-user = users.users(user_id = 3)
+user_id = 1
+
+user = users.users(user_id = user_id)
 language = user.user_language_preference()
 
 layout = frontend.frontend(language = language)
@@ -69,24 +71,31 @@ app.layout = html.Div(children=[layout.nav(), layout.workspace_teacher(), layout
     Input('opt-8', 'n_clicks_timestamp'),
     Input('opt-9', 'n_clicks_timestamp'),
     Input('opt-10', 'n_clicks_timestamp'),
-    Input('opt-11', 'n_clicks_timestamp')])
+    Input('opt-11', 'n_clicks_timestamp'),
+    Input('submit-search', 'n_clicks_timestamp')])
 
-def display_click_data(opt1, opt2, opt3, opt4, opt5, opt6, opt7, opt8, opt9, opt10, opt11):
-    lst_opt = [int(opt1), int(opt2), int(opt3), int(opt4), int(opt5), int(opt6), int(opt7), int(opt8), int(opt9), int(opt10), int(opt11)]    
+def display_click_data(opt1, opt2, opt3, opt4, opt5, opt6, opt7, opt8, opt9, opt10, opt11, search):
+    lst_opt = [int(opt1), int(opt2), int(opt3), int(opt4), int(opt5), int(opt6), int(opt7), int(opt8), int(opt9), int(opt10), int(opt11), int(search)]
     val_max = max(lst_opt)
     
-    if val_max == 0: 
-        return html.H1(className="header center orange-text", children=["Wellcome to EduVis"]),
+    if val_max == 0:
+        return html.H1(className="header center orange-text", children=["Wellcome to EduVis, “User "+str(user_id)+"”"]),
+
+    if lst_opt.index(val_max) == 11: #Gambiarra da busca
+        return control.get_preference_graph(1)
 
     val_index = lst_opt.index(val_max)+1
 
     return control.get_preference_graph(val_index)
 
-    
+# @app.callback(Output('output-state', 'children'),
+#               [State('search-view', 'value')])
+# def update_output(n_clicks, input1, input2):
+#     pass
 
-    
+
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=True, port=8000)
     # sorted(dir(html))
 
 # poll

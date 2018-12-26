@@ -69,8 +69,9 @@ class users:
         if not np.isnan(sum(self._users[view].loc[self._users.id == self._id_session].tolist())):
             return self._users[view].loc[self._users.id == self._id_session]
         
-        profile = self._users.profile.loc[self._users.id == self._id_session].to_string(index=False)
-        return self._profile[view].loc[self._profile.id == int(profile)].tolist()
+        profile = int(self._users.profile.loc[self._users.id == self._id_session].to_string(index=False))
+        return list(map(int,self._profile[view].loc[self._profile.id == profile].to_string(index=False).split()))
+         
 
     def user_language_preference(self,language = None):
         if language == None:
