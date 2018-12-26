@@ -102,7 +102,7 @@ class frontend:
                                         searchable=False,
                                         clearable=False,
                                         style={'color': '#2196f3'}
-                                    ),                                    
+                                    ),
                                 ]),
                             ]),
                             html.Br(),html.Br(),html.Br()
@@ -291,24 +291,69 @@ class frontend:
                                     dcc.Input(id='user_logs_engagement', placeholder="Quais os logs podem ser utilizados para avaliar o engajamento do aluno", type='text',value="")
                                 ]),
                             ]),
-                            html.Div(className="row center", children=[
+                            html.Br(),html.Br(),html.Br()
+                        ])
+                    ])
+                ])
 
-                                #Tarefas realizadas pelos alunos  V01
-                                #Acessos ao materiais  V02
-                                #Interação do fórum  V03
-                                #Acesso aos vídeos   V04
-                                #Cluster de alunos  V05
-                                #Perfil dos estudantes  V06
-                                #Course completion??  V07
-                                #Acesso dos estudantes  V08
-                                #Interação nos vídeos  V09
-                                #Curtidas nos vídeos  V10
-                                #Navegação dos estudantes  V11
+    def survey_student_information(self):
+        return html.Div(className="container", children=[
+                    html.Div(className="row", children=[
+                        html.Div(className="col s12",children=[
+                            html.Div(className="row center", children=[
+                                html.H3(className="header center blue-text", children=["Sobre logs de interação e acesso dos estudantes"]),
+                                html.Br(),html.Br()
+                            ]),
+                            ############################################################################################
+                            html.Div(className="row center", children=[
+                                html.Div(className="input-field col s12",children=[
+                                    dcc.Dropdown(
+                                        id='user_interaction_access_students_logs',
+                                        placeholder="Selecione os logs que você analisa ou que gostaria de analisar (é possível selecionar mais de uma opção)",
+                                        options=[
+                                            {'label': 'Tarefas feitas pelos estudantes', 'value': 'V001'},
+                                            {'label': 'Acesso dos estudantes no AVA por dia ou semana', 'value': 'V008'},
+                                            {'label': 'Acesso dos estudantes aos materiais (ex: videos, ebooks, etc.)', 'value': 'V002'},
+                                            {'label': 'Interação dos estudantes no fórum (ex: postagens, acessos, etc.)', 'value': 'V003'},
+                                            {'label': 'Interação dos estudantes nos vídeos (play, pause, backward, forward)', 'value': 'V009'},
+                                            {'label': 'Tempo de permanencia dos estudantes nos vídeos', 'value': 'V004'},
+                                            {'label': 'Vídeos que os estudantes entenderam e não entenderam', 'value': 'V010'},
+                                            {'label': 'Correlação entre as notas e os logs de acesso/interação dos estudantes', 'value': 'V005'},
+                                            {'label': 'Correlação entre o perfil (idade, cidade de origem, etc.) e os logs de acesso/interação dos estudantes', 'value': 'V006'},
+                                            {'label': 'Padrão de navegação dos estudantes no AVA', 'value': 'V011'},
+                                            {'label': 'Predição das notas que os estudante terão ao final do curso e quais abandonarão', 'value': 'V007'},
+                                        ],
+                                        value="",
+                                        searchable=True,
+                                        multi=True,
+                                        clearable=False,
+                                        style={'color': '#2196f3'}
+                                    )
+                                ]),
+                            ]),
+                            ############################################################################################
+                            html.Div(className="row center", children=[
+                                html.Div(className="input-field col s12",children=[
+                                    dcc.Input(id='user_interaction_access_students_logs_others', placeholder="Há mais algum log que você analisa (ou gostaria de analisar) e que não foi apresentada?", type='text',value="")
+                                ]),
                             ]),
                             html.Br(),html.Br(),html.Br()
                         ])
                     ])
                 ])
+
+        #Tarefas feitas pelos estudantes, V001
+        #Acesso dos estudantes aos materiais (ex: videos, ebooks, etc.), V002
+        #Interação dos estudantes no fórum (ex: postagens, acessos, etc.), V003
+        #Tempo de permanencia dos estudantes nos vídeos, V004
+        #Correlação entre as notas e os logs de acesso/interação dos estudantes, V005
+        #Correlação entre o perfil (idade, cidade de origem, etc.) e os logs de acesso/interação dos estudantes, V006
+        #Predição das notas que os estudante terão ao final do curso e quais abandonarão, V007
+        #Acesso dos estudantes no AVA por dia ou semana, V008
+        #Interação dos estudantes nos vídeos (play, pause, backward, forward), V009
+        #Vídeos que os estudantes entenderam e não entenderam, V010
+        #Padrão de navegação dos estudantes no AVA, V011
+        
 
     def survey_visualization(self):
         return html.Div(className="container", children=[

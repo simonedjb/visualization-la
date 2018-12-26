@@ -3,7 +3,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 
 from app import app
-from frontend import frontend, home, eadxp, aboutyou, abouteadxp, aboutlogs, aboutvisualization, thanks
+from frontend import frontend, home, eadxp, aboutyou, abouteadxp, aboutstudentinformation, aboutlogs, aboutvisualization, thanks
 # from backend import backend
 
 interface = frontend.frontend()
@@ -44,11 +44,12 @@ def display_page(pathname):
     elif pathname == '/survey/aboutlogs':
         print("index - /survey/aboutlogs")
         return aboutlogs.layout
+    elif pathname == '/survey/aboutstudentinformation':
+        print("index - /survey/aboutstudentinformation")
+        return aboutstudentinformation.layout
     elif pathname == '/survey/aboutvisualization':
         print("index - /survey/aboutvisualization")
         return aboutvisualization.layout
-    # elif pathname == '/survey/preferences1':
-    #     return aboutvisualization.layout
     elif pathname == '/survey/thanks':
         print("index - /survey/thanks")
         clear_settings()
