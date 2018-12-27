@@ -2,6 +2,10 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 
+from backend import backend
+
+control = backend.backend()
+
 class frontend:
 
     def __init__(self):
@@ -297,6 +301,13 @@ class frontend:
                 ])
 
     def survey_student_information(self):
+        global control
+        options = []
+        values = control.get_all_view_names()
+
+        for i in range(0,len(values)):
+            options.append({'label': control.get_view_label(values[i]), 'value': values[i]})
+
         return html.Div(className="container", children=[
                     html.Div(className="row", children=[
                         html.Div(className="col s12",children=[
@@ -310,19 +321,7 @@ class frontend:
                                     dcc.Dropdown(
                                         id='user_interaction_access_students_logs',
                                         placeholder="Selecione os logs que você analisa ou que gostaria de analisar (é possível selecionar mais de uma opção)",
-                                        options=[
-                                            {'label': 'Tarefas feitas pelos estudantes', 'value': 'V001'},
-                                            {'label': 'Acesso dos estudantes no AVA por dia ou semana', 'value': 'V008'},
-                                            {'label': 'Acesso dos estudantes aos materiais (ex: videos, ebooks, etc.)', 'value': 'V002'},
-                                            {'label': 'Interação dos estudantes no fórum (ex: postagens, acessos, etc.)', 'value': 'V003'},
-                                            {'label': 'Interação dos estudantes nos vídeos (play, pause, backward, forward)', 'value': 'V009'},
-                                            {'label': 'Tempo de permanencia dos estudantes nos vídeos', 'value': 'V004'},
-                                            {'label': 'Vídeos que os estudantes entenderam e não entenderam', 'value': 'V010'},
-                                            {'label': 'Correlação entre as notas e os logs de acesso/interação dos estudantes', 'value': 'V005'},
-                                            {'label': 'Correlação entre o perfil (idade, cidade de origem, etc.) e os logs de acesso/interação dos estudantes', 'value': 'V006'},
-                                            {'label': 'Padrão de navegação dos estudantes no AVA', 'value': 'V011'},
-                                            {'label': 'Predição das notas que os estudante terão ao final do curso e quais abandonarão', 'value': 'V007'},
-                                        ],
+                                        options = options,
                                         value="",
                                         searchable=True,
                                         multi=True,
@@ -361,6 +360,19 @@ class frontend:
                         html.Div(className="col s12",children=[
                             html.Div(className="row center", children=[
                                 html.H3(className="header center blue-text", children=["Visualizações"]),
+                                html.Br(),html.Br()
+                            ]),
+                        ]),
+                    ]),
+                    html.Br(),html.Br(),html.Br()
+                ])
+
+    def survey_chart_preference(self,label):
+        return html.Div(className="container", children=[
+                    html.Div(className="row", children=[
+                        html.Div(className="col s12",children=[
+                            html.Div(className="row center", children=[
+                                html.H3(className="header center blue-text", children=[label]),
                                 html.Br(),html.Br()
                             ]),
                         ]),

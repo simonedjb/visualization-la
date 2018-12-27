@@ -11,13 +11,13 @@ control = backend.backend()
 feedmsg = feedbackmessage.feedbackmessage()
 interface = frontend.frontend()
 
-_page_name = "aboutvisualization"
+_view = "V005"
+_page_name = control.get_view_page(_view)
 
 layout = html.Div([
     interface.survey_warning("warning_"+_page_name),
-    interface.survey_visualization(),
+    interface.survey_chart_preference(control.get_view_label(_view)),
     interface.survey_send("send_"+_page_name)
-    # interface.survey_send("send_"+_page_name,control.get_next_page()) #Apagar
 ])
 
 
@@ -33,17 +33,13 @@ def warning_body_about_you(input1):
     feedmsg.add_clicks()
     return ""
 
-@app.callback(
-    Output('send_'+_page_name, 'href'),
-    [Input('user_name', 'value'),
-     Input('user_gender', 'value'),
-     Input('user_age', 'value')])
-def update_body_about_visualization(input1,input2,input3):
-    global control
-    
-    if not input1 == '':
-        return None
-    else:
-        return control.get_next_page()
-
-    
+# @app.callback(
+#     Output('send_'+_page_name, 'href'),
+#     [Input('user_interaction_access_students_logs', 'value'),
+#      Input('user_interaction_access_students_logs_others', 'value')])
+# def update_body_about_student_information(input1,input2):
+#     global control
+#     if input1 == '':
+#         return None
+#     else:
+#         return "aboutvisualization"

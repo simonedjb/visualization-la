@@ -2,13 +2,16 @@ from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 
+from flask import Flask, session
+# from flask.ext.session import Session
+
 from app import app
 
 from frontend import frontend
-from backend import feedbackmessage
+from backend import backend, feedbackmessage
 
+control = backend.backend()
 feedmsg = feedbackmessage.feedbackmessage()
-
 interface = frontend.frontend()
 
 _page_name = "aboutstudentinformation"
@@ -37,6 +40,12 @@ def warning_body_about_you(input1):
     [Input('user_interaction_access_students_logs', 'value'),
      Input('user_interaction_access_students_logs_others', 'value')])
 def update_body_about_student_information(input1,input2):
+    global control
+    control.clear()
+    control.add_view_preference(input1)
+    print(input1)
+    # session['view_preference'] = input1.__dict__
+    # print(session['view_preference'])
     if input1 == '':
         return None
     else:
