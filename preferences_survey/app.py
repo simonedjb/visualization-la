@@ -2,9 +2,15 @@ import dash
 import os
 
 from flask import send_from_directory
-
+from flask_caching import Cache
 
 app = dash.Dash()
+cache = Cache(app.server, config={
+    'CACHE_TYPE': 'filesystem',
+    'CACHE_DIR': 'cache-directory',
+    'CACHE_THRESHOLD': 50  # should be equal to maximum number of active users
+})
+
 server = app.server
 app.config.supress_callback_exceptions = True
 
@@ -19,6 +25,7 @@ for css in external_css:
 def static_file(path):
     static_folder = os.path.join(os.getcwd(), 'static')
     return send_from_directory(static_folder, path)
+
 
 
 

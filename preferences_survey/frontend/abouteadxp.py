@@ -41,9 +41,11 @@ def warning_body_about_you(input1):
      Input('user_ead_modality', 'value'),
      Input('user_avas_performed', 'value'),
      Input('user_avas_resources', 'value'),
-     Input('user_profile', 'value'),
+     Input('user_students_age', 'value'),
+     Input('user_students_scholarship', 'value'),
+     Input('user_students_scholarship_degree', 'value'),
      Input('user_students_meaningful', 'value')])
-def update_body_ead_xp(input1,input2,input3,input4,input5,input6,input7,input8,input9):
+def update_body_ead_xp(input1,input2,input3,input4,input5,input6,input7,input8,input9,input10,input11):
     if input1 == '':
         return None
     else:

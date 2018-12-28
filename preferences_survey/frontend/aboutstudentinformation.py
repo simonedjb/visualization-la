@@ -2,8 +2,7 @@ from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
 
-from flask import Flask, session
-# from flask.ext.session import Session
+from flask import Flask, redirect, session
 
 from app import app
 
@@ -46,6 +45,9 @@ def update_body_about_student_information(input1,input2):
     print(input1)
     # session['view_preference'] = input1.__dict__
     # print(session['view_preference'])
+    # session['visits'] = 1 # setting session data
+    # print("Total visits: {}".format(session.get('visits')))
+
     if input1 == '':
         return None
     else:

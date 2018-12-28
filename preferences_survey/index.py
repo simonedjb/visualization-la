@@ -2,13 +2,14 @@ from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
 
+from flask import Flask, session
+
 from app import app
 from frontend import frontend, home, eadxp, aboutyou, abouteadxp, aboutstudentinformation, aboutlogs, aboutvisualization, thanks
 from frontend import prefv001, prefv008, prefv002, prefv003, prefv009, prefv004, prefv010, prefv005, prefv006, prefv011, prefv007
 # from backend import backend
 
 interface = frontend.frontend()
-
 _current_page = 1
 
 app.layout = interface.survey_body()
@@ -26,11 +27,10 @@ def clear_settings():
 def display_page(pathname):
     global _current_page
     global interface
+    # session['user'] = 'Andre'
     print (pathname)
-    # if _current_page == 1:
-    #     return eadxp.layout
     if pathname == '/':
-        print("index - /presentation")
+        print("index - /")
         clear_settings()
         return home.layout
     elif pathname == '/presentation':
@@ -101,70 +101,7 @@ if __name__ == '__main__':
     app.run_server(debug=True, port=7000)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#V00*
+# Escala de 1-7
+# Qual vc usaria
+# No final um dropdown para escolher qual o melhor gráfico para aquela pergunta

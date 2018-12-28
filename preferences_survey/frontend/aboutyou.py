@@ -40,9 +40,10 @@ def warning_body_about_you(input1):
      Input('user_email', 'value'),
      Input('user_place_work', 'value'),
      Input('user_scholarship', 'value'),
+     Input('user_scholarship_degree', 'value'),
      Input('user_job', 'value'),
      Input('user_programming_xp', 'value')])
-def update_body_about_you(input1,input2,input3,input4,input5,input6,input7,input8):
+def update_body_about_you(input1,input2,input3,input4,input5,input6,input7,input8,input9):
     if input1 == '':
         return None
     else:

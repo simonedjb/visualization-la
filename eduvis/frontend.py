@@ -167,14 +167,14 @@ class frontend:
                         html.Div(className="section no-pad-bot", id="index-banner",children=[
                             html.Div(className="container",children=[
                                 html.Div(className="row center", children=[
-                                    html.Form(children=[
-                                        html.Div(className="input-field", children=[
-                                            dcc.Input(id="", type="search"),
-                                            html.Label(className="label-icon", children=[
-                                                html.I("search",className="material-icons")
-                                            ]),
-                                            html.I("close",className="material-icons")
+                                    html.Div(className="col s11", children=[                                            
+                                        dcc.Input(id='search-view', type='text'),
+                                    ]),
+                                    html.Div(className="col s1", children=[
+                                        html.A(id='submit-search', n_clicks_timestamp='0', className="btn-floating btn waves-effect waves-light orange", children=[
+                                            html.I("search",className="material-icons")
                                         ])
+                                        # html.Button(id='submit-search', n_clicks=0, children='Submit'),
                                     ])
                                 ]),
                                 html.Br(),html.Br(),
@@ -230,6 +230,73 @@ class frontend:
                     ]),
                 ])
 
+    def survey_preferences(self):
+        return html.Div(className="row", children=[
+                    html.Div(className="col s12", children=[
+                        html.Div(className="section no-pad-bot", id="index-banner",children=[
+                            html.Div(className="container",children=[
+                                html.Div(className="row center", children=[
+                                    # html.Div(id='output-state'),
+                                    html.H3(className="header center orange-text", children=["Survey"]),
+                                    html.Br(),html.Br(),
+
+                                    html.Div(className="input-field col s8",children=[
+                                        dcc.Input(id='user_name', placeholder="Nome", type='text', className="validate")
+                                    ]),
+
+                                    html.Div(className="input-field col s2", children=[
+                                        html.Label('Dropdown'),
+                                        dcc.Dropdown(
+                                            options=[
+                                                {'label': u'Gênero', 'value': ''},
+                                                {'label': 'Masculino', 'value': 'M'},
+                                                {'label': 'Feminino', 'value': 'F'},
+                                                
+                                            ],
+                                            value=''
+                                        ),
+                                    ]),
+                                    # div class="input-field col s12">
+                                    #     <select>
+                                    #     <option value="" disabled selected>Choose your option</option>
+                                    #     <option value="1">Option 1</option>
+                                    #     <option value="2">Option 2</option>
+                                    #     <option value="3">Option 3</option>
+                                    #     </select>
+                                    #     <label>Materialize Select</label>
+                                    # </div>
+
+
+                                    html.Div(className="input-field col s2",children=[
+                                        dcc.Input(id='user_age', placeholder="Idade", type='number', className="validate")
+                                    ]),
+                                    html.Br(),
+                                    html.Div(className="input-field col s6",children=[
+                                        dcc.Input(id='user_scholarship', placeholder="Área de formação", type='text', className="validate")
+                                    ]),
+                                    html.Div(className="input-field col s6",children=[
+                                        dcc.Input(id='user_jop', placeholder="Área de formação", type='number', className="validate")
+                                    ]),
+                                ]),
+                                
+                                
+                                # html.A(id="alogo-container", href="#", className="brand-logo left", children=[
+                                #     "EduVis",
+                                #     html.I("school",className="material-icons"),
+                                # ]),
+                                
+                                # html.Div(className="row center", children=[
+                                #     html.H5("A modern responsive front-end framework based on Material Design", className="header col s12 light"),
+                                # ]),
+                                # html.Div(className="row center", children=[
+                                #     html.A("Get Started", href="http://materializecss.com/getting-started.html", id="download-button", className="btn-large waves-effect waves-light orange")
+                                # ]),
+                            ]),
+                        ]),
+                    ]),
+                ])
+
+
 # @app.callback(
 #     Output('output-state', 'children'),
 #     [Input('opt-1', 'n_clicks_timestamp'),
@@ -249,7 +316,7 @@ class frontend:
 #     val_max = max(lst_opt)
     
 #     if val_max == 0: 
-#         return html.H1(className="header center orange-text", children=["Wellcome to EduVis"]),
+#         return html.H1(className="header center orange-text", children=["Welcome to EduVis"]),
 
 #     val_index = lst_opt.index(val_max)+1
 

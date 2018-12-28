@@ -10,12 +10,13 @@ class backend:
                        {"View":"V002","Label":"Acesso dos estudantes aos materiais (ex: videos, ebooks, etc)","Page":"accessmaterials"},
                        {"View":"V003","Label":"Interação dos estudantes no fórum (ex: postagens, acessos, etc)","Page":"foruminteraction"},
                        {"View":"V009","Label":"Interação dos estudantes nos vídeos (play, pause, backward, forward)","Page":"videointeraction"},
-                       {"View":"V004","Label":"Tempo de permanencia dos estudantes nos vídeos","Page":"videostay"},
+                       {"View":"V004","Label":"Tempo de permanência dos estudantes nos vídeos","Page":"videostay"},
                        {"View":"V010","Label":"Vídeos que os estudantes entenderam e não entenderam","Page":"understandingvideo"},
                        {"View":"V005","Label":"Correlação entre as notas e os logs de acesso/interação dos estudantes","Page":"correlationgrade"},
                        {"View":"V006","Label":"Correlação entre o perfil (idade, cidade de origem, etc.) e os logs de acesso/interação dos estudantes","Page":"correlationprofile"},
                        {"View":"V011","Label":"Padrão de navegação dos estudantes no AVA","Page":"navigatepattern"},
-                       {"View":"V007","Label":"Predição das notas que os estudante terão ao final do curso e quais abandonarão","Page":"gradeprediction"}]
+                       {"View":"V007","Label":"Predição das notas que os estudante terão ao final do curso e quais abandonarão","Page":"gradeprediction"},
+                       {"View":"None","Label":"Nenhuma das opções","Page":"None"}]
 
     def __init__(self, language = "pt"):
         self.set_language(language)

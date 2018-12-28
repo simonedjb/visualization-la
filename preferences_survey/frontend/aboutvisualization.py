@@ -35,10 +35,9 @@ def warning_body_about_you(input1):
 
 @app.callback(
     Output('send_'+_page_name, 'href'),
-    [Input('user_name', 'value'),
-     Input('user_gender', 'value'),
-     Input('user_age', 'value')])
-def update_body_about_visualization(input1,input2,input3):
+    [Input('user_view_read', 'value'),
+     Input('user_view_make', 'value')])
+def update_body_about_visualization(input1,input2):
     global control
     
     if not input1 == '':
