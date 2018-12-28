@@ -1,3 +1,5 @@
+import json, datetime
+
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
@@ -34,10 +36,10 @@ def warning_body_about_you(input1):
 
 @app.callback(
     Output('send_'+_page_name, 'href'),
-    [Input('user_name', 'value'),     
+    [Input('user_name', 'value'),
      Input('user_gender', 'value'),
      Input('user_age', 'value'),
-     Input('user_email', 'value'),
+     Input('user_place_birth', 'value'),
      Input('user_place_work', 'value'),
      Input('user_scholarship', 'value'),
      Input('user_scholarship_degree', 'value'),

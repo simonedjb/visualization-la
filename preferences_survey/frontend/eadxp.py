@@ -1,3 +1,5 @@
+import json, datetime
+
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
@@ -31,6 +33,15 @@ def warning_body_ead_xp(input1):
 
     feedmsg.add_clicks()
     return ""
+
+@app.callback(
+    Output('date_start_cache', 'children'),
+    [Input('user_ead_xp', 'value')])
+def update_body_date_cache(input1):
+    if input1 == 'N':
+        return None
+    
+    return json.dumps(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
 @app.callback(
     Output('send_'+_page_name, 'href'),

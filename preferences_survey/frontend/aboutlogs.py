@@ -37,12 +37,10 @@ def warning_body_about_you(input1):
     [Input('user_students_progress', 'value'),
      Input('user_logs_presentation', 'value'),
      Input('user_logs_analyse', 'value'),
-     Input('user_logs_would_analyse', 'value'),
-     Input('user_logs_would_analyse_presentation', 'value'),
      Input('user_logs_performance', 'value'),
      Input('user_logs_dropout', 'value'),
      Input('user_logs_engagement', 'value')])
-def update_body_about_logs(input1,input2,input3,input4,input5,input6,input7,input8):
+def update_body_about_logs(input1,input2,input3,input4,input5,input6):
     if input1 == '':
         return None
     else:
