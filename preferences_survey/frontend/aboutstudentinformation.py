@@ -1,3 +1,5 @@
+import json
+
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
@@ -35,14 +37,25 @@ def warning_body_about_you(input1):
     return ""
 
 @app.callback(
+    Output('views_cache', 'children'),
+    [Input('user_interaction_access_students_logs', 'value')])
+def update_body_views_cache(input1):
+    if input1 == '':
+        return None
+    
+    print(input1)
+    return json.dumps(input1)
+
+@app.callback(
     Output('send_'+_page_name, 'href'),
     [Input('user_interaction_access_students_logs', 'value'),
-     Input('user_interaction_access_students_logs_others', 'value')])
-def update_body_about_student_information(input1,input2):
+     Input('user_interaction_access_students_logs_others', 'value'),
+     Input('user_interaction_access_students_logs_presentation', 'value')])
+def update_body_about_student_information(input1,input2,input3):
     global control
     control.clear()
     control.add_view_preference(input1)
-    print(input1)
+    # print(input1)
     # session['view_preference'] = input1.__dict__
     # print(session['view_preference'])
     # session['visits'] = 1 # setting session data

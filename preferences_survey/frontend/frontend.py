@@ -40,7 +40,11 @@ class frontend:
     def survey_body(self):
         return html.Div(id='page', children=[
                     dcc.Location(id='url', refresh=False),
-                    html.Div(id='intermediate-value', style={'display': 'none'}),
+                    html.Div(id='intermediate-value', style={'display': 'none'}, children=[
+                        html.Label(id='user_cache'),
+                        html.Label(id='date_start_cache'),
+                        html.Label(id='views_cache')
+                    ]),
                     html.Div(id='page-content')
                 ])
 
@@ -86,6 +90,16 @@ class frontend:
                                 html.Br(),html.Br(),
                                 html.H6(className="header left blue-text", children=["E-mail para contato: adamasceno@inf.puc-rio.br"]),
                                 html.Br(),html.Br()
+                            ]),
+                            html.Div(className="row", children=[
+                                html.Div(className="input-field col s12", children=[
+                                    html.Label(className="left red-text", children=["Para prosseguir, digite seu email:"]),
+                                ])
+                            ]),
+                            html.Div(className="row center", children=[
+                                html.Div(className="input-field col s4",children=[
+                                    dcc.Input(id='user_email', placeholder="user@gmail.com", type='text',value="")
+                                ]),
                             ]),
                         ]),
                     ])
@@ -167,19 +181,19 @@ class frontend:
                             ]),
                             ############################################################################################
                             html.Div(className="row", children=[
-                                html.Div(className="input-field col s4", children=[
-                                    html.Label(className="left blue-text", children=["*Email:"]),
+                                html.Div(className="input-field col s6", children=[
+                                    html.Label(className="left blue-text", children=["*Estado e cidade onde nasceu (caso seja estranjeiro, informe o país):"]),
                                 ]),
-                                html.Div(className="input-field col s8", children=[
+                                html.Div(className="input-field col s6", children=[
                                     html.Label(className="left blue-text", children=["*Estado e cidade onde trabalha:"]),
                                 ])
                             ]),
                             ############################################################################################
                             html.Div(className="row center", children=[
-                                html.Div(className="input-field col s4",children=[
-                                    dcc.Input(id='user_email', placeholder="user@gmail.com", type='text',value="")
+                                html.Div(className="input-field col s6",children=[
+                                    dcc.Input(id='user_place_birth', placeholder="São Luís, Maranhão", type='text',value="")
                                 ]),
-                                html.Div(className="input-field col s8",children=[
+                                html.Div(className="input-field col s6",children=[
                                     dcc.Input(id='user_place_work', placeholder="São Luís, Maranhão", type='text',value="")
                                 ])
                             ]),
@@ -271,10 +285,10 @@ class frontend:
                             ############################################################################################
                             html.Div(className="row", children=[
                                 html.Div(className="input-field col s7", children=[
-                                    html.Label(className="left blue-text", children=["*Papeis desempenhados na utilização do AVA:"]),
+                                    html.Label(className="left blue-text", children=["*Papeis desempenhados na utilização do AVAs:"]),
                                 ]),
                                 html.Div(className="input-field col s5", children=[
-                                    html.Label(className="left blue-text", children=["*Tempo de experiência na utilização de AVA:"]),
+                                    html.Label(className="left blue-text", children=["*Tempo de experiência na utilização de AVAs:"]),
                                 ]),
                             ]),
                             ############################################################################################
@@ -312,16 +326,16 @@ class frontend:
                             ]),
                             ############################################################################################
                             html.Div(className="row", children=[
-                                html.Div(className="input-field col s4", children=[
-                                    html.Label(className="left blue-text", children=["*Modalidade de ensino utilizando AVAs:"]),
+                                html.Div(className="input-field col s6", children=[
+                                    html.Label(className="left blue-text", children=["*Experiência com qual modalidade de ensino utilizando AVAS:"]),
                                 ]),
-                                html.Div(className="input-field col s8", children=[
+                                html.Div(className="input-field col s6", children=[
                                     html.Label(className="left blue-text", children=["*AVAs que utiliza (e que já utilizou):"]),
                                 ]),
                             ]),
                             ############################################################################################
                             html.Div(className="row center", children=[
-                                html.Div(className="input-field col s4", children=[
+                                html.Div(className="input-field col s6", children=[
                                     dcc.Dropdown(
                                         id='user_ead_modality',
                                         placeholder="Presencial ou a Distância",
@@ -336,20 +350,20 @@ class frontend:
                                         style={'color': '#2196f3'}
                                     ),
                                 ]),
-                                html.Div(className="input-field col s8",children=[
+                                html.Div(className="input-field col s6",children=[
                                     dcc.Input(id='user_avas_performed', placeholder="Moodle, Blackboard, etc.", type='text',value="")
                                 ]),
                             ]),
                             ############################################################################################
                             html.Div(className="row", children=[
                                 html.Div(className="input-field col s12", children=[
-                                    html.Label(className="left blue-text", children=["*Modalidade de ensino utilizando AVAs:"]),
+                                    html.Label(className="left blue-text", children=["*Recursos que utiliza e já utilizou nos AVAs:"]),
                                 ]),
                             ]),
                             ############################################################################################
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s12",children=[
-                                    dcc.Input(id='user_avas_resources', placeholder="Recursos que utiliza e já utilizou nos AVAs", type='text',value="")
+                                    dcc.Input(id='user_avas_resources', placeholder="Vídeos, ebooks, fórum, chat, badges, etc.", type='text',value="")
                                 ]),
                             ]),
                             ############################################################################################
@@ -495,30 +509,6 @@ class frontend:
                                 ]),
                             ]),
                             ############################################################################################
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s12", children=[
-                                    html.Label(className="left blue-text", children=["Caso exista algum dado que você gostaria de analisar:"]),
-                                ]),
-                            ]),
-                            ############################################################################################
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s6", children=[
-                                    html.Label(className="left blue-text", children=["quais são?"]),
-                                ]),
-                                html.Div(className="input-field col s6", children=[
-                                    html.Label(className="left blue-text", children=["como eles devem ser apresentados?"]),
-                                ]),
-                            ]),
-                            ############################################################################################
-                            html.Div(className="row center", children=[
-                                html.Div(className="input-field col s6",children=[
-                                    dcc.Input(id='user_logs_would_analyse', placeholder="Acesso ao AVA, realização de tarefas, postagem no fórum, etc.", type='text',value="")
-                                ]),
-                                html.Div(className="input-field col s6",children=[
-                                    dcc.Input(id='user_logs_would_analyse_presentation', placeholder="Em uma tabela, em gráfico de pizza, em gráfico de barra, etc.", type='text',value="")
-                                ]),
-                            ]),
-                            ############################################################################################
                             html.Br(),html.Br(),html.Br()
                         ])
                     ])
@@ -576,6 +566,18 @@ class frontend:
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s12",children=[
                                     dcc.Input(id='user_interaction_access_students_logs_others', placeholder="", type='text',value="")
+                                ]),
+                            ]),
+                            ############################################################################################
+                            html.Div(className="row", children=[
+                                html.Div(className="input-field col s12", children=[
+                                    html.Label(className="left blue-text", children=["Como você gostaria que esses dados fossem apresentados?"]),
+                                ]),
+                            ]),
+                            ############################################################################################
+                            html.Div(className="row center", children=[
+                                html.Div(className="input-field col s12",children=[
+                                    dcc.Input(id='user_interaction_access_students_logs_presentation', placeholder="Em uma tabela, em gráfico de pizza, em gráfico de barra, etc.", type='text',value="")
                                 ]),
                             ]),
                             html.Br(),html.Br(),html.Br(),
