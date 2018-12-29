@@ -7,10 +7,10 @@ import dash_core_components as dcc
 from app import app
 
 from frontend import frontend
-from backend import feedbackmessage
+from backend import backend, feedbackmessage
 
 feedmsg = feedbackmessage.feedbackmessage()
-
+control = backend.backend()
 interface = frontend.frontend()
 
 _page_name = "eadxp"
@@ -36,12 +36,22 @@ def warning_body_ead_xp(input1):
 
 @app.callback(
     Output('date_start_cache', 'children'),
-    [Input('user_ead_xp', 'value')])
-def update_body_date_cache(input1):
-    if input1 == 'N':
+    [Input('user_ead_xp', 'value'),
+     Input('user_cache', 'children')])
+def update_body_date_cache(input1,input2):
+    global control
+    global _page_name 
+    if input1 == "":
         return None
     
-    return json.dumps(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    user_cache = json.loads(input2)
+    date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    if not control.db_has_database(user_cache):
+        control.db_make_database(user_cache)
+        control.db_adding_value(["user_ead_xp","date_start_cache","page"],[input1,date,_page_name])
+
+    return json.dumps(date)
 
 @app.callback(
     Output('send_'+_page_name, 'href'),

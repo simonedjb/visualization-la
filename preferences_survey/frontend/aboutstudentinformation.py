@@ -1,18 +1,16 @@
-import json
+import json, datetime
 
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
-
-from flask import Flask, redirect, session
 
 from app import app
 
 from frontend import frontend
 from backend import backend, feedbackmessage
 
-control = backend.backend()
 feedmsg = feedbackmessage.feedbackmessage()
+control = backend.backend()
 interface = frontend.frontend()
 
 _page_name = "aboutstudentinformation"
@@ -37,31 +35,31 @@ def warning_body_about_you(input1):
     return ""
 
 @app.callback(
-    Output('views_cache', 'children'),
-    [Input('user_interaction_access_students_logs', 'value')])
-def update_body_views_cache(input1):
-    if input1 == '':
-        return None
-    
-    print(input1)
-    return json.dumps(input1)
-
-@app.callback(
-    Output('send_'+_page_name, 'href'),
+    Output('aboutstudentinformation_cache', 'children'),
     [Input('user_interaction_access_students_logs', 'value'),
      Input('user_interaction_access_students_logs_others', 'value'),
      Input('user_interaction_access_students_logs_presentation', 'value')])
-def update_body_about_student_information(input1,input2,input3):
-    global control
-    control.clear()
-    control.add_view_preference(input1)
-    # print(input1)
-    # session['view_preference'] = input1.__dict__
-    # print(session['view_preference'])
-    # session['visits'] = 1 # setting session data
-    # print("Total visits: {}".format(session.get('visits')))
+def record_about_student_information(input1,input2,input3):
+    
+    inputs = [{'user_interaction_access_students_logs':input1},
+              {'user_interaction_access_students_logs_others':input2},
+              {'user_interaction_access_students_logs_presentation':input3},
+              {'page':_page_name}
+              ]
+    
+    return json.dumps(inputs)
 
-    if input1 == '':
+@app.callback(
+    Output('send_'+_page_name, 'href'),
+    [Input('user_cache', 'children'),
+     Input('user_interaction_access_students_logs', 'value'),
+     Input('user_interaction_access_students_logs_others', 'value'),
+     Input('user_interaction_access_students_logs_presentation', 'value')])
+def update_body_about_student_information(input1,input2,input3,input4):
+    if input1 == None:
+        return '/'
+
+    if input2 == '':
         return None
     else:
         return "aboutvisualization"

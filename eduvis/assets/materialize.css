@@ -2366,7 +2366,7 @@ svg:not(:root) {
  * 1. Change the font styles in all browsers (opinionated).
  * 2. Remove the margin in Firefox and Safari.
  */
-button,
+/* button,
 input,
 optgroup,
 select,
@@ -2379,40 +2379,37 @@ textarea {
   /* 1 */
   margin: 0;
   /* 2 */
-}
+} */
 
 /**
  * Show the overflow in IE.
  * 1. Show the overflow in Edge.
  */
-button,
+/* button,
 input {
-  /* 1 */
   overflow: visible;
-}
+} */
 
 /**
  * Remove the inheritance of text transform in Edge, Firefox, and IE.
  * 1. Remove the inheritance of text transform in Firefox.
  */
-button,
+/* button,
 select {
-  /* 1 */
   text-transform: none;
-}
+} */
 
 /**
  * 1. Prevent a WebKit bug where (2) destroys native `audio` and `video`
  *    controls in Android 4.
  * 2. Correct the inability to style clickable types in iOS and Safari.
  */
-button,
+/* button,
 html [type="button"],
 [type="reset"],
 [type="submit"] {
   -webkit-appearance: button;
-  /* 2 */
-}
+} */
 
 /**
  * Remove the inner border and padding in Firefox.
@@ -2486,14 +2483,14 @@ textarea {
  * 1. Add the correct box sizing in IE 10-.
  * 2. Remove the padding in IE 10-.
  */
-[type="checkbox"],
+/* [type="checkbox"],
 [type="radio"] {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  /* 1 */
+  
   padding: 0;
-  /* 2 */
-}
+  
+} */
 
 /**
  * Correct the cursor style of increment and decrement buttons in Chrome.
@@ -2586,13 +2583,13 @@ html {
           box-sizing: inherit;
 }
 
-button,
+/* button,
 input,
 optgroup,
 select,
 textarea {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-}
+} */
 
 ul:not(.browser-default) {
   padding-left: 0;
@@ -3332,13 +3329,13 @@ td, th {
   float: right !important;
 }
 
-.no-select, input[type=range],
+/* .no-select, input[type=range],
 input[type=range] + .thumb {
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-}
+} */
 
 .circle {
   border-radius: 50%;
@@ -5608,13 +5605,13 @@ body.keyboard-focused .dropdown-content li:focus {
   background-color: #dadada;
 }
 
-.input-field.col .dropdown-content [type="checkbox"] + label {
+/* .input-field.col .dropdown-content [type="checkbox"] + label {
   top: 1px;
   left: 0;
   height: 18px;
   -webkit-transform: none;
           transform: none;
-}
+} */
 
 .dropdown-trigger {
   cursor: pointer;
@@ -6707,14 +6704,14 @@ textarea.materialize-textarea {
 
 /* Radio Buttons
    ========================================================================== */
-[type="radio"]:not(:checked),
+/* [type="radio"]:not(:checked),
 [type="radio"]:checked {
   position: absolute;
   opacity: 0;
   pointer-events: none;
-}
+} */
 
-[type="radio"]:not(:checked) + span,
+/* [type="radio"]:not(:checked) + span,
 [type="radio"]:checked + span {
   position: relative;
   padding-left: 35px;
@@ -6729,9 +6726,9 @@ textarea.materialize-textarea {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-}
+} */
 
-[type="radio"] + span:before,
+/* [type="radio"] + span:before,
 [type="radio"] + span:after {
   content: '';
   position: absolute;
@@ -6743,19 +6740,19 @@ textarea.materialize-textarea {
   z-index: 0;
   -webkit-transition: .28s ease;
   transition: .28s ease;
-}
+} */
 
 /* Unchecked styles */
-[type="radio"]:not(:checked) + span:before,
+/* [type="radio"]:not(:checked) + span:before,
 [type="radio"]:not(:checked) + span:after,
 [type="radio"]:checked + span:before,
 [type="radio"]:checked + span:after,
 [type="radio"].with-gap:checked + span:before,
 [type="radio"].with-gap:checked + span:after {
   border-radius: 50%;
-}
+} */
 
-[type="radio"]:not(:checked) + span:before,
+/* [type="radio"]:not(:checked) + span:before,
 [type="radio"]:not(:checked) + span:after {
   border: 2px solid #5a5a5a;
 }
@@ -6763,10 +6760,10 @@ textarea.materialize-textarea {
 [type="radio"]:not(:checked) + span:after {
   -webkit-transform: scale(0);
           transform: scale(0);
-}
+} */
 
 /* Checked styles */
-[type="radio"]:checked + span:before {
+/* [type="radio"]:checked + span:before {
   border: 2px solid transparent;
 }
 
@@ -6784,32 +6781,32 @@ textarea.materialize-textarea {
 [type="radio"]:checked + span:after {
   -webkit-transform: scale(1.02);
           transform: scale(1.02);
-}
+} */
 
 /* Radio With gap */
-[type="radio"].with-gap:checked + span:after {
+/* [type="radio"].with-gap:checked + span:after {
   -webkit-transform: scale(0.5);
           transform: scale(0.5);
-}
+} */
 
 /* Focused styles */
-[type="radio"].tabbed:focus + span:before {
+/* [type="radio"].tabbed:focus + span:before {
   -webkit-box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.1);
           box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.1);
-}
+} */
 
 /* Disabled Radio With gap */
-[type="radio"].with-gap:disabled:checked + span:before {
+/* [type="radio"].with-gap:disabled:checked + span:before {
   border: 2px solid rgba(0, 0, 0, 0.42);
 }
 
 [type="radio"].with-gap:disabled:checked + span:after {
   border: none;
   background-color: rgba(0, 0, 0, 0.42);
-}
+} */
 
 /* Disabled style */
-[type="radio"]:disabled:not(:checked) + span:before,
+/* [type="radio"]:disabled:not(:checked) + span:before,
 [type="radio"]:disabled:checked + span:before {
   background-color: transparent;
   border-color: rgba(0, 0, 0, 0.42);
@@ -6826,12 +6823,12 @@ textarea.materialize-textarea {
 [type="radio"]:disabled:checked + span:after {
   background-color: rgba(0, 0, 0, 0.42);
   border-color: #949494;
-}
+} */
 
 /* Checkboxes
    ========================================================================== */
 /* Remove default checkbox */
-[type="checkbox"]:not(:checked),
+/* [type="checkbox"]:not(:checked),
 [type="checkbox"]:checked {
   position: absolute;
   opacity: 0;
@@ -6839,7 +6836,6 @@ textarea.materialize-textarea {
 }
 
 [type="checkbox"] {
-  /* checkbox aspect */
 }
 
 [type="checkbox"] + span:not(.lever) {
@@ -6913,10 +6909,10 @@ textarea.materialize-textarea {
 [type="checkbox"]:checked:disabled + span:before {
   border-right: 2px solid rgba(0, 0, 0, 0.42);
   border-bottom: 2px solid rgba(0, 0, 0, 0.42);
-}
+} */
 
 /* Indeterminate checkbox */
-[type="checkbox"]:indeterminate + span:not(.lever):before {
+/* [type="checkbox"]:indeterminate + span:not(.lever):before {
   top: -11px;
   left: -12px;
   width: 10px;
@@ -6947,7 +6943,6 @@ textarea.materialize-textarea {
   content: '';
   left: 0;
   position: absolute;
-  /* .1s delay is for check animation */
   -webkit-transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
   transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
   z-index: 1;
@@ -7027,7 +7022,7 @@ textarea.materialize-textarea {
 [type="checkbox"].filled-in:disabled:checked + span:not(.lever):after {
   background-color: #949494;
   border-color: #949494;
-}
+} */
 
 /* Switch
    ========================================================================== */
@@ -7044,7 +7039,7 @@ textarea.materialize-textarea {
   cursor: pointer;
 }
 
-.switch label input[type=checkbox] {
+/* .switch label input[type=checkbox] {
   opacity: 0;
   width: 0;
   height: 0;
@@ -7060,7 +7055,7 @@ textarea.materialize-textarea {
 
 .switch label input[type=checkbox]:checked + .lever:after {
   background-color: #26a69a;
-}
+} */
 
 .switch label .lever {
   content: "";
@@ -7102,7 +7097,7 @@ textarea.materialize-textarea {
           box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 }
 
-input[type=checkbox]:checked:not(:disabled) ~ .lever:active::before,
+/* input[type=checkbox]:checked:not(:disabled) ~ .lever:active::before,
 input[type=checkbox]:checked:not(:disabled).tabbed:focus ~ .lever::before {
   -webkit-transform: scale(2.4);
           transform: scale(2.4);
@@ -7124,7 +7119,7 @@ input[type=checkbox]:not(:disabled).tabbed:focus ~ .lever::before {
 .switch label input[type=checkbox][disabled] + .lever:after,
 .switch label input[type=checkbox][disabled]:checked + .lever:after {
   background-color: #949494;
-}
+} */
 
 /* Select Field
    ========================================================================== */
@@ -8477,10 +8472,19 @@ input[type=range]::-ms-thumb {
   visibility: visible;
   -webkit-animation: pulse-animation 1s cubic-bezier(0.24, 0, 0.38, 1) infinite;
           animation: pulse-animation 1s cubic-bezier(0.24, 0, 0.38, 1) infinite;
-  -webkit-transition: opacity .3s, visibility 0s 1s, -webkit-transform .3s;
-  transition: opacity .3s, visibility 0s 1s, -webkit-transform .3s;
-  transition: opacity .3s, transform .3s, visibility 0s 1s;
-  transition: opacity .3s, transform .3s, visibility 0s 1s, -webkit-transform .3s;
+  -webkit-transition: opacity .3s,
+ visibility 0s 1s,
+ -webkit-transform .3s;
+  transition: opacity .3s,
+ visibility 0s 1s,
+ -webkit-transform .3s;
+  transition: opacity .3s,
+ transform .3s,
+ visibility 0s 1s;
+  transition: opacity .3s,
+ transform .3s,
+ visibility 0s 1s,
+ -webkit-transform .3s;
 }
 
 .tap-target {
@@ -8533,10 +8537,19 @@ input[type=range]::-ms-thumb {
 
 .tap-target-wave::after {
   visibility: hidden;
-  -webkit-transition: opacity .3s, visibility 0s, -webkit-transform .3s;
-  transition: opacity .3s, visibility 0s, -webkit-transform .3s;
-  transition: opacity .3s, transform .3s, visibility 0s;
-  transition: opacity .3s, transform .3s, visibility 0s, -webkit-transform .3s;
+  -webkit-transition: opacity .3s,
+ visibility 0s,
+ -webkit-transform .3s;
+  transition: opacity .3s,
+ visibility 0s,
+ -webkit-transform .3s;
+  transition: opacity .3s,
+ transform .3s,
+ visibility 0s;
+  transition: opacity .3s,
+ transform .3s,
+ visibility 0s,
+ -webkit-transform .3s;
   z-index: -1;
 }
 

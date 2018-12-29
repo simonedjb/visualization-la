@@ -2,11 +2,13 @@ import os
 import numpy as np
 import pandas as pd
 
-DB_PATH = "db/survey.csv"
+DB_PATH = "db/"
+FILE_EXTENSION = ".csv"
 
 class backend:
 
     _db = pd.DataFrame()
+    _path_db = ""
     _language = "pt"
     _lst_view_name = [] #List of views selected
     _ordained_views = [{"View":"V001","Label":"Tarefas feitas pelos estudantes","Page":"assignsdone"},
@@ -57,20 +59,25 @@ class backend:
                {"db":"freq_view_make", "system":"user_view_make"}, #com que frequencia você cria gráficos
                {"db":"date_start", "system":"date_start_cache"}, #data de início do survey
                {"db":"date_end", "system":"date_end_cache"}, #data de início do survey
+               {"db":"last_page", "system":"page"}, #última tela do formulário respondida no survey
                ]
 
-    def __init__(self, language = "pt"):
+    def __init__(self, language="pt", email=None):
         self.set_language(language)
 
-        if not os.path.exists(DB_PATH):
-            self.make_db()
-        else:
-            self._db = pd.read_csv(DB_PATH)
+        if not email == None:
+            path = os.path.join(DB_PATH,email+FILE_EXTENSION)
+            if not os.path.exists(path):
+                self.db_make_database(email)
+            else:
+                self.db_load_database(email)
 
-    def set_language(self,language):
+    def set_language(self, language):
         self._language = language
 
-    def make_db(self):
+    def db_make_database(self, email):
+        self._path_db = os.path.join(DB_PATH,email+FILE_EXTENSION)
+
         lst = []
         for i in range(0,len(self._fields)):
             lst.append(self._fields[i]["db"])
@@ -78,8 +85,47 @@ class backend:
         print("Making DB")
 
         self._db = pd.DataFrame(columns=lst)
-        self._db.to_csv(DB_PATH, index=False)
+        self._db["email"] = [email]
+        self._db.to_csv(self._path_db, index=False)
+
+    def db_load_database(self, email):
+        self._path_db = os.path.join(DB_PATH,email+FILE_EXTENSION)
+        self._db = pd.read_csv(self._path_db)
+
+    def db_has_database(self, email=None):
+        if email == None:
+            if len(self._db) == 0:
+                return False
+        else:
+            path = os.path.join(DB_PATH,email+FILE_EXTENSION)
+            if not os.path.exists(path):
+                return False
         
+        return True
+
+    def db_adding_value_json(self, json_var): #adding values in the database using json
+        fields = []
+        values = []
+        
+        self.db_adding_value(fields,values)
+
+    def db_adding_value(self, fields, values): #adding values in the database
+        for i in range(0,len(fields)):
+            column = self.get_relate_column_dabase(fields[i])
+            value = values[i]
+            self._db[column].loc[0] = value
+
+        self._db.to_csv(self._path_db, index=False)
+
+    def db_select_value(self, fields): #return values of the database
+        columns = []
+        for i in range(0,len(fields)):
+            columns.append(self.get_relate_column_dabase(fields[i]))
+
+        return self._db[columns].values.tolist()[0]
+
+    def get_db(self):
+        return self._db
 
     def clear(self):
         self._lst_view_name = []
@@ -132,8 +178,34 @@ class backend:
 
         return None
 
+    def get_relate_column_dabase(self, field):
+        for i in range(0,len(self._fields)):
+            if self._fields[i]["system"] == field:
+                return self._fields[i]["db"]
+
+        return None
+
+    def get_relate_field_system(self, column):
+        for i in range(0,len(self._fields)):
+            if self._fields[i]["db"] == column:
+                return self._fields[i]["system"]
+
+        return None
+
+# import os
+# import numpy as np
+# import pandas as pd
 # from backend import backend
 # control = backend.backend()
+# control.db_make_database("andrelbd1@gmail.com")
+# df = control.get_db()
+# df["email"] = ["andrelbd1@gmail.com"]
+
+
 # lst = ["V010","V001","V007"] 
 # control = backend.backend()
 # control.add_view_preference(lst)
+
+# aux = pd.DataFrame(columns=["name","email"])
+# aux["email"] = ["foo@gmail.com"]
+# df = df.append(aux, sort=False, ignore_index=True)

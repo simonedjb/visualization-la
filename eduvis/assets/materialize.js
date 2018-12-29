@@ -671,14 +671,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       return null;
     }
     switch (type.toLowerCase()) {
-      case "select-one":
-        return getSelectSingle_(el);
-      case "select-multiple":
-        return getSelectMultiple_(el);
-      case "radio":
-        return el.checked ? el.value : null;
-      case "checkbox":
-        return el.checked ? el.value : null;
+      // case "select-one":
+      //   return getSelectSingle_(el);
+      // case "select-multiple":
+      //   return getSelectMultiple_(el);
+      // case "radio":
+      //   return el.checked ? el.value : null;
+      // case "checkbox":
+      //   return el.checked ? el.value : null;
       default:
         return el.value ? el.value : null;
     }
@@ -7089,18 +7089,18 @@ $jscomp.polyfill = function (e, r, p, m) {
     }, true);
 
     // Radio and Checkbox focus class
-    var radio_checkbox = 'input[type=radio], input[type=checkbox]';
-    $(document).on('keyup', radio_checkbox, function (e) {
-      // TAB, check if tabbing to radio or checkbox.
-      if (e.which === M.keys.TAB) {
-        $(this).addClass('tabbed');
-        var $this = $(this);
-        $this.one('blur', function (e) {
-          $(this).removeClass('tabbed');
-        });
-        return;
-      }
-    });
+    // var radio_checkbox = 'input[type=radio], input[type=checkbox]';
+    // $(document).on('keyup', radio_checkbox, function (e) {
+    //   // TAB, check if tabbing to radio or checkbox.
+    //   if (e.which === M.keys.TAB) {
+    //     $(this).addClass('tabbed');
+    //     var $this = $(this);
+    //     $this.one('blur', function (e) {
+    //       $(this).removeClass('tabbed');
+    //     });
+    //     return;
+    //   }
+    // });
 
     var text_area_selector = '.materialize-textarea';
     $(text_area_selector).each(function () {
@@ -11874,10 +11874,10 @@ $jscomp.polyfill = function (e, r, p, m) {
         // Add disabled attr if disabled
         var disabledClass = option.disabled ? 'disabled ' : '';
         var optgroupClass = type === 'optgroup-option' ? 'optgroup-option ' : '';
-        var multipleCheckbox = this.isMultiple ? "<label><input type=\"checkbox\"" + disabledClass + "\"/><span>" + option.innerHTML + "</span></label>" : option.innerHTML;
+        // var multipleCheckbox = this.isMultiple ? "<label><input type=\"checkbox\"" + disabledClass + "\"/><span>" + option.innerHTML + "</span></label>" : option.innerHTML;
         var liEl = $('<li></li>');
         var spanEl = $('<span></span>');
-        spanEl.html(multipleCheckbox);
+        // spanEl.html(multipleCheckbox);
         liEl.addClass(disabledClass + " " + optgroupClass);
         liEl.append(spanEl);
 
@@ -11914,7 +11914,7 @@ $jscomp.polyfill = function (e, r, p, m) {
         $optionLi.toggleClass('selected', notAdded);
 
         // Set checkbox checked value
-        $optionLi.find('input[type="checkbox"]').prop('checked', notAdded);
+        // $optionLi.find('input[type="checkbox"]').prop('checked', notAdded);
 
         // use notAdded instead of true (to detect if the option is selected or not)
         $optionLi.prop('selected', notAdded);
@@ -11961,7 +11961,7 @@ $jscomp.polyfill = function (e, r, p, m) {
         for (var key in this._valueDict) {
           var option = this._valueDict[key];
           var optionIsSelected = $(option.el).prop('selected');
-          $(option.optionEl).find('input[type="checkbox"]').prop('checked', optionIsSelected);
+          // $(option.optionEl).find('input[type="checkbox"]').prop('checked', optionIsSelected);
           if (optionIsSelected) {
             this._activateOption($(this.dropdownOptions), $(option.optionEl));
             this._keysSelected[key] = true;

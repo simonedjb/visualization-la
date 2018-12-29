@@ -1,3 +1,5 @@
+import json, datetime
+
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
@@ -7,8 +9,8 @@ from app import app
 from frontend import frontend
 from backend import backend, feedbackmessage
 
-control = backend.backend()
 feedmsg = feedbackmessage.feedbackmessage()
+control = backend.backend()
 interface = frontend.frontend()
 
 _page_name = "aboutvisualization"
@@ -34,15 +36,32 @@ def warning_body_about_you(input1):
     return ""
 
 @app.callback(
-    Output('send_'+_page_name, 'href'),
+    Output('aboutvisualization_cache', 'children'),
     [Input('user_view_read', 'value'),
      Input('user_view_make', 'value')])
-def update_body_about_visualization(input1,input2):
-    global control
+def record_about_visualization(input1,input2):
     
-    if not input1 == '':
+    inputs = [{'user_view_read':input1},
+              {'user_view_make':input2},
+              {'page':_page_name}
+              ]
+    
+    return json.dumps(inputs)
+
+@app.callback(
+    Output('send_'+_page_name, 'href'),
+    [Input('user_cache', 'children'),
+     Input('user_view_read', 'value'),
+     Input('user_view_make', 'value')])
+def update_body_about_visualization(input1,input2,input3):
+    if input1 == None:
+        return '/'
+
+    if input2 == '':
         return None
     else:
         return control.get_next_page()
 
-    
+# global control
+# control.clear()
+# control.add_view_preference(input2)

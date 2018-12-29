@@ -43,7 +43,23 @@ class frontend:
                     html.Div(id='intermediate-value', style={'display': 'none'}, children=[
                         html.Label(id='user_cache'),
                         html.Label(id='date_start_cache'),
-                        html.Label(id='views_cache')
+                        html.Label(id='page_cache'),
+                        html.Label(id='aboutyou_cache'),
+                        html.Label(id='abouteadxp_cache'),                        
+                        html.Label(id='aboutlogs_cache'),
+                        html.Label(id='aboutstudentinformation_cache'),
+                        html.Label(id='aboutvisualization_cache'),
+                        html.Label(id='v001_cache'),
+                        html.Label(id='v002_cache'),
+                        html.Label(id='v003_cache'),
+                        html.Label(id='v004_cache'),
+                        html.Label(id='v005_cache'),
+                        html.Label(id='v006_cache'),
+                        html.Label(id='v007_cache'),
+                        html.Label(id='v008_cache'),
+                        html.Label(id='v009_cache'),
+                        html.Label(id='v010_cache'),
+                        html.Label(id='v011_cache'),
                     ]),
                     html.Div(id='page-content')
                 ])
@@ -236,7 +252,7 @@ class frontend:
                                     html.Label(className="left blue-text", children=["*Profissão:"]),
                                 ]),
                                 html.Div(className="input-field col s6", children=[
-                                    html.Label(className="left blue-text", children=["*Já desenvolveu algum programa?"]),
+                                    html.Label(className="left blue-text", children=["*Já desenvolveu algum programa de computador?"]),
                                 ]),
                             ]),
                             ############################################################################################
@@ -340,8 +356,8 @@ class frontend:
                                         id='user_ead_modality',
                                         placeholder="Presencial ou a Distância",
                                         options=[
-                                            {'label': 'A distância', 'value': 'Totalmente a distância'},
-                                            {'label': 'Presencial', 'value': 'Totalmente presencial com apoio de AVAs'},
+                                            {'label': 'A distância', 'value': 'A distância'},
+                                            {'label': 'Presencial', 'value': 'Presencial'},
                                             {'label': 'Ambas', 'value': 'Ambas'},
                                         ],
                                         value="",
