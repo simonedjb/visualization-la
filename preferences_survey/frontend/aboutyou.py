@@ -14,13 +14,13 @@ control = backend.backend()
 interface = frontend.frontend()
 
 _page_name = "aboutyou"
+_data_cache = []
 
 layout = html.Div([
     interface.survey_warning("warning_"+_page_name),
     interface.survey_profile(),
     interface.survey_send("send_"+_page_name)
 ])
-
 
 @app.callback(
     Output('warning_'+_page_name, 'children'),
@@ -34,32 +34,36 @@ def warning_body_about_you(input1):
     feedmsg.add_clicks()
     return ""
 
-@app.callback(
-    Output('aboutyou_cache', 'children'),
-    [Input('user_name', 'value'),
-     Input('user_gender', 'value'),
-     Input('user_age', 'value'),
-     Input('user_place_birth', 'value'),
-     Input('user_place_work', 'value'),
-     Input('user_scholarship', 'value'),
-     Input('user_scholarship_degree', 'value'),
-     Input('user_job', 'value'),
-     Input('user_programming_xp', 'value')])
-def record_about_you(input1,input2,input3,input4,input5,input6,input7,input8,input9):
-    
-    inputs = [{'user_name':input1},
-              {'user_gender':input2},
-              {'user_age':input3},
-              {'user_place_birth':input4},
-              {'user_place_work':input5},
-              {'user_scholarship':input6},
-              {'user_scholarship_degree':input7},
-              {'user_job':input8},
-              {'user_programming_xp':input9},
-              {'page':_page_name}
-              ]
-    
-    return json.dumps(inputs)
+# @app.callback(
+#     Output('aboutyou_cache', 'children'),
+#     [Input('user_name', 'value'),
+#      Input('user_gender', 'value'),
+#      Input('user_age', 'value'),
+#      Input('user_place_birth', 'value'),
+#      Input('user_place_work', 'value'),
+#      Input('user_scholarship', 'value'),
+#      Input('user_scholarship_degree', 'value'),
+#      Input('user_job', 'value'),
+#      Input('user_programming_xp', 'value'),
+#      Input('user_programming_last_time', 'value'),
+#      Input('user_programming_language', 'value'),
+#      ])
+# def record_about_you(input1,input2,input3,input4,input5,input6,input7,input8,input9,input10,input11):
+#     inputs = [{'user_name':input1},
+#               {'user_gender':input2},
+#               {'user_age':input3},
+#               {'user_place_birth':input4},
+#               {'user_place_work':input5},
+#               {'user_scholarship':input6},
+#               {'user_scholarship_degree':input7},
+#               {'user_job':input8},
+#               {'user_programming_xp':input9},
+#               {'user_programming_last_time':input10},
+#               {'user_programming_language':input11},
+#               {'page':_page_name}
+#               ]
+
+#     return json.dumps(inputs)
 
 @app.callback(
     Output('send_'+_page_name, 'href'),
@@ -72,13 +76,51 @@ def record_about_you(input1,input2,input3,input4,input5,input6,input7,input8,inp
      Input('user_scholarship', 'value'),
      Input('user_scholarship_degree', 'value'),
      Input('user_job', 'value'),
-     Input('user_programming_xp', 'value')])
-def update_body_about_you(input1,input2,input3,input4,input5,input6,input7,input8,input9,input10):
+     Input('user_programming_xp', 'value'),
+     Input('user_programming_last_time', 'value'),
+     Input('user_programming_language', 'value'),
+     ])
+def update_body_about_you(input1,input2,input3,input4,input5,input6,input7,input8,input9,input10,input11,input12):
+    global _data_cache
+    global _page_name
+
+    next_page = 'abouteadxp' 
+
+    _data_cache= [{"field":'user_name',"value":input2},
+                  {"field":'user_gender',"value":input3},
+                  {"field":'user_age',"value":input4},
+                  {"field":'user_place_birth',"value":input5},
+                  {"field":'user_place_work',"value":input6},
+                  {"field":'user_scholarship',"value":input7},
+                  {"field":'user_scholarship_degree',"value":input8},
+                  {"field":'user_job',"value":input9},
+                  {"field":'user_programming_xp',"value":input10},
+                  {"field":'user_programming_last_time',"value":input11},
+                  {"field":'user_programming_language',"value":input12},
+                  {"field":'page',"value":next_page}]
+
     if input1 == None:
         return '/'
 
     if input2 == '':
         return None
     else:
-        return 'abouteadxp'
+        return next_page
     
+def record_data_about_you(user = None):
+    global control
+    global _data_cache
+
+    if user == None:
+        return False
+    
+    fields = []
+    values = []
+
+    for i in range(0,len(_data_cache)):
+        fields.append(_data_cache[i]["field"])
+        values.append(_data_cache[i]["value"])
+
+    control.db_adding_value(fields,values)
+
+    return True

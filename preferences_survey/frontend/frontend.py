@@ -277,14 +277,29 @@ class frontend:
                                 ])
                             ]),
                             ############################################################################################
-                            # html.Div(className="row center", children=[
-                            #     html.Div(className="input-field col s6",children=[
-                            #         dcc.Input(id='user_programming_when', placeholder="Quando foi o último programa que você fez?", type='text',value="")
-                            #     ]),
-                            #     html.Div(className="input-field col s6",children=[
-                            #         dcc.Input(id='user_programming_language', placeholder="Em que linguagem foi feito seu último programa?", type='text',value="")
-                            #     ]),
-                            # ]),
+                            html.Div(className="row", children=[
+                                html.Div(className="input-field col s12", children=[
+                                    html.Label(className="left blue-text", children=["Caso já tenha desenvolvido algum programa de computador:"]),
+                                ]),
+                            ]),
+                            ############################################################################################
+                            html.Div(className="row", children=[
+                                html.Div(className="input-field col s6", children=[
+                                    html.Label(className="left blue-text", children=["Quando foi a última vez que você programou?"]),
+                                ]),
+                                html.Div(className="input-field col s6", children=[
+                                    html.Label(className="left blue-text", children=["Em que linguagem de programação?"]),
+                                ]),
+                            ]),
+                            ############################################################################################
+                            html.Div(className="row center", children=[
+                                html.Div(className="input-field col s6",children=[
+                                    dcc.Input(id='user_programming_last_time', placeholder="", type='text',value="")
+                                ]),
+                                html.Div(className="input-field col s6",children=[
+                                    dcc.Input(id='user_programming_language', placeholder="", type='text',value="")
+                                ]),
+                            ]),
                             html.Br()
                         ]),
                     ])

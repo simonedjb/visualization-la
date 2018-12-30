@@ -35,6 +35,8 @@ class backend:
                {"db":"scholarship_degree", "system":"user_scholarship_degree"}, #grau de formação
                {"db":"job", "system":"user_job"}, #profissão
                {"db":"programming_xp", "system":"user_programming_xp"}, #experiência com programação
+               {"db":"programming_last_time", "system":"user_programming_last_time"}, #última vez que programou
+               {"db":"programming_language", "system":"user_programming_language"}, #linguagem que programou pela última vez
                {"db":"job_ead", "system":"user_job_ead"}, #papeis desempenhados na utilização do AVAs
                {"db":"time_AVA_xp", "system":"user_time_experience"}, #tempo de experiência na utilização de AVAs
                {"db":"organization_worked", "system":"user_organization_worked"}, #instituições de ensino que trabalha (e que trabalhou) utilizando AVAs
@@ -103,18 +105,12 @@ class backend:
         
         return True
 
-    def db_adding_value_json(self, json_var): #adding values in the database using json
-        fields = []
-        values = []
-        
-        self.db_adding_value(fields,values)
-
     def db_adding_value(self, fields, values): #adding values in the database
         for i in range(0,len(fields)):
             column = self.get_relate_column_dabase(fields[i])
             value = values[i]
             self._db[column].loc[0] = value
-
+        
         self._db.to_csv(self._path_db, index=False)
 
     def db_select_value(self, fields): #return values of the database
@@ -122,6 +118,7 @@ class backend:
         for i in range(0,len(fields)):
             columns.append(self.get_relate_column_dabase(fields[i]))
 
+        print(columns)
         return self._db[columns].values.tolist()[0]
 
     def get_db(self):

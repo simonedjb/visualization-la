@@ -14,6 +14,7 @@ control = backend.backend()
 interface = frontend.frontend()
 
 _page_name = "eadxp"
+_data_cache = []
 
 layout = html.Div([
     interface.survey_warning("warning_"+_page_name),
@@ -35,29 +36,38 @@ def warning_body_ead_xp(input1):
     return ""
 
 @app.callback(
-    Output('date_start_cache', 'children'),
-    [Input('user_ead_xp', 'value'),
-     Input('user_cache', 'children')])
-def update_body_date_cache(input1,input2):
-    global control
-    global _page_name 
-    if input1 == "":
-        return None
-    
-    user_cache = json.loads(input2)
-    date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-    if not control.db_has_database(user_cache):
-        control.db_make_database(user_cache)
-        control.db_adding_value(["user_ead_xp","date_start_cache","page"],[input1,date,_page_name])
-
-    return json.dumps(date)
-
-@app.callback(
     Output('send_'+_page_name, 'href'),
     [Input('user_ead_xp', 'value')])
 def update_body_ead_xp(input1):
+    global _data_cache
+    global _page_name
+    
+    next_page = None
+        
     if input1 == "S":
-        return "aboutyou"
+        next_page = "aboutyou"
     elif input1 == "N":
-        return "thanks"
+        next_page = "thanks"
+
+    _data_cache= [{"field":'user_ead_xp',"value":input1},
+                  {"field":'page',"value":next_page}]
+
+    return next_page
+
+def record_data_ead_xp(user = None):
+    global control
+    global _data_cache
+
+    if user == None:
+        return False
+    
+    fields = []
+    values = []
+
+    for i in range(0,len(_data_cache)):
+        fields.append(_data_cache[i]["field"])
+        values.append(_data_cache[i]["value"])
+    
+    control.db_adding_value(fields,values)
+
+    return True

@@ -10,9 +10,8 @@ from frontend import prefv001, prefv008, prefv002, prefv003, prefv009, prefv004,
 # from backend import backend
 
 interface = frontend.frontend()
-_current_page = 1
-
 app.layout = interface.survey_body()
+_current_page = "/"
 
 def clear_settings():
     eadxp.feedmsg.set_clicks(0)
@@ -25,16 +24,10 @@ def clear_settings():
 @app.callback(Output('page-content', 'children'),
               [Input('url', 'pathname')])
 def display_page(pathname):
-    global _current_page
     global interface
-    # session['user'] = 'Andre'
     print (pathname)
-    if pathname == '/':
+    if pathname == '/' or pathname == None or home._user_cache == None:
         print("index - /")
-        clear_settings()
-        return home.layout
-    elif pathname == '/presentation':
-        print("index - /presentation")
         clear_settings()
         return home.layout
     elif pathname == '/eadxp':
@@ -96,6 +89,46 @@ def display_page(pathname):
         print("index - /404")
         clear_settings()
         return interface.survey_404()
+
+@app.callback(Output('page_cache', 'children'),
+              [Input('url', 'pathname')])
+def update_page_cache(current_page):
+    global _current_page
+    
+    user = home._user_cache
+    if user == None or user == "":
+        _current_page = None
+        return
+    
+    # print("---------------------")
+    # print(_current_page)
+    # print(current_page)
+    # print("---------------------")
+    if not _current_page == current_page:
+        if _current_page == '/' or _current_page == None:
+            home.record_data_home(user)
+        elif _current_page == '/eadxp':
+            eadxp.control = home.control
+            eadxp.record_data_ead_xp(user)
+        elif _current_page == '/aboutyou':
+            aboutyou.control = home.control
+            aboutyou.record_data_about_you(user)
+        elif _current_page == '/abouteadxp':
+            abouteadxp.control = home.control
+            abouteadxp.record_data_about_ead_xp(user)
+        elif _current_page == '/aboutlogs':
+            aboutlogs.control = home.control
+            aboutlogs.record_data_about_logs(user)
+        elif _current_page == '/aboutstudentinformation':
+            aboutstudentinformation.control = home.control
+            aboutstudentinformation.record_data_about_student_information(user)
+        elif _current_page == '/aboutvisualization':
+            aboutvisualization.control = home.control
+            aboutvisualization.record_data_about_visualization(user)
+
+        _current_page = current_page
+
+    return current_page
 
 if __name__ == '__main__':
     app.run_server(debug=True, port=7000)
