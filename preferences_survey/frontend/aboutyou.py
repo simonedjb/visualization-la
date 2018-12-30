@@ -34,37 +34,6 @@ def warning_body_about_you(input1):
     feedmsg.add_clicks()
     return ""
 
-# @app.callback(
-#     Output('aboutyou_cache', 'children'),
-#     [Input('user_name', 'value'),
-#      Input('user_gender', 'value'),
-#      Input('user_age', 'value'),
-#      Input('user_place_birth', 'value'),
-#      Input('user_place_work', 'value'),
-#      Input('user_scholarship', 'value'),
-#      Input('user_scholarship_degree', 'value'),
-#      Input('user_job', 'value'),
-#      Input('user_programming_xp', 'value'),
-#      Input('user_programming_last_time', 'value'),
-#      Input('user_programming_language', 'value'),
-#      ])
-# def record_about_you(input1,input2,input3,input4,input5,input6,input7,input8,input9,input10,input11):
-#     inputs = [{'user_name':input1},
-#               {'user_gender':input2},
-#               {'user_age':input3},
-#               {'user_place_birth':input4},
-#               {'user_place_work':input5},
-#               {'user_scholarship':input6},
-#               {'user_scholarship_degree':input7},
-#               {'user_job':input8},
-#               {'user_programming_xp':input9},
-#               {'user_programming_last_time':input10},
-#               {'user_programming_language':input11},
-#               {'page':_page_name}
-#               ]
-
-#     return json.dumps(inputs)
-
 @app.callback(
     Output('send_'+_page_name, 'href'),
     [Input('user_cache', 'children'),

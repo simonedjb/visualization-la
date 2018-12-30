@@ -36,19 +36,6 @@ def warning_body_about_you(input1):
     feedmsg.add_clicks()
     return ""
 
-# @app.callback(
-#     Output('aboutvisualization_cache', 'children'),
-#     [Input('user_view_read', 'value'),
-#      Input('user_view_make', 'value')])
-# def record_about_visualization(input1,input2):
-    
-#     inputs = [{'user_view_read':input1},
-#               {'user_view_make':input2},
-#               {'page':_page_name}
-#               ]
-    
-#     return json.dumps(inputs)
-
 @app.callback(
     Output('send_'+_page_name, 'href'),
     [Input('user_cache', 'children'),

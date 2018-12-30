@@ -35,21 +35,6 @@ def warning_body_about_you(input1):
     feedmsg.add_clicks()
     return ""
 
-# @app.callback(
-#     Output('aboutstudentinformation_cache', 'children'),
-#     [Input('user_interaction_access_students_logs', 'value'),
-#      Input('user_interaction_access_students_logs_others', 'value'),
-#      Input('user_interaction_access_students_logs_presentation', 'value')])
-# def record_about_student_information(input1,input2,input3):
-    
-#     inputs = [{'user_interaction_access_students_logs':input1},
-#               {'user_interaction_access_students_logs_others':input2},
-#               {'user_interaction_access_students_logs_presentation':input3},
-#               {'page':_page_name}
-#               ]
-    
-#     return json.dumps(inputs)
-
 @app.callback(
     Output('send_'+_page_name, 'href'),
     [Input('user_cache', 'children'),
