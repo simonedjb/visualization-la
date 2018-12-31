@@ -11,8 +11,9 @@ feedmsg = feedbackmessage.feedbackmessage()
 control = backend.backend()
 interface = frontend.frontend()
 
-_page_name = "thanks"
+_page_name = "notfound"
 
 layout = html.Div([
-    interface.survey_end()
+    interface.survey_404(),
+    interface.survey_send("send_"+_page_name,'/','voltar')
 ])

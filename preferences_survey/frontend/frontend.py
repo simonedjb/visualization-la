@@ -47,12 +47,12 @@ class frontend:
                     html.Div(id='page-content')
                 ])
 
-    def survey_send(self,id,href=""):
+    def survey_send(self,id,href="",label="Avançar"):
         return html.Div(className="container", children=[
                     html.Div(className="row", children=[
                         html.Div(className="col s12",children=[
                             html.Div(className="row center", children=[
-                                dcc.Link('Avançar', id=id,className="waves-effect waves-light btn-large", href=href),
+                                dcc.Link(label, id=id,className="waves-effect waves-light btn-large", href=href),
                                 # html.Button('Enviar', id='send',className="waves-effect waves-light btn-large", n_clicks=0),
                                 html.Br(),html.Br()
                             ]),

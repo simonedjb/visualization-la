@@ -5,14 +5,16 @@ import dash_html_components as html
 from flask import Flask, session
 
 from app import app
-from frontend import frontend, home, eadxp, aboutyou, abouteadxp, aboutstudentinformation, aboutlogs, aboutvisualization, thanks
+from frontend import frontend, home, eadxp, aboutyou, abouteadxp, aboutstudentinformation, aboutlogs, aboutvisualization, notfound, thanks
 from frontend import prefv001, prefv008, prefv002, prefv003, prefv009, prefv004, prefv010, prefv005, prefv006, prefv011, prefv007
 from backend import backend
 
-control = backend.backend()
-interface = frontend.frontend()
-app.layout = interface.survey_body()
+_control = backend.backend()
+_interface = frontend.frontend()
 _current_page = "/"
+
+app.layout = _interface.survey_body()
+
 
 def clear_settings():
     eadxp.feedmsg.set_clicks(0)
@@ -25,7 +27,7 @@ def clear_settings():
 @app.callback(Output('page-content', 'children'),
               [Input('url', 'pathname')])
 def display_page(pathname):
-    global interface
+    global _interface
     print (pathname)
     if pathname == '/' or pathname == None or home._user_cache == None:
         print("index - /")
@@ -89,39 +91,46 @@ def display_page(pathname):
     else:
         print("index - /404")
         clear_settings()
-        return interface.survey_404()
+        return notfound.layout
 
 @app.callback(Output('page_cache', 'children'),
               [Input('url', 'pathname')])
 def update_page_cache(current_page):
     global _current_page
-    global control
+    global _control
     
     user = home._user_cache
     if user == None or user == "":
         _current_page = None
         return
     
+    print("update_page_cache")
+    print(current_page)
+    if not current_page in ['/eadxp','/aboutyou','/abouteadxp','/aboutlogs','/aboutstudentinformation','/aboutvisualization',
+                            ]:
+        _current_page = current_page = None
+
     if not _current_page == current_page:
         if _current_page == '/' or _current_page == None:
-            if not control.db_has_database(user):
-                control.db_make_database(user)
-                control.record_data(user, home._data_cache)
+            if not _control.db_has_database(user):
+                _control.db_make_database(user)
+                _control.record_data(user, home._data_cache)
             else:
-                control.db_load_database(user)
+                _control.db_load_database(user)
         elif _current_page == '/eadxp':
-            control.record_data(user, eadxp._data_cache)
+            _control.record_data(user, eadxp._data_cache)
         elif _current_page == '/aboutyou':
-            control.record_data(user, aboutyou._data_cache)
+            _control.record_data(user, aboutyou._data_cache)
         elif _current_page == '/abouteadxp':
-            control.record_data(user, abouteadxp._data_cache)
+            _control.record_data(user, abouteadxp._data_cache)
         elif _current_page == '/aboutlogs':
-            control.record_data(user, aboutlogs._data_cache)
+            _control.record_data(user, aboutlogs._data_cache)
         elif _current_page == '/aboutstudentinformation':
-            control.record_data(user, aboutstudentinformation._data_cache)
+            _control.record_data(user, aboutstudentinformation._data_cache)
         elif _current_page == '/aboutvisualization':
-            control.record_data(user, aboutvisualization._data_cache)
-
+            _control.record_data(user, aboutvisualization._data_cache)
+        
+        
         _current_page = current_page
 
     return current_page
@@ -130,7 +139,9 @@ if __name__ == '__main__':
     app.run_server(debug=True, port=7000)
 
 
+# aboutstudentinformation : Onde se escolhe as visões
 #V00*
 # Escala de 1-7
 # Qual vc usaria
 # No final um dropdown para escolher qual o melhor gráfico para aquela pergunta
+
