@@ -3,11 +3,16 @@ import dash_core_components as dcc
 import dash_html_components as html
 import random
 
+import plotly.plotly as py
+import plotly.tools as tls
+
 import pandas as pd
 import numpy as np
 
+
 from plotly.graph_objs import Figure, Layout, Bar, Table, Heatmap, Scatter, Box, Violin
 from plotly.offline import init_notebook_mode, iplot
+
 
 from sklearn import metrics
 from sklearn.cluster import KMeans
@@ -91,6 +96,15 @@ class V009:
 
                 k+= 1
 
+        df = self.PROCDATASET
+        df2 = df.set_index("Time")
+        x= df.index.get_level_values(0).values
+        print(x)
+        y=df.iloc[:,2].tolist()
+        print(y)
+        j = df.iloc[0,1:].tolist()
+        #print(j)
+
 
 
     # Table presenting raw data
@@ -125,12 +139,12 @@ class V009:
 
         trace = Table(
             header=dict(
-                values=list(df.columns[:len(df.columns)-1]),
+                values=list(df.columns[:len(df.columns)]),
                 fill = dict(color='#C2D4FF'),
                 align = 'center'
             ),
             cells=dict(
-                values=[df[i].tolist() for i in df.columns[:len(df.columns)-1]],
+                values=[df[i].tolist() for i in df.columns[:len(df.columns)]],
                 fill = dict(color='#F5F8FF'),
                 align = ['left','center']
             )
@@ -145,7 +159,59 @@ class V009:
                 figure={"data": data}
             )
 
+
+    def graph_03(self):
+
+        legend = {"title":"adicionar titulo",
+                    "xaxis":"",
+                    "yaxis":"",
+                }
+        if (self._language == "en"):
+            legend = {"title":"adicionar titulo", #bacalhau
+                        "xaxis":"",
+                        "yaxis":"",
+                    }
+
+        color = ["rgb(127,0,0)","rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,127,127)","rgb(0,255,0)"]
+
+        dft = self.PROCDATASET
+        df = dft.set_index("Time")
+
+        sizeref = 0.01
+
+        trace = []
+        for i in range(0, len(df.columns[1:])):
+            trace.append(
+                Scatter(
+                    x=df.index.get_level_values(0).values, #time
+                    y=df.iloc[:,i].tolist(), #actions
+                    hoverinfo='x+y',
+                    mode='lines',
+
+                    #stackgroup='one'
+
+                )
+            )
+
+
+        layout = Layout(
+
+        )
+
+        data = trace
+        fig=Figure(data=data, layout=layout)
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Scatter')
+        elif self._type_result == "dash":
+            return dcc.Graph(
+                id='V009@3',
+                figure=fig
+            )
+
+
     def print_all_graphs(self,language="pt"):
         self._language = language
         self.graph_01() #Raw Table
         self.graph_02() #Processed Table
+        self.graph_03()
+        self.graph_04()
