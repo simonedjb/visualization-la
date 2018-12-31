@@ -47,8 +47,7 @@ def warning_body_about_you(input1):
      Input('user_job', 'value'),
      Input('user_programming_xp', 'value'),
      Input('user_programming_last_time', 'value'),
-     Input('user_programming_language', 'value'),
-     ])
+     Input('user_programming_language', 'value')])
 def update_body_about_you(input1,input2,input3,input4,input5,input6,input7,input8,input9,input10,input11,input12):
     global _data_cache
     global _page_name

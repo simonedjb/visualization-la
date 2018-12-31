@@ -107,6 +107,8 @@ def update_page_cache(current_page):
             if not control.db_has_database(user):
                 control.db_make_database(user)
                 control.record_data(user, home._data_cache)
+            else:
+                control.db_load_database(user)
         elif _current_page == '/eadxp':
             control.record_data(user, eadxp._data_cache)
         elif _current_page == '/aboutyou':
