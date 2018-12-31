@@ -47,26 +47,6 @@ def update_body_presentation(input1):
 
     if control.db_has_database(input1):
         control.db_load_database(_user_cache)
-        return control.db_select_value(["page"])[0]
-    
+        next_page = control.db_select_value(["page"])[0]
+
     return next_page
-
-def record_data_home(user = None):
-    global control
-    global _data_cache
-
-    if user == None:
-        return False
-    
-    fields = []
-    values = []
-
-    for i in range(0,len(_data_cache)):
-        fields.append(_data_cache[i]["field"])
-        values.append(_data_cache[i]["value"])
-
-    if not control.db_has_database(user):
-        control.db_make_database(user)
-        control.db_adding_value(fields,values)
-
-    return True

@@ -118,7 +118,6 @@ class backend:
         for i in range(0,len(fields)):
             columns.append(self.get_relate_column_dabase(fields[i]))
 
-        print(columns)
         return self._db[columns].values.tolist()[0]
 
     def get_db(self):
@@ -188,6 +187,23 @@ class backend:
                 return self._fields[i]["system"]
 
         return None
+
+    def record_data(self, user = None, data = []):
+        if user == None:
+            return False
+        
+        fields = []
+        values = []
+        
+        # print("Record data")
+
+        for i in range(0,len(data)):
+            fields.append(data[i]["field"])
+            values.append(data[i]["value"])
+            
+        self.db_adding_value(fields,values)
+
+        return True
 
 # import os
 # import numpy as np

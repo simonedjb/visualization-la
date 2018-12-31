@@ -75,21 +75,3 @@ def update_body_about_you(input1,input2,input3,input4,input5,input6,input7,input
         return None
     else:
         return next_page
-    
-def record_data_about_you(user = None):
-    global control
-    global _data_cache
-
-    if user == None:
-        return False
-    
-    fields = []
-    values = []
-
-    for i in range(0,len(_data_cache)):
-        fields.append(_data_cache[i]["field"])
-        values.append(_data_cache[i]["value"])
-
-    control.db_adding_value(fields,values)
-
-    return True

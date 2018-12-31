@@ -7,8 +7,9 @@ from flask import Flask, session
 from app import app
 from frontend import frontend, home, eadxp, aboutyou, abouteadxp, aboutstudentinformation, aboutlogs, aboutvisualization, thanks
 from frontend import prefv001, prefv008, prefv002, prefv003, prefv009, prefv004, prefv010, prefv005, prefv006, prefv011, prefv007
-# from backend import backend
+from backend import backend
 
+control = backend.backend()
 interface = frontend.frontend()
 app.layout = interface.survey_body()
 _current_page = "/"
@@ -94,37 +95,30 @@ def display_page(pathname):
               [Input('url', 'pathname')])
 def update_page_cache(current_page):
     global _current_page
+    global control
     
     user = home._user_cache
     if user == None or user == "":
         _current_page = None
         return
     
-    # print("---------------------")
-    # print(_current_page)
-    # print(current_page)
-    # print("---------------------")
     if not _current_page == current_page:
         if _current_page == '/' or _current_page == None:
-            home.record_data_home(user)
+            if not control.db_has_database(user):
+                control.db_make_database(user)
+                control.record_data(user, home._data_cache)
         elif _current_page == '/eadxp':
-            eadxp.control = home.control
-            eadxp.record_data_ead_xp(user)
+            control.record_data(user, eadxp._data_cache)
         elif _current_page == '/aboutyou':
-            aboutyou.control = home.control
-            aboutyou.record_data_about_you(user)
+            control.record_data(user, aboutyou._data_cache)
         elif _current_page == '/abouteadxp':
-            abouteadxp.control = home.control
-            abouteadxp.record_data_about_ead_xp(user)
+            control.record_data(user, abouteadxp._data_cache)
         elif _current_page == '/aboutlogs':
-            aboutlogs.control = home.control
-            aboutlogs.record_data_about_logs(user)
+            control.record_data(user, aboutlogs._data_cache)
         elif _current_page == '/aboutstudentinformation':
-            aboutstudentinformation.control = home.control
-            aboutstudentinformation.record_data_about_student_information(user)
+            control.record_data(user, aboutstudentinformation._data_cache)
         elif _current_page == '/aboutvisualization':
-            aboutvisualization.control = home.control
-            aboutvisualization.record_data_about_visualization(user)
+            control.record_data(user, aboutvisualization._data_cache)
 
         _current_page = current_page
 

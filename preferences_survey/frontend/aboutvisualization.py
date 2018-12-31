@@ -61,21 +61,3 @@ def update_body_about_visualization(input1,input2,input3):
 
     # global control
     # control.add_view_preference(input2)
-
-def record_data_about_visualization(user = None):
-    global control
-    global _data_cache
-
-    if user == None:
-        return False
-    
-    fields = []
-    values = []
-
-    for i in range(0,len(_data_cache)):
-        fields.append(_data_cache[i]["field"])
-        values.append(_data_cache[i]["value"])
-
-    control.db_adding_value(fields,values)
-
-    return True

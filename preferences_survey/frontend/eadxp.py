@@ -53,21 +53,3 @@ def update_body_ead_xp(input1):
                   {"field":'page',"value":next_page}]
 
     return next_page
-
-def record_data_ead_xp(user = None):
-    global control
-    global _data_cache
-
-    if user == None:
-        return False
-    
-    fields = []
-    values = []
-
-    for i in range(0,len(_data_cache)):
-        fields.append(_data_cache[i]["field"])
-        values.append(_data_cache[i]["value"])
-    
-    control.db_adding_value(fields,values)
-
-    return True
