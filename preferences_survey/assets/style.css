@@ -4442,3 +4442,32 @@ textarea.materialize-textarea + label:after, .select-wrapper + label:after {
 .tap-target-origin:not(.btn):not(.btn-large):not(.btn-small), .tap-target-origin:not(.btn):not(.btn-large):not(.btn-small):hover {
   background: none;
 }
+
+/**
+ * 1. Add the correct box sizing in IE 10-.
+ * 2. Remove the padding in IE 10-.
+ */
+[type="checkbox"],
+[type="radio"] {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  
+  padding: 0;
+  
+}
+
+/**
+ * Correct the cursor style of increment and decrement buttons in Chrome.
+ */
+ [type="number"]::-webkit-inner-spin-button,
+ [type="number"]::-webkit-outer-spin-button {
+   height: auto;
+ }
+
+.input-field.col .dropdown-content [type="checkbox"] + label {
+  top: 1px;
+  left: 0;
+  height: 18px;
+  -webkit-transform: none;
+          transform: none;
+}

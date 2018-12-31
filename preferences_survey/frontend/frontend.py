@@ -90,13 +90,12 @@ class frontend:
                                 html.H6(className="header left blue-text", children=["E-mail para contato: adamasceno@inf.puc-rio.br"]),
                                 html.Br(),html.Br()
                             ]),
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s12", children=[
-                                    html.Label(className="left red-text", children=["Para prosseguir, digite seu email:"]),
-                                ])
-                            ]),
+                            
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s4",children=[
+                                    html.P(children=[
+                                        html.Label(className="left red-text", children=["Para prosseguir, digite seu email:"]),
+                                    ]),
                                     dcc.Input(id='user_email', placeholder="user@gmail.com", type='text',value="")
                                 ]),
                             ]),
@@ -143,23 +142,17 @@ class frontend:
                                 html.Br(),html.Br()
                             ]),
                             ############################################################################################
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s8", children=[
-                                    html.Label(className="left blue-text", children=["*Nome completo:"]),
-                                ]),
-                                html.Div(className="input-field col s2", children=[
-                                    html.Label(className="left blue-text", children=["*Gênero:"]),
-                                ]),
-                                html.Div(className="input-field col s2", children=[
-                                    html.Label(className="left blue-text", children=["*Idade:"]),
-                                ]),
-                            ]),
-                            ############################################################################################
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s8",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["*Nome completo:"])
+                                    ]),
                                     dcc.Input(id='user_name', placeholder="", type='text',value="")
                                 ]),
                                 html.Div(className="input-field col s2", children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["*Gênero:"]),
+                                    ]),
                                     dcc.Dropdown(
                                         id='user_gender',
                                         placeholder="M ou F",
@@ -175,42 +168,39 @@ class frontend:
                                     ),
                                 ]),
                                 html.Div(className="input-field col s2",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["*Idade:"]),
+                                    ]),
                                     dcc.Input(id='user_age', placeholder="20,anos, 30 anos, etc.", type='text',value="")
                                 ]),
                             ]),
                             ############################################################################################
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s6", children=[
-                                    html.Label(className="left blue-text", children=["*Estado e cidade onde nasceu (caso seja estranjeiro, informe o país):"]),
-                                ]),
-                                html.Div(className="input-field col s6", children=[
-                                    html.Label(className="left blue-text", children=["*Estado e cidade onde trabalha:"]),
-                                ])
-                            ]),
-                            ############################################################################################
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s6",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["*Estado e cidade onde nasceu (caso seja estranjeiro, informe o país):"]),
+                                    ]),
                                     dcc.Input(id='user_place_birth', placeholder="São Luís, Maranhão", type='text',value="")
                                 ]),
                                 html.Div(className="input-field col s6",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["*Estado e cidade onde trabalha:"]),
+                                    ]),
                                     dcc.Input(id='user_place_work', placeholder="São Luís, Maranhão", type='text',value="")
                                 ])
                             ]),
                             ############################################################################################
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s8", children=[
-                                    html.Label(className="left blue-text", children=["*Área de formação:"]),
-                                ]),
-                                html.Div(className="input-field col s4", children=[
-                                    html.Label(className="left blue-text", children=["*Grau de escolaridade:"]),
-                                ]),
-                            ]),
-                            ############################################################################################
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s8",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["*Área de formação:"]),
+                                    ]),
                                     dcc.Input(id='user_scholarship', placeholder="Área de formação", type='text',value="")
                                 ]),
                                 html.Div(className="input-field col s4", children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["*Grau de escolaridade:"]),
+                                    ]),
                                     dcc.Dropdown(
                                         id='user_scholarship_degree',
                                         placeholder="",
@@ -230,20 +220,17 @@ class frontend:
                                 ])
                             ]),
                             ############################################################################################
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s6", children=[
-                                    html.Label(className="left blue-text", children=["*Profissão:"]),
-                                ]),
-                                html.Div(className="input-field col s6", children=[
-                                    html.Label(className="left blue-text", children=["*Já desenvolveu algum programa de computador?"]),
-                                ]),
-                            ]),
-                            ############################################################################################
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s6",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["*Profissão:"]),
+                                    ]),
                                     dcc.Input(id='user_job', placeholder="Professor, Instrutor, Tutor, etc", type='text',value="")
                                 ]),
                                 html.Div(className="input-field col s6", children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["*Já desenvolveu algum programa de computador?"]),
+                                    ]),
                                     dcc.Dropdown(
                                         id='user_programming_xp',
                                         placeholder="Sim ou Não",
@@ -266,20 +253,17 @@ class frontend:
                                 ]),
                             ]),
                             ############################################################################################
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s6", children=[
-                                    html.Label(className="left blue-text", children=["Quando foi a última vez que você programou?"]),
-                                ]),
-                                html.Div(className="input-field col s6", children=[
-                                    html.Label(className="left blue-text", children=["Em que linguagem de programação?"]),
-                                ]),
-                            ]),
-                            ############################################################################################
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s6",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["Quando foi a última vez que você programou?"]),
+                                    ]),
                                     dcc.Input(id='user_programming_last_time', placeholder="", type='text',value="")
                                 ]),
                                 html.Div(className="input-field col s6",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["Em que linguagem de programação?"]),
+                                    ]),
                                     dcc.Input(id='user_programming_language', placeholder="", type='text',value="")
                                 ]),
                             ]),
@@ -297,59 +281,44 @@ class frontend:
                                 html.Br(),html.Br()
                             ]),
                             ############################################################################################
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s7", children=[
-                                    html.Label(className="left blue-text", children=["*Papeis desempenhados na utilização do AVAs:"]),
-                                ]),
-                                html.Div(className="input-field col s5", children=[
-                                    html.Label(className="left blue-text", children=["*Tempo de experiência na utilização de AVAs:"]),
-                                ]),
-                            ]),
-                            ############################################################################################
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s7",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["*Papeis desempenhados na utilização do AVAs:"]),
+                                    ]),
                                     dcc.Input(id='user_job_ead', placeholder="Professor, Tutor, Monitor, etc.", type='text',value="")
                                 ]),
                                 html.Div(className="input-field col s5",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["*Tempo de experiência na utilização de AVAs:"]),
+                                    ]),
                                     dcc.Input(id='user_time_experience', placeholder="6 meses, 5 anos, 10 anos, etc.", type='text',value="")
                                 ]),
                             ]),
                             ############################################################################################
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s12", children=[
-                                    html.Label(className="left blue-text", children=["*Instituições de ensino que trabalha (e que trabalhou) utilizando AVAs:"]),
-                                ]),
-                            ]),
-                            ############################################################################################
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s12",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["*Instituições de ensino que trabalha (e que trabalhou) utilizando AVAs:"]),
+                                    ]),
                                     dcc.Input(id='user_organization_worked', placeholder="PUC-Rio, UFMA, UFRJ, UEMA, etc.", type='text',value="")
                                 ]),
                             ]),
                             ############################################################################################
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s12", children=[
-                                    html.Label(className="left blue-text", children=["*Disciplinas ensinadas utilizando AVAs:"]),
-                                ]),
-                            ]),
-                            ############################################################################################
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s12",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["*Disciplinas ensinadas utilizando AVAs:"]),
+                                    ]),
                                     dcc.Input(id='user_subject', placeholder="Disciplinas de computação, Disciplinas da saúde (ex: Síndromes Geriátricas, etc.), Introdução a EaD, etc.", type='text',value="")
                                 ]),
                             ]),
                             ############################################################################################
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s6", children=[
-                                    html.Label(className="left blue-text", children=["*Experiência com qual modalidade de ensino utilizando AVAS:"]),
-                                ]),
-                                html.Div(className="input-field col s6", children=[
-                                    html.Label(className="left blue-text", children=["*AVAs que utiliza (e que já utilizou):"]),
-                                ]),
-                            ]),
-                            ############################################################################################
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s6", children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["*Experiência com qual modalidade de ensino utilizando AVAS:"]),
+                                    ]),
                                     dcc.Dropdown(
                                         id='user_ead_modality',
                                         placeholder="Presencial ou a Distância",
@@ -365,48 +334,42 @@ class frontend:
                                     ),
                                 ]),
                                 html.Div(className="input-field col s6",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["*AVAs que utiliza (e que já utilizou):"]),
+                                    ]),
                                     dcc.Input(id='user_avas_performed', placeholder="Moodle, Blackboard, etc.", type='text',value="")
                                 ]),
                             ]),
                             ############################################################################################
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s12", children=[
-                                    html.Label(className="left blue-text", children=["*Recursos que utiliza e já utilizou nos AVAs:"]),
-                                ]),
-                            ]),
-                            ############################################################################################
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s12",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["*Recursos que utiliza e já utilizou nos AVAs:"]),
+                                    ]),
                                     dcc.Input(id='user_avas_resources', placeholder="Vídeos, ebooks, fórum, chat, badges, etc.", type='text',value="")
                                 ]),
                             ]),
                             ############################################################################################
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s12", children=[
-                                    html.Label(className="left blue-text", children=["*Faixa etária dos alunos que ensina (e que já ensinou) utilizando AVAs:"]),
-                                ]),
-                            ]),
-                            ############################################################################################
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s12",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["*Faixa etária dos alunos que ensina (e que já ensinou) utilizando AVAs:"]),
+                                    ]),
                                     dcc.Input(id='user_students_age', placeholder="18 à 30 anos, 25 à 60 anos, etc.", type='text',value="")
-                                ]),
-                            ]),
-                            ############################################################################################
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s8", children=[
-                                    html.Label(className="left blue-text", children=["*Área de formação dos alunos que ensina (e que já ensinou) utilizando AVAs:"]),
-                                ]),
-                                html.Div(className="input-field col s4", children=[
-                                    html.Label(className="left blue-text", children=["*Grau de escolaridade desses alunos:"]),
                                 ]),
                             ]),
                             ############################################################################################
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s8",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["*Área de formação dos alunos que ensina (e que já ensinou) utilizando AVAs:"]),
+                                    ]),
                                     dcc.Input(id='user_students_scholarship', placeholder="Informática, Saúde, etc.", type='text',value="")
                                 ]),
                                 html.Div(className="input-field col s4", children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["*Grau de escolaridade desses alunos:"]),
+                                    ]),
                                     dcc.Dropdown(
                                         id='user_students_scholarship_degree',
                                         placeholder="",
@@ -426,14 +389,11 @@ class frontend:
                                 ])
                             ]),
                             ############################################################################################
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s12", children=[
-                                    html.Label(className="left blue-text", children=["*Quais informações dos alunos você considera relevante:"]),
-                                ]),
-                            ]),
-                            ############################################################################################
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s12",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["*Quais informações dos alunos você considera relevante:"]),
+                                    ]),
                                     dcc.Input(id='user_students_meaningful', placeholder="", type='text',value="")
                                 ]),
                             ]),
@@ -451,50 +411,38 @@ class frontend:
                                 html.Br(),html.Br()
                             ]),
                             ############################################################################################
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s12", children=[
-                                    html.Label(className="left blue-text", children=["*Como você acompanha o andamento dos alunos durante o curso:"]),
-                                ]),
-                            ]),
-                            ############################################################################################
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s12",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["*Como você acompanha o andamento dos alunos durante o curso:"]),
+                                    ]),
                                     dcc.Input(id='user_students_progress', placeholder="", type='text',value="")
                                 ]),
                             ]),
                             ############################################################################################
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s12", children=[
-                                    html.Label(className="left blue-text", children=["*Quais dados podem ser utilizados para predizer as notas dos alunos?"]),
-                                ]),
-                            ]),
-                            ############################################################################################
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s12",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["*Quais dados podem ser utilizados para predizer as notas dos alunos?"]),
+                                    ]),
                                     dcc.Input(id='user_logs_performance', placeholder="", type='text',value="")
                                 ]),
                             ]),
                             ############################################################################################
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s12", children=[
-                                    html.Label(className="left blue-text", children=["*Quais dados podem ser utilizados para predizer se o aluno irá abandonar o curso?"]),
-                                ]),
-                            ]),
-                            ############################################################################################
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s12",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["*Quais dados podem ser utilizados para predizer se o aluno irá abandonar o curso?"]),
+                                    ]),
                                     dcc.Input(id='user_logs_dropout', placeholder="", type='text',value="")
                                 ]),
                             ]),
                             ############################################################################################
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s12", children=[
-                                    html.Label(className="left blue-text", children=["*Quais dados podem ser utilizados para avaliar o engajamento do aluno?"]),
-                                ]),
-                            ]),
-                            ############################################################################################
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s12",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["*Quais dados podem ser utilizados para avaliar o engajamento do aluno?"]),
+                                    ]),
                                     dcc.Input(id='user_logs_engagement', placeholder="", type='text',value="")
                                 ]),
                             ]),
@@ -505,20 +453,17 @@ class frontend:
                                 ]),
                             ]),
                             ############################################################################################
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s6", children=[
-                                    html.Label(className="left blue-text", children=["quais dados você analisa?"]),
-                                ]),
-                                html.Div(className="input-field col s6", children=[
-                                    html.Label(className="left blue-text", children=["como esses dados são apresentados pra você?"]),
-                                ]),
-                            ]),
-                            ############################################################################################
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s6",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["quais dados você analisa?"]),
+                                    ]),
                                     dcc.Input(id='user_logs_analyse', placeholder="Acesso ao AVA, realização de tarefas, postagem no fórum, etc.", type='text',value="")
                                 ]),
                                 html.Div(className="input-field col s6",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["como esses dados são apresentados pra você?"]),
+                                    ]),
                                     dcc.Input(id='user_logs_presentation', placeholder="Em uma tabela, em gráfico de pizza, em gráfico de barra, etc.", type='text',value="")
                                 ]),
                             ]),
@@ -530,11 +475,31 @@ class frontend:
 
     def survey_student_information(self):
         global control
+        views = control.get_view()
         options = []
-        values = control.get_all_view_names()
+        checkbox_div = []
+        
+        
+        for i in range(0,len(views)):
+            
+            p = html.P(children=[
+                    html.Label(className="left blue-text", children=[control.get_view_label_view(views[i])]),
+                ])
+            br = html.Br()
+            checkbox = dcc.Checklist(
+                            id=views[i],
+                            options=[
+                                # {'label': 'Estudantes que fizeram e não fizeram as tarefas', 'value': '1'},
+                                # {'label': 'Tarefas feitas e não pelos estudantes', 'value': '2'},
+                            ],
+                            values=[],
+                            labelStyle={"display":"block",},
+                        )
 
-        for i in range(0,len(values)):
-            options.append({'label': control.get_view_label(values[i]), 'value': values[i]})
+            checkbox_div.append(p)
+            checkbox_div.append(br)
+            checkbox_div.append(checkbox)
+        
 
         return html.Div(className="container", children=[
                     html.Div(className="row", children=[
@@ -550,47 +515,24 @@ class frontend:
                                 ]),
                             ]),
                             ############################################################################################
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s12", children=[
-                                    html.Label(className="left red-text", children=["(é possível selecionar mais de uma opção)"]),
-                                ]),
+                            html.Div(className="row left", children=[
+                                html.Div(className="input-field col s12",children=checkbox_div), 
                             ]),
                             ############################################################################################
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s12",children=[
-                                    dcc.Dropdown(
-                                        id='user_interaction_access_students_logs',
-                                        placeholder="",
-                                        options = options,
-                                        value="",
-                                        searchable=True,
-                                        multi=True,
-                                        clearable=False,
-                                        style={'color': '#2196f3'}
-                                    )
-                                ]),
-                            ]),
-                            ############################################################################################
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s12", children=[
-                                    html.Label(className="left blue-text", children=["Há mais algum dado que você analisa (ou gostaria de analisar) e que não foi apresentada?"]),
-                                ]),
-                            ]),
-                            ############################################################################################
-                            html.Div(className="row center", children=[
-                                html.Div(className="input-field col s12",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["Há mais algum dado que você analisa (ou gostaria de analisar) e que não foi apresentada?"]),
+                                    ]),
                                     dcc.Input(id='user_interaction_access_students_logs_others', placeholder="", type='text',value="")
                                 ]),
                             ]),
                             ############################################################################################
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s12", children=[
-                                    html.Label(className="left blue-text", children=["Como você gostaria que esses dados fossem apresentados?"]),
-                                ]),
-                            ]),
-                            ############################################################################################
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s12",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["Como você gostaria que esses dados fossem apresentados?"]),
+                                    ]),
                                     dcc.Input(id='user_interaction_access_students_logs_presentation', placeholder="Em uma tabela, em gráfico de pizza, em gráfico de barra, etc.", type='text',value="")
                                 ]),
                             ]),
@@ -599,19 +541,6 @@ class frontend:
                         ])
                     ])
                 ])
-
-        #Tarefas feitas pelos estudantes, V001
-        #Acesso dos estudantes aos materiais (ex: videos, ebooks, etc.), V002
-        #Interação dos estudantes no fórum (ex: postagens, acessos, etc.), V003
-        #Tempo de permanência dos estudantes nos vídeos, V004
-        #Correlação entre as notas e os logs de acesso/interação dos estudantes, V005
-        #Correlação entre o perfil (idade, cidade de origem, etc.) e os logs de acesso/interação dos estudantes, V006
-        #Predição das notas que os estudante terão ao final do curso e quais abandonarão, V007
-        #Acesso dos estudantes no AVA por dia ou semana, V008
-        #Interação dos estudantes nos vídeos (play, pause, backward, forward), V009
-        #Vídeos que os estudantes entenderam e não entenderam, V010
-        #Padrão de navegação dos estudantes no AVA, V011
-        
 
     def survey_visualization(self):
         return html.Div(className="container", children=[
@@ -628,17 +557,11 @@ class frontend:
                                 ]),
                             ]),
                             ############################################################################################
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s6", children=[
-                                    html.Label(className="left blue-text", children=["lê e interpreta gráficos?"]),
-                                ]),
-                                html.Div(className="input-field col s6", children=[
-                                    html.Label(className="left blue-text", children=["cria gráficos?"]),
-                                ]),
-                            ]),
-                            ############################################################################################
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s6", children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["lê e interpreta gráficos?"]),
+                                    ]),
                                     dcc.Dropdown(
                                         id='user_view_read',
                                         placeholder="Nunca, uma vez ou outra, etc.",
@@ -656,6 +579,9 @@ class frontend:
                                     ),
                                 ]),
                                 html.Div(className="input-field col s6", children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["cria gráficos?"]),
+                                    ]),
                                     dcc.Dropdown(
                                         id='user_view_make',
                                         placeholder="Nunca, uma vez ou outra, etc.",

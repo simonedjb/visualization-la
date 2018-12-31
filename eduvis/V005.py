@@ -31,7 +31,7 @@ class V005:
         
         self._df_sum = pd.DataFrame(columns=["Students","Grade","AssignTotal","MaterialTotal"])
         names = pd.read_csv("names.csv")
-        self.DATASET = pd.DataFrame(columns=["Students","Grade","Access",
+        self.DATASET = pd.DataFrame(columns=["Students","Grade","AVA Access",
                                                 "Forum Access","Forum Post","Forum Replies","Forum Add Thread", 
                                                 "Assign1","Assign2","Assign3","Assign4","Video1","Video2", 
                                                 "Quiz1","Quiz2","Pdf1","Pdf2","Ebook1","Ebook2",])
@@ -46,7 +46,7 @@ class V005:
             self.DATASET.loc[i,"Students"] = rand_names[i]
             
             if (self.DATASET.loc[i,"Grade"] <= 50):
-                self.DATASET.loc[i,"Access"] = np.random.randint(5,26)
+                self.DATASET.loc[i,"AVA Access"] = np.random.randint(5,26)
                 self.DATASET.loc[i,"Forum Post"] = np.random.randint(0,4)
                 self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,4)
                 self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,4)
@@ -70,7 +70,7 @@ class V005:
                 self._df_sum.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]  
 
             elif (self.DATASET.loc[i,"Grade"] <= 60):
-                self.DATASET.loc[i,"Access"] = np.random.randint(20,41)
+                self.DATASET.loc[i,"AVA Access"] = np.random.randint(20,41)
                 self.DATASET.loc[i,"Forum Post"] = np.random.randint(0,8)
                 self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,8)
                 self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,4)
@@ -94,7 +94,7 @@ class V005:
                 self._df_sum.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]
 
             elif (self.DATASET.loc[i,"Grade"] <= 70):
-                self.DATASET.loc[i,"Access"] = np.random.randint(35,57)
+                self.DATASET.loc[i,"AVA Access"] = np.random.randint(35,57)
                 self.DATASET.loc[i,"Forum Post"] = np.random.randint(1,12)
                 self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,12)
                 self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,8)
@@ -118,7 +118,7 @@ class V005:
                 self._df_sum.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]
 
             elif (self.DATASET.loc[i,"Grade"] <= 80):
-                self.DATASET.loc[i,"Access"] = np.random.randint(50,71)
+                self.DATASET.loc[i,"AVA Access"] = np.random.randint(50,71)
                 self.DATASET.loc[i,"Forum Post"] = np.random.randint(2,21)
                 self.DATASET.loc[i,"Forum Replies"] = np.random.randint(2,21)
                 self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,7)
@@ -142,7 +142,7 @@ class V005:
                 self._df_sum.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]
 
             elif (self.DATASET.loc[i,"Grade"] <= 90):
-                self.DATASET.loc[i,"Access"] = np.random.randint(65,86)
+                self.DATASET.loc[i,"AVA Access"] = np.random.randint(65,86)
                 self.DATASET.loc[i,"Forum Post"] = np.random.randint(5,36)
                 self.DATASET.loc[i,"Forum Replies"] = np.random.randint(5,36)
                 self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(1,11)
@@ -166,7 +166,7 @@ class V005:
                 self._df_sum.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]
 
             else:
-                self.DATASET.loc[i,"Access"] = np.random.randint(80,101)
+                self.DATASET.loc[i,"AVA Access"] = np.random.randint(80,101)
                 self.DATASET.loc[i,"Forum Post"] = np.random.randint(10,41)
                 self.DATASET.loc[i,"Forum Replies"] = np.random.randint(10,41)
                 self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(3,14)
@@ -192,30 +192,31 @@ class V005:
 
         df_k = self.DATASET.iloc[:,1:] #Selecting features to cluster
         kmeans = KMeans(n_clusters=4, init='random').fit(df_k) #Clustering
-        self._df_sum["Cluster"] = np.asarray(kmeans.labels_)
+        
         self._df_sum["Students"] = self.DATASET["Students"]
         self._df_sum["Grade"] = self.DATASET["Grade"]
-        self._df_sum["Access"] = self.DATASET["Access"]
+        self._df_sum["AVA Access"] = self.DATASET["AVA Access"]
         self._df_sum["Forum Access"] = self.DATASET["Forum Access"]
         self._df_sum["Forum Post"] = self.DATASET["Forum Post"]
         self._df_sum["Forum Replies"] = self.DATASET["Forum Replies"]
         self._df_sum["Forum Add Thread"] = self.DATASET["Forum Add Thread"]
+        self._df_sum["Cluster"] = np.asarray(kmeans.labels_)
 
     def convert_to_int(self,row):
         return int(row["Grade"])
 
     # Table presenting raw data
     def graph_01(self):
-        df = self.DATASET
+        df = self._df_sum
         
         trace = Table(
             header=dict(
-                values=list(df.columns[:3]),
+                values=list(df.columns[:len(df.columns)-1]),
                 fill = dict(color='#C2D4FF'),
                 align = 'center'
             ),
             cells=dict(
-                values=[df[i].tolist() for i in df.columns[:3]],
+                values=[df[i].tolist() for i in df.columns[:len(df.columns)-1]],
                 fill = dict(color='#F5F8FF'),
                 align = ['left','center']
             )
@@ -254,7 +255,7 @@ class V005:
             # print(df.Students[i])
             trace.append(
                 Scatter(
-                    x=[df.Access[i]], #Access
+                    x=[df["AVA Access"][i]], #Access
                     y=[df.Grade[i]], #Grade
                     mode='markers',
                     name=df.Students[i], #each student name                    
@@ -284,7 +285,7 @@ class V005:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self.DATASET.Access.max()+10],
+                range = [0, self.DATASET["AVA Access"].max()+10],
                 rangemode = "normal",
                 zeroline= False,
                 showline = True,                
@@ -896,7 +897,7 @@ class V005:
         for i in range(0,len(Clusters)):
             trace.append(
                 Box(
-                    y=df.Access.loc[df['Cluster']==Clusters[i]].values.tolist(), #Access
+                    y=df["AVA Access"].loc[df['Cluster']==Clusters[i]].values.tolist(), #Access
                     name="Cluster "+str(i+1),
                     text=df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
                     boxpoints = 'all',
@@ -930,7 +931,7 @@ class V005:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-1, self.DATASET.Access.max()+10],
+                range = [-1, self.DATASET["AVA Access"].max()+10],
                 rangemode = "normal",
                 # showline = True,                
                 zeroline = False,
@@ -1463,7 +1464,7 @@ class V005:
                 {
                     "type":'violin',
                     "x":["Cluster "+str(i+1)]*len(df.Grade.loc[df['Cluster']==Clusters[i]]),
-                    "y":df.Access.loc[df['Cluster']==Clusters[i]],
+                    "y":df["AVA Access"].loc[df['Cluster']==Clusters[i]],
                     "name":"Cluster "+str(i+1),
                     "text":df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
                     "box":{
@@ -1505,7 +1506,7 @@ class V005:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-15, self.DATASET.Access.max()+10],                
+                range = [-15, self.DATASET["AVA Access"].max()+10],                
                 rangemode = "normal",
                 zeroline = False,
             )
