@@ -27,12 +27,13 @@ def clear_settings():
 @app.callback(Output('page-content', 'children'),
               [Input('url', 'pathname')])
 def display_page(pathname):
+    global _control
     global _interface
     print (pathname)
     if pathname == '/' or pathname == None or home._user_cache == None:
         print("index - /")
         clear_settings()
-        return aboutstudentinformation.layout
+        # return aboutstudentinformation.layout
         return home.layout
     elif pathname == '/eadxp':
         print("index - /eadxp")
@@ -51,6 +52,7 @@ def display_page(pathname):
         return aboutstudentinformation.layout
     elif pathname == '/aboutvisualization':
         print("index - /aboutvisualization")
+        aboutvisualization.control = _control
         return aboutvisualization.layout
     # elif pathname == '/assignsdone':
     #     print("index - /assignsdone")
@@ -114,6 +116,7 @@ def update_page_cache(current_page):
     if not _current_page == current_page:
         if _current_page == '/' or _current_page == None:
             if not _control.db_has_database(user):
+
                 _control.db_make_database(user)
                 _control.record_data(user, home._data_cache)
             else:
@@ -130,7 +133,6 @@ def update_page_cache(current_page):
             _control.record_data(user, aboutstudentinformation._data_cache)
         elif _current_page == '/aboutvisualization':
             _control.record_data(user, aboutvisualization._data_cache)
-        
         
         _current_page = current_page
 

@@ -477,29 +477,14 @@ class frontend:
         global control
         views = control.get_view()
         options = []
-        checkbox_div = []
         
-        
-        for i in range(0,len(views)):
-            
-            p = html.P(children=[
-                    html.Label(className="left blue-text", children=[control.get_view_label_view(views[i])]),
-                ])
-            br = html.Br()
-            checkbox = dcc.Checklist(
-                            id=views[i],
-                            options=[
-                                # {'label': 'Estudantes que fizeram e não fizeram as tarefas', 'value': '1'},
-                                # {'label': 'Tarefas feitas e não pelos estudantes', 'value': '2'},
-                            ],
-                            values=[],
-                            labelStyle={"display":"block",},
-                        )
-
-            checkbox_div.append(p)
-            checkbox_div.append(br)
-            checkbox_div.append(checkbox)
-        
+        for i in range(0, len(views)): 
+            questions = control.get_view_question_view(views[i]) 
+            for j in range(0, len(questions)): 
+                options.append({
+                                'label':control.get_view_label_question_view(views[i],questions[j]), #question label
+                                'value':str(views[i]+"_"+control.get_view_id_question_view(views[i],questions[j])) #view_id
+                               })
 
         return html.Div(className="container", children=[
                     html.Div(className="row", children=[
@@ -509,14 +494,19 @@ class frontend:
                                 html.Br(),html.Br()
                             ]),
                             ############################################################################################
-                            html.Div(className="row", children=[
-                                html.Div(className="input-field col s12", children=[
-                                    html.Label(className="left blue-text", children=["Selecione os dados que você analisa ou que gostaria de analisar:"]),
-                                ]),
-                            ]),
-                            ############################################################################################
                             html.Div(className="row left", children=[
-                                html.Div(className="input-field col s12",children=checkbox_div), 
+                                html.Div(className="input-field col s12",children=[
+                                    html.P(children=[
+                                        html.Label(className="left blue-text", children=["Selecione os dados que você analisa ou que gostaria de analisar:"]),
+                                    ]),
+                                    html.Br(),
+                                    dcc.Checklist(
+                                        id="user_interaction_access_students_logs",
+                                        options=options,
+                                        values=[],
+                                        labelStyle={"display":"block","margin-top":"15px"},
+                                    )
+                                ]), 
                             ]),
                             ############################################################################################
                             html.Div(className="row center", children=[

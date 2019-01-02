@@ -18,7 +18,6 @@ layout = html.Div([
     interface.survey_warning("warning_"+_page_name),
     interface.survey_visualization(),
     interface.survey_send("send_"+_page_name)
-    # interface.survey_send("send_"+_page_name,control.get_next_page()) #Apagar
 ])
 
 
@@ -43,12 +42,14 @@ def update_body_about_visualization(input1,input2,input3):
     global _data_cache
     global _page_name
 
-    next_page = control.get_next_page()
+    next_page = "thanks"
+    if(control.has_next_page()):
+        next_page =control.get_next_page()
 
     _data_cache= [{"field":'user_view_read',"value":input2},
                   {"field":'user_view_make',"value":input3},
                   {"field":'page',"value":next_page}]
-    
+
     if input1 == None:
         return '/'
 
@@ -56,6 +57,3 @@ def update_body_about_visualization(input1,input2,input3):
         return None
     else:
         return next_page
-
-    # global control
-    # control.add_view_preference(input2)

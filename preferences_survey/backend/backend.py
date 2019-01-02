@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import pandas as pd
+import ast
 
 DB_PATH = "db/"
 FILE_EXTENSION = ".csv"
@@ -10,10 +11,11 @@ class backend:
     _db = pd.DataFrame()
     _path_db = ""
     _language = "pt"
-    _lst_view_name = [] #List of views selected
+    _user = ""
+    _lst_view_page = [] #List of page views selected
     _ordained_views = [{"View":"V001","Label":"Tarefas",
                         "Questions":[{"id":"1","Question":"Quais estudantes fizeram e não fizeram as tarefas?","Label":"Estudantes que fizeram e não fizeram as tarefas","Page":"prefv001-1"},
-                                     {"id":"2","Question":"Quais tarefas foram e não foram feitas pelos estudantes?","Label":"Tarefas feitas e não pelos estudantes","Page":"prefv001-2"}]
+                                     {"id":"2","Question":"Quais tarefas foram e não foram feitas pelos estudantes?","Label":"Tarefas feitas e não feitas pelos estudantes","Page":"prefv001-2"}]
                        },
                        {"View":"V008","Label":"Acesso dos estudantes no AVA",
                         "Questions":[{"id":"3","Question":"Qual a quantidade de acesso dos estudantes por dia?","Label":"Quantidade de acesso dos estudantes por dia","Page":"prefv008-1"},
@@ -88,11 +90,34 @@ class backend:
                {"db":"logs_performance", "system":"user_logs_performance"}, #quais dados podem ser utilizados para predizer as notas dos alunos
                {"db":"logs_dropout", "system":"user_logs_dropout"}, #quais dados podem ser utilizados para predizer se o aluno irá abandonar o curso
                {"db":"logs_engagement", "system":"user_logs_engagement"}, #quais dados podem ser utilizados para avaliar o engajamento do aluno
-               {"db":"selected_views", "system":"user_interaction_access_students_logs"}, #dados que você analisa ou que gostaria de analisar
+               {"db":"selected_views", "system":"user_interaction_access_students_logs"}, #dados que você analisa ou que gostaria de analisar 
                {"db":"other_views", "system":"user_interaction_access_students_logs_others"}, #dado que você analisa (ou gostaria de analisar) e que não foi apresentada
                {"db":"presenting_views", "system":"user_interaction_access_students_logs_presentation"}, #como você gostaria que esses dados fossem apresentados
                {"db":"freq_view_read", "system":"user_view_read"}, #com que frequencia você lê e interpreta gráficos
                {"db":"freq_view_make", "system":"user_view_make"}, #com que frequencia você cria gráficos
+               {"db":"V001_1", "system":"user_V001_1"}, #
+               {"db":"V001_2", "system":"user_V001_2"}, #
+               {"db":"V002_5", "system":"user_V002_5"}, #
+               {"db":"V002_6", "system":"user_V002_6"}, #
+               {"db":"V003_7", "system":"user_V003_7"}, #
+               {"db":"V004_9", "system":"user_V004_9"}, #
+               {"db":"V005_11", "system":"user_V005_11"}, #
+               {"db":"V005_12", "system":"user_V005_12"}, #
+               {"db":"V005_13", "system":"user_V005_13"}, #
+               {"db":"V005_14", "system":"user_V005_14"}, #
+               {"db":"V005_15", "system":"user_V005_15"}, #
+               {"db":"V005_16", "system":"user_V005_16"}, #
+               {"db":"V005_17", "system":"user_V005_17"}, #
+               {"db":"V006_18", "system":"user_V006_18"}, #
+               {"db":"V006_19", "system":"user_V006_19"}, #
+               {"db":"V006_20", "system":"user_V006_20"}, #
+               {"db":"V006_21", "system":"user_V006_21"}, #
+               {"db":"V007_23", "system":"user_V007_23"}, #
+               {"db":"V008_3", "system":"user_V008_3"}, #
+               {"db":"V008_4", "system":"user_V008_4"}, #
+               {"db":"V009_8", "system":"user_V009_8"}, #
+               {"db":"V010_10", "system":"user_V010_10"}, #
+               {"db":"V011_22", "system":"user_V011_22"}, #
                {"db":"date_start", "system":"date_start_cache"}, #data de início do survey
                {"db":"date_end", "system":"date_end_cache"}, #data de início do survey
                {"db":"last_page", "system":"page"}, #última tela do formulário respondida no survey
@@ -125,8 +150,12 @@ class backend:
         self._db.to_csv(self._path_db, index=False)
 
     def db_load_database(self, email):
-        self._path_db = os.path.join(DB_PATH,email+FILE_EXTENSION)
+        print("Loading DB")
+
+        self._user = email
+        self._path_db = os.path.join(DB_PATH,self._user+FILE_EXTENSION)
         self._db = pd.read_csv(self._path_db)
+        self.load_lst_view()
 
     def db_has_database(self, email=None):
         if email == None:
@@ -157,37 +186,49 @@ class backend:
     def get_db(self):
         return self._db
 
-    def clear(self):
-        self._lst_view_name = []
+    def load_lst_view(self):
+        self.clear_lst_view()
+        if not str(self.db_select_value(["user_interaction_access_students_logs"])[0]) == "nan":
+            lst = ast.literal_eval(self.db_select_value(["user_interaction_access_students_logs"])[0])
+            print(lst)
+            if len(lst) > 0:
+                print("Entrou")
+                lst_sorted = sorted(lst)
+                for i in range(0,len(lst_sorted)):
+                    val = lst_sorted[i]
+                    print(val)
+                    view = val.split('_')[0]
+                    id_view = val.split('_')[1]
+                    self.add_view_page_preference(self.get_view_page_question_view(view,id_view))
+                
+                print("Pages: ")
+                print(self._lst_view_page)
+        
+    def clear_lst_view(self):
+        self._lst_view_page = []
 
-    def add_view_preference(self, lst_view): #adding all view preferences
-        lst_views = self.get_view()
-        for i in range(0,len(lst_views)):
-            if lst_views[i] in lst_view:
-                self._lst_view_name.append(lst_views[i])
+    def add_view_page_preference(self, page): #adding all view preferences
+        if not page in self._lst_view_page:
+            self._lst_view_page.append(page)
 
-    def get_view_preference(self):
-        return self._lst_view_name
+    def get_view_page_preference(self):
+        return self._lst_view_page
 
-    def has_next_view(self, current_view = None):
+    def has_next_page(self, current_view = None):
         if current_view == None:
-            if len(self._lst_view_name) > 0:
+            if len(self._lst_view_page) > 0:
                 return True
 
-        if current_view in self._lst_view_name:
-            if (self._lst_view_name.index(current_view)+1) < len(self._lst_view_name):
+        if current_view in self._lst_view_page:
+            if (self._lst_view_page.index(current_view)+1) < len(self._lst_view_page):
                 return True
         
         return False
 
-    def get_next_view(self, current_view = None):
+    def get_next_page(self, current_view = None):
         if current_view == None:
-            return self._lst_view_name[0]
-        return self._lst_view_name[self._lst_view_name.index(current_view)+1]
-
-    def get_next_page(self, current_view = None): #break
-        pass
-        # return self.get_view_page(self.get_next_view(current_view))
+            return self._lst_view_page[0]
+        return self._lst_view_page[self._lst_view_page.index(current_view)+1]
 
     def get_view(self):
         lst = []
@@ -222,13 +263,22 @@ class backend:
                         return questions[j]["Label"]
         return None
 
-    def get_view_page_question_view(self, current_view, current_question):
+    def get_view_page_question_view(self, current_view, id):
         for i in range(0,len(self._ordained_views)):
             if self._ordained_views[i]["View"] == current_view:
                 questions = self._ordained_views[i]["Questions"]
                 for j in range(0,len(questions)):
-                    if questions[j]["Question"] == current_question: 
+                    if questions[j]["id"] == id: 
                         return questions[j]["Page"]
+        return None
+
+    def get_view_id_question_view(self, current_view, current_question):
+        for i in range(0,len(self._ordained_views)):
+            if self._ordained_views[i]["View"] == current_view:
+                questions = self._ordained_views[i]["Questions"]
+                for j in range(0,len(questions)):
+                    if questions[j]["Question"] == current_question:
+                        return questions[j]["id"]
         return None
 
     def get_relate_column_dabase(self, field):
@@ -252,13 +302,18 @@ class backend:
         fields = []
         values = []
         
+        load_views = False
         # print("Record data")
 
         for i in range(0,len(data)):
             fields.append(data[i]["field"])
             values.append(data[i]["value"])
+            if(data[i]["field"] == "user_interaction_access_students_logs"):
+                load_views = True
             
         self.db_adding_value(fields,values)
+        if load_views:
+            self.db_load_database(self._user)
 
         return True
 
@@ -267,14 +322,14 @@ class backend:
 # import pandas as pd
 # from backend import backend
 # control = backend.backend()
-# control.db_make_database("andrelbd1@gmail.com")
+# control.db_load_database("andrelbd1@gmail.com")
 # df = control.get_db()
-# df["email"] = ["andrelbd1@gmail.com"]
+
 
 
 # lst = ["V010","V001","V007"] 
 # control = backend.backend()
-# control.add_view_preference(lst)
+# control.add_view_page_preference(lst)
 
 # aux = pd.DataFrame(columns=["name","email"])
 # aux["email"] = ["foo@gmail.com"]
