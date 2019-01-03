@@ -594,15 +594,501 @@ class frontend:
                     html.Br(),html.Br(),html.Br()
                 ])
 
-    def survey_chart_preference(self,label):
+    def survey_chart_preference(self,question,page):
         return html.Div(className="container", children=[
                     html.Div(className="row", children=[
                         html.Div(className="col s12",children=[
                             html.Div(className="row center", children=[
-                                html.H3(className="header center blue-text", children=[label]),
+                                html.H3(className="header center blue-text", children=[question]),
                                 html.Br(),html.Br()
                             ]),
+                            self.survey_select_page(page)
                         ]),
                     ]),
                     html.Br(),html.Br(),html.Br()
+                ])
+
+    def survey_select_page(self,page):
+        if page == "prefv001_1":
+            return self.charts_v001_1()
+        elif page == "prefv001_2":
+            return self.charts_v001_2()
+        elif page == "prefv008_1":
+            return self.charts_v008_1()
+        elif page == "prefv008_2":
+            return self.charts_v008_2()
+        elif page == "prefv002_1":
+            return self.charts_v002_1()
+        elif page == "prefv003_1":
+            return self.charts_v003_1()
+        elif page == "prefv009_1":
+            return self.charts_v009_1()
+        elif page == "prefv004_1":
+            return self.charts_v004_1()
+        elif page == "prefv010_1":
+            return self.charts_v010_1()
+        elif page == "prefv005_1":
+            return self.charts_v005_1()
+        elif page == "prefv006_1":
+            return self.charts_v006_1()
+        elif page == "prefv011_1":
+            return self.charts_v011_1()
+        elif page == "prefv007_1":
+            return self.charts_v007_1()
+        else:
+            return None
+
+    def charts_v001_1(self):
+        return html.Div(children=[
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Numa escala de 1 à 7:"]),
+                            ]),
+                            #Aqui os charts
+                        ]),
+                    ]),
+                    ############################################################################################
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Selecione o gráfico que melhor responde a pergunta:"]),
+                            ]),
+                            dcc.Dropdown(
+                                id='user_chart_fit',
+                                placeholder="",
+                                options=[
+                                    {'label': '1', 'value': '1'},
+                                    {'label': '2', 'value': '2'},
+                                    {'label': '3', 'value': '3'},
+                                    {'label': '4', 'value': '4'},
+                                    {'label': '5', 'value': '5'},
+                                ],
+                                value="",
+                                searchable=False,
+                                clearable=True,
+                                style={'color': '#2196f3'}
+                            ),
+                        ]),
+                    ]),
+                ])
+
+    def charts_v001_2(self):
+        return html.Div(children=[
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Numa escala de 1 à 7:"]),
+                            ]),
+                            #Aqui os charts
+                        ]),
+                    ]),
+                    ############################################################################################
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Selecione o gráfico que melhor responde a pergunta:"]),
+                            ]),
+                            dcc.Dropdown(
+                                id='user_chart_fit',
+                                placeholder="",
+                                options=[
+                                    {'label': '1', 'value': '1'},
+                                    {'label': '2', 'value': '2'},
+                                    {'label': '3', 'value': '3'},
+                                    {'label': '4', 'value': '4'},
+                                    {'label': '5', 'value': '5'},
+                                ],
+                                value="",
+                                searchable=False,
+                                clearable=True,
+                                style={'color': '#2196f3'}
+                            ),
+                        ]),
+                    ]),
+                ])
+
+    def charts_v008_1(self):
+        return html.Div(children=[
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Numa escala de 1 à 7:"]),
+                            ]),
+                            #Aqui os charts
+                        ]),
+                    ]),
+                    ############################################################################################
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Selecione o gráfico que melhor responde a pergunta:"]),
+                            ]),
+                            dcc.Dropdown(
+                                id='user_chart_fit',
+                                placeholder="",
+                                options=[
+                                    {'label': '1', 'value': '1'},
+                                    {'label': '2', 'value': '2'},
+                                    {'label': '3', 'value': '3'},
+                                    {'label': '4', 'value': '4'},
+                                    {'label': '5', 'value': '5'},
+                                ],
+                                value="",
+                                searchable=False,
+                                clearable=True,
+                                style={'color': '#2196f3'}
+                            ),
+                        ]),
+                    ]),
+                ])
+
+    def charts_v008_2(self):
+        return html.Div(children=[
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Numa escala de 1 à 7:"]),
+                            ]),
+                            #Aqui os charts
+                        ]),
+                    ]),
+                    ############################################################################################
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Selecione o gráfico que melhor responde a pergunta:"]),
+                            ]),
+                            dcc.Dropdown(
+                                id='user_chart_fit',
+                                placeholder="",
+                                options=[
+                                    {'label': '1', 'value': '1'},
+                                    {'label': '2', 'value': '2'},
+                                    {'label': '3', 'value': '3'},
+                                    {'label': '4', 'value': '4'},
+                                    {'label': '5', 'value': '5'},
+                                ],
+                                value="",
+                                searchable=False,
+                                clearable=True,
+                                style={'color': '#2196f3'}
+                            ),
+                        ]),
+                    ]),
+                ])
+
+    def charts_v002_1(self):
+        return html.Div(children=[
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Numa escala de 1 à 7:"]),
+                            ]),
+                            #Aqui os charts
+                        ]),
+                    ]),
+                    ############################################################################################
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Selecione o gráfico que melhor responde a pergunta:"]),
+                            ]),
+                            dcc.Dropdown(
+                                id='user_chart_fit',
+                                placeholder="",
+                                options=[
+                                    {'label': '1', 'value': '1'},
+                                    {'label': '2', 'value': '2'},
+                                    {'label': '3', 'value': '3'},
+                                    {'label': '4', 'value': '4'},
+                                    {'label': '5', 'value': '5'},
+                                ],
+                                value="",
+                                searchable=False,
+                                clearable=True,
+                                style={'color': '#2196f3'}
+                            ),
+                        ]),
+                    ]),
+                ])
+
+    def charts_v003_1(self):
+        return html.Div(children=[
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Numa escala de 1 à 7:"]),
+                            ]),
+                            #Aqui os charts
+                        ]),
+                    ]),
+                    ############################################################################################
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Selecione o gráfico que melhor responde a pergunta:"]),
+                            ]),
+                            dcc.Dropdown(
+                                id='user_chart_fit',
+                                placeholder="",
+                                options=[
+                                    {'label': '1', 'value': '1'},
+                                    {'label': '2', 'value': '2'},
+                                    {'label': '3', 'value': '3'},
+                                    {'label': '4', 'value': '4'},
+                                    {'label': '5', 'value': '5'},
+                                ],
+                                value="",
+                                searchable=False,
+                                clearable=True,
+                                style={'color': '#2196f3'}
+                            ),
+                        ]),
+                    ]),
+                ])
+
+    def charts_v009_1(self):
+        return html.Div(children=[
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Numa escala de 1 à 7:"]),
+                            ]),
+                            #Aqui os charts
+                        ]),
+                    ]),
+                    ############################################################################################
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Selecione o gráfico que melhor responde a pergunta:"]),
+                            ]),
+                            dcc.Dropdown(
+                                id='user_chart_fit',
+                                placeholder="",
+                                options=[
+                                    {'label': '1', 'value': '1'},
+                                    {'label': '2', 'value': '2'},
+                                    {'label': '3', 'value': '3'},
+                                    {'label': '4', 'value': '4'},
+                                    {'label': '5', 'value': '5'},
+                                ],
+                                value="",
+                                searchable=False,
+                                clearable=True,
+                                style={'color': '#2196f3'}
+                            ),
+                        ]),
+                    ]),
+                ])
+
+    def charts_v004_1(self):
+        return html.Div(children=[
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Numa escala de 1 à 7:"]),
+                            ]),
+                            #Aqui os charts
+                        ]),
+                    ]),
+                    ############################################################################################
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Selecione o gráfico que melhor responde a pergunta:"]),
+                            ]),
+                            dcc.Dropdown(
+                                id='user_chart_fit',
+                                placeholder="",
+                                options=[
+                                    {'label': '1', 'value': '1'},
+                                    {'label': '2', 'value': '2'},
+                                    {'label': '3', 'value': '3'},
+                                    {'label': '4', 'value': '4'},
+                                    {'label': '5', 'value': '5'},
+                                ],
+                                value="",
+                                searchable=False,
+                                clearable=True,
+                                style={'color': '#2196f3'}
+                            ),
+                        ]),
+                    ]),
+                ])
+
+    def charts_v010_1(self):
+        return html.Div(children=[
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Numa escala de 1 à 7:"]),
+                            ]),
+                            #Aqui os charts
+                        ]),
+                    ]),
+                    ############################################################################################
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Selecione o gráfico que melhor responde a pergunta:"]),
+                            ]),
+                            dcc.Dropdown(
+                                id='user_chart_fit',
+                                placeholder="",
+                                options=[
+                                    {'label': '1', 'value': '1'},
+                                    {'label': '2', 'value': '2'},
+                                    {'label': '3', 'value': '3'},
+                                    {'label': '4', 'value': '4'},
+                                    {'label': '5', 'value': '5'},
+                                ],
+                                value="",
+                                searchable=False,
+                                clearable=True,
+                                style={'color': '#2196f3'}
+                            ),
+                        ]),
+                    ]),
+                ])
+
+    def charts_v005_1(self):
+        return html.Div(children=[
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Numa escala de 1 à 7:"]),
+                            ]),
+                            #Aqui os charts
+                        ]),
+                    ]),
+                    ############################################################################################
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Selecione o gráfico que melhor responde a pergunta:"]),
+                            ]),
+                            dcc.Dropdown(
+                                id='user_chart_fit',
+                                placeholder="",
+                                options=[
+                                    {'label': '1', 'value': '1'},
+                                    {'label': '2', 'value': '2'},
+                                    {'label': '3', 'value': '3'},
+                                    {'label': '4', 'value': '4'},
+                                    {'label': '5', 'value': '5'},
+                                ],
+                                value="",
+                                searchable=False,
+                                clearable=True,
+                                style={'color': '#2196f3'}
+                            ),
+                        ]),
+                    ]),
+                ])
+
+    def charts_v006_1(self):
+        return html.Div(children=[
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Numa escala de 1 à 7:"]),
+                            ]),
+                            #Aqui os charts
+                        ]),
+                    ]),
+                    ############################################################################################
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Selecione o gráfico que melhor responde a pergunta:"]),
+                            ]),
+                            dcc.Dropdown(
+                                id='user_chart_fit',
+                                placeholder="",
+                                options=[
+                                    {'label': '1', 'value': '1'},
+                                    {'label': '2', 'value': '2'},
+                                    {'label': '3', 'value': '3'},
+                                    {'label': '4', 'value': '4'},
+                                    {'label': '5', 'value': '5'},
+                                ],
+                                value="",
+                                searchable=False,
+                                clearable=True,
+                                style={'color': '#2196f3'}
+                            ),
+                        ]),
+                    ]),
+                ])
+
+    def charts_v011_1(self):
+        return html.Div(children=[
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Numa escala de 1 à 7:"]),
+                            ]),
+                            #Aqui os charts
+                        ]),
+                    ]),
+                    ############################################################################################
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Selecione o gráfico que melhor responde a pergunta:"]),
+                            ]),
+                            dcc.Dropdown(
+                                id='user_chart_fit',
+                                placeholder="",
+                                options=[
+                                    {'label': '1', 'value': '1'},
+                                    {'label': '2', 'value': '2'},
+                                    {'label': '3', 'value': '3'},
+                                    {'label': '4', 'value': '4'},
+                                    {'label': '5', 'value': '5'},
+                                ],
+                                value="",
+                                searchable=False,
+                                clearable=True,
+                                style={'color': '#2196f3'}
+                            ),
+                        ]),
+                    ]),
+                ])
+
+    def charts_v007_1(self):
+        return html.Div(children=[
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Numa escala de 1 à 7:"]),
+                            ]),
+                            #Aqui os charts
+                        ]),
+                    ]),
+                    ############################################################################################
+                    html.Div(className="row", children=[
+                        html.Div(className="input-field col s12", children=[
+                            html.P(children=[
+                                html.Label(className="left blue-text", children=["Selecione o gráfico que melhor responde a pergunta:"]),
+                            ]),
+                            dcc.Dropdown(
+                                id='user_chart_fit',
+                                placeholder="",
+                                options=[
+                                    {'label': '1', 'value': '1'},
+                                    {'label': '2', 'value': '2'},
+                                    {'label': '3', 'value': '3'},
+                                    {'label': '4', 'value': '4'},
+                                    {'label': '5', 'value': '5'},
+                                ],
+                                value="",
+                                searchable=False,
+                                clearable=True,
+                                style={'color': '#2196f3'}
+                            ),
+                        ]),
+                    ]),
                 ])

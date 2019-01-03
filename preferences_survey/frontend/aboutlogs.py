@@ -24,7 +24,7 @@ layout = html.Div([
 @app.callback(
     Output('warning_'+_page_name, 'children'),
     [Input('send_'+_page_name, 'href')])
-def warning_body_about_you(input1):
+def warning_body_about_logs(input1):
     global feedmsg    
     if feedmsg.get_clicks() > 0:
         if input1 == None:

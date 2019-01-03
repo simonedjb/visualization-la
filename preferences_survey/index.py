@@ -6,7 +6,7 @@ from flask import Flask, session
 
 from app import app
 from frontend import frontend, home, eadxp, aboutyou, abouteadxp, aboutstudentinformation, aboutlogs, aboutvisualization, notfound, thanks
-# from views import prefv001, prefv008, prefv002, prefv003, prefv009, prefv004, prefv010, prefv005, prefv006, prefv011, prefv007
+from views import prefv001_1, prefv002_1, prefv001_2, prefv003_1, prefv004_1, prefv005_1, prefv006_1, prefv007_1, prefv008_1, prefv008_2, prefv009_1, prefv010_1, prefv011_1
 from backend import backend
 
 _control = backend.backend()
@@ -33,6 +33,19 @@ def display_page(pathname):
     if pathname == '/' or pathname == None or home._user_cache == None:
         print("index - /")
         clear_settings()
+        # return prefv001_1.layout
+        # return prefv001_2.layout
+        # return prefv008_1.layout
+        # return prefv008_2.layout
+        # return prefv002_1.layout
+        # return prefv003_1.layout
+        # return prefv009_1.layout
+        # return prefv004_1.layout
+        # return prefv010_1.layout
+        # return prefv005_1.layout
+        # return prefv006_1.layout
+        # return prefv011_1.layout
+        # return prefv007_1.layout
         # return aboutstudentinformation.layout
         return home.layout
     elif pathname == '/eadxp':
@@ -54,6 +67,59 @@ def display_page(pathname):
         print("index - /aboutvisualization")
         aboutvisualization.control = _control
         return aboutvisualization.layout
+    elif pathname == '/prefv001_1':
+        print("index - /prefv001_1")
+        prefv001_1.control = _control
+        return prefv001_1.layout
+    elif pathname == '/prefv001_2':
+        print("index - /prefv001_2")
+        prefv001_2.control = _control
+        return prefv001_2.layout
+    elif pathname == '/prefv002_1':
+        print("index - /prefv002_1")
+        prefv002_1.control = _control
+        return prefv002_1.layout
+    elif pathname == '/prefv003_1':
+        print("index - /prefv003_1")
+        prefv003_1.control = _control
+        return prefv003_1.layout
+    elif pathname == '/prefv004_1':
+        print("index - /prefv004_1")
+        prefv004_1.control = _control
+        return prefv004_1.layout
+    elif pathname == '/prefv005_1':
+        print("index - /prefv005_1")
+        prefv005_1.control = _control
+        return prefv005_1.layout
+    elif pathname == '/prefv006_1':
+        print("index - /prefv006_1")
+        prefv006_1.control = _control
+        return prefv006_1.layout
+    elif pathname == '/prefv007_1':
+        print("index - /prefv007_1")
+        prefv007_1.control = _control
+        return prefv007_1.layout
+    elif pathname == '/prefv008_1':
+        print("index - /prefv008_1")
+        prefv008_1.control = _control
+        return prefv008_1.layout
+    elif pathname == '/prefv008_2':
+        print("index - /prefv008_2")
+        prefv008_2.control = _control
+        return prefv008_2.layout
+    elif pathname == '/prefv009_1':
+        print("index - /prefv009_1")
+        prefv009_1.control = _control
+        return prefv009_1.layout
+    elif pathname == '/prefv010_1':
+        print("index - /prefv010_1")
+        prefv010_1.control = _control
+        return prefv010_1.layout
+    elif pathname == '/prefv011_1':
+        print("index - /prefv011_1")
+        prefv011_1.control = _control
+        return prefv011_1.layout
+
     # elif pathname == '/assignsdone':
     #     print("index - /assignsdone")
     #     return prefv001.layout
@@ -110,7 +176,8 @@ def update_page_cache(current_page):
     print("update_page_cache")
     print(current_page)
     if not current_page in ['/eadxp','/aboutyou','/abouteadxp','/aboutlogs','/aboutstudentinformation','/aboutvisualization',
-                            ]:
+                            '/prefv001_1','/prefv002_1','/prefv001_2','/prefv003_1','/prefv004_1','/prefv005_1','/prefv006_1',
+                            '/prefv007_1','/prefv008_1','/prefv008_2','/prefv009_1','/prefv010_1','/prefv011_1']:
         _current_page = current_page = None
 
     if not _current_page == current_page:
