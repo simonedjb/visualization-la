@@ -3,8 +3,10 @@ import dash_core_components as dcc
 import dash_html_components as html
 import random
 
+import plotly
 import plotly.plotly as py
 import plotly.tools as tls
+import plotly.graph_objs as go
 
 import pandas as pd
 import numpy as np
@@ -19,6 +21,7 @@ from sklearn.cluster import KMeans
 
 
 init_notebook_mode(connected=True) # initiate notebook for offline plot
+plotly.__version__
 
 class V009:
     NUMBER_ACTIONS = 50
@@ -52,7 +55,7 @@ class V009:
             currentTime = 0
 
             for j in range(0,5):
-                timeModifierFrom = int(currentTime + np.random.triangular(0, (video_size - currentTime - 5)//2 ,video_size - currentTime - 5))
+                timeModifierFrom = int(currentTime + np.random.triangular(0, (video_size - currentTime - 6) ,video_size - currentTime - 5))
                 timeModifierTo = int(np.random.triangular(0,currentTime,video_size))
 
                 self.RAWDATASET.loc[k,"Students"] = rand_names[i]
@@ -159,7 +162,6 @@ class V009:
                 figure={"data": data}
             )
 
-
     def graph_03(self):
 
         legend = {"title":"adicionar titulo",
@@ -208,10 +210,54 @@ class V009:
                 figure=fig
             )
 
+    def graph_04(self):
+
+        x=['Winter', 'Spring', 'Summer', 'Fall']
+
+        trace0 = dict(
+            x=x,
+            y=[40, 60, 40, 10],
+            hoverinfo='x+y',
+            mode='lines',
+            line=dict(width=0.5,
+                color='rgb(131, 90, 241)'),
+            stackgroup='one'
+            )
+        trace1 = dict(
+            x=x,
+            y=[20, 10, 10, 60],
+            hoverinfo='x+y',
+            mode='lines',
+            line=dict(width=0.5,
+                color='rgb(111, 231, 219)'),
+            stackgroup='one'
+            )
+        trace2 = dict(
+            x=x,
+            y=[40, 30, 50, 30],
+            hoverinfo='x+y',
+            mode='lines',
+            line=dict(width=0.5,
+                color='rgb(184, 247, 212)'),
+            stackgroup='one'
+        )
+
+        data = [trace0, trace1, trace2]
+
+        fig = dict(data=data)
+        #py.iplot(fig, filename='stacked-area-plot-hover', validate=False)
+        if self._type_result == "jupyter-notebook":
+            iplot(data, filename = 'pandas_table')
+        elif self._type_result == "dash":
+            return dcc.Graph(
+                id='V009@1',
+                figure={"data": data}
+            )
+
 
     def print_all_graphs(self,language="pt"):
         self._language = language
-        self.graph_01() #Raw Table
-        self.graph_02() #Processed Table
-        self.graph_03()
+        #self.graph_01() #Raw Table
+        #self.graph_02() #Processed Table
+        #self.graph_03()
         self.graph_04()
