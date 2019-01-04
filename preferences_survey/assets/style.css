@@ -4544,3 +4544,47 @@ textarea.materialize-textarea + label:after, .select-wrapper + label:after {
   /* -webkit-transform: scale(1.5);
           transform: scale(1.5);  */
 }
+
+input[type=checkbox] {
+  /* display:block; */
+  /* position:relative; */
+  margin-bottom:0;
+  top: 5px;
+  /* left:50%; */
+  width: 13px;
+  height: 13px;
+  /* border-radius: 50%; */
+  /* margin-left:-6px; */
+  outline: none;
+  -webkit-transition: .28s ease;
+  transition: .28s ease;
+  
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  
+  background-color: white;
+  content: '';
+  visibility: visible;
+  border: 1.5px solid #2196f3;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+input[type=checkbox]:checked {
+  /* width: 20px; */
+  /* height: 20px; */
+  /* border-radius: 50%; */
+  background-color: #2196f3;
+  visibility: visible;
+  /* border: 2px solid white; */
+  /* border-radius: 50%; */
+   /* -webkit-transform: scale(1.5);
+          transform: scale(1.5);   */
+}
