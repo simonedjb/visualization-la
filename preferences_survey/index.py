@@ -39,15 +39,21 @@ def display_page(pathname):
         # return prefv008_2.layout
         # return prefv002_1.layout
         # return prefv003_1.layout
-        # return prefv009_1.layout
+        # return prefv009_1.layout #Falta
         # return prefv004_1.layout
         # return prefv010_1.layout
         # return prefv005_1.layout
         # return prefv006_1.layout
-        # return prefv011_1.layout
-        # return prefv007_1.layout
+        # return prefv011_1.layout #Falta
+        # return prefv007_1.layout #Falta
         # return aboutstudentinformation.layout
         return home.layout
+        # return eadxp.layout
+        # return aboutyou.layout
+        # return abouteadxp.layout
+        # return aboutlogs.layout
+        # return aboutstudentinformation.layout
+        # return aboutvisualization.layout
     elif pathname == '/eadxp':
         print("index - /eadxp")
         return eadxp.layout

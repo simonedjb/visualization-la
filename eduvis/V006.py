@@ -25,10 +25,13 @@ class V006:
         self._language = language
         self._type_result = type_result
 
-    def generate_dataset(self, number_students = 20):
+    def generate_dataset(self, number_students = 20, students_names = pd.DataFrame()):
         self.NUMBER_STUDENTS = number_students
 
-        names = pd.read_csv("names.csv")
+        if len(students_names.columns.tolist()) == 0:
+            names = pd.read_csv("names.csv")
+        else:
+            names = students_names
         self.DATASET = pd.DataFrame(columns=["Students","Age","Forum Access","Forum Post","Forum Replies","Forum Add Thread","Cluster"])
 
         self.DATASET.Age = np.random.triangular(18,30,70,self.NUMBER_STUDENTS)

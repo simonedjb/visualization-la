@@ -26,11 +26,15 @@ class V005:
         self._language = language
         self._type_result = type_result
 
-    def generate_dataset(self, number_students = 20):
+    def generate_dataset(self, number_students = 20, students_names = pd.DataFrame()):
         self.NUMBER_STUDENTS = number_students
         
         self._df_sum = pd.DataFrame(columns=["Students","Grade","AssignTotal","MaterialTotal"])
-        names = pd.read_csv("names.csv")
+        if len(students_names.columns.tolist()) == 0:
+            names = pd.read_csv("names.csv")
+        else:
+            names = students_names
+            
         self.DATASET = pd.DataFrame(columns=["Students","Grade","AVA Access",
                                                 "Forum Access","Forum Post","Forum Replies","Forum Add Thread", 
                                                 "Assign1","Assign2","Assign3","Assign4","Video1","Video2", 
