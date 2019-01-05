@@ -45,7 +45,12 @@ class V007:
         rand_names.sort()
 
 
-        self.DATASET = pd.DataFrame(columns=["Students","Predicted Grade","Predicted Dropout", "Grade", "Cluster"])
+        self.DATASET = pd.DataFrame(columns=["Students","Predicted Grade", "Predicted Dropout","Grade","Cluster","Dropout",
+        	"AVA Access","Forum Post","Forum Replies","Forum Add Thread",
+        	"Assign1","Assign2","Assign3","Assign4",
+        	"Video1","Video2", "Quiz1","Quiz2","Pdf1","Pdf2","Ebook1","Ebook2",
+        	"Forum Access"])
+        
         for i in range(0,self.NUMBER_STUDENTS):
             self.DATASET.loc[i,"Students"] = rand_names[i]
             self.DATASET.loc[i,"Predicted Grade"] = random.choice(['-','0 - 60','61 - 70', '71 - 80', '81 - 90', '91 - 100'])
@@ -55,37 +60,164 @@ class V007:
                 self.DATASET.loc[i,"Cluster"] = 0
                 self.COUNTDATA.loc[0,"Dropout"] += 1
 
+                self.DATASET.loc[i,"AVA Access"] = np.random.randint(5,26)
+                self.DATASET.loc[i,"Forum Post"] = np.random.randint(0,4)
+                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,4)
+                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,4)
+
+                self.DATASET.loc[i,"Assign1"] = int(0)
+                self.DATASET.loc[i,"Assign2"] = int(0)
+                self.DATASET.loc[i,"Assign3"] = int(0)
+                self.DATASET.loc[i,"Assign4"] = int(0)
+
+                self.DATASET.loc[i,"Video1"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Video2"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Quiz1"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Quiz2"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Pdf1"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Pdf2"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Ebook1"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Ebook2"] = np.random.randint(0,2)
+
+                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(0,7)
+                
             elif self.DATASET.loc[i,"Predicted Grade"] == '0 - 60':
                 self.DATASET.loc[i,"Predicted Dropout"] = False
                 self.DATASET.loc[i,"Grade"] = int(random.triangular(0,30,80))
                 self.DATASET.loc[i,"Cluster"] = 1
                 self.COUNTDATA.loc[0,"0 - 60"] += 1
 
+                self.DATASET.loc[i,"AVA Access"] = np.random.randint(20,41)
+                self.DATASET.loc[i,"Forum Post"] = np.random.randint(0,8)
+                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,8)
+                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,4)
+
+                self.DATASET.loc[i,"Assign1"] = int(1)
+                self.DATASET.loc[i,"Assign2"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Assign3"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Assign4"] = np.random.randint(0,2)
+
+                self.DATASET.loc[i,"Video1"] = np.random.randint(0,5)
+                self.DATASET.loc[i,"Video2"] = np.random.randint(0,5)
+                self.DATASET.loc[i,"Quiz1"] = np.random.randint(0,5)
+                self.DATASET.loc[i,"Quiz2"] = np.random.randint(0,5)
+                self.DATASET.loc[i,"Pdf1"] = np.random.randint(0,5)
+                self.DATASET.loc[i,"Pdf2"] = np.random.randint(0,5)
+                self.DATASET.loc[i,"Ebook1"] = np.random.randint(0,5)
+                self.DATASET.loc[i,"Ebook2"] = np.random.randint(0,5)
+
+                self.DATASET.loc[i,"Forum Access"] = self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(0,22)
+                
             elif self.DATASET.loc[i,"Predicted Grade"] == '61 - 70':
                 self.DATASET.loc[i,"Predicted Dropout"] = False
                 self.DATASET.loc[i,"Grade"] = int(random.triangular(50,65,80))
                 self.DATASET.loc[i,"Cluster"] = 2
                 self.COUNTDATA.loc[0,"61 - 70"] += 1
 
+                self.DATASET.loc[i,"AVA Access"] = np.random.randint(35,57)
+                self.DATASET.loc[i,"Forum Post"] = np.random.randint(1,12)
+                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,12)
+                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,8)
+
+                self.DATASET.loc[i,"Assign1"] = int(1)
+                self.DATASET.loc[i,"Assign2"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Assign3"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Assign4"] = int(1)
+
+                self.DATASET.loc[i,"Video1"] = np.random.randint(0,6)
+                self.DATASET.loc[i,"Video2"] = np.random.randint(0,6)
+                self.DATASET.loc[i,"Quiz1"] = np.random.randint(0,6)
+                self.DATASET.loc[i,"Quiz2"] = np.random.randint(0,6)
+                self.DATASET.loc[i,"Pdf1"] = np.random.randint(0,6)
+                self.DATASET.loc[i,"Pdf2"] = np.random.randint(0,6)
+                self.DATASET.loc[i,"Ebook1"] = np.random.randint(0,6)
+                self.DATASET.loc[i,"Ebook2"] = np.random.randint(0,6)
+
+                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(2,26)
+                
             elif self.DATASET.loc[i,"Predicted Grade"] == '71 - 80':
                 self.DATASET.loc[i,"Predicted Dropout"] = False
                 self.DATASET.loc[i,"Grade"] = int(random.triangular(60,75,90))
                 self.DATASET.loc[i,"Cluster"] = 3
                 self.COUNTDATA.loc[0,"71 - 80"] += 1
 
+                self.DATASET.loc[i,"AVA Access"] = np.random.randint(50,71)
+                self.DATASET.loc[i,"Forum Post"] = np.random.randint(2,21)
+                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(2,21)
+                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,7)
+
+                self.DATASET.loc[i,"Assign1"] = int(1)
+                self.DATASET.loc[i,"Assign2"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Assign3"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Assign4"] = int(1)
+
+                self.DATASET.loc[i,"Video1"] = np.random.randint(0,11)
+                self.DATASET.loc[i,"Video2"] = np.random.randint(1,11)
+                self.DATASET.loc[i,"Quiz1"] = np.random.randint(0,11)
+                self.DATASET.loc[i,"Quiz2"] = np.random.randint(1,11)
+                self.DATASET.loc[i,"Pdf1"] = np.random.randint(0,11)
+                self.DATASET.loc[i,"Pdf2"] = np.random.randint(1,11)
+                self.DATASET.loc[i,"Ebook1"] = np.random.randint(0,11)
+                self.DATASET.loc[i,"Ebook2"] = np.random.randint(1,11)
+
+                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(4,31)
+                
             elif self.DATASET.loc[i,"Predicted Grade"] == '81 - 90':
                 self.DATASET.loc[i,"Predicted Dropout"] = False
                 self.DATASET.loc[i,"Grade"] = int(random.triangular(70,85,100))
                 self.DATASET.loc[i,"Cluster"] = 4
                 self.COUNTDATA.loc[0,"81 - 90"] += 1
 
+                self.DATASET.loc[i,"AVA Access"] = np.random.randint(65,86)
+                self.DATASET.loc[i,"Forum Post"] = np.random.randint(5,36)
+                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(5,36)
+                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(1,11)
+
+                self.DATASET.loc[i,"Assign1"] = int(1)
+                self.DATASET.loc[i,"Assign2"] = int(1)
+                self.DATASET.loc[i,"Assign3"] = np.random.randint(0,2)
+                self.DATASET.loc[i,"Assign4"] = int(1)
+
+                self.DATASET.loc[i,"Video1"] = np.random.randint(1,10)
+                self.DATASET.loc[i,"Video2"] = np.random.randint(3,14)
+                self.DATASET.loc[i,"Quiz1"] = np.random.randint(1,10)
+                self.DATASET.loc[i,"Quiz2"] = np.random.randint(3,14)
+                self.DATASET.loc[i,"Pdf1"] = np.random.randint(1,10)
+                self.DATASET.loc[i,"Pdf2"] = np.random.randint(3,14)
+                self.DATASET.loc[i,"Ebook1"] = np.random.randint(1,10)
+                self.DATASET.loc[i,"Ebook2"] = np.random.randint(3,14)
+
+                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(6,36)
+                
             elif self.DATASET.loc[i,"Predicted Grade"] == '91 - 100':
                 self.DATASET.loc[i,"Predicted Dropout"] = False
                 self.DATASET.loc[i,"Grade"] = int(random.triangular(70,95,100))
                 self.DATASET.loc[i,"Cluster"] = 5
                 self.COUNTDATA.loc[0,"91 - 100"] += 1
 
-        print(self.COUNTDATA)
+                self.DATASET.loc[i,"AVA Access"] = np.random.randint(80,101)
+                self.DATASET.loc[i,"Forum Post"] = np.random.randint(10,41)
+                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(10,41)
+                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(3,14)
+
+                self.DATASET.loc[i,"Assign1"] = int(1)
+                self.DATASET.loc[i,"Assign2"] = int(1)
+                self.DATASET.loc[i,"Assign3"] = int(1)
+                self.DATASET.loc[i,"Assign4"] = int(1)
+
+                self.DATASET.loc[i,"Video1"] = np.random.randint(2,13)
+                self.DATASET.loc[i,"Video2"] = np.random.randint(4,15)
+                self.DATASET.loc[i,"Quiz1"] = np.random.randint(2,13)
+                self.DATASET.loc[i,"Quiz2"] = np.random.randint(4,15)
+                self.DATASET.loc[i,"Pdf1"] = np.random.randint(2,13)
+                self.DATASET.loc[i,"Pdf2"] = np.random.randint(4,15)
+                self.DATASET.loc[i,"Ebook1"] = np.random.randint(2,13)
+                self.DATASET.loc[i,"Ebook2"] = np.random.randint(4,15)
+
+                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(10,41)
+                
+        #print(self.COUNTDATA)
+        
 
     def graph_01(self):
         df = self.DATASET
