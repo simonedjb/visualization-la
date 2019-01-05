@@ -40,12 +40,13 @@ def warning_body_prefv001_2(input1):
      Input("chart_16", 'value'),
      Input("chart_22", 'value'),
      Input("chart_30", 'value'),
+     Input("chart_36", 'value'),
      Input("chart_37", 'value'),
      Input("chart_41", 'value'),
      Input("chart_50", 'value'),
      Input("chart_53", 'value'),
      Input("id_chart_v001_2", 'value')])
-def update_body_prefv001_2(input1,chart1,chart2,chart3,chart4,chart5,chart6,chart7,chart8,select_chart):
+def update_body_prefv001_2(input1,chart1,chart2,chart3,chart4,chart5,chart6,chart7,chart8,chart9,select_chart):
     global _data_cache
     global _page_name
 
@@ -58,10 +59,11 @@ def update_body_prefv001_2(input1,chart1,chart2,chart3,chart4,chart5,chart6,char
                                                   {"id_chart_02":"16","value":chart2},
                                                   {"id_chart_03":"22","value":chart3},
                                                   {"id_chart_04":"30","value":chart4},
-                                                  {"id_chart_05":"37","value":chart5},
-                                                  {"id_chart_06":"41","value":chart6},
-                                                  {"id_chart_07":"50","value":chart7},
-                                                  {"id_chart_08":"53","value":chart8},
+                                                  {"id_chart_05":"36","value":chart5},
+                                                  {"id_chart_06":"37","value":chart6},
+                                                  {"id_chart_07":"41","value":chart7},
+                                                  {"id_chart_08":"50","value":chart8},
+                                                  {"id_chart_09":"53","value":chart9},
                                                   {"preference_chart":select_chart},
                                                  ]},
                   {"field":'page',"value":next_page}]

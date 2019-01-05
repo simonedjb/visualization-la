@@ -39,14 +39,13 @@ def display_page(pathname):
         # return prefv008_2.layout
         # return prefv002_1.layout
         # return prefv003_1.layout
-        # return prefv009_1.layout #Falta
         # return prefv004_1.layout
         # return prefv010_1.layout
         # return prefv005_1.layout
         # return prefv006_1.layout
-        # return prefv011_1.layout #Falta
         # return prefv007_1.layout #Falta
-        # return aboutstudentinformation.layout
+        # return prefv009_1.layout #Falta
+        # return prefv011_1.layout #Falta
         return home.layout
         # return eadxp.layout
         # return aboutyou.layout
@@ -73,7 +72,7 @@ def display_page(pathname):
         print("index - /aboutvisualization")
         aboutvisualization.control = _control
         return aboutvisualization.layout
-        
+
     elif pathname == '/prefv001_1':
         print("index - /prefv001_1")
         prefv001_1.control = _control
@@ -149,7 +148,7 @@ def update_page_cache(current_page):
     
     print("update_page_cache")
     print(current_page)
-    if not current_page in ['/eadxp','/aboutyou','/abouteadxp','/aboutlogs','/aboutstudentinformation','/aboutvisualization',
+    if not current_page in ['/eadxp','/aboutyou','/abouteadxp','/aboutlogs','/aboutstudentinformation','/aboutvisualization','/thanks',
                             '/prefv001_1','/prefv002_1','/prefv001_2','/prefv003_1','/prefv004_1','/prefv005_1','/prefv006_1',
                             '/prefv007_1','/prefv008_1','/prefv008_2','/prefv009_1','/prefv010_1','/prefv011_1']:
         _current_page = current_page = None
@@ -188,6 +187,7 @@ def update_page_cache(current_page):
         elif _current_page == '/prefv005_1':
             _control.record_data(user, prefv005_1._data_cache)
         elif _current_page == '/prefv006_1':
+            print("index")
             _control.record_data(user, prefv006_1._data_cache)
         elif _current_page == '/prefv007_1':
             _control.record_data(user, prefv007_1._data_cache)
@@ -202,18 +202,9 @@ def update_page_cache(current_page):
         elif _current_page == '/prefv011_1':
             _control.record_data(user, prefv011_1._data_cache)
 
-        
         _current_page = current_page
-
+        
     return current_page
 
 if __name__ == '__main__':
     app.run_server(debug=True, port=7000)
-
-
-# aboutstudentinformation : Onde se escolhe as visões
-#V00*
-# Escala de 1-7
-# Qual vc usaria
-# No final um dropdown para escolher qual o melhor gráfico para aquela pergunta
-

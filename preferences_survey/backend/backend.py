@@ -28,8 +28,8 @@ class backend:
                        {"View":"V003","Label":"Interação dos estudantes no fórum (ex: postagens, acessos, etc)",
                         "Questions":[{"id":"7","Question":"Qual o número de acessos, postagens e curtidas dos estudantes?","Label":"Número de acessos, postagens e curtidas dos estudantes","Page":"prefv003_1"}]
                        },
-                       {"View":"V009","Label":"Interação dos estudantes nos vídeos (play, pause, backward, forward)",
-                        "Questions":[{"id":"8","Question":"","Label":"","Page":"prefv009_1"}]
+                       {"View":"V009","Label":"Interação dos estudantes nos vídeos (play, pause, seek backward, seek forward)",
+                        "Questions":[{"id":"8","Question":"Como os alunos interagem no player de vídeo (play, pause, seek backward, seek forward)?","Label":"Interação dos estudantes nos vídeos (play, pause, seek backward, seek forward)","Page":"prefv009_1"}]
                        },
                        {"View":"V004","Label":"Tempo de permanência dos estudantes nos vídeos",
                         "Questions":[{"id":"9","Question":"Qual tempo de permanência dos estudantes nos vídeos?","Label":"Tempo de permanência dos estudantes nos vídeos","Page":"prefv004_1"}]
@@ -53,10 +53,10 @@ class backend:
                                      {"id":"21","Question":"Qual a correlação entre a idade dos alunos e a quantidade de tópicos adicionados no fórum?","Label":"Correlação entre a idade dos alunos e a quantidade de tópicos adicionados no fórum","Page":"prefv006_1"}]
                        },
                        {"View":"V011","Label":"Padrão de navegação dos estudantes no AVA",
-                        "Questions":[{"id":"22","Question":"","Label":"","Page":"prefv011_1"}]
+                        "Questions":[{"id":"22","Question":"Qual o padrão de navegação dos estudantes no AVA?","Label":"Padrão de navegação dos estudantes no AVA","Page":"prefv011_1"}]
                        },
                        {"View":"V007","Label":"Predição das notas que os estudante terão ao final do curso e quais abandonarão",
-                        "Questions":[{"id":"23","Question":"","Label":"","Page":"prefv007_1"}]
+                        "Questions":[{"id":"23","Question":"Qual a previsão de notas que os estudantes terão ao final do curso e quais abandonarão?","Label":"Predição das notas que os estudante terão ao final do curso e quais abandonarão","Page":"prefv007_1"}]
                        }
                       ]
 
@@ -312,8 +312,7 @@ class backend:
         values = []
         
         load_views = False
-        # print("Record data")
-
+        
         for i in range(0,len(data)):
             fields.append(data[i]["field"])
             values.append(data[i]["value"])

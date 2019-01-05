@@ -9,6 +9,8 @@ import dash_html_components as html
 from backend import backend
 from eduvis import V001, V002, V003, V004, V005, V006, V008, V010#, V011, V007, V009
 
+import visdcc
+
 control = backend.backend()
 students = pd.read_csv("assets/names.csv")
 view1 = V001.V001(type_result = "dash",language = "pt")
@@ -687,7 +689,7 @@ class frontend:
 
         return html.Div(className="input-field col s12", children=[
                     html.P(children=[
-                        html.Label(className="left blue-text", children=["Selecione o gráfico que melhor responde a pergunta:"]),
+                        html.Label(className="left blue-text", children=["*Selecione o gráfico que melhor responde a pergunta:"]),
                     ]),
                     dcc.Dropdown(
                         id=id,
@@ -761,10 +763,11 @@ class frontend:
                   [view1.graph_26(),view1.graph_27()], #5
                   [view1.graph_29()],                  #6
                   [view1.graph_31(),view1.graph_32()], #7
-                  [view1.graph_35()],                  #8
-                  [view1.graph_38()],                  #9
-                  [view1.graph_44()],                  #10
-                  [view1.graph_47()],                  #11
+                  [view1.graph_34()],                  #8  
+                  [view1.graph_35()],                  #9
+                  [view1.graph_38()],                  #10
+                  [view1.graph_44()],                  #11
+                  [view1.graph_47()],                  #12
                 ]
 
         chart_ids = ["chart_01", #1
@@ -774,10 +777,11 @@ class frontend:
                      "chart_26", #5
                      "chart_29", #6
                      "chart_31", #7
-                     "chart_35", #8
-                     "chart_38", #9
-                     "chart_44", #10
-                     "chart_47", #11
+                     "chart_34", #8
+                     "chart_35", #9
+                     "chart_38", #10
+                     "chart_44", #11
+                     "chart_47", #12
                     ]
         
         return self.chart_view(charts,chart_ids,id_select)
@@ -792,20 +796,22 @@ class frontend:
                   [view1.graph_16(),view1.graph_20()], #2
                   [view1.graph_22(),view1.graph_24()], #3
                   [view1.graph_30()],                  #4
-                  [view1.graph_37()],                  #5
-                  [view1.graph_41()],                  #6
-                  [view1.graph_50()],                  #7
-                  [view1.graph_53()],                  #8
+                  [view1.graph_36()],                  #5
+                  [view1.graph_37()],                  #6
+                  [view1.graph_41()],                  #7
+                  [view1.graph_50()],                  #8
+                  [view1.graph_53()],                  #9
                 ]
 
         chart_ids = ["chart_14", #1
                      "chart_16", #2
                      "chart_22", #3
                      "chart_30", #4
-                     "chart_37", #5
-                     "chart_41", #6
-                     "chart_50", #7
-                     "chart_53", #8
+                     "chart_36", #5
+                     "chart_37", #6
+                     "chart_41", #7
+                     "chart_50", #8
+                     "chart_53", #9
                     ]
         
         return self.chart_view(charts,chart_ids,id_select)
@@ -1022,14 +1028,14 @@ class frontend:
         
         return self.chart_view(charts,chart_ids,id_select)
 
+    def charts_v007_1(self):
+        # global view7
+        pass
+
     def charts_v009_1(self):
         # global view9
         pass
 
     def charts_v011_1(self):
         # global view11
-        pass
-
-    def charts_v007_1(self):
-        # global view7
         pass
