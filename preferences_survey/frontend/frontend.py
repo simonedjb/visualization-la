@@ -41,7 +41,7 @@ class frontend:
                 ])
 
     def survey_warning_message(self):
-        return html.H5(className="header center red-text", children=["Preencha todos os campos"]),
+        return html.H5(className="header center red-text", children=["Preencha todos os campos com *"]),
 
     def survey_404(self):
         return html.Div(className="container", children=[
@@ -656,42 +656,27 @@ class frontend:
             return None
 
     def linkert_scale(self, id, chart):
-        return  html.Div(className="col s12", children=[
-                    html.H5(className="center blue-text", children=[str("*Numa escala de 1 à 7, o quanto o "+chart+" responde a pergunta?")]),
-                    html.Div(id=id,children=[
-                        html.Ul(className='likert',children=[
-                            html.Li(children=[
-                                dcc.Input(type="radio", name="likert", value="strong_disagree"),
-                                html.Label(children=["Strongly disagree"]),
-                            ]),
-                            html.Li(children=[
-                                dcc.Input(type="radio", name="likert", value="disagree"),
-                                html.Label(children=["Disagree"]),
-                            ]),
-                            html.Li(children=[
-                                dcc.Input(type="radio", name="likert", value="slightly_disagree"),
-                                html.Label(children=["Slightly disagree"]),
-                            ]),
-                            html.Li(children=[
-                                dcc.Input(type="radio", name="likert", value="neutral"),
-                                html.Label(children=["Neutral"]),
-                            ]),
-                            html.Li(children=[
-                                dcc.Input(type="radio", name="likert", value="slightly_agree"),
-                                html.Label(children=["Slightly agree"]),
-                            ]),
-                            html.Li(children=[
-                                dcc.Input(type="radio", name="likert", value="agree"),
-                                html.Label(children=["Agree"]),
-                            ]),
-                            html.Li(children=[
-                                dcc.Input(type="radio", name="likert", value="strong_agree"),
-                                html.Label(children=["Strongly agree"]),
-                            ]),
-                        ]),
-                    ]),
-                    html.Br(),
-                ])
+        return html.Div(className="col s12", children=[
+                   html.H5(className="center blue-text", children=[str("*Numa escala de 1 à 7, o quanto o "+chart+" responde a pergunta?")]),
+                   html.Div(children=[
+                       dcc.RadioItems(
+                            id=id,
+                            className="likert",
+                            options=[
+                                {'label': 'Strong disagree', 'value': 'strong_disagree'},
+                                {'label': 'Disagree', 'value': 'disagree'},
+                                {'label': 'Slightly disagree', 'value': 'slightly_disagree'},
+                                {'label': 'Neutral', 'value': 'neutral'},
+                                {'label': 'Slightly agree', 'value': 'slightly_agree'},
+                                {'label': 'Agree', 'value': 'agree'},
+                                {'label': 'Strong agree', 'value': 'strong_agree'},
+                            ],
+                            value='',
+                            labelStyle={'display': 'inline-block'}
+                        ),
+                   ]),
+                   html.Br(),
+               ])        
 
     def select_chart(self,id,labels,values):
         options = []
@@ -730,17 +715,14 @@ class frontend:
                         html.H4(className="header left blue-text", children=[labels[i]]),
                         html.Br(),html.Br()
                     ]),
-                    self.div_chart(charts[i]),
-                    # html.Div(className="col s12", children=[
-                    #     charts[i]
-                    # ]),
-                    self.linkert_scale(chart_ids[i],labels[i]),
+                    self.div_chart(charts[i]), #Chart
+                    self.linkert_scale(chart_ids[i],labels[i]), #Linkert scale options
                 ])
             )
 
         div_charts.append(
             html.Div(className="row", children=[
-                self.select_chart(id_select,labels,chart_ids),
+                self.select_chart(id_select,labels,chart_ids), #Dropdown selection
             ]),
         )
 
@@ -771,17 +753,17 @@ class frontend:
         
         id_select="id_chart_v001_1"
         
-        charts = [[view1.graph_01()], #1
+        charts = [[view1.graph_01()],                  #1
                   [view1.graph_02(),view1.graph_06()], #2
                   [view1.graph_04(),view1.graph_08()], #3
                   [view1.graph_10(),view1.graph_12()], #4
                   [view1.graph_26(),view1.graph_27()], #5
-                  [view1.graph_29()], #6
+                  [view1.graph_29()],                  #6
                   [view1.graph_31(),view1.graph_32()], #7
-                  [view1.graph_35()], #8
-                  [view1.graph_38()], #9
-                  [view1.graph_44()], #10
-                  [view1.graph_47()], #11
+                  [view1.graph_35()],                  #8
+                  [view1.graph_38()],                  #9
+                  [view1.graph_44()],                  #10
+                  [view1.graph_47()],                  #11
                 ]
 
         chart_ids = ["chart_01", #1
@@ -808,11 +790,11 @@ class frontend:
         charts = [[view1.graph_14(),view1.graph_18()], #1
                   [view1.graph_16(),view1.graph_20()], #2
                   [view1.graph_22(),view1.graph_24()], #3
-                  [view1.graph_30()], #4
-                  [view1.graph_37()], #5
-                  [view1.graph_41()], #6
-                  [view1.graph_50()], #7
-                  [view1.graph_53()], #8
+                  [view1.graph_30()],                  #4
+                  [view1.graph_37()],                  #5
+                  [view1.graph_41()],                  #6
+                  [view1.graph_50()],                  #7
+                  [view1.graph_53()],                  #8
                 ]
 
         chart_ids = ["chart_14", #1
@@ -878,27 +860,29 @@ class frontend:
         view2.generate_dataset(number_students = 20, students_names = students)
 
         id_select="id_chart_v002_1"
-        charts = [[view2.graph_01()],
-                  [view2.graph_02()],
-                  [view2.graph_03()],
-                  [view2.graph_05()],
-                  [view2.graph_07()],
-                  [view2.graph_08()],
-                  [view2.graph_09()],
-                  [view2.graph_10()],
-                  [view2.graph_11()],
-                  [view2.graph_12()]]
+        charts = [[view2.graph_01()], #1
+                  [view2.graph_02()], #2
+                  [view2.graph_03()], #3
+                  [view2.graph_05()], #4
+                  [view2.graph_07()], #5
+                  [view2.graph_08()], #6
+                  [view2.graph_09()], #7
+                  [view2.graph_10()], #8
+                  [view2.graph_11()], #9
+                  [view2.graph_12()], #10
+                ]
         
-        chart_ids = ["chart_01",
-                     "chart_02",
-                     "chart_03",
-                     "chart_05",
-                     "chart_07",
-                     "chart_08",
-                     "chart_09",
-                     "chart_10",
-                     "chart_11",
-                     "chart_12"]
+        chart_ids = ["chart_01", #1
+                     "chart_02", #2
+                     "chart_03", #3
+                     "chart_05", #4
+                     "chart_07", #5
+                     "chart_08", #6
+                     "chart_09", #7
+                     "chart_10", #8
+                     "chart_11", #9
+                     "chart_12", #10
+                    ] 
         
         return self.chart_view(charts,chart_ids,id_select)
 
@@ -907,54 +891,54 @@ class frontend:
         view3.generate_dataset(number_students = 20, students_names = students)
 
         id_select="id_chart_v003_1"
-        charts = [[view3.graph_01()],
-                  [view3.graph_02()],
-                  [view3.graph_04()],
-                  [view3.graph_06()],
-                  [view3.graph_08()],
-                  [view3.graph_09()],
-                  [view3.graph_10()]]
+        charts = [[view3.graph_01()], #1
+                  [view3.graph_02()], #2
+                  [view3.graph_04()], #3
+                  [view3.graph_06()], #4
+                  [view3.graph_08()], #5
+                  [view3.graph_09()], #6
+                  [view3.graph_10()], #7
+                 ] 
         
-        chart_ids = ["chart_01",
-                     "chart_02",
-                     "chart_04",
-                     "chart_06",
-                     "chart_08",
-                     "chart_09",
-                     "chart_10"]
+        chart_ids = ["chart_01", #1
+                     "chart_02", #2
+                     "chart_04", #3
+                     "chart_06", #4
+                     "chart_08", #5
+                     "chart_09", #6
+                     "chart_10", #7
+                    ]
         
         return self.chart_view(charts,chart_ids,id_select)
-
-    def charts_v009_1(self):
-        # global view9
-        pass
 
     def charts_v004_1(self):
         global view4
         view4.generate_dataset(number_students = 20, students_names = students)
 
         id_select="id_chart_v004_1"
-        charts = [[view4.graph_01()],
-                  [view4.graph_02()],
-                  [view4.graph_03()],
-                  [view4.graph_04()],
-                  [view4.graph_05()],
-                  [view4.graph_06()],
-                  [view4.graph_07()],
-                  [view4.graph_08()],
-                  [view4.graph_09()],
-                  [view4.graph_11()]]
+        charts = [[view4.graph_01()], #1
+                  [view4.graph_02()], #2
+                  [view4.graph_03()], #3
+                  [view4.graph_04()], #4
+                  [view4.graph_05()], #5
+                  [view4.graph_06()], #6
+                  [view4.graph_07()], #7
+                  [view4.graph_08()], #8
+                  [view4.graph_09()], #9
+                  [view4.graph_11()], #10
+                 ]
         
-        chart_ids = ["chart_01",
-                     "chart_02",
-                     "chart_03",
-                     "chart_04",
-                     "chart_05",
-                     "chart_06",
-                     "chart_07",
-                     "chart_08",
-                     "chart_09",
-                     "chart_11"]
+        chart_ids = ["chart_01", #1
+                     "chart_02", #2
+                     "chart_03", #3
+                     "chart_04", #4
+                     "chart_05", #5
+                     "chart_06", #6
+                     "chart_07", #7
+                     "chart_08", #8
+                     "chart_09", #9
+                     "chart_11", #10
+                    ]
         
         return self.chart_view(charts,chart_ids,id_select)
 
@@ -963,34 +947,34 @@ class frontend:
         view10.generate_dataset(number_students=35, number_video=10, students_names = students)
 
         id_select="id_chart_v010_1"
-        charts = [[view10.graph_01()],
-                  [view10.graph_02()],
-                  [view10.graph_03(),view10.graph_05()],
-                  [view10.graph_07(),view10.graph_09()],
-                  [view10.graph_11(),view10.graph_13()],
-                  [view10.graph_15(),view10.graph_16()],
-                  [view10.graph_18()],
-                  [view10.graph_19(),view10.graph_20()],
-                  [view10.graph_22()],
-                  [view10.graph_23()],
-                  [view10.graph_24()],
-                  [view10.graph_27()],
-                  [view10.graph_30()]
+        charts = [[view10.graph_01()],                   #1
+                  [view10.graph_02()],                   #2
+                  [view10.graph_03(),view10.graph_05()], #3
+                  [view10.graph_07(),view10.graph_09()], #4
+                  [view10.graph_11(),view10.graph_13()], #5
+                  [view10.graph_15(),view10.graph_16()], #6
+                  [view10.graph_18()],                   #7
+                  [view10.graph_19(),view10.graph_20()], #8
+                  [view10.graph_22()],                   #9
+                  [view10.graph_23()],                   #10
+                  [view10.graph_24()],                   #11
+                  [view10.graph_27()],                   #12
+                  [view10.graph_30()],                   #13
                  ]
         
-        chart_ids = ["chart_01",
-                     "chart_02",
-                     "chart_03",
-                     "chart_07",
-                     "chart_11",
-                     "chart_15",
-                     "chart_18",
-                     "chart_19",
-                     "chart_22",
-                     "chart_23",
-                     "chart_24",
-                     "chart_27",
-                     "chart_30"
+        chart_ids = ["chart_01", #1
+                     "chart_02", #2
+                     "chart_03", #3
+                     "chart_07", #4
+                     "chart_11", #5
+                     "chart_15", #6
+                     "chart_18", #7
+                     "chart_19", #8
+                     "chart_22", #9
+                     "chart_23", #10
+                     "chart_24", #11
+                     "chart_27", #12
+                     "chart_30", #13
                     ]
         
         return self.chart_view(charts,chart_ids,id_select)
@@ -1000,19 +984,21 @@ class frontend:
         view5.generate_dataset(number_students = 60, students_names = students)
 
         id_select="id_chart_v005_1"
-        charts = [[view5.graph_01()],
-                  [view5.graph_02()],
-                  [view5.graph_09()],
-                  [view5.graph_10()],
-                  [view5.graph_17()],
-                  [view5.graph_18()]]
+        charts = [[view5.graph_01()], #1
+                  [view5.graph_02()], #2
+                  [view5.graph_09()], #3
+                  [view5.graph_10()], #4
+                  [view5.graph_17()], #5
+                  [view5.graph_18()], #6
+                 ]
         
-        chart_ids = ["chart_01",
-                     "chart_02",
-                     "chart_09",
-                     "chart_10",
-                     "chart_17",
-                     "chart_18"]
+        chart_ids = ["chart_01", #1
+                     "chart_02", #2
+                     "chart_09", #3
+                     "chart_10", #4
+                     "chart_17", #5
+                     "chart_18", #6
+                    ]
         
         return self.chart_view(charts,chart_ids,id_select)
 
@@ -1021,17 +1007,23 @@ class frontend:
         view6.generate_dataset(number_students = 60, students_names = students)
 
         id_select="id_chart_v006_1"
-        charts = [[view6.graph_01()],
-                  [view6.graph_02()],
-                  [view6.graph_06()],
-                  [view6.graph_10()]]
+        charts = [[view6.graph_01()], #1
+                  [view6.graph_02()], #2
+                  [view6.graph_06()], #3
+                  [view6.graph_10()], #4
+                 ]
         
-        chart_ids = ["chart_01",
-                     "chart_02",
-                     "chart_06",
-                     "chart_10"]
+        chart_ids = ["chart_01", #1
+                     "chart_02", #2
+                     "chart_06", #3
+                     "chart_10", #4
+                    ]
         
         return self.chart_view(charts,chart_ids,id_select)
+
+    def charts_v009_1(self):
+        # global view9
+        pass
 
     def charts_v011_1(self):
         # global view11
