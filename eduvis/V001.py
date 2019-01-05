@@ -27,13 +27,17 @@ class V001:
         self._type_result = type_result
         self.load_map_view()
 
-    def generate_dataset(self, number_students = 20, number_assigns = 4):
+    def generate_dataset(self, number_students = 20, number_assigns = 4, students_names = pd.DataFrame()):
         self.NUMBER_STUDENTS = number_students
         self.NUMBER_ASSIGNS = number_assigns
 
         self._assign_name = ["Assign"+str(i+1) for i in range (0, self.NUMBER_ASSIGNS)]
-
-        names = pd.read_csv("names.csv")
+        
+        if len(students_names.columns.tolist()) == 0:
+            names = pd.read_csv("names.csv")
+        else:
+            names = students_names
+        
         rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
         rand_names.sort()
 
@@ -338,7 +342,7 @@ class V001:
     
     # Barchart number of assign not completed for each student
     def graph_06(self):
-        legend = {"title":"Quantidade de tarefas <b>não</b> feitas por alunos",
+        legend = {"title":"Número de tarefas <b>não</b> feitas por alunos",
                     "xaxis":"",
                     "yaxis":"Número de atividades",
                 }
@@ -2413,9 +2417,9 @@ class V001:
         
         layout = Layout(
                 title = legend['title'],                
-                autosize=False,
-                width=950,
-                height=350,
+                # autosize=False,
+                # width=950,
+                # height=350,
                 hovermode = "closest",
                 xaxis=dict(
                     title = legend['xaxis'],
@@ -2482,9 +2486,9 @@ class V001:
         
         layout = Layout(
                 title = legend['title'],                
-                autosize=False,
-                width=950,
-                height=350,
+                # autosize=False,
+                # width=950,
+                # height=350,
                 hovermode = "closest",
                 xaxis=dict(
                     title = legend['xaxis'],
@@ -2545,9 +2549,9 @@ class V001:
         
         layout = Layout(
                 title = legend['title'],                
-                autosize=False,
-                width=950,
-                height=350,
+                # autosize=False,
+                # width=950,
+                # height=350,
                 hovermode = "closest",
                 xaxis=dict(
                     title = legend['xaxis'],
@@ -2611,9 +2615,9 @@ class V001:
 
         layout = Layout(
                 title = legend['title'],                
-                autosize=False,
-                width=950,
-                height=350,
+                # autosize=False,
+                # width=950,
+                # height=350,
                 hovermode = "closest",
                 xaxis=dict(
                     title = legend['xaxis'],
@@ -2700,9 +2704,9 @@ class V001:
 
         layout = Layout(
                 title = legend['title'],                
-                autosize=False,
-                width=950,
-                height=350,
+                # autosize=False,
+                # width=950,
+                # height=350,
                 hovermode = "closest",
                 xaxis=dict(
                     title = legend['xaxis'],
@@ -2767,9 +2771,9 @@ class V001:
 
         layout = Layout(
                 title = legend['title'],                
-                autosize=False,
-                width=950,
-                height=350,
+                # autosize=False,
+                # width=950,
+                # height=350,
                 hovermode = "closest",
                 xaxis=dict(
                     title = legend['xaxis'],
@@ -2856,9 +2860,9 @@ class V001:
 
         layout = Layout(
                 title = legend['title'],                
-                autosize=False,
-                width=950,
-                height=350,
+                # autosize=False,
+                # width=950,
+                # height=350,
                 hovermode = "closest",
                 xaxis=dict(
                     title = legend['xaxis'],

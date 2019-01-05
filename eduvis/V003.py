@@ -21,11 +21,14 @@ class V003:
         self._language = language
         self._type_result = type_result
 
-    def generate_dataset(self, number_students = 21):
+    def generate_dataset(self, number_students = 21, students_names = pd.DataFrame()):
         self.NUMBER_STUDENTS = number_students+1
 
         self.DATASET = pd.DataFrame(columns=["Students","Likes","Posts","Access","Total"])
-        names = pd.read_csv("names.csv")
+        if len(students_names.columns.tolist()) == 0:
+            names = pd.read_csv("names.csv")
+        else:
+            names = students_names
         rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
         rand_names.sort()
         for i in range(1,self.NUMBER_STUDENTS):

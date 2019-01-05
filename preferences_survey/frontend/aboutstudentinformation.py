@@ -1,5 +1,3 @@
-import json, datetime
-
 from dash.dependencies import Input, Output, State
 import dash_html_components as html
 import dash_core_components as dcc
@@ -26,7 +24,7 @@ layout = html.Div([
 @app.callback(
     Output('warning_'+_page_name, 'children'),
     [Input('send_'+_page_name, 'href')])
-def warning_body_about_you(input1):
+def warning_body_about_student_information(input1):
     global feedmsg    
     if feedmsg.get_clicks() > 0:
         if input1 == None:
@@ -38,7 +36,7 @@ def warning_body_about_you(input1):
 @app.callback(
     Output('send_'+_page_name, 'href'),
     [Input('user_cache', 'children'),
-     Input('user_interaction_access_students_logs', 'value'),
+     Input('user_interaction_access_students_logs', 'values'),
      Input('user_interaction_access_students_logs_others', 'value'),
      Input('user_interaction_access_students_logs_presentation', 'value')])
 def update_body_about_student_information(input1,input2,input3,input4):
@@ -46,7 +44,7 @@ def update_body_about_student_information(input1,input2,input3,input4):
     global _page_name
 
     next_page = "aboutvisualization"
-
+    
     _data_cache= [{"field":'user_interaction_access_students_logs',"value":input2},
                   {"field":'user_interaction_access_students_logs_others',"value":input3},
                   {"field":'user_interaction_access_students_logs_presentation',"value":input4},

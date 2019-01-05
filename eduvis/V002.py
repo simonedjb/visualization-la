@@ -21,11 +21,14 @@ class V002:
         self._language = language
         self._type_result = type_result
     
-    def generate_dataset(self, number_students = 21):
+    def generate_dataset(self, number_students = 21, students_names = pd.DataFrame()):
         self.NUMBER_STUDENTS = number_students+1
 
         self.DATASET = pd.DataFrame(columns=["Students","Video1","Video2",'Quiz1','Quiz2','Pdf1','Pdf2','Ebook1','Ebook2','Total'])
-        names = pd.read_csv("names.csv")
+        if len(students_names.columns.tolist()) == 0:
+            names = pd.read_csv("names.csv")
+        else:
+            names = students_names
         rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
         rand_names.sort()
 
@@ -395,9 +398,9 @@ class V002:
         layout = Layout(
                 # title='Número de acessos nos materiais por estudante',
                 title=legend["title"],
-                autosize=False,
-                width=950,
-                height=350,
+                # autosize=False,
+                # width=950,
+                # height=350,
                 hovermode = "closest",                
                 xaxis=dict(
                     title = legend["xaxis"],
@@ -482,9 +485,9 @@ class V002:
         
         layout = Layout(
                 title = legend["title"],
-                autosize=False,
-                width=950,
-                height=350,
+                # autosize=False,
+                # width=950,
+                # height=350,
                 hovermode = "closest",
                 xaxis=dict(
                     title = legend["xaxis"],
@@ -547,9 +550,9 @@ class V002:
         layout = Layout(
                 # title='Número de acessos nos materiais por estudante',
                 title=legend["title"],
-                autosize=False,
-                width=950,
-                height=350,
+                # autosize=False,
+                # width=950,
+                # height=350,
                 hovermode = "closest",                
                 xaxis=dict(
                     title = legend["xaxis"],
@@ -634,9 +637,9 @@ class V002:
         
         layout = Layout(
                 title = legend["title"],
-                autosize=False,
-                width=950,
-                height=350,
+                # autosize=False,
+                # width=950,
+                # height=350,
                 hovermode = "closest",
                 xaxis=dict(
                     title = legend["xaxis"],
