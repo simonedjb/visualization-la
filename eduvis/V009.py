@@ -178,7 +178,6 @@ class V009:
 
         dft = self.PROCDATASET
         df = dft.set_index("Time")
-
         sizeref = 0.01
 
         trace = []
@@ -189,8 +188,7 @@ class V009:
                     y=df.iloc[:,i].tolist(), #actions
                     hoverinfo='x+y',
                     mode='lines',
-
-                    #stackgroup='one'
+                    stackgroup='one'
 
                 )
             )
