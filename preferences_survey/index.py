@@ -73,6 +73,7 @@ def display_page(pathname):
         print("index - /aboutvisualization")
         aboutvisualization.control = _control
         return aboutvisualization.layout
+        
     elif pathname == '/prefv001_1':
         print("index - /prefv001_1")
         prefv001_1.control = _control
@@ -126,39 +127,6 @@ def display_page(pathname):
         prefv011_1.control = _control
         return prefv011_1.layout
 
-    # elif pathname == '/assignsdone':
-    #     print("index - /assignsdone")
-    #     return prefv001.layout
-    # elif pathname == '/avaaccess':
-    #     print("index - /avaaccess")
-    #     return prefv008.layout
-    # elif pathname == '/accessmaterials':
-    #     print("index - /accessmaterials")
-    #     return prefv002.layout
-    # elif pathname == '/foruminteraction':
-    #     print("index - /foruminteraction")
-    #     return prefv003.layout
-    # elif pathname == '/videointeraction':
-    #     print("index - /videointeraction")
-    #     return prefv009.layout
-    # elif pathname == '/videostay':
-    #     print("index - /videostay")
-    #     return prefv004.layout
-    # elif pathname == '/understandingvideo':
-    #     print("index - /understandingvideo")
-    #     return prefv010.layout
-    # elif pathname == '/correlationgrade':
-    #     print("index - /correlationgrade")
-    #     return prefv005.layout
-    # elif pathname == '/correlationprofile':
-    #     print("index - /correlationprofile")
-    #     return prefv006.layout
-    # elif pathname == '/navigatepattern':
-    #     print("index - /navigatepattern")
-    #     return prefv011.layout
-    # elif pathname == '/gradeprediction':
-    #     print("index - /gradeprediction")
-    #     return prefv007.layout
     elif pathname == '/thanks':
         print("index - /thanks")
         clear_settings()
@@ -206,6 +174,34 @@ def update_page_cache(current_page):
             _control.record_data(user, aboutstudentinformation._data_cache)
         elif _current_page == '/aboutvisualization':
             _control.record_data(user, aboutvisualization._data_cache)
+        
+        elif _current_page == '/prefv001_1':
+            _control.record_data(user, prefv001_1._data_cache)
+        elif _current_page == '/prefv001_2':
+            _control.record_data(user, prefv001_2._data_cache)
+        elif _current_page == '/prefv002_1':
+            _control.record_data(user, prefv002_1._data_cache)
+        elif _current_page == '/prefv003_1':
+            _control.record_data(user, prefv003_1._data_cache)
+        elif _current_page == '/prefv004_1':
+            _control.record_data(user, prefv004_1._data_cache)
+        elif _current_page == '/prefv005_1':
+            _control.record_data(user, prefv005_1._data_cache)
+        elif _current_page == '/prefv006_1':
+            _control.record_data(user, prefv006_1._data_cache)
+        elif _current_page == '/prefv007_1':
+            _control.record_data(user, prefv007_1._data_cache)
+        elif _current_page == '/prefv008_1':
+            _control.record_data(user, prefv008_1._data_cache)
+        elif _current_page == '/prefv008_2':
+            _control.record_data(user, prefv008_2._data_cache)
+        elif _current_page == '/prefv009_1':
+            _control.record_data(user, prefv009_1._data_cache)
+        elif _current_page == '/prefv010_1':
+            _control.record_data(user, prefv010_1._data_cache)
+        elif _current_page == '/prefv011_1':
+            _control.record_data(user, prefv011_1._data_cache)
+
         
         _current_page = current_page
 

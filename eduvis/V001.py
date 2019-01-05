@@ -460,7 +460,7 @@ class V001:
                 )
 
     def graph_08(self):
-        legend = {"title":"Quantidade de tarefas <b>não</b> feitas por alunos",
+        legend = {"title":"Número de tarefas <b>não</b> feitas por alunos",
                     "xaxis":"Número de atividades",
                     "yaxis":"",
                     }
@@ -583,7 +583,7 @@ class V001:
     
     # Lollipop number of assign completed for each student
     def graph_10(self):
-        legend = {"title":"Quantidade de tarefas feitas por alunos",
+        legend = {"title":"Número de tarefas feitas por alunos",
                     "xaxis":"Número de atividades",
                     "yaxis":"",
                     "text_s":"atividades",
@@ -786,7 +786,7 @@ class V001:
         
 
     def graph_12(self):
-        legend = {"title":"Quantidade de tarefas <b>não</b> feitas por alunos",
+        legend = {"title":"Número de tarefas <b>não</b> feitas por alunos",
                     "xaxis":"Número de atividades",
                     "yaxis":"",
                     "text_s":"atividades",

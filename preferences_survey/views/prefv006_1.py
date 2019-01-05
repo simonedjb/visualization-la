@@ -33,27 +33,35 @@ def warning_body_prefv006_1(input1):
     feedmsg.add_clicks()
     return ""
 
-# @app.callback(
-#     Output('send_'+_page_name, 'href'),
-#     [Input('user_cache', 'children'),
-#      Input('user_view_read', 'value'),
-#      Input('user_view_make', 'value')])
-# def update_body_prefv006_1(input1,input2,input3):
-#     global _data_cache
-#     global _page_name
+@app.callback(
+    Output('send_'+_page_name, 'href'),
+    [Input('user_cache', 'children'),
+     Input("chart_01", 'value'),
+     Input("chart_02", 'value'),
+     Input("chart_06", 'value'),
+     Input("chart_10", 'value'),
+     Input("id_chart_v006_1", 'value')])
+def update_body_prefv006_1(input1,chart1,chart2,chart3,chart4,select_chart):
+    global _data_cache
+    global _page_name
 
-#     next_page = "thanks"
-#     if(control.has_next_page(_page_name)):
-#         next_page =control.get_next_page(_page_name)
+    next_page = "thanks"
+    if(control.has_next_page(_page_name)):
+        next_page =control.get_next_page(_page_name)
 
-#     _data_cache= [{"field":'user_view_read',"value":input2},
-#                   {"field":'user_view_make',"value":input3},
-#                   {"field":'page',"value":next_page}]
+    _data_cache= [{"field":'user_V006_18',"value":[
+                                                  {"id_chart_01":"01","value":chart1},
+                                                  {"id_chart_02":"02","value":chart2},
+                                                  {"id_chart_03":"06","value":chart3},
+                                                  {"id_chart_04":"10","value":chart4},
+                                                  {"preference_chart":select_chart},
+                                                 ]},
+                  {"field":'page',"value":next_page}]
 
-#     if input1 == None:
-#         return '/'
+    if input1 == None:
+        return '/'
 
-#     if input2 == '':
-#         return None
-#     else:
-#         return next_page
+    if chart1 == '':
+        return None
+    else:
+        return next_page

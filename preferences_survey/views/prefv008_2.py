@@ -33,27 +33,37 @@ def warning_body_prefv008_2(input1):
     feedmsg.add_clicks()
     return ""
 
-# @app.callback(
-#     Output('send_'+_page_name, 'href'),
-#     [Input('user_cache', 'children'),
-#      Input('user_view_read', 'value'),
-#      Input('user_view_make', 'value')])
-# def update_body_prefv008_2(input1,input2,input3):
-#     global _data_cache
-#     global _page_name
+@app.callback(
+    Output('send_'+_page_name, 'href'),
+    [Input('user_cache', 'children'),
+     Input("chart_03", 'value'),
+     Input("chart_06", 'value'),
+     Input("chart_07", 'value'),
+     Input("chart_09", 'value'),
+     Input("chart_11", 'value'),
+     Input("id_chart_v008_2", 'value')])
+def update_body_prefv008_2(input1,chart1,chart2,chart3,chart4,chart5,select_chart):
+    global _data_cache
+    global _page_name
 
-#     next_page = "thanks"
-#     if(control.has_next_page(_page_name)):
-#         next_page =control.get_next_page(_page_name)
+    next_page = "thanks"
+    if(control.has_next_page(_page_name)):
+        next_page =control.get_next_page(_page_name)
 
-#     _data_cache= [{"field":'user_view_read',"value":input2},
-#                   {"field":'user_view_make',"value":input3},
-#                   {"field":'page',"value":next_page}]
+    _data_cache= [{"field":'user_V008_4',"value":[
+                                                  {"id_chart_01":"03","value":chart1},
+                                                  {"id_chart_02":"06","value":chart2},
+                                                  {"id_chart_03":"07","value":chart3},
+                                                  {"id_chart_04":"09","value":chart4},
+                                                  {"id_chart_05":"11","value":chart5},
+                                                  {"preference_chart":select_chart},
+                                                 ]},
+                  {"field":'page',"value":next_page}]
 
-#     if input1 == None:
-#         return '/'
+    if input1 == None:
+        return '/'
 
-#     if input2 == '':
-#         return None
-#     else:
-#         return next_page
+    if chart1 == '':
+        return None
+    else:
+        return next_page

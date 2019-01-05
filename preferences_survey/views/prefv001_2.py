@@ -33,27 +33,43 @@ def warning_body_prefv001_2(input1):
     feedmsg.add_clicks()
     return ""
 
-# @app.callback(
-#     Output('send_'+_page_name, 'href'),
-#     [Input('user_cache', 'children'),
-#      Input('user_view_read', 'value'),
-#      Input('user_view_make', 'value')])
-# def update_body_prefv001_2(input1,input2,input3):
-#     global _data_cache
-#     global _page_name
+@app.callback(
+    Output('send_'+_page_name, 'href'),
+    [Input('user_cache', 'children'),
+     Input("chart_14", 'value'),
+     Input("chart_16", 'value'),
+     Input("chart_22", 'value'),
+     Input("chart_30", 'value'),
+     Input("chart_37", 'value'),
+     Input("chart_41", 'value'),
+     Input("chart_50", 'value'),
+     Input("chart_53", 'value'),
+     Input("id_chart_v001_2", 'value')])
+def update_body_prefv001_2(input1,chart1,chart2,chart3,chart4,chart5,chart6,chart7,chart8,select_chart):
+    global _data_cache
+    global _page_name
 
-#     next_page = "thanks"
-#     if(control.has_next_page(_page_name)):
-#         next_page =control.get_next_page(_page_name)
+    next_page = "thanks"
+    if(control.has_next_page(_page_name)):
+        next_page =control.get_next_page(_page_name)
 
-#     _data_cache= [{"field":'user_view_read',"value":input2},
-#                   {"field":'user_view_make',"value":input3},
-#                   {"field":'page',"value":next_page}]
+    _data_cache= [{"field":'user_V001_2',"value":[
+                                                  {"id_chart_01":"14","value":chart1},
+                                                  {"id_chart_02":"16","value":chart2},
+                                                  {"id_chart_03":"22","value":chart3},
+                                                  {"id_chart_04":"30","value":chart4},
+                                                  {"id_chart_05":"37","value":chart5},
+                                                  {"id_chart_06":"41","value":chart6},
+                                                  {"id_chart_07":"50","value":chart7},
+                                                  {"id_chart_08":"53","value":chart8},
+                                                  {"preference_chart":select_chart},
+                                                 ]},
+                  {"field":'page',"value":next_page}]
 
-#     if input1 == None:
-#         return '/'
+    if input1 == None:
+        return '/'
 
-#     if input2 == '':
-#         return None
-#     else:
-#         return next_page
+    if chart1 == '':
+        return None
+    else:
+        return next_page

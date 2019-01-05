@@ -4534,11 +4534,10 @@ input[type=checkbox]:checked {
   margin-right:5px;
   margin-bottom:20px;
   text-align:center;
-  width:80px;
+  width:110px;
 }
 
 .likert input[type=radio] {
-  /* align-items: center; */
   display:block;
   position:relative;
   top: -5px;
@@ -4571,7 +4570,7 @@ input[type=checkbox]:checked {
   appearance: none;
 }
 
-.likertnew input[type=radio]:checked {
+.likert input[type=radio]:checked {
   width: 20px;
   height: 20px;
   border-radius: 50%;

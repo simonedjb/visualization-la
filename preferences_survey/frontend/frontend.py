@@ -657,19 +657,20 @@ class frontend:
 
     def linkert_scale(self, id, chart):
         return html.Div(className="col s12", children=[
-                   html.H5(className="center blue-text", children=[str("*Numa escala de 1 à 7, o quanto o "+chart+" responde a pergunta?")]),
+                   html.H5(className="center blue-text", children=[str("O "+chart+" responde a pergunta muito bem.")]),
+                   html.H6(className="center blue-text", children=[str("*Indique sua opinião sobre a seguinte afirmacao:")]),
                    html.Div(children=[
                        dcc.RadioItems(
                             id=id,
                             className="likert",
                             options=[
-                                {'label': 'Strong disagree', 'value': 'strong_disagree'},
-                                {'label': 'Disagree', 'value': 'disagree'},
-                                {'label': 'Slightly disagree', 'value': 'slightly_disagree'},
-                                {'label': 'Neutral', 'value': 'neutral'},
-                                {'label': 'Slightly agree', 'value': 'slightly_agree'},
-                                {'label': 'Agree', 'value': 'agree'},
-                                {'label': 'Strong agree', 'value': 'strong_agree'},
+                                {'label': 'Discordo totalmente', 'value': 'strong_disagree'},
+                                {'label': 'Discordo parcialmente', 'value': 'partially_disagree'},
+                                {'label': 'Discordo levemente', 'value': 'slightly_disagree'},
+                                {'label': 'Não concordo e nem discordo', 'value': 'neutral'},
+                                {'label': 'Concordo levemente', 'value': 'slightly_agree'},
+                                {'label': 'Concordo parcialmente', 'value': 'partially_agree'},
+                                {'label': 'Concordo totalmente', 'value': 'strong_agree'},
                             ],
                             value='',
                             labelStyle={'display': 'inline-block'}
@@ -858,7 +859,7 @@ class frontend:
     def charts_v002_1(self):
         global view2
         view2.generate_dataset(number_students = 20, students_names = students)
-
+    
         id_select="id_chart_v002_1"
         charts = [[view2.graph_01()], #1
                   [view2.graph_02()], #2

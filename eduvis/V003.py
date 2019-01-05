@@ -572,9 +572,9 @@ class V003:
         
         layout = Layout(
                 title = legend["title"],
-                autosize=False,
-                width=950,
-                height=350,
+                # autosize=False,
+                # width=950,
+                # height=350,
                 hovermode = "closest",                
                 xaxis=dict(
                     title = legend["xaxis"],
@@ -663,9 +663,9 @@ class V003:
         
         layout = Layout(
                 title = legend["title"],
-                autosize=False,
-                width=950,
-                height=350,
+                # autosize=False,
+                # width=950,
+                # height=350,
                 hovermode = "closest",
                 xaxis=dict(
                     title = legend["xaxis"],
