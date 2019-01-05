@@ -61,7 +61,7 @@ def update_body_prefv006_1(input1,chart1,chart2,chart3,chart4,select_chart):
     if input1 == None:
         return '/'
 
-    if chart1 == '':
+    if chart1 == '' or chart1 == '' or chart2 == '' or chart3 == '' or chart4 == '' or select_chart == '':
         return None
     else:
         return next_page

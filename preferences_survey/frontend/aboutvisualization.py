@@ -53,7 +53,7 @@ def update_body_about_visualization(input1,input2,input3):
     if input1 == None:
         return '/'
 
-    if input2 == '':
+    if input2 == '' or input3 == '':
         return None
     else:
         return next_page

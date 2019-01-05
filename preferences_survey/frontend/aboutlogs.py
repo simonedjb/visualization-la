@@ -37,11 +37,11 @@ def warning_body_about_logs(input1):
     Output('send_'+_page_name, 'href'),
     [Input('user_cache', 'children'),
      Input('user_students_progress', 'value'),
-     Input('user_logs_presentation', 'value'),
-     Input('user_logs_analyse', 'value'),
      Input('user_logs_performance', 'value'),
      Input('user_logs_dropout', 'value'),
-     Input('user_logs_engagement', 'value')])
+     Input('user_logs_engagement', 'value'),
+     Input('user_logs_analyse', 'value'),
+     Input('user_logs_presentation', 'value')])
 def update_body_about_logs(input1,input2,input3,input4,input5,input6,input7):
     global _data_cache
     global _page_name
@@ -49,17 +49,17 @@ def update_body_about_logs(input1,input2,input3,input4,input5,input6,input7):
     next_page = "aboutstudentinformation"
 
     _data_cache= [{"field":'user_students_progress',"value":input2},
-                  {"field":'user_logs_presentation',"value":input3},
-                  {"field":'user_logs_analyse',"value":input4},
-                  {"field":'user_logs_performance',"value":input5},
-                  {"field":'user_logs_dropout',"value":input6},
-                  {"field":'user_logs_engagement',"value":input7},
+                  {"field":'user_logs_performance',"value":input3},
+                  {"field":'user_logs_dropout',"value":input4},
+                  {"field":'user_logs_engagement',"value":input5},
+                  {"field":'user_logs_analyse',"value":input6},
+                  {"field":'user_logs_presentation',"value":input7},
                   {"field":'page',"value":next_page}]
-
+    
     if input1 == None:
         return '/'
 
-    if input2 == '':
+    if input2 == '' or input3 == '' or input4 == '' or input5 == '':
         return None
     else:
         return next_page

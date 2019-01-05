@@ -68,7 +68,7 @@ def update_body_about_you(input1,input2,input3,input4,input5,input6,input7,input
     if input1 == None:
         return '/'
 
-    if input2 == '':
+    if input2 == '' or input3 == '' or input4 == '' or input5 == '' or input6 == '' or input7 == '' or input8 == '' or input9 == '' or input10 == '':
         return None
     else:
         return next_page

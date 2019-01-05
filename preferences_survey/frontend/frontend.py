@@ -62,6 +62,7 @@ class frontend:
                     html.Div(id='intermediate-value', style={'display': 'none'}, children=[
                         html.Label(id='user_cache'),
                         html.Label(id='page_cache'),
+                        html.Label(id='current_page_values'),
                     ]),
                     html.Div(id='page-content')
                 ])
@@ -516,7 +517,7 @@ class frontend:
                             html.Div(className="row left", children=[
                                 html.Div(className="input-field col s12",children=[
                                     html.P(children=[
-                                        html.Label(className="left blue-text", children=["Selecione os dados que você analisa ou que gostaria de analisar:"]),
+                                        html.Label(className="left blue-text", children=["*Selecione os dados que você analisa ou que gostaria de analisar:"]),
                                     ]),
                                     html.Br(),
                                     dcc.Checklist(
@@ -556,7 +557,7 @@ class frontend:
                     html.Div(className="row", children=[
                         html.Div(className="col s12",children=[
                             html.Div(className="row center", children=[
-                                html.H3(className="header center blue-text", children=["Visualizações"]),
+                                html.H3(className="header center blue-text", children=["Sobre visualização de dados"]),
                                 html.Br(),html.Br()
                             ]),
                             ############################################################################################
@@ -569,7 +570,7 @@ class frontend:
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s6", children=[
                                     html.P(children=[
-                                        html.Label(className="left blue-text", children=["lê e interpreta gráficos?"]),
+                                        html.Label(className="left blue-text", children=["*lê e interpreta gráficos?"]),
                                     ]),
                                     dcc.Dropdown(
                                         id='user_view_read',
@@ -589,7 +590,7 @@ class frontend:
                                 ]),
                                 html.Div(className="input-field col s6", children=[
                                     html.P(children=[
-                                        html.Label(className="left blue-text", children=["cria gráficos?"]),
+                                        html.Label(className="left blue-text", children=["*cria gráficos?"]),
                                     ]),
                                     dcc.Dropdown(
                                         id='user_view_make',

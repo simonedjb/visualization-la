@@ -15,7 +15,6 @@ _current_page = "/"
 
 app.layout = _interface.survey_body()
 
-
 def clear_settings():
     eadxp.feedmsg.set_clicks(0)
     aboutyou.feedmsg.set_clicks(0)
@@ -23,6 +22,19 @@ def clear_settings():
     aboutlogs.feedmsg.set_clicks(0)
     aboutstudentinformation.feedmsg.set_clicks(0)
     aboutvisualization.feedmsg.set_clicks(0)
+    prefv001_1.feedmsg.set_clicks(0)
+    prefv001_2.feedmsg.set_clicks(0)
+    prefv002_1.feedmsg.set_clicks(0)
+    prefv003_1.feedmsg.set_clicks(0)
+    prefv004_1.feedmsg.set_clicks(0)
+    prefv005_1.feedmsg.set_clicks(0)
+    prefv006_1.feedmsg.set_clicks(0)
+    prefv007_1.feedmsg.set_clicks(0)
+    prefv008_1.feedmsg.set_clicks(0)
+    prefv008_2.feedmsg.set_clicks(0)
+    prefv009_1.feedmsg.set_clicks(0)
+    prefv010_1.feedmsg.set_clicks(0)
+    prefv011_1.feedmsg.set_clicks(0)
 
 @app.callback(Output('page-content', 'children'),
               [Input('url', 'pathname')])
