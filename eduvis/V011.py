@@ -12,15 +12,15 @@ app.layout = html.Div([
                      data={
                              'nodes':[
                                     {'id': 0, 'color': '#C6DA20', 'shape':'triangle', 'size':'10'},
-                                    {'id': 1, 'label': 'Begin Season', 'color':'#5AB1BB'},
+                                    {'id': 1, 'label': 'Begin Season', 'color':'#5AB1BB', 'x':'50', 'y':'50'},
                                     {'id': 2, 'label': 'Video 1', 'color':'#A5C882'},
                                     {'id': 3, 'label': 'Video 2', 'color':'#A5C882'},
                                     {'id': 4, 'label': 'Video 3', 'color':'#A5C882'},
                                     {'id': 5, 'label': 'Final Test', 'color':'#A5C882'},
-                                    {'id': 6, 'label': 'End Season', 'color':'#5AB1BB'},
+                                    {'id': 6, 'label': 'End Season', 'color':'#5AB1BB',  'x':'50', 'y':'450'},
 
                                     {'id': 10, 'color': '#420000', 'shape':'circle', 'size':'10'},
-                                    {'id': 11, 'label': 'Begin Season', 'color':'#AD5C5C'},
+                                    {'id': 11, 'label': 'Begin Season', 'color':'#AD5C5C', 'x':'50', 'y':'50'},
                                     {'id': 12, 'label': 'Video 1', 'color':'#CA9797'},
                                     {'id': 13, 'label': 'Video 2', 'color':'#CA9797'},
                                     {'id': 14, 'label': 'Video 3', 'color':'#CA9797'},

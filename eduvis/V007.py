@@ -45,18 +45,15 @@ class V007:
         rand_names.sort()
 
 
-        self.DATASET = pd.DataFrame(columns=["Students","Predicted Grade", "Predicted Dropout","Grade","Cluster","Dropout",
-        	"AVA Access","Forum Post","Forum Replies","Forum Add Thread",
-        	"Assign1","Assign2","Assign3","Assign4",
-        	"Video1","Video2", "Quiz1","Quiz2","Pdf1","Pdf2","Ebook1","Ebook2",
-        	"Forum Access"])
-        
+        self.DATASET = pd.DataFrame(columns=["Students","Predicted Grade","Grade","Predicted Dropout","Dropout",
+        	                                 "AVA Access","Forum Post","Forum Replies","Forum Add Thread","Forum Access", "Cluster"])
+
         for i in range(0,self.NUMBER_STUDENTS):
             self.DATASET.loc[i,"Students"] = rand_names[i]
-            self.DATASET.loc[i,"Predicted Grade"] = random.choice(['-','0 - 60','61 - 70', '71 - 80', '81 - 90', '91 - 100'])
-            if self.DATASET.loc[i,"Predicted Grade"] == '-':
+            self.DATASET.loc[i,"Predicted Grade"] = random.choice(['Dropout','0 - 60','61 - 70', '71 - 80', '81 - 90', '91 - 100'])
+            if self.DATASET.loc[i,"Predicted Grade"] == 'Dropout':
                 self.DATASET.loc[i,"Predicted Dropout"] = True
-                self.DATASET.loc[i,"Grade"] = None
+                self.DATASET.loc[i,"Grade"] = 0
                 self.DATASET.loc[i,"Cluster"] = 0
                 self.COUNTDATA.loc[0,"Dropout"] += 1
 
@@ -64,23 +61,8 @@ class V007:
                 self.DATASET.loc[i,"Forum Post"] = np.random.randint(0,4)
                 self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,4)
                 self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,4)
-
-                self.DATASET.loc[i,"Assign1"] = int(0)
-                self.DATASET.loc[i,"Assign2"] = int(0)
-                self.DATASET.loc[i,"Assign3"] = int(0)
-                self.DATASET.loc[i,"Assign4"] = int(0)
-
-                self.DATASET.loc[i,"Video1"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Video2"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Quiz1"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Quiz2"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Pdf1"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Pdf2"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Ebook1"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Ebook2"] = np.random.randint(0,2)
-
                 self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(0,7)
-                
+
             elif self.DATASET.loc[i,"Predicted Grade"] == '0 - 60':
                 self.DATASET.loc[i,"Predicted Dropout"] = False
                 self.DATASET.loc[i,"Grade"] = int(random.triangular(0,30,80))
@@ -91,23 +73,8 @@ class V007:
                 self.DATASET.loc[i,"Forum Post"] = np.random.randint(0,8)
                 self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,8)
                 self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,4)
-
-                self.DATASET.loc[i,"Assign1"] = int(1)
-                self.DATASET.loc[i,"Assign2"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Assign3"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Assign4"] = np.random.randint(0,2)
-
-                self.DATASET.loc[i,"Video1"] = np.random.randint(0,5)
-                self.DATASET.loc[i,"Video2"] = np.random.randint(0,5)
-                self.DATASET.loc[i,"Quiz1"] = np.random.randint(0,5)
-                self.DATASET.loc[i,"Quiz2"] = np.random.randint(0,5)
-                self.DATASET.loc[i,"Pdf1"] = np.random.randint(0,5)
-                self.DATASET.loc[i,"Pdf2"] = np.random.randint(0,5)
-                self.DATASET.loc[i,"Ebook1"] = np.random.randint(0,5)
-                self.DATASET.loc[i,"Ebook2"] = np.random.randint(0,5)
-
                 self.DATASET.loc[i,"Forum Access"] = self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(0,22)
-                
+
             elif self.DATASET.loc[i,"Predicted Grade"] == '61 - 70':
                 self.DATASET.loc[i,"Predicted Dropout"] = False
                 self.DATASET.loc[i,"Grade"] = int(random.triangular(50,65,80))
@@ -118,23 +85,8 @@ class V007:
                 self.DATASET.loc[i,"Forum Post"] = np.random.randint(1,12)
                 self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,12)
                 self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,8)
-
-                self.DATASET.loc[i,"Assign1"] = int(1)
-                self.DATASET.loc[i,"Assign2"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Assign3"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Assign4"] = int(1)
-
-                self.DATASET.loc[i,"Video1"] = np.random.randint(0,6)
-                self.DATASET.loc[i,"Video2"] = np.random.randint(0,6)
-                self.DATASET.loc[i,"Quiz1"] = np.random.randint(0,6)
-                self.DATASET.loc[i,"Quiz2"] = np.random.randint(0,6)
-                self.DATASET.loc[i,"Pdf1"] = np.random.randint(0,6)
-                self.DATASET.loc[i,"Pdf2"] = np.random.randint(0,6)
-                self.DATASET.loc[i,"Ebook1"] = np.random.randint(0,6)
-                self.DATASET.loc[i,"Ebook2"] = np.random.randint(0,6)
-
                 self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(2,26)
-                
+
             elif self.DATASET.loc[i,"Predicted Grade"] == '71 - 80':
                 self.DATASET.loc[i,"Predicted Dropout"] = False
                 self.DATASET.loc[i,"Grade"] = int(random.triangular(60,75,90))
@@ -145,23 +97,8 @@ class V007:
                 self.DATASET.loc[i,"Forum Post"] = np.random.randint(2,21)
                 self.DATASET.loc[i,"Forum Replies"] = np.random.randint(2,21)
                 self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,7)
-
-                self.DATASET.loc[i,"Assign1"] = int(1)
-                self.DATASET.loc[i,"Assign2"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Assign3"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Assign4"] = int(1)
-
-                self.DATASET.loc[i,"Video1"] = np.random.randint(0,11)
-                self.DATASET.loc[i,"Video2"] = np.random.randint(1,11)
-                self.DATASET.loc[i,"Quiz1"] = np.random.randint(0,11)
-                self.DATASET.loc[i,"Quiz2"] = np.random.randint(1,11)
-                self.DATASET.loc[i,"Pdf1"] = np.random.randint(0,11)
-                self.DATASET.loc[i,"Pdf2"] = np.random.randint(1,11)
-                self.DATASET.loc[i,"Ebook1"] = np.random.randint(0,11)
-                self.DATASET.loc[i,"Ebook2"] = np.random.randint(1,11)
-
                 self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(4,31)
-                
+
             elif self.DATASET.loc[i,"Predicted Grade"] == '81 - 90':
                 self.DATASET.loc[i,"Predicted Dropout"] = False
                 self.DATASET.loc[i,"Grade"] = int(random.triangular(70,85,100))
@@ -172,23 +109,8 @@ class V007:
                 self.DATASET.loc[i,"Forum Post"] = np.random.randint(5,36)
                 self.DATASET.loc[i,"Forum Replies"] = np.random.randint(5,36)
                 self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(1,11)
-
-                self.DATASET.loc[i,"Assign1"] = int(1)
-                self.DATASET.loc[i,"Assign2"] = int(1)
-                self.DATASET.loc[i,"Assign3"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Assign4"] = int(1)
-
-                self.DATASET.loc[i,"Video1"] = np.random.randint(1,10)
-                self.DATASET.loc[i,"Video2"] = np.random.randint(3,14)
-                self.DATASET.loc[i,"Quiz1"] = np.random.randint(1,10)
-                self.DATASET.loc[i,"Quiz2"] = np.random.randint(3,14)
-                self.DATASET.loc[i,"Pdf1"] = np.random.randint(1,10)
-                self.DATASET.loc[i,"Pdf2"] = np.random.randint(3,14)
-                self.DATASET.loc[i,"Ebook1"] = np.random.randint(1,10)
-                self.DATASET.loc[i,"Ebook2"] = np.random.randint(3,14)
-
                 self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(6,36)
-                
+
             elif self.DATASET.loc[i,"Predicted Grade"] == '91 - 100':
                 self.DATASET.loc[i,"Predicted Dropout"] = False
                 self.DATASET.loc[i,"Grade"] = int(random.triangular(70,95,100))
@@ -199,25 +121,35 @@ class V007:
                 self.DATASET.loc[i,"Forum Post"] = np.random.randint(10,41)
                 self.DATASET.loc[i,"Forum Replies"] = np.random.randint(10,41)
                 self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(3,14)
-
-                self.DATASET.loc[i,"Assign1"] = int(1)
-                self.DATASET.loc[i,"Assign2"] = int(1)
-                self.DATASET.loc[i,"Assign3"] = int(1)
-                self.DATASET.loc[i,"Assign4"] = int(1)
-
-                self.DATASET.loc[i,"Video1"] = np.random.randint(2,13)
-                self.DATASET.loc[i,"Video2"] = np.random.randint(4,15)
-                self.DATASET.loc[i,"Quiz1"] = np.random.randint(2,13)
-                self.DATASET.loc[i,"Quiz2"] = np.random.randint(4,15)
-                self.DATASET.loc[i,"Pdf1"] = np.random.randint(2,13)
-                self.DATASET.loc[i,"Pdf2"] = np.random.randint(4,15)
-                self.DATASET.loc[i,"Ebook1"] = np.random.randint(2,13)
-                self.DATASET.loc[i,"Ebook2"] = np.random.randint(4,15)
-
                 self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(10,41)
-                
-        #print(self.COUNTDATA)
-        
+
+
+
+    def graph_11(self):
+        df = self.DATASET
+
+        trace = Table(
+            header=dict(
+                values=list(df.columns[:len(df.columns)-1]),
+                fill = dict(color='#C2D4FF'),
+                align = 'center'
+            ),
+            cells=dict(
+                values=[df[i].tolist() for i in df.columns[:len(df.columns)-1]],
+                fill = dict(color='#F5F8FF'),
+                align = ['left','center']
+            )
+        )
+
+        data = [trace]
+        if self._type_result == "jupyter-notebook":
+            iplot(data, filename = 'pandas_table')
+        elif self._type_result == "dash":
+            return dcc.Graph(
+                id='V007@1',
+                figure={"data": data}
+            )
+
 
     def graph_01(self):
         df = self.DATASET
@@ -244,14 +176,15 @@ class V007:
                 figure={"data": data}
             )
 
+
     def graph_02(self):
-        legend = {"title":"--",
-                    "xaxis":"Grade",
-                    "yaxis":"Grade",
+        legend = {"title":"Variação de notas dos estudantes e acesso no AVA",
+                    "xaxis":"Acesso ao AVA",
+                    "yaxis":"Notas",
                 }
         if (self._language == "en"):
-            legend = {"title":"--",
-                        "xaxis":"Grade",
+            legend = {"title":"Students' grades variation versus VLE' access",
+                        "xaxis":"AVA Access",
                         "yaxis":"Grade",
                     }
         color = ["rgb(127,0,0)","rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,127,127)","rgb(0,255,0)"]
@@ -259,11 +192,13 @@ class V007:
         for i in range(0, self.NUMBER_STUDENTS):
             trace.append(
                 Scatter(
-                    x=[self.DATASET["Grade"][i]],
+                    x=[self.DATASET["AVA Access"][i]],
                     y=[self.DATASET["Grade"][i]],
                     mode='markers',
                     name=self.DATASET.Students[i], #each student name
                     text = [str(self.DATASET.Students[i])],
+                    #text = (self.DATASET["Predicted Grade"][i]),
+
                     marker=dict(
                         size=12,
                         symbol=self.DATASET.Cluster[i],
@@ -315,7 +250,158 @@ class V007:
                 figure=fig
             )
 
+    # Box
     def graph_03(self):
+        legend = {"title":"Variação de notas dos estudantes por cluster",
+                    "xaxis":"",
+                    "yaxis":"Notas",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Students' grades variation by cluster",
+                        "xaxis":"",
+                        "yaxis":"Grades",
+                    }
+        df = self.DATASET.sort_values(by="Grade")
+        Clusters = df.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)","rgb(255, 192, 203)", "rgb(131, 90, 241)"]
+        # print(Clusters)
+        trace = []
+        for i in range(0,len(Clusters)):
+            trace.append(
+                Box(
+                    y=df.Grade.loc[df['Cluster']==Clusters[i]].values.tolist(), #Access
+                    name="Cluster "+str(i+1),
+                    text=df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    boxpoints = 'all',
+                    marker=dict(
+                        color = color[i],
+                        line=dict(
+                            width=1
+                        )
+                    ),
+                    boxmean=True
+                )
+            )
+
+        layout = Layout(
+            title=legend['title'],
+            # hovermode = "closest",
+            showlegend = True,
+            xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
+            yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                fixedrange = False,
+                range = [-1, self.DATASET.Grade.max()+10],
+                rangemode = "normal",
+                # showline = True,
+                zeroline = False,
+            )
+        )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Box')
+        elif self._type_result == "dash":
+            return dcc.Graph(
+                id='V005@9',
+                figure=fig
+            )
+
+    # Violin
+    def graph_04(self):
+        legend = {"title":"Variação de notas dos estudantes por cluster",
+                    "xaxis":"",
+                    "yaxis":"Notas",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Students' grades variation by cluster",
+                        "xaxis":"",
+                        "yaxis":"Grades",
+                    }
+        # https://plot.ly/python/violin/#reference
+        # https://plot.ly/python/reference/#violin
+        df = self.DATASET.sort_values(by="Grade")
+        Clusters = df.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)","rgb(255, 192, 203)", "rgb(131, 90, 241)"]
+        # print(Clusters)
+        trace = []
+        for i in range(0,len(Clusters)):
+            trace.append(
+                {
+                    "type":'violin',
+                    "x":["Cluster "+str(i+1)]*len(df.Grade.loc[df['Cluster']==Clusters[i]]),
+                    "y":df.Grade.loc[df['Cluster']==Clusters[i]],
+                    "name":"Cluster "+str(i+1),
+                    "text":df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    "box":{
+                        "visible":True
+                        },
+                    "points": 'all',
+                    "meanline":{
+                        "visible":True
+                        },
+                    "line":{
+                        "color":color[i],
+                    },
+                    "marker": {
+                        "line": {
+                            "width": 1,
+                        }
+                    },
+                }
+            )
+
+        layout = Layout(
+            title=legend['title'],
+            hovermode = "closest",
+            showlegend = True,
+            xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
+            yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                fixedrange = False,
+                range = [-15, self.DATASET.Grade.max()+10],
+                rangemode = "normal",
+                zeroline = False,
+            )
+        )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Violin')
+        elif self._type_result == "dash":
+            return dcc.Graph(
+                id='V005@17',
+                figure=fig
+            )
+
+
+    def graph_10(self):
         x = [1]
         trace1 = {
           'x': [1],
@@ -369,7 +455,7 @@ class V007:
 
         plotly.offline.iplot({'data': data, 'layout': layout}, filename='barmode-relative')
 
-    def graph_04(self):
+    def graph_12(self):
         legend = {"title":"--",
                     "xaxis":"Grade",
                     "yaxis":"Grade",

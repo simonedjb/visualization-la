@@ -37,24 +37,27 @@ class V009:
         self.NUMBER_ACTIONS = number_actions
         self.VIDEO_SIZE = video_size
 
-        print(self.VIDEO_SIZE)
-
 
         names = pd.read_csv("names.csv")
-        self.RAWDATASET = pd.DataFrame(columns=["Students","Action","Age"])
-        self.PROCDATASET = pd.DataFrame(0, index= range(self.VIDEO_SIZE), columns=["Time","Play","Pause","Seek from","Seek to"])
+        self.RAWDATASET = pd.DataFrame(columns=["Students","Action"])
+        self.PROCDATASET = pd.DataFrame(0, index= range(self.VIDEO_SIZE), columns=["Time","Play","Pause","Seek from","Seek to", "Dropout"])
         for i in range(0,self.VIDEO_SIZE): self.PROCDATASET.loc[i,"Time"] = i
 
         k = 0
 
-        rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_ACTIONS)]
+        rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,(self.NUMBER_ACTIONS)*2)]
         rand_names.sort()
 
         for i in range(0,self.NUMBER_ACTIONS//5):
             playrequired = True
             currentTime = 0
+            currentAction = 'none'
 
-            for j in range(0,5):
+            print('---- * ----')
+            print(i)
+
+
+            for j in range(0,10):
                 timeModifierFrom = int(currentTime + np.random.triangular(0, 0 ,self.VIDEO_SIZE - currentTime))
                 timeModifierTo = int(np.random.triangular(0,currentTime,self.VIDEO_SIZE))
 
@@ -62,7 +65,7 @@ class V009:
 
                 if(playrequired == True):
                     playrequired = False
-                    self.RAWDATASET.loc[k,"Action"] = 'Play %ds'%currentTime
+                    self.RAWDATASET.loc[k,"Action"] = 'Play at %ds'%currentTime
                     lastAction = 'Play'
                     self.PROCDATASET.loc[currentTime,"Play"] += 1
 
@@ -70,7 +73,7 @@ class V009:
                     currentAction = random.choice(['Play', 'Seek'])
 
                     if(currentAction == 'Play'):
-                        self.RAWDATASET.loc[k,"Action"] = 'Play %ds'%currentTime
+                        self.RAWDATASET.loc[k,"Action"] = 'Play at %ds'%currentTime
                         lastAction = 'Play'
                         self.PROCDATASET.loc[currentTime,"Play"] += 1
 
@@ -79,11 +82,12 @@ class V009:
                         currentTime = timeModifierTo
                         lastAction = 'Seek'
 
+
                 else:
-                    currentAction = random.choice(['Seek', 'Pause'])
+                    currentAction = random.choice(['Seek', 'Pause', 'Seek', 'Pause', 'Seek', 'Pause', 'Seek', 'Pause', 'Dropout'])
 
                     if(currentAction == 'Pause'):
-                        self.RAWDATASET.loc[k,"Action"] = 'Pause %ds'%timeModifierFrom
+                        self.RAWDATASET.loc[k,"Action"] = 'Pause at %ds'%timeModifierFrom
                         currentTime = timeModifierFrom
                         self.PROCDATASET.loc[currentTime,"Pause"] += 1
                         lastAction = 'Pause'
@@ -95,14 +99,27 @@ class V009:
                         self.PROCDATASET.loc[timeModifierTo,"Seek to"] += 1
                         lastAction = 'Seek'
 
+                    elif(currentAction == 'Dropout'):
+                        self.RAWDATASET.loc[k,"Action"] = 'Dropout at %ds'%currentTime
+                        lastAction = 'Dropout'
+                        self.PROCDATASET.loc[currentTime,"Dropout"] += 1
+                        k+= 1
+
+                        break
+
                 k+= 1
+
+            print(currentAction)
+            print(j)
+            print('---- . ----')
+
+            #print('-----------')
+            #print(i)
 
         df = self.PROCDATASET
         df2 = df.set_index("Time")
         x= df.index.get_level_values(0).values
-        print(x)
         y=df.iloc[:,2].tolist()
-        print(y)
 
     # Table presenting raw data
     def graph_01(self):
@@ -110,12 +127,12 @@ class V009:
 
         trace = Table(
             header=dict(
-                values=list(df.columns[:len(df.columns)-1]),
+                values=list(df.columns[:len(df.columns)]),
                 fill = dict(color='#C2D4FF'),
                 align = 'center'
             ),
             cells=dict(
-                values=[df[i].tolist() for i in df.columns[:len(df.columns)-1]],
+                values=[df[i].tolist() for i in df.columns[:len(df.columns)]],
                 fill = dict(color='#F5F8FF'),
                 align = ['left','center']
             )
@@ -201,9 +218,18 @@ class V009:
             line=dict(width=0.5,
                       color='rgb(131, 90, 241)'),
             stackgroup='one'
-
         )
-        data = [trace0, trace1, trace2, trace3]
+        trace4 = dict(
+            x=x,
+            y=df.iloc[:,4].tolist(),
+            hoverinfo='x+y',
+            mode='lines',
+            name='Dropout',
+            line=dict(width=0.5,
+                      color='rgb(255, 192, 203)'),
+            stackgroup='one'
+        )
+        data = [trace0, trace1, trace2, trace3, trace4]
 
         fig = dict(data=data)
         plotly.offline.iplot(fig, filename='stacked-area-plot-hover', validate=False)
