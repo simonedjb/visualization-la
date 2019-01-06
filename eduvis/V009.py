@@ -33,17 +33,19 @@ class V009:
         self._language = language
         self._type_result = type_result
 
-    def generate_dataset(self, number_actions = 20, video_size = 120):
+    def generate_dataset(self, number_actions = 100, video_size = 30):
         self.NUMBER_ACTIONS = number_actions
         self.VIDEO_SIZE = video_size
 
 
         names = pd.read_csv("names.csv")
         self.RAWDATASET = pd.DataFrame(columns=["Students","Action"])
+        self.SEEKDATASET = pd.DataFrame(columns=["From","To"])
         self.PROCDATASET = pd.DataFrame(0, index= range(self.VIDEO_SIZE), columns=["Time","Play","Pause","Seek from","Seek to", "Dropout"])
         for i in range(0,self.VIDEO_SIZE): self.PROCDATASET.loc[i,"Time"] = i
 
         k = 0
+        seekcount = 0
 
         rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,(self.NUMBER_ACTIONS)*2)]
         rand_names.sort()
@@ -67,7 +69,7 @@ class V009:
                     self.PROCDATASET.loc[currentTime,"Play"] += 1
 
                 elif(lastAction == 'Pause'):
-                    currentAction = random.choice(['Play', 'Seek'])
+                    currentAction = random.choice(['Play', 'Play', 'Seek'])
 
                     if(currentAction == 'Play'):
                         self.RAWDATASET.loc[k,"Action"] = 'Play at %ds'%currentTime
@@ -76,12 +78,15 @@ class V009:
 
                     elif(currentAction == 'Seek'):
                         self.RAWDATASET.loc[k,"Action"] = 'Seek from %ds to %ds'%(currentTime, timeModifierTo)
+                        self.SEEKDATASET.loc[seekcount,"From"]= int(currentTime)
+                        self.SEEKDATASET.loc[seekcount,"To"]= int(timeModifierTo)
+                        seekcount +=1
                         currentTime = timeModifierTo
                         lastAction = 'Seek'
 
 
                 else:
-                    currentAction = random.choice(['Seek', 'Pause', 'Seek', 'Pause', 'Seek', 'Pause', 'Seek', 'Pause', 'Dropout'])
+                    currentAction = random.choice(['Seek', 'Pause', 'Seek', 'Pause', 'Pause', 'Seek', 'Pause', 'Dropout'])
 
                     if(currentAction == 'Pause'):
                         self.RAWDATASET.loc[k,"Action"] = 'Pause at %ds'%timeModifierFrom
@@ -91,6 +96,9 @@ class V009:
 
                     elif(currentAction == 'Seek'):
                         self.RAWDATASET.loc[k,"Action"] = 'Seek from %ds to %ds'%(timeModifierFrom,timeModifierTo)
+                        self.SEEKDATASET.loc[seekcount,"From"]= int(timeModifierFrom)
+                        self.SEEKDATASET.loc[seekcount,"To"]= int(timeModifierTo)
+                        seekcount +=1
                         currentTime = timeModifierTo
                         self.PROCDATASET.loc[timeModifierFrom,"Seek from"] += 1
                         self.PROCDATASET.loc[timeModifierTo,"Seek to"] += 1
@@ -109,12 +117,18 @@ class V009:
 
         df = self.PROCDATASET
         df2 = df.set_index("Time")
-        x= df.index.get_level_values(0).values
-        y=df.iloc[:,2].tolist()
+        #x=df.index.get_level_values(0).values
+        #y=df.iloc[:,2].tolist()
+
+
+        frozenseek = self.SEEKDATASET
+        frozenseek.to_csv('outSEEK.csv')
+
 
     # Table presenting raw data
     def graph_01(self):
         df = self.RAWDATASET
+        df.to_csv('outRAW.csv')
 
         trace = Table(
             header=dict(
@@ -141,6 +155,7 @@ class V009:
     # Table presenting processed data
     def graph_02(self):
         df = self.PROCDATASET
+        df.to_csv('outPROC.csv')
 
         trace = Table(
             header=dict(
