@@ -14,7 +14,7 @@ app.layout = html.Div([
 
                                      #{'id': 0, 'label': 'Cluster 1','color': '#5AB1BB', 'shape':'box', 'size':'5', 'level':'1'},
                                      #{'id': 1, 'label': 'Begin Season', 'color':'#5AB1BB', 'level':'1'},
-                                    {'id':0, 'label': '01s', 'color':'#5AB1BB', 'level':'1', 'shape':'circle', 'size':'5', 'x':0, 'y':0},
+                                    {'id':0, 'label': '00s', 'color':'#5AB1BB', 'level':'1', 'shape':'circle', 'size':'5', 'x':0, 'y':0},
                                     {'id':1, 'label': '01s', 'color':'#5AB1BB', 'level':'1', 'shape':'circle', 'size':'5', 'x':100, 'y':0},
                                     {'id':2, 'label': '02s', 'color':'#5AB1BB', 'level':'1', 'shape':'circle', 'size':'5', 'x':200, 'y':0},
                                     {'id':3, 'label': '03s', 'color':'#5AB1BB', 'level':'1', 'shape':'circle', 'size':'5', 'x':300, 'y':0},

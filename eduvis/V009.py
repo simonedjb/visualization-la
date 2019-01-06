@@ -122,13 +122,15 @@ class V009:
 
 
         frozenseek = self.SEEKDATASET
-        frozenseek.to_csv('outSEEK.csv')
+        #frozenseek.to_csv('outSEEK.csv')
 
 
     # Table presenting raw data
     def graph_01(self):
-        df = self.RAWDATASET
-        df.to_csv('outRAW.csv')
+
+        df = pd.read_csv("v009-RAW.csv")
+        #df = self.RAWDATASET
+        #df.to_csv('outRAW.csv')
 
         trace = Table(
             header=dict(
@@ -154,8 +156,10 @@ class V009:
 
     # Table presenting processed data
     def graph_02(self):
-        df = self.PROCDATASET
-        df.to_csv('outPROC.csv')
+        #df = self.PROCDATASET
+        #df.to_csv('outPROC.csv')
+
+        df = pd.read_csv("v009-PROC.csv")
 
         trace = Table(
             header=dict(
@@ -180,7 +184,9 @@ class V009:
             )
 
     def graph_03(self):
-        dft = self.PROCDATASET
+        #dft = self.PROCDATASET
+
+        dft = pd.read_csv("v009-PROC.csv")
         df = dft.set_index("Time")
 
         x = df.index.get_level_values(0).values
@@ -391,4 +397,4 @@ class V009:
         self.graph_01() #Raw Table
         self.graph_02() #Processed Table
         self.graph_03()
-        self.graph_04()
+        #self.graph_04()
