@@ -53,9 +53,6 @@ class V009:
             currentTime = 0
             currentAction = 'none'
 
-            print('---- * ----')
-            print(i)
-
 
             for j in range(0,10):
                 timeModifierFrom = int(currentTime + np.random.triangular(0, 0 ,self.VIDEO_SIZE - currentTime))
@@ -109,12 +106,6 @@ class V009:
 
                 k+= 1
 
-            print(currentAction)
-            print(j)
-            print('---- . ----')
-
-            #print('-----------')
-            #print(i)
 
         df = self.PROCDATASET
         df2 = df.set_index("Time")

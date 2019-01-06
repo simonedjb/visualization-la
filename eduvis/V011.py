@@ -11,41 +11,43 @@ app.layout = html.Div([
       visdcc.Network(id='net',
                      data={
                              'nodes':[
-                                    {'id': 0, 'color': '#C6DA20', 'shape':'triangle', 'size':'10'},
-                                    {'id': 1, 'label': 'Begin Season', 'color':'#5AB1BB', 'x':'50', 'y':'50'},
-                                    {'id': 2, 'label': 'Video 1', 'color':'#A5C882'},
-                                    {'id': 3, 'label': 'Video 2', 'color':'#A5C882'},
-                                    {'id': 4, 'label': 'Video 3', 'color':'#A5C882'},
-                                    {'id': 5, 'label': 'Final Test', 'color':'#A5C882'},
-                                    {'id': 6, 'label': 'End Season', 'color':'#5AB1BB',  'x':'50', 'y':'450'},
+                                    {'id': 0, 'label': 'Cluster 1','color': '#5AB1BB', 'shape':'box', 'size':'5', 'level':'1'},
+                                    {'id': 1, 'label': 'Begin Season', 'color':'#5AB1BB', 'level':'1'},
+                                    {'id': 2, 'label': 'Video 1', 'color':'#A5C882', 'level':'1'},
+                                    {'id': 3, 'label': 'Video 2', 'color':'#A5C882', 'level':'1'},
+                                    {'id': 4, 'label': 'Video 3', 'color':'#A5C882', 'level':'1'},
+                                    {'id': 5, 'label': 'Final Test', 'color':'#A5C882', 'level':'1'},
+                                    {'id': 6, 'label': 'End Season', 'color':'#5AB1BB', 'level':'1'},
 
-                                    {'id': 10, 'color': '#420000', 'shape':'circle', 'size':'10'},
-                                    {'id': 11, 'label': 'Begin Season', 'color':'#AD5C5C', 'x':'50', 'y':'50'},
-                                    {'id': 12, 'label': 'Video 1', 'color':'#CA9797'},
-                                    {'id': 13, 'label': 'Video 2', 'color':'#CA9797'},
-                                    {'id': 14, 'label': 'Video 3', 'color':'#CA9797'},
-                                    {'id': 15, 'label': 'Assigment 1', 'color':'#CA9797'},
-                                    {'id': 16, 'label': 'Assigment 2', 'color':'#CA9797'},
-                                    {'id': 17, 'label': 'Assigment 3', 'color':'#CA9797'},
-                                    {'id': 18, 'label': 'Final Test', 'color':'#CA9797'},
-                                    {'id': 19, 'label': 'End Season', 'color':'#AD5C5C'},
+                                    {'id': 10, 'label': 'Cluster 2', 'color': '#AD5C5C', 'shape':'box', 'size':'10', 'level':'3'},
+                                    {'id': 11, 'label': 'Begin Season', 'color':'#AD5C5C', 'x':'150', 'y':'50', 'level':'3'},
+                                    {'id': 12, 'label': 'Video 1', 'color':'#CA9797', 'level':'3'},
+                                    {'id': 13, 'label': 'Video 2', 'color':'#CA9797', 'level':'2'},
+                                    {'id': 14, 'label': 'Video 3', 'color':'#CA9797', 'level':'2'},
+                                    {'id': 15, 'label': 'Assigment 1', 'color':'#CA9797', 'level':'4'},
+                                    {'id': 16, 'label': 'Assigment 2', 'color':'#CA9797', 'level':'4'},
+                                    {'id': 17, 'label': 'Assigment 3', 'color':'#CA9797', 'level':'4'},
+                                    {'id': 18, 'label': 'Final Test', 'color':'#CA9797', 'level':'3'},
+                                    {'id': 19, 'label': 'End Season', 'color':'#AD5C5C', 'level':'3'},
 
-                                    {'id': 20, 'color': '#0000FF', 'shape':'square', 'size':'10'},
-                                    {'id': 21, 'label': 'Begin Season', 'color':'#9797FF'},
-                                    {'id': 22, 'label': 'Video 1', 'color':'#CACAFF'},
-                                    {'id': 23, 'label': 'Video 2', 'color':'#CACAFF'},
-                                    {'id': 24, 'label': 'Video 3', 'color':'#CACAFF'},
-                                    {'id': 25, 'label': 'Assigment 1', 'color':'#CACAFF'},
-                                    {'id': 26, 'label': 'Assigment 2', 'color':'#CACAFF'},
-                                    {'id': 27, 'label': 'Assigment 3', 'color':'#CACAFF'},
-                                    {'id': 28, 'label': 'Final Test', 'color':'#CACAFF'},
-                                    {'id': 29, 'label': 'Forum', 'color':'#CACAFF'},
-                                    {'id': 30, 'label': 'End Season', 'color':'#9797FF'}
+                                    {'id': 20, 'label': 'Cluster 3', 'color': '#9797FF', 'shape':'box', 'size':'10', 'level':'1'},
+                                    {'id': 21, 'label': 'Begin Season', 'color':'#9797FF', 'level':'1'},
+                                    {'id': 22, 'label': 'Video 1', 'color':'#CACAFF', 'level':'1'},
+                                    {'id': 23, 'label': 'Video 2', 'color':'#CACAFF', 'level':'1'},
+                                    {'id': 24, 'label': 'Video 3', 'color':'#CACAFF', 'level':'1'},
+                                    {'id': 25, 'label': 'Assigment 1', 'color':'#CACAFF', 'level':'2'},
+                                    {'id': 26, 'label': 'Assigment 2', 'color':'#CACAFF', 'level':'2'},
+                                    {'id': 27, 'label': 'Assigment 3', 'color':'#CACAFF', 'level':'2'},
+                                    {'id': 28, 'label': 'Final Test', 'color':'#CACAFF', 'level':'2'},
+                                    {'id': 29, 'label': 'Forum', 'color':'#CACAFF', 'level':'0'},
+                                    {'id': 30, 'label': 'End Season', 'color':'#9797FF', 'level':'2'}
 
                                     ],
 
                              'edges':[
-                                      {'id':'0-1','from': 0, 'to': 1, 'hidden':'true'},
+                                      {'id':'0-1','from': 0, 'to': 1, 'hidden':'false'},
+                                      {'id':'0-10','from': 0, 'to': 10, 'hidden':'false'},
+                                      {'id':'0-20','from': 0, 'to': 20, 'hidden':'false'},
                                       {'id':'1-2', 'arrows':'arrow.to','from': 1, 'to': 2, 'width':4},
                                       {'id':'2-3', 'arrows':'arrow.to','from': 2, 'to': 3, 'width':4},
                                       {'id':'2-2', 'arrows':'arrow.to','from': 2, 'to': 2},
@@ -70,6 +72,7 @@ app.layout = html.Div([
                                       {'id':'18-19', 'arrows':'arrow.to','from': 18, 'to': 19, 'width':4},
 
                                       {'id':'20-21','from': 20, 'to': 21, 'hidden':'true'},
+                                      {'id':'20-30','from': 20, 'to': 30, 'hidden':'true'},
                                       {'id':'21-22', 'arrows':'arrow.to','from': 21, 'to': 22, 'width':4},
                                       {'id':'21-25', 'arrows':'arrow.to','from': 21, 'to': 25, 'width':1},
                                       {'id':'22-25', 'arrows':'arrow.to','from': 22, 'to': 25, 'width':4},
@@ -91,15 +94,22 @@ app.layout = html.Div([
 
 
 
-                                      ]
+                                      ],
+
                      },
 
 
-                     options=dict(height='600px', width='100%')),
+                     options=dict(height='800px',
+                     width='100%',
+                     layout={'hierarchical': {'hierarchical.enabled':'True'}}
+                     )),
       dcc.RadioItems(id='color',
                      options=[{'label': 'Red'  , 'value': '#ff0000'},
                               {'label': 'Green', 'value': '#00ff00'},
-                              {'label': 'Blue' , 'value': '#0000ff'}],
+                              {'label': 'Blue' , 'value': '#0000ff'},
+
+                              ],
+
                      value='Red')
 ])
 

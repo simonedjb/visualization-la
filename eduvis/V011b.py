@@ -187,7 +187,7 @@ class V011:
                         "xaxis":"AVA Access",
                         "yaxis":"Grade",
                     }
-        color = ["rgb(127,0,0)","rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,127,127)","rgb(0,255,0)"]
+        color = ["rgb(198, 218, 32)","rgb(121,64,64)","rgb(0,0,204)"]
         trace = []
         for i in range(0, self.NUMBER_STUDENTS):
             trace.append(
@@ -263,7 +263,7 @@ class V011:
                     }
         df = self.DATASET.sort_values(by="Grade")
         Clusters = df.Cluster.unique()
-        color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)","rgb(255, 192, 203)", "rgb(131, 90, 241)"]
+        color = ["rgb(198, 218, 32)","rgb(121,64,64)","rgb(0,0,204)"]
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
@@ -335,7 +335,7 @@ class V011:
         # https://plot.ly/python/reference/#violin
         df = self.DATASET.sort_values(by="Grade")
         Clusters = df.Cluster.unique()
-        color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)","rgb(255, 192, 203)", "rgb(131, 90, 241)"]
+        color = ["rgb(198, 218, 32)","rgb(121,64,64)","rgb(0,0,204)"]
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
