@@ -55,8 +55,8 @@ class backend:
                        {"View":"V011","Label":"Padrão de navegação dos estudantes no AVA",
                         "Questions":[{"id":"22","Question":"Qual o padrão de navegação dos estudantes no AVA?","Label":"Padrão de navegação dos estudantes no AVA","Page":"prefv011_1"}]
                        },
-                       {"View":"V007","Label":"Predição das notas que os estudante terão ao final do curso e quais abandonarão",
-                        "Questions":[{"id":"23","Question":"Qual a previsão de notas que os estudantes terão ao final do curso e quais abandonarão?","Label":"Predição das notas que os estudante terão ao final do curso e quais abandonarão","Page":"prefv007_1"}]
+                       {"View":"V007","Label":"Predição das notas e dos estudantes desistentes",
+                        "Questions":[{"id":"23","Question":"Qual a previsão de notas e dos estudantes desistentes?","Label":"Predição das notas e dos estudantes desistentes","Page":"prefv007_1"}]
                        }
                       ]
 

@@ -292,7 +292,7 @@ class V005:
                 range = [0, self.DATASET["AVA Access"].max()+10],
                 rangemode = "normal",
                 zeroline= False,
-                showline = True,                
+                showline = True,
                 # type = "category"
             ),
             yaxis = dict(

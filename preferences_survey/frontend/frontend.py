@@ -7,7 +7,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 
 from backend import backend
-from eduvis import V001, V002, V003, V004, V005, V006, V008, V010#, V011, V007, V009
+from eduvis import V001, V002, V003, V004, V005, V006, V007, V008, V010#, V009, V011
 
 import visdcc
 
@@ -19,7 +19,7 @@ view3 = V003.V003(type_result = "dash",language = "pt")
 view4 = V004.V004(type_result = "dash",language = "pt")
 view5 = V005.V005(type_result = "dash",language = "pt")
 view6 = V006.V006(type_result = "dash",language = "pt")
-# view7 = V007.V007(type_result = "dash",language = "pt")
+view7 = V007.V007(type_result = "dash",language = "pt")
 view8 = V008.V008(type_result = "dash",language = "pt")
 # view9 = V009.V009(type_result = "dash",language = "pt")
 view10 = V010.V010(type_result = "dash",language = "pt")
@@ -663,11 +663,6 @@ class frontend:
 
     def linkert_scale(self,id,chart,data,id_load):
         global control
-        print("params")
-        print(id_load)
-        print(str(id))
-        print(data)
-        print(control.load_frontend_data_view(id_load,str(id),data))
         return html.Div(className="col s12", children=[
                    html.H5(className="center blue-text", children=[str("O "+chart+" responde a pergunta muito bem.")]),
                    html.H6(className="center blue-text", children=[str("*Indique sua opinião sobre a seguinte afirmacao:")]),
@@ -1047,24 +1042,23 @@ class frontend:
         return self.chart_view(charts,chart_ids,id_select,str("comments_id_chart_v"),data,"user_V","006_18")
 
     def charts_v007_1(self,data):
-        # global view7
-        # view7.generate_dataset(number_students = 60, students_names = students)
+        global view7
+        view7.generate_dataset(number_students = 60, students_names = students)
 
-        # id_select="id_chart_v007_1"
-        # charts = [[view7.graph_01()], #1
-        #           [view7.graph_02()], #2
-        #           [view7.graph_03()], #3
-        #           [view7.graph_04()], #4
-        #          ]
+        id_select="id_chart_v007_1"
+        charts = [[view7.graph_01()], #1
+                  [view7.graph_02()], #2
+                  [view7.graph_03()], #3
+                  [view7.graph_04()], #4
+                 ]
         
-        # chart_ids = ["chart_01", #1
-        #              "chart_02", #2
-        #              "chart_03", #3
-        #              "chart_04", #4
-        #             ]
+        chart_ids = ["chart_01", #1
+                     "chart_02", #2
+                     "chart_03", #3
+                     "chart_04", #4
+                    ]
 
-        # return self.chart_view(charts,chart_ids,id_select,str("comments_id_chart_v"),data,"user_V","007_23")
-        pass
+        return self.chart_view(charts,chart_ids,id_select,str("comments_id_chart_v"),data,"user_V","007_23")
 
     def charts_v009_1(self,data):
         # global view9
