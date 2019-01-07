@@ -35,27 +35,54 @@ def warning_body_prefv009_1(input1):
     feedmsg.add_clicks()
     return ""
 
-# @app.callback(
-#     Output('send_'+_page_name, 'href'),
-#     [Input('user_cache', 'children'),
-#      Input('user_view_read', 'value'),
-#      Input('user_view_make', 'value')])
-# def update_body_prefv009_1(input1,input2,input3):
-#     global _data_cache
-#     global _page_name
+@app.callback(
+    Output('send_'+_page_name, 'href'),
+    [Input('user_cache', 'children'),
+     Input("chart_01", 'value'),
+     Input("chart_02", 'value'),
+     Input("chart_03", 'value'),
+     Input("chart_05", 'value'),
+     Input("id_chart_v009_8", 'value'),
+     Input("comments_id_chart_v009_8",'value')])
+def update_body_prefv009_1(input1,chart1,chart2,chart3,chart4,select_chart,comments):
+    global _data_cache
+    global _page_name
 
-#     next_page = "thanks"
-#     if(control.has_next_page(_page_name)):
-#         next_page =control.get_next_page(_page_name)
+    next_page = "thanks"
+    if(control.has_next_page(_page_name)):
+        next_page =control.get_next_page(_page_name)
 
-#     _data_cache= [{"field":'user_view_read',"value":input2},
-#                   {"field":'user_view_make',"value":input3},
-#                   {"field":'page',"value":next_page}]
+    print(str("Gráfico 1 "+str(chart1)))
+    print(str("Gráfico 2 "+str(chart2)))
+    print(str("Gráfico 3 "+str(chart3)))
+    print(str("Gráfico 4 "+str(chart4)))
+    # print(str("Gráfico 5 "+str(chart5)))
+    # print(str("Gráfico 6 "+str(chart6)))
+    # print(str("Gráfico 7 "+str(chart7)))
+    # print(str("Gráfico 8 "+str(chart8)))
+    # print(str("Gráfico 9 "+str(chart9)))
+    # print(str("Gráfico 10 "+str(chart10)))
+    # print(str("Gráfico 11 "+str(chart11)))
+    # print(str("Gráfico 12 "+str(chart11)))
+    # print(str("Gráfico 13 "+str(chart11)))
+    print(str("Selection "+str(select_chart)))
 
-#     if input1 == None:
-#         return '/'
+    _data_cache= [{"field":'user_V009_8',"value":[
+                                                  {"field":"chart_01","value":chart1},
+                                                  {"field":"chart_02","value":chart2},
+                                                  {"field":"chart_03","value":chart3},
+                                                  {"field":"chart_05","value":chart4},
+                                                  {"field":"preference_chart","value":select_chart},
+                                                 ]},
+                  {"field":'comments_id_chart_v009_8',"value":comments},
+                  {"field":'page',"value":next_page}]
 
-#     if input2 == '':
-#         return None
-#     else:
-#         return next_page
+    print(_data_cache)
+
+    if input1 == None:
+        return '/'
+
+    if chart1 == '' or chart1 == '' or chart2 == '' or chart3 == '' or chart4 == '' or select_chart == '':
+        return None
+    else:
+        return next_page
