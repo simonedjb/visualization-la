@@ -14,12 +14,14 @@ interface = frontend.frontend()
 _page_name = "prefv011_1"
 _data_cache = []
 
-layout = html.Div([
-    interface.survey_warning("warning_"+_page_name),
-    interface.survey_chart_preference(control.get_view_question_page_view("V011",_page_name),_page_name),
-    interface.survey_send("send_"+_page_name)
-])
-
+def layout(data_cache=[]):
+    global interface
+    global _page_name
+    return html.Div([
+                interface.survey_warning("warning_"+_page_name),
+                interface.survey_chart_preference(control.get_view_question_page_view("V011",_page_name),_page_name,data_cache),
+                interface.survey_send("send_"+_page_name)
+            ])
 
 @app.callback(
     Output('warning_'+_page_name, 'children'),

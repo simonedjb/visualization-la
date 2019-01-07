@@ -14,12 +14,14 @@ interface = frontend.frontend()
 _page_name = "aboutlogs"
 _data_cache = []
 
-layout = html.Div([
-    interface.survey_warning("warning_"+_page_name),
-    interface.survey_logs(),
-    interface.survey_send("send_"+_page_name)
-])
-
+def layout(data_cache=[]):
+    global interface
+    global _page_name
+    return html.Div([
+                interface.survey_warning("warning_"+_page_name),
+                interface.survey_logs(data_cache),
+                interface.survey_send("send_"+_page_name)
+            ])
 
 @app.callback(
     Output('warning_'+_page_name, 'children'),

@@ -14,12 +14,14 @@ interface = frontend.frontend()
 _page_name = "prefv005_1"
 _data_cache = []
 
-layout = html.Div([
-    interface.survey_warning("warning_"+_page_name),
-    interface.survey_chart_preference(control.get_view_question_page_view("V005",_page_name),_page_name),
-    interface.survey_send("send_"+_page_name)
-])
-
+def layout(data_cache=[]):
+    global interface
+    global _page_name
+    return html.Div([
+                interface.survey_warning("warning_"+_page_name),
+                interface.survey_chart_preference(control.get_view_question_page_view("V005",_page_name),_page_name,data_cache),
+                interface.survey_send("send_"+_page_name)
+            ])
 
 @app.callback(
     Output('warning_'+_page_name, 'children'),
@@ -42,8 +44,9 @@ def warning_body_prefv005_1(input1):
      Input("chart_10", 'value'),
      Input("chart_17", 'value'),
      Input("chart_18", 'value'),
-     Input("id_chart_v005_1", 'value')])
-def update_body_prefv005_1(input1,chart1,chart2,chart3,chart4,chart5,chart6,select_chart):
+     Input("id_chart_v005_1", 'value'),
+     Input("comments_id_chart_v005_11",'value')])
+def update_body_prefv005_1(input1,chart1,chart2,chart3,chart4,chart5,chart6,select_chart,comments):
     global _data_cache
     global _page_name
 
@@ -52,14 +55,15 @@ def update_body_prefv005_1(input1,chart1,chart2,chart3,chart4,chart5,chart6,sele
         next_page =control.get_next_page(_page_name)
 
     _data_cache= [{"field":'user_V005_11',"value":[
-                                                  {"id_chart_01":"01","value":chart1},
-                                                  {"id_chart_02":"02","value":chart2},
-                                                  {"id_chart_03":"09","value":chart3},
-                                                  {"id_chart_04":"10","value":chart4},
-                                                  {"id_chart_05":"17","value":chart5},
-                                                  {"id_chart_06":"18","value":chart6},
-                                                  {"preference_chart":select_chart},
+                                                  {"field":"chart_01","value":chart1},
+                                                  {"field":"chart_02","value":chart2},
+                                                  {"field":"chart_09","value":chart3},
+                                                  {"field":"chart_10","value":chart4},
+                                                  {"field":"chart_17","value":chart5},
+                                                  {"field":"chart_18","value":chart6},
+                                                  {"field":"preference_chart","value":select_chart},
                                                  ]},
+                  {"field":'comments_id_chart_v005_11',"value":comments},
                   {"field":'page',"value":next_page}]
 
     if input1 == None:

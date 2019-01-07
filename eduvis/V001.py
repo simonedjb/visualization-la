@@ -43,7 +43,7 @@ class V001:
 
         self.DATASET = pd.DataFrame(columns=self._assign_name)
         for i in range(0,self.NUMBER_STUDENTS):
-            self.DATASET.loc[i] = [np.random.randint(0,2) for n in range(len(self.DATASET.columns))]            
+            self.DATASET.loc[i] = [np.random.randint(0,2) for n in range(len(self.DATASET.columns))]
         
         self.DATASET.insert(0,"Students", rand_names)
 

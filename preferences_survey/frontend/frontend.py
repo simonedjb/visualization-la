@@ -62,7 +62,6 @@ class frontend:
                     html.Div(id='intermediate-value', style={'display': 'none'}, children=[
                         html.Label(id='user_cache'),
                         html.Label(id='page_cache'),
-                        html.Label(id='current_page_values'),
                     ]),
                     html.Div(id='page-content')
                 ])
@@ -153,7 +152,8 @@ class frontend:
                     ]),
                 ])
 
-    def survey_profile(self):
+    def survey_profile(self, data=[]):
+        global control
         return html.Div(className="container", children=[
                     html.Div(className="row", children=[
                         html.Div(className="col s12",children=[
@@ -167,7 +167,7 @@ class frontend:
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["*Nome completo:"])
                                     ]),
-                                    dcc.Input(id='user_name', placeholder="", type='text',value="")
+                                    dcc.Input(id='user_name', placeholder="", type='text',value=control.load_frontend_data('user_name',data))
                                 ]),
                                 html.Div(className="input-field col s2", children=[
                                     html.P(children=[
@@ -181,7 +181,7 @@ class frontend:
                                             {'label': 'Feminino', 'value': 'F'},
                                             
                                         ],
-                                        value="",
+                                        value=control.load_frontend_data('user_gender',data),
                                         searchable=False,
                                         clearable=True,
                                         style={'color': '#2196f3'}
@@ -191,7 +191,7 @@ class frontend:
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["*Idade:"]),
                                     ]),
-                                    dcc.Input(id='user_age', placeholder="20,anos, 30 anos, etc.", type='text',value="")
+                                    dcc.Input(id='user_age', placeholder="20,anos, 30 anos, etc.", type='text',value=control.load_frontend_data('user_age',data))
                                 ]),
                             ]),
                             ############################################################################################
@@ -200,13 +200,13 @@ class frontend:
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["*Estado e cidade onde nasceu (caso seja estranjeiro, informe o país):"]),
                                     ]),
-                                    dcc.Input(id='user_place_birth', placeholder="São Luís, Maranhão", type='text',value="")
+                                    dcc.Input(id='user_place_birth', placeholder="São Luís, Maranhão", type='text',value=control.load_frontend_data('user_place_birth',data))
                                 ]),
                                 html.Div(className="input-field col s6",children=[
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["*Estado e cidade onde trabalha:"]),
                                     ]),
-                                    dcc.Input(id='user_place_work', placeholder="São Luís, Maranhão", type='text',value="")
+                                    dcc.Input(id='user_place_work', placeholder="São Luís, Maranhão", type='text',value=control.load_frontend_data('user_place_work',data))
                                 ])
                             ]),
                             ############################################################################################
@@ -215,7 +215,7 @@ class frontend:
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["*Área de formação:"]),
                                     ]),
-                                    dcc.Input(id='user_scholarship', placeholder="Área de formação", type='text',value="")
+                                    dcc.Input(id='user_scholarship', placeholder="Área de formação", type='text',value=control.load_frontend_data('user_scholarship',data))
                                 ]),
                                 html.Div(className="input-field col s4", children=[
                                     html.P(children=[
@@ -232,7 +232,7 @@ class frontend:
                                             {'label': 'Doutorado', 'value': 'Doutorado'},
                                             {'label': 'Pós-doutorado', 'value': 'Pós-doutorado'},
                                         ],
-                                        value="",
+                                        value=control.load_frontend_data('user_scholarship_degree',data),
                                         searchable=False,
                                         clearable=True,
                                         style={'color': '#2196f3'}
@@ -245,7 +245,7 @@ class frontend:
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["*Profissão:"]),
                                     ]),
-                                    dcc.Input(id='user_job', placeholder="Professor, Instrutor, Tutor, etc", type='text',value="")
+                                    dcc.Input(id='user_job', placeholder="Professor, Instrutor, Tutor, etc", type='text',value=control.load_frontend_data('user_job',data))
                                 ]),
                                 html.Div(className="input-field col s6", children=[
                                     html.P(children=[
@@ -259,7 +259,7 @@ class frontend:
                                             {'label': 'Não', 'value': 'N'},
                                             
                                         ],
-                                        value="",
+                                        value=control.load_frontend_data('user_programming_xp',data),
                                         searchable=False,
                                         clearable=True,
                                         style={'color': '#2196f3'}
@@ -278,13 +278,13 @@ class frontend:
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["Quando foi a última vez que você programou?"]),
                                     ]),
-                                    dcc.Input(id='user_programming_last_time', placeholder="", type='text',value="")
+                                    dcc.Input(id='user_programming_last_time', placeholder="", type='text',value=control.load_frontend_data('user_programming_last_time',data))
                                 ]),
                                 html.Div(className="input-field col s6",children=[
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["Em que linguagem de programação?"]),
                                     ]),
-                                    dcc.Input(id='user_programming_language', placeholder="", type='text',value="")
+                                    dcc.Input(id='user_programming_language', placeholder="", type='text',value=control.load_frontend_data('user_programming_language',data))
                                 ]),
                             ]),
                             html.Br()
@@ -292,7 +292,8 @@ class frontend:
                     ])
                 ])
 
-    def survey_ead_xp(self):
+    def survey_ead_xp(self, data=[]):
+        global control
         return html.Div(className="container", children=[
                     html.Div(className="row", children=[
                         html.Div(className="col s12",children=[
@@ -306,13 +307,13 @@ class frontend:
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["*Papeis desempenhados na utilização do AVAs:"]),
                                     ]),
-                                    dcc.Input(id='user_job_ead', placeholder="Professor, Tutor, Monitor, etc.", type='text',value="")
+                                    dcc.Input(id='user_job_ead', placeholder="Professor, Tutor, Monitor, etc.", type='text',value=control.load_frontend_data('user_job_ead',data))
                                 ]),
                                 html.Div(className="input-field col s5",children=[
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["*Tempo de experiência na utilização de AVAs:"]),
                                     ]),
-                                    dcc.Input(id='user_time_experience', placeholder="6 meses, 5 anos, 10 anos, etc.", type='text',value="")
+                                    dcc.Input(id='user_time_experience', placeholder="6 meses, 5 anos, 10 anos, etc.", type='text',value=control.load_frontend_data('user_time_experience',data))
                                 ]),
                             ]),
                             ############################################################################################
@@ -321,7 +322,7 @@ class frontend:
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["*Instituições de ensino que trabalha (e que trabalhou) utilizando AVAs:"]),
                                     ]),
-                                    dcc.Input(id='user_organization_worked', placeholder="PUC-Rio, UFMA, UFRJ, UEMA, etc.", type='text',value="")
+                                    dcc.Input(id='user_organization_worked', placeholder="PUC-Rio, UFMA, UFRJ, UEMA, etc.", type='text',value=control.load_frontend_data('user_organization_worked',data))
                                 ]),
                             ]),
                             ############################################################################################
@@ -330,7 +331,7 @@ class frontend:
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["*Disciplinas ensinadas utilizando AVAs:"]),
                                     ]),
-                                    dcc.Input(id='user_subject', placeholder="Disciplinas de computação, Disciplinas da saúde (ex: Síndromes Geriátricas, etc.), Introdução a EaD, etc.", type='text',value="")
+                                    dcc.Input(id='user_subject', placeholder="Disciplinas de computação, Disciplinas da saúde (ex: Síndromes Geriátricas, etc.), Introdução a EaD, etc.", type='text',value=control.load_frontend_data('user_subject',data))
                                 ]),
                             ]),
                             ############################################################################################
@@ -347,7 +348,7 @@ class frontend:
                                             {'label': 'Presencial', 'value': 'Presencial'},
                                             {'label': 'Ambas', 'value': 'Ambas'},
                                         ],
-                                        value="",
+                                        value=control.load_frontend_data('user_ead_modality',data),
                                         searchable=False,
                                         clearable=True,
                                         style={'color': '#2196f3'}
@@ -357,7 +358,7 @@ class frontend:
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["*AVAs que utiliza (e que já utilizou):"]),
                                     ]),
-                                    dcc.Input(id='user_avas_performed', placeholder="Moodle, Blackboard, etc.", type='text',value="")
+                                    dcc.Input(id='user_avas_performed', placeholder="Moodle, Blackboard, etc.", type='text',value=control.load_frontend_data('user_avas_performed',data))
                                 ]),
                             ]),
                             ############################################################################################
@@ -366,7 +367,7 @@ class frontend:
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["*Recursos que utiliza e já utilizou nos AVAs:"]),
                                     ]),
-                                    dcc.Input(id='user_avas_resources', placeholder="Vídeos, ebooks, fórum, chat, badges, etc.", type='text',value="")
+                                    dcc.Input(id='user_avas_resources', placeholder="Vídeos, ebooks, fórum, chat, badges, etc.", type='text',value=control.load_frontend_data('user_avas_resources',data))
                                 ]),
                             ]),
                             ############################################################################################
@@ -375,7 +376,7 @@ class frontend:
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["*Faixa etária dos alunos que ensina (e que já ensinou) utilizando AVAs:"]),
                                     ]),
-                                    dcc.Input(id='user_students_age', placeholder="18 à 30 anos, 25 à 60 anos, etc.", type='text',value="")
+                                    dcc.Input(id='user_students_age', placeholder="18 à 30 anos, 25 à 60 anos, etc.", type='text',value=control.load_frontend_data('user_students_age',data))
                                 ]),
                             ]),
                             ############################################################################################
@@ -384,7 +385,7 @@ class frontend:
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["*Área de formação dos alunos que ensina (e que já ensinou) utilizando AVAs:"]),
                                     ]),
-                                    dcc.Input(id='user_students_scholarship', placeholder="Informática, Saúde, etc.", type='text',value="")
+                                    dcc.Input(id='user_students_scholarship', placeholder="Informática, Saúde, etc.", type='text',value=control.load_frontend_data('user_students_scholarship',data))
                                 ]),
                                 html.Div(className="input-field col s4", children=[
                                     html.P(children=[
@@ -401,7 +402,7 @@ class frontend:
                                             {'label': 'Doutorado', 'value': 'Doutorado'},
                                             {'label': 'Pós-doutorado', 'value': 'Pós-doutorado'},
                                         ],
-                                        value="",
+                                        value=control.load_frontend_data('user_students_scholarship_degree',data),
                                         searchable=False,
                                         clearable=True,
                                         style={'color': '#2196f3'}
@@ -414,7 +415,7 @@ class frontend:
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["*Quais informações dos alunos você considera relevante:"]),
                                     ]),
-                                    dcc.Input(id='user_students_meaningful', placeholder="", type='text',value="")
+                                    dcc.Input(id='user_students_meaningful', placeholder="", type='text',value=control.load_frontend_data('user_students_meaningful',data))
                                 ]),
                             ]),
                             html.Br(),html.Br(),html.Br()
@@ -422,7 +423,8 @@ class frontend:
                     ])
                 ])
 
-    def survey_logs(self):
+    def survey_logs(self, data=[]):
+        global control
         return html.Div(className="container", children=[
                     html.Div(className="row", children=[
                         html.Div(className="col s12",children=[
@@ -436,7 +438,7 @@ class frontend:
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["*Como você acompanha o andamento dos alunos durante o curso:"]),
                                     ]),
-                                    dcc.Input(id='user_students_progress', placeholder="", type='text',value="")
+                                    dcc.Input(id='user_students_progress', placeholder="", type='text',value=control.load_frontend_data('user_students_progress',data))
                                 ]),
                             ]),
                             ############################################################################################
@@ -445,7 +447,7 @@ class frontend:
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["*Quais dados podem ser utilizados para predizer as notas dos alunos?"]),
                                     ]),
-                                    dcc.Input(id='user_logs_performance', placeholder="", type='text',value="")
+                                    dcc.Input(id='user_logs_performance', placeholder="", type='text',value=control.load_frontend_data('user_logs_performance',data))
                                 ]),
                             ]),
                             ############################################################################################
@@ -454,7 +456,7 @@ class frontend:
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["*Quais dados podem ser utilizados para predizer se o aluno irá abandonar o curso?"]),
                                     ]),
-                                    dcc.Input(id='user_logs_dropout', placeholder="", type='text',value="")
+                                    dcc.Input(id='user_logs_dropout', placeholder="", type='text',value=control.load_frontend_data('user_logs_dropout',data))
                                 ]),
                             ]),
                             ############################################################################################
@@ -463,7 +465,7 @@ class frontend:
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["*Quais dados podem ser utilizados para avaliar o engajamento do aluno?"]),
                                     ]),
-                                    dcc.Input(id='user_logs_engagement', placeholder="", type='text',value="")
+                                    dcc.Input(id='user_logs_engagement', placeholder="", type='text',value=control.load_frontend_data('user_logs_engagement',data))
                                 ]),
                             ]),
                             ############################################################################################
@@ -478,13 +480,13 @@ class frontend:
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["quais dados você analisa?"]),
                                     ]),
-                                    dcc.Input(id='user_logs_analyse', placeholder="Acesso ao AVA, realização de tarefas, postagem no fórum, etc.", type='text',value="")
+                                    dcc.Input(id='user_logs_analyse', placeholder="Acesso ao AVA, realização de tarefas, postagem no fórum, etc.", type='text',value=control.load_frontend_data('user_logs_analyse',data))
                                 ]),
                                 html.Div(className="input-field col s6",children=[
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["como esses dados são apresentados pra você?"]),
                                     ]),
-                                    dcc.Input(id='user_logs_presentation', placeholder="Em uma tabela, em gráfico de pizza, em gráfico de barra, etc.", type='text',value="")
+                                    dcc.Input(id='user_logs_presentation', placeholder="Em uma tabela, em gráfico de pizza, em gráfico de barra, etc.", type='text',value=control.load_frontend_data('user_logs_presentation',data))
                                 ]),
                             ]),
                             ############################################################################################
@@ -493,7 +495,7 @@ class frontend:
                     ])
                 ])
 
-    def survey_student_information(self):
+    def survey_student_information(self, data=[]):
         global control
         views = control.get_view()
         options = []
@@ -523,7 +525,7 @@ class frontend:
                                     dcc.Checklist(
                                         id="user_interaction_access_students_logs",
                                         options=options,
-                                        values=[],
+                                        values=control.load_frontend_data('user_interaction_access_students_logs',data),
                                         labelStyle={"display":"block","margin-top":"15px"},
                                     )
                                 ]), 
@@ -534,7 +536,7 @@ class frontend:
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["Há mais algum dado que você analisa (ou gostaria de analisar) e que não foi apresentada?"]),
                                     ]),
-                                    dcc.Input(id='user_interaction_access_students_logs_others', placeholder="", type='text',value="")
+                                    dcc.Input(id='user_interaction_access_students_logs_others', placeholder="", type='text',value=control.load_frontend_data('user_interaction_access_students_logs_others',data))
                                 ]),
                             ]),
                             ############################################################################################
@@ -543,7 +545,7 @@ class frontend:
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["Como você gostaria que esses dados fossem apresentados?"]),
                                     ]),
-                                    dcc.Input(id='user_interaction_access_students_logs_presentation', placeholder="Em uma tabela, em gráfico de pizza, em gráfico de barra, etc.", type='text',value="")
+                                    dcc.Input(id='user_interaction_access_students_logs_presentation', placeholder="Em uma tabela, em gráfico de pizza, em gráfico de barra, etc.", type='text',value=control.load_frontend_data('user_interaction_access_students_logs_presentation',data))
                                 ]),
                             ]),
                             html.Br(),html.Br(),html.Br(),
@@ -552,7 +554,8 @@ class frontend:
                     ])
                 ])
 
-    def survey_visualization(self):
+    def survey_visualization(self, data=[]):
+        global control
         return html.Div(className="container", children=[
                     html.Div(className="row", children=[
                         html.Div(className="col s12",children=[
@@ -582,7 +585,7 @@ class frontend:
                                             {'label': 'Pelo menos uma vez por semana', 'value': 'Pelo menos uma vez por semana'},
                                             {'label': 'Mais de uma vez por semana', 'value': 'Mais de uma vez por semana'},
                                         ],
-                                        value="",
+                                        value=control.load_frontend_data('user_view_read',data),
                                         searchable=False,
                                         clearable=True,
                                         style={'color': '#2196f3'}
@@ -602,7 +605,7 @@ class frontend:
                                             {'label': 'Pelo menos uma vez por semana', 'value': 'Pelo menos uma vez por semana'},
                                             {'label': 'Mais de uma vez por semana', 'value': 'Mais de uma vez por semana'},
                                         ],
-                                        value="",
+                                        value=control.load_frontend_data('user_view_make',data),
                                         searchable=False,
                                         clearable=True,
                                         style={'color': '#2196f3'}
@@ -614,7 +617,7 @@ class frontend:
                     html.Br(),html.Br(),html.Br()
                 ])
 
-    def survey_chart_preference(self,question,page):
+    def survey_chart_preference(self,question,page, data=[]):
         return html.Div(className="container", children=[
                     html.Div(className="row", children=[
                         html.Div(className="col s12",children=[
@@ -622,43 +625,49 @@ class frontend:
                                 html.H3(className="header center blue-text", children=[question]),
                                 html.Br(),html.Br()
                             ]),
-                            self.survey_select_page(page)
+                            self.survey_select_page(page,data)
                         ]),
                     ]),
                     html.Br(),html.Br(),html.Br()
                 ])
 
-    def survey_select_page(self,page):
+    def survey_select_page(self,page,data):
         if page == "prefv001_1":
-            return self.charts_v001_1()
+            return self.charts_v001_1(data)
         elif page == "prefv001_2":
-            return self.charts_v001_2()
+            return self.charts_v001_2(data)
         elif page == "prefv008_1":
-            return self.charts_v008_1()
+            return self.charts_v008_1(data)
         elif page == "prefv008_2":
-            return self.charts_v008_2()
+            return self.charts_v008_2(data)
         elif page == "prefv002_1":
-            return self.charts_v002_1()
+            return self.charts_v002_1(data)
         elif page == "prefv003_1":
-            return self.charts_v003_1()
+            return self.charts_v003_1(data)
         elif page == "prefv009_1":
-            return self.charts_v009_1()
+            return self.charts_v009_1(data)
         elif page == "prefv004_1":
-            return self.charts_v004_1()
+            return self.charts_v004_1(data)
         elif page == "prefv010_1":
-            return self.charts_v010_1()
+            return self.charts_v010_1(data)
         elif page == "prefv005_1":
-            return self.charts_v005_1()
+            return self.charts_v005_1(data)
         elif page == "prefv006_1":
-            return self.charts_v006_1()
+            return self.charts_v006_1(data)
         elif page == "prefv011_1":
-            return self.charts_v011_1()
+            return self.charts_v011_1(data)
         elif page == "prefv007_1":
-            return self.charts_v007_1()
+            return self.charts_v007_1(data)
         else:
             return None
 
-    def linkert_scale(self, id, chart):
+    def linkert_scale(self,id,chart,data,id_load):
+        global control
+        print("params")
+        print(id_load)
+        print(str(id))
+        print(data)
+        print(control.load_frontend_data_view(id_load,str(id),data))
         return html.Div(className="col s12", children=[
                    html.H5(className="center blue-text", children=[str("O "+chart+" responde a pergunta muito bem.")]),
                    html.H6(className="center blue-text", children=[str("*Indique sua opinião sobre a seguinte afirmacao:")]),
@@ -675,14 +684,15 @@ class frontend:
                                 {'label': 'Concordo parcialmente', 'value': 'partially_agree'},
                                 {'label': 'Concordo totalmente', 'value': 'strong_agree'},
                             ],
-                            value='',
+                            value=control.load_frontend_data_view(id_load,str(id),data),
                             labelStyle={'display': 'inline-block'}
                         ),
                    ]),
                    html.Br(),
                ])        
 
-    def select_chart(self,id,labels,values):
+    def select_chart(self,id,labels,values,data,id_load):
+        global control
         options = []
         
         for i in range(0,len(labels)):
@@ -696,18 +706,18 @@ class frontend:
                         id=id,
                         placeholder="",
                         options=options,
-                        value="",
+                        value=control.load_frontend_data_view(id_load,"preference_chart",data),
                         searchable=False,
                         clearable=False,
                         style={'color': '#2196f3'}
                     )
                 ])
 
-    def chart_view(self,charts,chart_ids,id_select):
+    def chart_view(self,charts,chart_ids,id_select,id_comments,data,id_load,id_label):
         div_charts = []
         div_id = []
         labels = []
-
+        
         for i in range(0,len(charts)):
             div_id.append(str("div_"+chart_ids[i]))
             labels.append(str("Gráfico "+str(i+1)))
@@ -720,22 +730,29 @@ class frontend:
                         html.Br(),html.Br()
                     ]),
                     self.div_chart(charts[i]), #Chart
-                    self.linkert_scale(chart_ids[i],labels[i]), #Linkert scale options
+                    self.linkert_scale(chart_ids[i],labels[i],data,str(id_load+id_label)), #Linkert scale options
                 ])
             )
 
         div_charts.append(
             html.Div(className="row", children=[
-                self.select_chart(id_select,labels,chart_ids), #Dropdown selection
+                self.select_chart(id_select,labels,chart_ids,data,str(id_load+id_label)), #Dropdown selection
             ]),
         )
 
-        div_charts.append(html.Br())
-        div_charts.append(html.Br())
-        div_charts.append(html.Br())
-        div_charts.append(html.Br())
-        div_charts.append(html.Br())
+        div_charts.append(
+            html.Div(className="row center", children=[
+                html.Div(className="input-field col s12",children=[
+                    html.P(children=[
+                        html.Label(className="left blue-text", children=["Você tem algum comentário sobre os gráficos?"]),
+                    ]),
+                    dcc.Input(id=str(id_comments+id_label), placeholder="", type='text',value=control.load_frontend_data(str(id_comments+id_label),data))
+                ]),
+            ])
+        )
 
+        div_charts.append(html.Br())        
+        
         return html.Div(children=div_charts)
                 
     def div_chart(self,charts):
@@ -751,7 +768,7 @@ class frontend:
 
         return html.Div(className="row center",children=div_charts)
 
-    def charts_v001_1(self):
+    def charts_v001_1(self,data):
         global view1 
         view1.generate_dataset(number_students = 20, number_assigns = 10, students_names = students)
         
@@ -785,9 +802,9 @@ class frontend:
                      "chart_47", #12
                     ]
         
-        return self.chart_view(charts,chart_ids,id_select)
+        return self.chart_view(charts,chart_ids,id_select,str("comments_id_chart_v"),data,"user_V","001_1")
 
-    def charts_v001_2(self):
+    def charts_v001_2(self,data):
         global view1 
         view1.generate_dataset(number_students = 20, number_assigns = 10, students_names = students)
         
@@ -814,10 +831,10 @@ class frontend:
                      "chart_50", #8
                      "chart_53", #9
                     ]
-        
-        return self.chart_view(charts,chart_ids,id_select)
 
-    def charts_v008_1(self):
+        return self.chart_view(charts,chart_ids,id_select,str("comments_id_chart_v"),data,"user_V","001_2")
+
+    def charts_v008_1(self,data):
         global view8
         view8.generate_dataset(number_students=35, number_weeks=7, students_names = students)
 
@@ -839,9 +856,9 @@ class frontend:
                      "chart_10", #6
                     ]
 
-        return self.chart_view(charts,chart_ids,id_select)
+        return self.chart_view(charts,chart_ids,id_select,str("comments_id_chart_v"),data,"user_V","008_3")
 
-    def charts_v008_2(self):
+    def charts_v008_2(self,data):
         global view8
         view8.generate_dataset(number_students=35, number_weeks=7, students_names = students)
 
@@ -861,9 +878,9 @@ class frontend:
                      "chart_11", #5
                     ]
 
-        return self.chart_view(charts,chart_ids,id_select)
+        return self.chart_view(charts,chart_ids,id_select,str("comments_id_chart_v"),data,"user_V","008_4")
 
-    def charts_v002_1(self):
+    def charts_v002_1(self,data):
         global view2
         view2.generate_dataset(number_students = 20, students_names = students)
     
@@ -892,9 +909,9 @@ class frontend:
                      "chart_12", #10
                     ] 
         
-        return self.chart_view(charts,chart_ids,id_select)
+        return self.chart_view(charts,chart_ids,id_select,str("comments_id_chart_v"),data,"user_V","002_5")
 
-    def charts_v003_1(self):
+    def charts_v003_1(self,data):
         global view3
         view3.generate_dataset(number_students = 20, students_names = students)
 
@@ -917,9 +934,9 @@ class frontend:
                      "chart_10", #7
                     ]
         
-        return self.chart_view(charts,chart_ids,id_select)
+        return self.chart_view(charts,chart_ids,id_select,str("comments_id_chart_v"),data,"user_V","003_7")
 
-    def charts_v004_1(self):
+    def charts_v004_1(self,data):
         global view4
         view4.generate_dataset(number_students = 20, students_names = students)
 
@@ -948,9 +965,9 @@ class frontend:
                      "chart_11", #10
                     ]
         
-        return self.chart_view(charts,chart_ids,id_select)
+        return self.chart_view(charts,chart_ids,id_select,str("comments_id_chart_v"),data,"user_V","004_9")
 
-    def charts_v010_1(self):
+    def charts_v010_1(self,data):
         global view10
         view10.generate_dataset(number_students=35, number_video=10, students_names = students)
 
@@ -985,9 +1002,9 @@ class frontend:
                      "chart_30", #13
                     ]
         
-        return self.chart_view(charts,chart_ids,id_select)
+        return self.chart_view(charts,chart_ids,id_select,str("comments_id_chart_v"),data,"user_V","0010_10")
 
-    def charts_v005_1(self):
+    def charts_v005_1(self,data):
         global view5
         view5.generate_dataset(number_students = 60, students_names = students)
 
@@ -1008,9 +1025,9 @@ class frontend:
                      "chart_18", #6
                     ]
         
-        return self.chart_view(charts,chart_ids,id_select)
+        return self.chart_view(charts,chart_ids,id_select,str("comments_id_chart_v"),data,"user_V","005_11")
 
-    def charts_v006_1(self):
+    def charts_v006_1(self,data):
         global view6
         view6.generate_dataset(number_students = 60, students_names = students)
 
@@ -1027,16 +1044,34 @@ class frontend:
                      "chart_10", #4
                     ]
         
-        return self.chart_view(charts,chart_ids,id_select)
+        return self.chart_view(charts,chart_ids,id_select,str("comments_id_chart_v"),data,"user_V","006_18")
 
-    def charts_v007_1(self):
+    def charts_v007_1(self,data):
         # global view7
+        # view7.generate_dataset(number_students = 60, students_names = students)
+
+        # id_select="id_chart_v007_1"
+        # charts = [[view7.graph_01()], #1
+        #           [view7.graph_02()], #2
+        #           [view7.graph_03()], #3
+        #           [view7.graph_04()], #4
+        #          ]
+        
+        # chart_ids = ["chart_01", #1
+        #              "chart_02", #2
+        #              "chart_03", #3
+        #              "chart_04", #4
+        #             ]
+
+        # return self.chart_view(charts,chart_ids,id_select,str("comments_id_chart_v"),data,"user_V","007_23")
         pass
 
-    def charts_v009_1(self):
+    def charts_v009_1(self,data):
         # global view9
+        # return self.chart_view(charts,chart_ids,id_select,str("comments_id_chart_v"),data,"user_V","009_8")
         pass
 
-    def charts_v011_1(self):
+    def charts_v011_1(self,data):
         # global view11
+        # return self.chart_view(charts,chart_ids,id_select,str("comments_id_chart_v"),data,"user_V","011_22")
         pass

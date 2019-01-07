@@ -14,12 +14,14 @@ interface = frontend.frontend()
 _page_name = "prefv004_1"
 _data_cache = []
 
-layout = html.Div([
-    interface.survey_warning("warning_"+_page_name),
-    interface.survey_chart_preference(control.get_view_question_page_view("V004",_page_name),_page_name),
-    interface.survey_send("send_"+_page_name)
-])
-
+def layout(data_cache=[]):
+    global interface
+    global _page_name
+    return html.Div([
+                interface.survey_warning("warning_"+_page_name),
+                interface.survey_chart_preference(control.get_view_question_page_view("V004",_page_name),_page_name,data_cache),
+                interface.survey_send("send_"+_page_name)
+            ])
 
 @app.callback(
     Output('warning_'+_page_name, 'children'),
@@ -46,8 +48,9 @@ def warning_body_prefv004_1(input1):
      Input("chart_08", 'value'),
      Input("chart_09", 'value'),
      Input("chart_11", 'value'),
-     Input("id_chart_v004_1", 'value')])
-def update_body_prefv004_1(input1,chart1,chart2,chart3,chart4,chart5,chart6,chart7,chart8,chart9,chart10,select_chart):
+     Input("id_chart_v004_1", 'value'),
+     Input("comments_id_chart_v004_9",'value')])
+def update_body_prefv004_1(input1,chart1,chart2,chart3,chart4,chart5,chart6,chart7,chart8,chart9,chart10,select_chart,comments):
     global _data_cache
     global _page_name
 
@@ -56,18 +59,19 @@ def update_body_prefv004_1(input1,chart1,chart2,chart3,chart4,chart5,chart6,char
         next_page =control.get_next_page(_page_name)
 
     _data_cache= [{"field":'user_V004_9',"value":[
-                                                  {"id_chart_01":"01","value":chart1},
-                                                  {"id_chart_02":"02","value":chart2},
-                                                  {"id_chart_03":"03","value":chart3},
-                                                  {"id_chart_04":"04","value":chart4},
-                                                  {"id_chart_05":"05","value":chart5},
-                                                  {"id_chart_06":"06","value":chart6},
-                                                  {"id_chart_07":"07","value":chart7},
-                                                  {"id_chart_08":"08","value":chart8},
-                                                  {"id_chart_09":"09","value":chart9},
-                                                  {"id_chart_10":"11","value":chart10},
-                                                  {"preference_chart":select_chart},
+                                                  {"field":"chart_01","value":chart1},
+                                                  {"field":"chart_02","value":chart2},
+                                                  {"field":"chart_03","value":chart3},
+                                                  {"field":"chart_04","value":chart4},
+                                                  {"field":"chart_05","value":chart5},
+                                                  {"field":"chart_06","value":chart6},
+                                                  {"field":"chart_07","value":chart7},
+                                                  {"field":"chart_08","value":chart8},
+                                                  {"field":"chart_09","value":chart9},
+                                                  {"field":"chart_11","value":chart10},
+                                                  {"field":"preference_chart","value":select_chart},
                                                  ]},
+                  {"field":'comments_id_chart_v004_9',"value":comments},
                   {"field":'page',"value":next_page}]
 
     if input1 == None:

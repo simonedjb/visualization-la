@@ -96,28 +96,31 @@ class backend:
                {"db":"freq_view_read", "system":"user_view_read"}, #com que frequencia você lê e interpreta gráficos
                {"db":"freq_view_make", "system":"user_view_make"}, #com que frequencia você cria gráficos
                {"db":"V001_1", "system":"user_V001_1"}, #<-
+               {"db":"comments_V001_1", "system":"comments_id_chart_v001_1"},
                {"db":"V001_2", "system":"user_V001_2"}, #<-
+               {"db":"comments_V001_2", "system":"comments_id_chart_v001_2"},
                {"db":"V002_5", "system":"user_V002_5"}, #<-
-               {"db":"V002_6", "system":"user_V002_6"}, #
+               {"db":"comments_V002_5", "system":"comments_id_chart_v002_5"},
                {"db":"V003_7", "system":"user_V003_7"}, #<-
+               {"db":"comments_V003_7", "system":"comments_id_chart_v003_7"},
                {"db":"V004_9", "system":"user_V004_9"}, #<-
+               {"db":"comments_V004_9", "system":"comments_id_chart_v004_9"},
                {"db":"V005_11", "system":"user_V005_11"}, #<-
-               {"db":"V005_12", "system":"user_V005_12"}, #
-               {"db":"V005_13", "system":"user_V005_13"}, #
-               {"db":"V005_14", "system":"user_V005_14"}, #
-               {"db":"V005_15", "system":"user_V005_15"}, #
-               {"db":"V005_16", "system":"user_V005_16"}, #
-               {"db":"V005_17", "system":"user_V005_17"}, #
+               {"db":"comments_V005_11", "system":"comments_id_chart_v005_11"},
                {"db":"V006_18", "system":"user_V006_18"}, #<-
-               {"db":"V006_19", "system":"user_V006_19"}, #
-               {"db":"V006_20", "system":"user_V006_20"}, #
-               {"db":"V006_21", "system":"user_V006_21"}, #
-               {"db":"V007_23", "system":"user_V007_23"}, #
+               {"db":"comments_V006_18", "system":"comments_id_chart_v006_18"},
+               {"db":"V007_23", "system":"user_V007_23"}, #<-
+               {"db":"comments_V007_23", "system":"comments_id_chart_v007_23"},
                {"db":"V008_3", "system":"user_V008_3"}, #<-
+               {"db":"comments_V008_3", "system":"comments_id_chart_v008_3"},
                {"db":"V008_4", "system":"user_V008_4"}, #<-
-               {"db":"V009_8", "system":"user_V009_8"}, #
+               {"db":"comments_V008_4", "system":"comments_id_chart_v008_4"},
+               {"db":"V009_8", "system":"user_V009_8"}, #<-
+               {"db":"comments_V009_8", "system":"comments_id_chart_v009_8"},
                {"db":"V010_10", "system":"user_V010_10"}, #<-
-               {"db":"V011_22", "system":"user_V011_22"}, #
+               {"db":"comments_V010_10", "system":"comments_id_chart_v010_10"},
+               {"db":"V011_22", "system":"user_V011_22"}, #<-
+               {"db":"comments_V011_22", "system":"comments_id_chart_v011_22"},
                {"db":"date_start", "system":"date_start_cache"}, #data de início do survey
                {"db":"date_end", "system":"date_end_cache"}, #data de início do survey
                {"db":"last_page", "system":"page"}, #última tela do formulário respondida no survey
@@ -192,7 +195,6 @@ class backend:
             lst = ast.literal_eval(self.db_select_value(["user_interaction_access_students_logs"])[0])
             print(lst)
             if len(lst) > 0:
-                print("Entrou")
                 lst_sorted = sorted(lst)
                 for i in range(0,len(lst_sorted)):
                     val = lst_sorted[i]
@@ -324,6 +326,25 @@ class backend:
             self.db_load_database(self._user)
 
         return True
+
+    def load_frontend_data(self,field,data=[]):
+        for i in range(0,len(data)):
+            if(data[i]["field"] == field):
+                return data[i]['value']
+        
+        return ""
+
+    def load_frontend_data_view(self,id_view,field,data=[]):
+        lst = []
+        for i in range(0,len(data)):
+            if(data[i]["field"] == id_view):
+                lst = data[i]['value']
+                for j in range(0,len(lst)):
+                    if(lst[j]["field"] == field):
+                        return lst[j]['value']
+
+        return ""
+
 
 # import os
 # import numpy as np

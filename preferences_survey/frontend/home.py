@@ -16,10 +16,13 @@ _page_name = "presentation"
 _user_cache = None
 _data_cache = [] 
 
-layout = html.Div([
-    interface.survey_presentation(),
-    interface.survey_send("send_"+_page_name)
-])
+def layout():
+    global interface
+    global _page_name
+    return html.Div([
+                interface.survey_presentation(),
+                interface.survey_send("send_"+_page_name)
+            ])
 
 @app.callback(
     Output('user_cache', 'children'),
