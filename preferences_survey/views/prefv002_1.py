@@ -49,7 +49,7 @@ def warning_body_prefv002_1(input1):
      Input("chart_11", 'value'),
      Input("chart_12", 'value'),
      Input("id_chart_v002_1", 'value'),
-     Input("comments_id_chart_v002_1",'value')])
+     Input("comments_id_chart_v002_5",'value')])
 def update_body_prefv002_1(input1,chart1,chart2,chart3,chart4,chart5,chart6,chart7,chart8,chart9,chart10,select_chart,comments):
     global _data_cache
     global _page_name
@@ -71,7 +71,7 @@ def update_body_prefv002_1(input1,chart1,chart2,chart3,chart4,chart5,chart6,char
                                                   {"field":"chart_12","value":chart10},
                                                   {"field":"preference_chart","value":select_chart},
                                                  ]},
-                  {"field":'comments_id_chart_v002_1',"value":comments},
+                  {"field":'comments_id_chart_v002_5',"value":comments},
                   {"field":'page',"value":next_page}]
 
     if input1 == None:

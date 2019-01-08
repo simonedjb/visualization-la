@@ -997,7 +997,7 @@ class frontend:
                      "chart_30", #13
                     ]
         
-        return self.chart_view(charts,chart_ids,id_select,str("comments_id_chart_v"),data,"user_V","0010_10")
+        return self.chart_view(charts,chart_ids,id_select,str("comments_id_chart_v"),data,"user_V","010_10")
 
     def charts_v005_1(self,data):
         global view5

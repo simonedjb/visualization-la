@@ -46,7 +46,7 @@ def warning_body_prefv003_1(input1):
      Input("chart_09", 'value'),
      Input("chart_10", 'value'),
      Input("id_chart_v003_1", 'value'),
-     Input("comments_id_chart_v003_1",'value')])
+     Input("comments_id_chart_v003_7",'value')])
 def update_body_prefv003_1(input1,chart1,chart2,chart3,chart4,chart5,chart6,chart7,select_chart,comments):
     global _data_cache
     global _page_name
