@@ -93,13 +93,22 @@ app.layout = html.Div([
                                         ],
                         },
 
-                        options=dict(height='600px',
-                                        width='100%',
-                                        layout={'hierarchical': {'hierarchical.enabled':'True',
-                                                                 'hierarchical.parentCentralization':True,
+                        options={'height':'600px',
+                                        'width':'100%',
+                                        'layout':{'hierarchical': 
+                                                                {
+                                                                 'enabled':True,
+                                                                 'sortMethod': 'directed',
+                                                                 'parentCentralization':True,
+                                                                 'direction':'UD',
+                                                                 'blockShifting':True,
                                                                 }},
-                                        interaction={'zoomView':False}
-                                    )),
+                                        'interaction':{'zoomView':False,
+                                                        'dragNodes':False,
+                                                        'dragView':False
+                                                      },
+                                }
+                        ),
                     ])
 
 @app.callback(

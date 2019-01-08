@@ -451,7 +451,9 @@ class V009:
         plotly.offline.iplot(fig, filename='arc plot', validate=False)
 
     def graph_05(self):
-        return html.Div([
+        return html.Div([html.Div(className="row center", children=[
+                                    html.H6(className="header center black-text", children=["Fluxo de seek forward e seek backward por tempo do vídeo"])
+                                    ]),
                 visdcc.Network(id='net',
                      data={
                              'nodes':[
@@ -597,7 +599,7 @@ class V009:
                      'edges':{'arrows': {'to': {'enabled': True}},
                             'smooth': {'type': "curvedCW", 'forceDirection': 'vertical'}},
                      'nodes':{'fixed':{'x':True, 'y':True},'shape':'dot'},
-                     'interaction':{'zoomView':False}
+                     'interaction':{'zoomView':False,'dragNodes':False,'dragView':False}
                      #fixed={'fixed.x':'true'}
 
                      }

@@ -153,11 +153,10 @@ app.layout = html.Div([
                      'edges':{'arrows': {'to': {'enabled': True}},
                             'smooth': {'type': "curvedCW", 'forceDirection': 'vertical'}},
                      'nodes':{'fixed':{'x':True, 'y':True},'shape':'dot'},
-                     'interaction':{'zoomView':False}
+                     'interaction':{'zoomView':False,'dragNodes':False,'dragView':False}
                      #fixed={'fixed.x':'true'}
 
                      }
-
                      ),
 ])
 

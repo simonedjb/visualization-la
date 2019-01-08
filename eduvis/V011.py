@@ -376,7 +376,10 @@ class V011:
             )
 
     def graph_05(self):
-        return html.Div([visdcc.Network(id='net',
+        return html.Div([html.Div(className="row center", children=[
+                                    html.H6(className="header center black-text", children=["Fluxo de acesso aos recursos do AVA por cluster"])
+                                    ]),
+                        visdcc.Network(id='net',
                         data={
                                 'nodes':[
                                         {'id': 0, 'label': 'Cluster 1','color': 'rgb(255,0,0)', 'shape':'box', 'size':'5', 'level':'1', 'font': {'size':18, 'color':'rgb(255,255,255)'}},
@@ -461,13 +464,22 @@ class V011:
                                         ],
                         },
 
-                        options=dict(height='600px',
-                                        width='100%',
-                                        layout={'hierarchical': {'hierarchical.enabled':'True',
-                                                                 'hierarchical.parentCentralization':True,
+                        options={'height':'600px',
+                                        'width':'100%',
+                                        'layout':{'hierarchical': 
+                                                                {
+                                                                 'enabled':True,
+                                                                 'sortMethod': 'directed',
+                                                                 'parentCentralization':True,
+                                                                 'direction':'UD',
+                                                                 'blockShifting':True,
                                                                 }},
-                                        interaction={'zoomView':False}                                        
-                                    ))
+                                        'interaction':{'zoomView':False,
+                                                        'dragNodes':False,
+                                                        'dragView':False
+                                                      },
+                                }
+                        )
                     ])
 
     def print_all_graphs(self,language="pt"):
