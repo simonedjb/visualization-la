@@ -28,7 +28,6 @@ plotly.__version__
 
 class V011:
     NUMBER_ACTIONS = 50
-    COUNTDATA = pd.DataFrame()
     DATASET = pd.DataFrame()
 
 
@@ -41,8 +40,7 @@ class V011:
 
     def generate_dataset(self, number_students = 20, students_names = pd.DataFrame()):
         self.NUMBER_STUDENTS = number_students
-        self.COUNTDATA = pd.DataFrame(0, index=range(0,1), columns=["Dropout", "0 - 60", "61 - 70", "71 - 80", "81 - 90", "91 - 100"])
-
+    
         if len(students_names.columns.tolist()) == 0:
             names = pd.read_csv("names.csv")
         else:
@@ -51,17 +49,15 @@ class V011:
         rand_names.sort()
 
 
-        self.DATASET = pd.DataFrame(columns=["Students","Predicted Grade","Grade","Predicted Dropout","Dropout",
+        self.DATASET = pd.DataFrame(columns=["Students","Grade",
         	                                 "AVA Access","Forum Post","Forum Replies","Forum Add Thread","Forum Access", "Cluster"])
 
         for i in range(0,self.NUMBER_STUDENTS):
             self.DATASET.loc[i,"Students"] = rand_names[i]
-            self.DATASET.loc[i,"Predicted Grade"] = random.choice(['Dropout','0 - 60','61 - 70', '71 - 80', '81 - 90', '91 - 100'])
-            if self.DATASET.loc[i,"Predicted Grade"] == 'Dropout':
-                self.DATASET.loc[i,"Predicted Dropout"] = True
+            random_value = random.choice([1,2,3,4,5,6])
+            if random_value == 1:
                 self.DATASET.loc[i,"Grade"] = 0
                 self.DATASET.loc[i,"Cluster"] = 0
-                self.COUNTDATA.loc[0,"Dropout"] += 1
 
                 self.DATASET.loc[i,"AVA Access"] = np.random.randint(5,26)
                 self.DATASET.loc[i,"Forum Post"] = np.random.randint(0,4)
@@ -69,93 +65,55 @@ class V011:
                 self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,4)
                 self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(0,7)
 
-            elif self.DATASET.loc[i,"Predicted Grade"] == '0 - 60':
-                self.DATASET.loc[i,"Predicted Dropout"] = False
+            elif random_value == 2:
                 self.DATASET.loc[i,"Grade"] = int(random.triangular(0,30,80))
                 self.DATASET.loc[i,"Cluster"] = 0
-                self.COUNTDATA.loc[0,"0 - 60"] += 1
-
+                
                 self.DATASET.loc[i,"AVA Access"] = np.random.randint(20,41)
                 self.DATASET.loc[i,"Forum Post"] = np.random.randint(0,8)
                 self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,8)
                 self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,4)
                 self.DATASET.loc[i,"Forum Access"] = self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(0,22)
 
-            elif self.DATASET.loc[i,"Predicted Grade"] == '61 - 70':
-                self.DATASET.loc[i,"Predicted Dropout"] = False
+            elif random_value == 3:
                 self.DATASET.loc[i,"Grade"] = int(random.triangular(50,65,80))
                 self.DATASET.loc[i,"Cluster"] = 1
-                self.COUNTDATA.loc[0,"61 - 70"] += 1
-
+                
                 self.DATASET.loc[i,"AVA Access"] = np.random.randint(35,57)
                 self.DATASET.loc[i,"Forum Post"] = np.random.randint(1,12)
                 self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,12)
                 self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,8)
                 self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(2,26)
 
-            elif self.DATASET.loc[i,"Predicted Grade"] == '71 - 80':
-                self.DATASET.loc[i,"Predicted Dropout"] = False
+            elif random_value == 4:
                 self.DATASET.loc[i,"Grade"] = int(random.triangular(60,75,90))
                 self.DATASET.loc[i,"Cluster"] = 1
-                self.COUNTDATA.loc[0,"71 - 80"] += 1
-
+                
                 self.DATASET.loc[i,"AVA Access"] = np.random.randint(50,71)
                 self.DATASET.loc[i,"Forum Post"] = np.random.randint(2,21)
                 self.DATASET.loc[i,"Forum Replies"] = np.random.randint(2,21)
                 self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,7)
                 self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(4,31)
 
-            elif self.DATASET.loc[i,"Predicted Grade"] == '81 - 90':
-                self.DATASET.loc[i,"Predicted Dropout"] = False
+            elif random_value == 5:
                 self.DATASET.loc[i,"Grade"] = int(random.triangular(70,85,100))
                 self.DATASET.loc[i,"Cluster"] = 2
-                self.COUNTDATA.loc[0,"81 - 90"] += 1
-
+                
                 self.DATASET.loc[i,"AVA Access"] = np.random.randint(65,86)
                 self.DATASET.loc[i,"Forum Post"] = np.random.randint(5,36)
                 self.DATASET.loc[i,"Forum Replies"] = np.random.randint(5,36)
                 self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(1,11)
                 self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(6,36)
 
-            elif self.DATASET.loc[i,"Predicted Grade"] == '91 - 100':
-                self.DATASET.loc[i,"Predicted Dropout"] = False
+            elif random_value == 6:
                 self.DATASET.loc[i,"Grade"] = int(random.triangular(70,95,100))
                 self.DATASET.loc[i,"Cluster"] = 2
-                self.COUNTDATA.loc[0,"91 - 100"] += 1
-
+                
                 self.DATASET.loc[i,"AVA Access"] = np.random.randint(80,101)
                 self.DATASET.loc[i,"Forum Post"] = np.random.randint(10,41)
                 self.DATASET.loc[i,"Forum Replies"] = np.random.randint(10,41)
                 self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(3,14)
                 self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(10,41)
-
-
-
-    def graph_11(self):
-        df = self.DATASET
-
-        trace = Table(
-            header=dict(
-                values=list(df.columns[:len(df.columns)-1]),
-                fill = dict(color='#C2D4FF'),
-                align = 'center'
-            ),
-            cells=dict(
-                values=[df[i].tolist() for i in df.columns[:len(df.columns)-1]],
-                fill = dict(color='#F5F8FF'),
-                align = ['left','center']
-            )
-        )
-
-        data = [trace]
-        if self._type_result == "jupyter-notebook":
-            iplot(data, filename = 'pandas_table')
-        elif self._type_result == "dash":
-            return dcc.Graph(
-                id='V011@1',
-                figure={"data": data}
-            )
-
 
     def graph_01(self):
         df = self.DATASET
@@ -184,31 +142,35 @@ class V011:
 
 
     def graph_02(self):
-        legend = {"title":"Variação de notas dos estudantes e acesso no AVA",
+        legend = {"title":"Relação de notas dos estudantes com acessos ao AVA por cluster navegação",
                     "xaxis":"Acesso ao AVA",
                     "yaxis":"Notas",
                 }
         if (self._language == "en"):
-            legend = {"title":"Students' grades variation versus VLE' access",
+            legend = {"title":"Relation of student grades with AVA access by navigate cluster",
                         "xaxis":"AVA Access",
                         "yaxis":"Grade",
                     }
-        color = ["rgb(198, 218, 32)","rgb(121,64,64)","rgb(0,0,204)"]
+        df = self.DATASET.sort_values(by=["Grade"])
+        Clusters = df.Cluster.unique()
+        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(0,255,0)"]
+        color[Clusters[0]] = "rgb(255,0,0)"
+        color[Clusters[1]] = "rgb(0,0,255)"
+        color[Clusters[2]] = "rgb(0,255,0)"
         trace = []
         for i in range(0, self.NUMBER_STUDENTS):
             trace.append(
                 Scatter(
-                    x=[self.DATASET["AVA Access"][i]],
-                    y=[self.DATASET["Grade"][i]],
+                    x=[df["AVA Access"][i]], #Access
+                    y=[df["Grade"][i]], #Grade
                     mode='markers',
-                    name=self.DATASET.Students[i], #each student name
-                    text = [str(self.DATASET.Students[i])],
-                    #text = (self.DATASET["Predicted Grade"][i]),
-
+                    name=df.Students[i], #each student name
+                    text = [str(df.Students[i])],
+                    
                     marker=dict(
                         size=12,
                         symbol=self.DATASET.Cluster[i],
-                        color = color[int(self.DATASET.Cluster[i])],
+                        color = color[df.Cluster[i]],
                         line=dict(
                             width=2
                         )
@@ -227,7 +189,10 @@ class V011:
                     # size=18,
                     color='rgb(180,180,180)',
                 ),
-                autorange = True,
+                autorange = False,
+                fixedrange = False,
+                range = [0, self.DATASET["AVA Access"].max()+10],
+                rangemode = "normal",
                 zeroline= False,
                 showline = True,
             ),
@@ -239,8 +204,8 @@ class V011:
                     color='rgb(180,180,180)',
                 ),
                 autorange = False,
-                fixedrange = True,
-                range = [0, self.DATASET.Grade.max()+10],
+                fixedrange = False,
+                range = [0, self.DATASET["Grade"].max()+10],
                 rangemode = "normal",
                 showline = True,
             )
@@ -258,24 +223,25 @@ class V011:
 
     # Box
     def graph_03(self):
-        legend = {"title":"Variação de notas dos estudantes por cluster",
+        legend = {"title":"Variação de notas dos estudantes por cluster de navegação",
                     "xaxis":"",
                     "yaxis":"Notas",
                 }
         if (self._language == "en"):
-            legend = {"title":"Students' grades variation by cluster",
+            legend = {"title":"Student grades variation by navigate cluster",
                         "xaxis":"",
                         "yaxis":"Grades",
                     }
         df = self.DATASET.sort_values(by="Grade")
         Clusters = df.Cluster.unique()
         color = ["rgb(198, 218, 32)","rgb(121,64,64)","rgb(0,0,204)"]
+        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(0,255,0)"]
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
             trace.append(
                 Box(
-                    y=df.Grade.loc[df['Cluster']==Clusters[i]].values.tolist(), #Access
+                    y=df["Grade"].loc[df['Cluster']==Clusters[i]].values.tolist(), #Access
                     name="Cluster "+str(i+1),
                     text=df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
                     boxpoints = 'all',
@@ -309,7 +275,7 @@ class V011:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-1, self.DATASET.Grade.max()+10],
+                range = [-1, self.DATASET["Grade"].max()+10],
                 rangemode = "normal",
                 # showline = True,
                 zeroline = False,
@@ -322,18 +288,18 @@ class V011:
             iplot(fig, filename='Box')
         elif self._type_result == "dash":
             return dcc.Graph(
-                id='V005@9',
+                id='V011@3',
                 figure=fig
             )
 
     # Violin
     def graph_04(self):
-        legend = {"title":"Variação de notas dos estudantes por cluster",
+        legend = {"title":"Variação de notas dos estudantes por cluster de navegação",
                     "xaxis":"",
                     "yaxis":"Notas",
                 }
         if (self._language == "en"):
-            legend = {"title":"Students' grades variation by cluster",
+            legend = {"title":"Student grades variation by navigate cluster",
                         "xaxis":"",
                         "yaxis":"Grades",
                     }
@@ -341,15 +307,18 @@ class V011:
         # https://plot.ly/python/reference/#violin
         df = self.DATASET.sort_values(by="Grade")
         Clusters = df.Cluster.unique()
-        color = ["rgb(198, 218, 32)","rgb(121,64,64)","rgb(0,0,204)"]
+        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(0,255,0)"]
+        color[Clusters[0]] = "rgb(255,0,0)"
+        color[Clusters[1]] = "rgb(0,0,255)"
+        color[Clusters[2]] = "rgb(0,255,0)"
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
             trace.append(
                 {
                     "type":'violin',
-                    "x":["Cluster "+str(i+1)]*len(df.Grade.loc[df['Cluster']==Clusters[i]]),
-                    "y":df.Grade.loc[df['Cluster']==Clusters[i]],
+                    "x":["Cluster "+str(i+1)]*len(df["Grade"].loc[df['Cluster']==Clusters[i]]),
+                    "y":df["Grade"].loc[df['Cluster']==Clusters[i]],
                     "name":"Cluster "+str(i+1),
                     "text":df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
                     "box":{
@@ -390,7 +359,7 @@ class V011:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-15, self.DATASET.Grade.max()+10],
+                range = [-15, self.DATASET["Grade"].max()+10],
                 rangemode = "normal",
                 zeroline = False,
             )
@@ -402,164 +371,44 @@ class V011:
             iplot(fig, filename='Violin')
         elif self._type_result == "dash":
             return dcc.Graph(
-                id='V005@17',
-                figure=fig
-            )
-
-
-    def graph_10(self):
-        x = [1]
-        trace1 = {
-          'x': [1],
-          'y': [-(self.COUNTDATA["Dropout"][0])],
-          'name': 'Dropout',
-          'type': 'bar'
-        };
-
-        trace2 = {
-          'x': x,
-          'y': [self.COUNTDATA["0 - 60"][0]],
-          'name': '0 - 60',
-          'type': 'bar'
-        };
-
-        trace3 = {
-          'x': x,
-          'y': [self.COUNTDATA["61 - 70"][0]],
-          'name': '61 - 70',
-          'type': 'bar'
-          };
-        trace4 = {
-           'x': x,
-           'y': [self.COUNTDATA["71 - 80"][0]],
-           'name': '71 - 80',
-           'type': 'bar'
-          };
-
-        trace5 = {
-            'x': x,
-            'y': [self.COUNTDATA["81 - 90"][0]],
-            'name': '81 - 90',
-            'type': 'bar'
-           };
-        trace6 = {
-             'x': x,
-             'y': [self.COUNTDATA["91 - 100"][0]],
-             'name': '91 - 100',
-             'type': 'bar'
-            }
-
-
-        data = [trace1, trace2, trace3, trace4, trace5, trace6];
-        layout = {
-          'xaxis': {'title': 'X axis'},
-          'yaxis': {'title': 'Y axis'},
-          'barmode': 'relative',
-          'title': 'Alterar'
-        };
-
-
-        plotly.offline.iplot({'data': data, 'layout': layout}, filename='barmode-relative')
-
-    def graph_12(self):
-        legend = {"title":"--",
-                    "xaxis":"Grade",
-                    "yaxis":"Grade",
-                }
-        if (self._language == "en"):
-            legend = {"title":"--",
-                        "xaxis":"Predicted Grade",
-                        "yaxis":"Grade",
-                    }
-        color = ["rgb(127,0,0)","rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,127,127)","rgb(0,255,0)"]
-        trace = []
-        for i in range(0, self.NUMBER_STUDENTS):
-            trace.append(
-                Scatter(
-                    x=[self.DATASET["Predicted Grade"][i]],
-                    y=[self.DATASET["Grade"][i]],
-                    mode='markers',
-                    name=self.DATASET.Students[i], #each student name
-                    text = [str(self.DATASET.Students[i])],
-                )
-            )
-
-        layout = Layout(
-            title=legend['title'],
-            hovermode = "closest",
-            showlegend = True,
-            xaxis = dict(
-                type='category',
-                title = legend["xaxis"],
-                titlefont=dict(
-                    # family='Arial, sans-serif',
-                    # size=18,
-                    color='rgb(180,180,180)',
-                ),
-                rangemode = 'normal',
-                zeroline= False,
-                showline = True,
-            ),
-            yaxis = dict(
-                title = legend["yaxis"],
-                titlefont=dict(
-                    # family='Arial, sans-serif',
-                    # size=18,
-                    color='rgb(180,180,180)',
-                ),
-                autorange = False,
-                fixedrange = True,
-                range = [0, self.DATASET.Grade.max()+10],
-                rangemode = "normal",
-                showline = True,
-            )
-        )
-
-        data = trace
-        fig = Figure(data=data, layout=layout)
-        if self._type_result == "jupyter-notebook":
-            iplot(fig, filename='Scatter')
-        elif self._type_result == "dash":
-            return dcc.Graph(
-                id='V011@2',
+                id='V011@4',
                 figure=fig
             )
 
     def graph_05(self):
-        return html.Div([
-                visdcc.Network(id='net',
+        return html.Div([visdcc.Network(id='net',
                         data={
                                 'nodes':[
-                                        {'id': 0, 'label': 'Cluster 1','color': '#5AB1BB', 'shape':'box', 'size':'5', 'level':'1'},
-                                        {'id': 1, 'label': 'Begin Season', 'color':'#5AB1BB', 'level':'1'},
-                                        {'id': 2, 'label': 'Video 1', 'color':'#A5C882', 'level':'1'},
-                                        {'id': 3, 'label': 'Video 2', 'color':'#A5C882', 'level':'1'},
-                                        {'id': 4, 'label': 'Video 3', 'color':'#A5C882', 'level':'1'},
-                                        {'id': 5, 'label': 'Final Test', 'color':'#A5C882', 'level':'1'},
-                                        {'id': 6, 'label': 'End Season', 'color':'#5AB1BB', 'level':'1'},
+                                        {'id': 0, 'label': 'Cluster 1','color': 'rgb(255,0,0)', 'shape':'box', 'size':'5', 'level':'1', 'font': {'size':18, 'color':'rgb(255,255,255)'}},
+                                        {'id': 1, 'label': 'Begin Season', 'color':'rgb(255,0,0)', 'level':'1', 'font': {'size':18, 'color':'rgb(255,255,255)'}},
+                                        {'id': 2, 'label': 'Video 1', 'color':'rgb(255,120,120)', 'level':'1', 'font':{'size':18}},
+                                        {'id': 3, 'label': 'Video 2', 'color':'rgb(255,120,120)', 'level':'1', 'font':{'size':18}},
+                                        {'id': 4, 'label': 'Video 3', 'color':'rgb(255,120,120)', 'level':'1', 'font':{'size':18}},
+                                        {'id': 5, 'label': 'Final Test', 'color':'rgb(255,120,120)', 'level':'1', 'font':{'size':18}},
+                                        {'id': 6, 'label': 'End Season', 'color':'rgb(255,0,0)', 'level':'1', 'font': {'size':18, 'color':'rgb(255,255,255)'}},
 
-                                        {'id': 10, 'label': 'Cluster 2', 'color': '#AD5C5C', 'shape':'box', 'size':'10', 'level':'3'},
-                                        {'id': 11, 'label': 'Begin Season', 'color':'#AD5C5C', 'x':'150', 'y':'50', 'level':'3'},
-                                        {'id': 12, 'label': 'Video 1', 'color':'#CA9797', 'level':'3'},
-                                        {'id': 13, 'label': 'Video 2', 'color':'#CA9797', 'level':'2'},
-                                        {'id': 14, 'label': 'Video 3', 'color':'#CA9797', 'level':'2'},
-                                        {'id': 15, 'label': 'Assigment 1', 'color':'#CA9797', 'level':'4'},
-                                        {'id': 16, 'label': 'Assigment 2', 'color':'#CA9797', 'level':'4'},
-                                        {'id': 17, 'label': 'Assigment 3', 'color':'#CA9797', 'level':'4'},
-                                        {'id': 18, 'label': 'Final Test', 'color':'#CA9797', 'level':'3'},
-                                        {'id': 19, 'label': 'End Season', 'color':'#AD5C5C', 'level':'3'},
+                                        {'id': 10, 'label': 'Cluster 2', 'color': 'rgb(0,0,255)', 'shape':'box', 'size':'10', 'level':'3', 'font': {'size':18, 'color':'rgb(255,255,255)'}},
+                                        {'id': 11, 'label': 'Begin Season', 'color':'rgb(0,0,255)', 'x':'150', 'y':'50', 'level':'3', 'font': {'size':18, 'color':'rgb(255,255,255)'}},
+                                        {'id': 12, 'label': 'Video 1', 'color':'rgb(120,120,255)', 'level':'3', 'font':{'size':18}},
+                                        {'id': 13, 'label': 'Video 2', 'color':'rgb(120,120,255)', 'level':'2', 'font':{'size':18}},
+                                        {'id': 14, 'label': 'Video 3', 'color':'rgb(120,120,255)', 'level':'2', 'font':{'size':18}},
+                                        {'id': 15, 'label': 'Assigment 1', 'color':'rgb(120,120,255)', 'level':'4', 'font':{'size':18}},
+                                        {'id': 16, 'label': 'Assigment 2', 'color':'rgb(120,120,255)', 'level':'4', 'font':{'size':18}},
+                                        {'id': 17, 'label': 'Assigment 3', 'color':'rgb(120,120,255)', 'level':'4', 'font':{'size':18}},
+                                        {'id': 18, 'label': 'Final Test', 'color':'rgb(120,120,255)', 'level':'3', 'font':{'size':18}},
+                                        {'id': 19, 'label': 'End Season', 'color':'rgb(0,0,255)', 'level':'3', 'font': {'size':18, 'color':'rgb(255,255,255)'}},
 
-                                        {'id': 20, 'label': 'Cluster 3', 'color': '#9797FF', 'shape':'box', 'size':'10', 'level':'1'},
-                                        {'id': 21, 'label': 'Begin Season', 'color':'#9797FF', 'level':'1'},
-                                        {'id': 22, 'label': 'Video 1', 'color':'#CACAFF', 'level':'1'},
-                                        {'id': 23, 'label': 'Video 2', 'color':'#CACAFF', 'level':'1'},
-                                        {'id': 24, 'label': 'Video 3', 'color':'#CACAFF', 'level':'1'},
-                                        {'id': 25, 'label': 'Assigment 1', 'color':'#CACAFF', 'level':'2'},
-                                        {'id': 26, 'label': 'Assigment 2', 'color':'#CACAFF', 'level':'2'},
-                                        {'id': 27, 'label': 'Assigment 3', 'color':'#CACAFF', 'level':'2'},
-                                        {'id': 28, 'label': 'Final Test', 'color':'#CACAFF', 'level':'2'},
-                                        {'id': 29, 'label': 'Forum', 'color':'#CACAFF', 'level':'0'},
-                                        {'id': 30, 'label': 'End Season', 'color':'#9797FF', 'level':'2'}
+                                        {'id': 20, 'label': 'Cluster 3', 'color': 'rgb(0,255,0)', 'shape':'box', 'size':'10', 'level':'1', 'font':{'size':18}},
+                                        {'id': 21, 'label': 'Begin Season', 'color':'rgb(0,255,0)', 'level':'1', 'font':{'size':18}},
+                                        {'id': 22, 'label': 'Video 1', 'color':'rgb(120,255,120)', 'level':'1', 'font':{'size':18}},
+                                        {'id': 23, 'label': 'Video 2', 'color':'rgb(120,255,120)', 'level':'1', 'font':{'size':18}},
+                                        {'id': 24, 'label': 'Video 3', 'color':'rgb(120,255,120)', 'level':'1', 'font':{'size':18}},
+                                        {'id': 25, 'label': 'Assigment 1', 'color':'rgb(120,255,120)', 'level':'2', 'font':{'size':18}},
+                                        {'id': 26, 'label': 'Assigment 2', 'color':'rgb(120,255,120)', 'level':'2', 'font':{'size':18}},
+                                        {'id': 27, 'label': 'Assigment 3', 'color':'rgb(120,255,120)', 'level':'2', 'font':{'size':18}},
+                                        {'id': 28, 'label': 'Final Test', 'color':'rgb(120,255,120)', 'level':'2', 'font':{'size':18}},
+                                        {'id': 29, 'label': 'Forum', 'color':'rgb(120,255,120)', 'level':'0', 'font':{'size':18}},
+                                        {'id': 30, 'label': 'End Season', 'color':'rgb(0,255,0)', 'level':'2', 'font':{'size':18}}
 
                                         ],
 
@@ -612,15 +461,18 @@ class V011:
                                         ],
                         },
 
-                        options=dict(height='800px',
-                        width='100%',
-                        layout={'hierarchical': {'hierarchical.enabled':'True'}}
-                        )),
+                        options=dict(height='600px',
+                                        width='100%',
+                                        layout={'hierarchical': {'hierarchical.enabled':'True',
+                                                                 'hierarchical.parentCentralization':True,
+                                                                }},
+                                        interaction={'zoomView':False}                                        
+                                    ))
                     ])
 
     def print_all_graphs(self,language="pt"):
         self._language = language
         self.graph_01() #Table
-        self.graph_02()
-        self.graph_03()
-        self.graph_04()
+        self.graph_02() #Scatter
+        self.graph_03() #Box
+        self.graph_04() #Violin

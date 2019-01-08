@@ -1081,7 +1081,7 @@ class frontend:
 
     def charts_v011_1(self,data):
         global view11
-        view11.generate_dataset(number_students = 20, students_names = students)
+        view11.generate_dataset(number_students = 60, students_names = students)
         
         id_select="id_chart_v011_1"
         charts = [[view11.graph_01()], #1
@@ -1099,4 +1099,3 @@ class frontend:
                     ]
 
         return self.chart_view(charts,chart_ids,id_select,str("comments_id_chart_v"),data,"user_V","011_22")
-        

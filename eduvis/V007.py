@@ -179,7 +179,7 @@ class V007:
                     x=[df["AVA Access"][i]], #Access
                     y=[df["Predicted Grade"][i]], #Grade
                     mode='markers',
-                    name=df.Students[i], #each student name                    
+                    name=df.Students[i], #each student name
                     text = [str(df.Students[i])],
                     marker=dict(
                         size=12,
@@ -252,7 +252,7 @@ class V007:
         
         df = self.DATASET.sort_values(by=["Predicted Grade"])
         Clusters = df.Cluster.unique()
-        color = ["rgb(100,100,100)","rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,127,127)","rgb(0,255,0)"]        
+        color = ["rgb(100,100,100)","rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,127,127)","rgb(0,255,0)"]
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
