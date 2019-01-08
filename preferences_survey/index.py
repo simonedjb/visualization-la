@@ -1,3 +1,5 @@
+import datetime
+
 from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
@@ -230,6 +232,9 @@ def update_page_cache(current_page):
             _control.record_data(user, prefv011_1._data_cache)
 
         _current_page = current_page
+
+        if current_page == '/thanks':
+            _control.record_data(user, [{"field":"date_end_cache","value":datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}] )
         
     return current_page
 
