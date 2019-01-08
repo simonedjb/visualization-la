@@ -7,7 +7,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 
 from backend import backend
-from eduvis import V001, V002, V003, V004, V005, V006, V007, V008, V009, V010#, V011
+from eduvis import V001, V002, V003, V004, V005, V006, V007, V008, V009, V010, V011
 
 import visdcc
 
@@ -23,7 +23,7 @@ view7 = V007.V007(type_result = "dash",language = "pt")
 view8 = V008.V008(type_result = "dash",language = "pt")
 view9 = V009.V009(type_result = "dash",language = "pt")
 view10 = V010.V010(type_result = "dash",language = "pt")
-# view11 = V011.V011(type_result = "dash",language = "pt")
+view11 = V011.V011(type_result = "dash",language = "pt")
 
 class frontend:
 
@@ -1080,6 +1080,23 @@ class frontend:
         return self.chart_view(charts,chart_ids,id_select,str("comments_id_chart_v"),data,"user_V","009_8")
 
     def charts_v011_1(self,data):
-        # global view11
-        # return self.chart_view(charts,chart_ids,id_select,str("comments_id_chart_v"),data,"user_V","011_22")
-        pass
+        global view11
+        view11.generate_dataset(number_students = 20, students_names = students)
+        
+        id_select="id_chart_v011_1"
+        charts = [[view11.graph_01()], #1
+                  [view11.graph_02()], #2
+                  [view11.graph_03()], #3
+                  [view11.graph_04()], #4
+                  [view11.graph_05()], #5
+                 ]
+        
+        chart_ids = ["chart_01", #1
+                     "chart_02", #2
+                     "chart_03", #3
+                     "chart_04", #4
+                     "chart_05", #4
+                    ]
+
+        return self.chart_view(charts,chart_ids,id_select,str("comments_id_chart_v"),data,"user_V","011_22")
+        

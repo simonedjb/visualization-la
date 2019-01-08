@@ -42,7 +42,7 @@ def warning_body_prefv009_1(input1):
      Input("chart_02", 'value'),
      Input("chart_03", 'value'),
      Input("chart_05", 'value'),
-     Input("id_chart_v009_8", 'value'),
+     Input("id_chart_v009_1", 'value'),
      Input("comments_id_chart_v009_8",'value')])
 def update_body_prefv009_1(input1,chart1,chart2,chart3,chart4,select_chart,comments):
     global _data_cache
@@ -51,21 +51,6 @@ def update_body_prefv009_1(input1,chart1,chart2,chart3,chart4,select_chart,comme
     next_page = "thanks"
     if(control.has_next_page(_page_name)):
         next_page =control.get_next_page(_page_name)
-
-    print(str("Gráfico 1 "+str(chart1)))
-    print(str("Gráfico 2 "+str(chart2)))
-    print(str("Gráfico 3 "+str(chart3)))
-    print(str("Gráfico 4 "+str(chart4)))
-    # print(str("Gráfico 5 "+str(chart5)))
-    # print(str("Gráfico 6 "+str(chart6)))
-    # print(str("Gráfico 7 "+str(chart7)))
-    # print(str("Gráfico 8 "+str(chart8)))
-    # print(str("Gráfico 9 "+str(chart9)))
-    # print(str("Gráfico 10 "+str(chart10)))
-    # print(str("Gráfico 11 "+str(chart11)))
-    # print(str("Gráfico 12 "+str(chart11)))
-    # print(str("Gráfico 13 "+str(chart11)))
-    print(str("Selection "+str(select_chart)))
 
     _data_cache= [{"field":'user_V009_8',"value":[
                                                   {"field":"chart_01","value":chart1},
@@ -76,8 +61,6 @@ def update_body_prefv009_1(input1,chart1,chart2,chart3,chart4,select_chart,comme
                                                  ]},
                   {"field":'comments_id_chart_v009_8',"value":comments},
                   {"field":'page',"value":next_page}]
-
-    print(_data_cache)
 
     if input1 == None:
         return '/'
