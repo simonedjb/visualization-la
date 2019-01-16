@@ -614,7 +614,7 @@ class frontend:
                             ]),
                         ]),
                     ]),
-                    html.Br(),html.Br(),html.Br()
+                    html.Br(),html.Br(),html.Br(),html.Br(),html.Br(),html.Br(),html.Br(),html.Br(),html.Br()
                 ])
 
     def survey_chart_preference(self,question,page, data=[]):

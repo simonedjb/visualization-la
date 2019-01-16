@@ -317,7 +317,7 @@ class backend:
         
         for i in range(0,len(data)):
             fields.append(data[i]["field"])
-            values.append(data[i]["value"])
+            values.append(data[i]["value"].replace(";",','))
             if(data[i]["field"] == "user_interaction_access_students_logs"):
                 load_views = True
             
