@@ -158,7 +158,7 @@
 - **Questions:**
   - Qual a correlação entre as notas e os dados de acesso no AVA?
   - Qual a correlação entre as notas e os dados de acesso nos AVAs materiais do AVA?
-  - Question":"Qual a correlação entre as notas e a quantidade de tarefas feitas?
+  - Qual a correlação entre as notas e a quantidade de tarefas feitas?
   - Qual a correlação entre as notas e os dados de acesso no fórum?
   - Qual a correlação entre as notas e a quantidade de postagens no fórum ?
   - Qual a correlação entre as notas e a quantidade de postagens de respostas no fórum ?
