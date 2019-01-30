@@ -97,6 +97,9 @@ class preferences:
             # print("View "+str(i+1)+": "+str(self.charts[view[i].index(max(view[i]))])+" Total: "+str(max(view[i])))
         print("")
 
+        return view
+
+
     def chart_evaluation(self, columns=[], field_name=''):
         if columns==[]:
             print("Without columns")
@@ -139,6 +142,8 @@ class preferences:
                 print("V"+str(i+1)+"->Chart "+str(self.charts[j])+": "+str(self.charts_evaluation[i][j]))
             print("V"+str(i+1)+": "+str(len(self.charts_evaluation[i]))+" charts")
             print("")
+
+        return self.chart_evaluation
 
 columns = ['V001_1', 'V002_5', 'V003_7', 'V004_9', 'V005_11', 'V006_18', 'V007_23', 'V008_4', 'V009_8', 'V010_10', 'V011_22']
 pref = preferences()
