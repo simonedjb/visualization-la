@@ -14,6 +14,8 @@ class preferences:
     charts = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
     likert = ['strong_disagree','partially_disagree','slightly_disagree','neutral','slightly_agree','partially_agree','strong_agree']
     charts_evaluation = []
+    instructors_evaluation = pd.DataFrame()
+
     legend = []
     
     def __init__(self, path_file=None):
@@ -109,7 +111,6 @@ class preferences:
 
         # print(self.legend)
         values=[]
-        # self.charts_evaluation=[]
         for i in range(0,len(columns)):
             values.append(self.dataset[columns[i]])
             self.charts_evaluation.append([[0 for j in range(len(self.likert))] for k in range(len(self.legend[i]))])
@@ -145,8 +146,68 @@ class preferences:
 
         return self.chart_evaluation
 
+
+    def instructor_evaluation(self, columns=[], field_name=''):
+        if columns==[]:
+            print("Without columns")
+
+        if len(self.legend) == 0:
+            self.load_legends(columns=columns)
+        
+        values=[]
+        for i in range(0,len(columns)):
+            values.append(self.dataset[columns[i]])
+            print(values)
+
+        # print(self.legend)
+        header=[]
+        header.append("I") 
+        for i in range(0,len(self.legend)):
+            for j in range(0,len(self.legend[i])):
+                header.append(str("VG-"+str(i+1)+" ("+str(self.legend[i][j]["chart"])+")"))
+                # print("V"+str(i+1)+"_"+self.legend[i][j]["field"])
+                # print("V"+str(i+1)+"_"+self.legend[i][j]["field"])
+        # print("=================")
+        # print(values[0][0])
+        # print("")
+        # print(values[1][0])
+
+        lst_evals=[]
+        for i in range(0,len(values[0])): #iterate in the lines
+            eval_charts=[]
+            eval_charts.append("I-"+str(i+1))
+            for j in range(0,len(columns)):
+                if str(values[j][i]) == "nan":                    
+                    for m in range(0,len(self.legend[j])):
+                        eval_charts.append("None")
+                else:
+                    lst = values[j][i]
+                    lst = ast.literal_eval(lst)
+                    for k in range(0,len(lst)):
+                        if lst[k]['field'] != field_name:                            
+                            eval_charts.append(lst[k]["value"])
+            # print("I-"+str(i+1)+": "+str(len(eval_charts)))
+            lst_evals.append(eval_charts)
+
+        self.instructors_evaluation = pd.DataFrame(columns=header)
+        for i in range(0,len(lst_evals)):
+            # print(str(i+1))
+            self.instructors_evaluation.loc[i] = lst_evals[i]
+
+        self.instructors_evaluation.to_csv("instructors_evaluation",index=False)
+
+        # for i in range(0,len(lst_evals)):
+            # print(len(lst_evals[i]))
+                
+
+        # print(lst_evals[4])
+        # self.instructors_evaluation.append([[0 for j in range(len(self.likert))] for k in range(len(self.legend[i]))])        
+
 columns = ['V001_1', 'V002_5', 'V003_7', 'V004_9', 'V005_11', 'V006_18', 'V007_23', 'V008_4', 'V009_8', 'V010_10', 'V011_22']
 pref = preferences()
 pref.load_legends(columns)
 pref.preferences_chart(columns,"preference_chart")
 pref.chart_evaluation(columns,"preference_chart")
+pref.instructor_evaluation(columns,"preference_chart")
+
+
