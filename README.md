@@ -18,7 +18,7 @@
 ### Student patterns
 - `[MP-017]` Students can be clustered into different groups based on their access or interaction patterns.
 
-### Student performance 
+### Student performance
 - `[MP-028]` Student groups that use more forums tend to have a good performance.
 - `[MP-030]` Students groups that do more replies in forums tend to have a good performance.
 - `[MP-031]` Students groups that init threads in forums tend to have a good performance.
@@ -34,11 +34,11 @@
 ### General view
 - `[RQ-01]` Statistics of interactions on video (e.g., access, re-watch, seek).
 ````bash
--------------------- Raised by 2 instructors -------------------- 
+-------------------- Raised by 2 instructors --------------------
 ````
 - `[RQ-16]` Know if the student is watching the video.
 ````bash
--------------------- Raised by 1 instructors -------------------- 
+-------------------- Raised by 1 instructors --------------------
 ````
 - `*[RQ-35]` Provide a course progress bar to student.
 
@@ -52,28 +52,28 @@
 - `[RQ-09]` Identify student drop out patterns.
 - `[RQ-10]` Identify student navigate patterns on the VLE.
 ````bash
--------------------- Raised by 2 instructors -------------------- 
+-------------------- Raised by 2 instructors --------------------
 ````
 ````bash
--------------------- Raised by 1 instructors -------------------- 
+-------------------- Raised by 1 instructors --------------------
 ````
 - `[RQ-25]` Know how students navigate among the video lectures.
 - `[RQ-26]` Know how students navigate in the video.
 - `*[RQ-30]` Identify student mood patterns (analysing emoticons).
 - `*[RQ-31]` Identify student learning patterns.
 
-### Student performance 
+### Student performance
 - `[RQ-03]` Identify student performance patterns.
 - `[RQ-06]` Predict student performance.
 - `[RQ-09]` Identify student drop out patterns.
 ````bash
--------------------- Raised by 2 instructors -------------------- 
+-------------------- Raised by 2 instructors --------------------
 ````
 - `*[RQ-15]` Identify student drop out reasons.
 - `[RQ-17]` Relate both students' navigation and performance.
 - `[RQ-18]` Relate video length and student performance.
 ````bash
--------------------- Raised by 1 instructors -------------------- 
+-------------------- Raised by 1 instructors --------------------
 ````
 - `[RQ-21]` Relate video script and student performance.
 
@@ -82,13 +82,13 @@
 - `[RQ-12]` Know if the student has understood the video.
 - `*[RQ-13]` Capture students' reactions with materials.
 ````bash
--------------------- Raised by 2 instructors -------------------- 
+-------------------- Raised by 2 instructors --------------------
 ````
 - `[RQ-14]` Identify pace learning student.
 - `*[RQ-19]` Markers on the video showing where begins each topic.
 - `[RQ-20]` Know what videos (or segments) the students have liked.
 ````bash
--------------------- Raised by 1 instructors -------------------- 
+-------------------- Raised by 1 instructors --------------------
 ````
 - `*[RQ-22]` Know the backjump reason.
 - `*[RQ-23]` Video's content be interactive.
@@ -103,7 +103,7 @@
 - `*[RQ-37]` Relate content presentation with student behavior.
 - `*[RQ-38]` VLE show a schedule customized to student.
 ````bash
-*Do not taked into account in the visualizations proposed. 
+*Do not taked into account in the visualizations proposed.
 ````
 
 ## Visualizations

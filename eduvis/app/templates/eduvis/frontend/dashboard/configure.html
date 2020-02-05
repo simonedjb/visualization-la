@@ -1,0 +1,55 @@
+{% extends "eduvis/frontend/base.html" %}
+{% block user %} {{ userName }} {% endblock %}
+
+{% block leftmenu %}
+  <!-- start: menu -->
+    <div id="left-menu">
+    </div>
+  <!-- end: menu -->
+
+  <script type="text/javascript">
+    var hasLeftMenu = '{{ enableLeftMenu }}';
+    var leftMenuInfo = {{leftMenuInfo | safe}};
+    var amountSelectedVG = {{amountSelectedVG | safe}};    
+
+    if (parseInt(hasLeftMenu, 10)){    
+      loadMenu(leftMenuInfo,amountSelectedVG); //Adding left menu at DOM
+    }
+  </script>
+
+{% endblock %}
+
+{% block content %}
+        <!-- start: content -->
+          <div id="content">
+          </div>
+
+          <script type="text/javascript">
+            var titleChart = '{{ titleCharts }}';
+            var topicChart = '{{ topic }}';
+            var chartsIdList = {{charts_id | safe}};
+            var rawChartsLayoutList = {{charts_layout | safe}};
+            var chartsLayoutList = JSON.parse("[" + rawChartsLayoutList + "]");
+            var chartsActiveList = {{charts_active | safe}};
+            
+            console.log( topicChart );
+            console.log( chartsIdList );
+            console.log( chartsActiveList );
+
+            for (i=0; i<chartsLayoutList.length; i++){
+              chartId = topicChart+"@"+chartsIdList[i];
+              chartPlotlyId = "plotly_"+chartId;
+              
+              active = false;
+              if ( chartsActiveList.includes(chartsIdList[i]) ) {
+                active = true;
+              }
+
+              buildingConfigureCharts(titleChart,chartPlotlyId,chartId,active); //Adding elements at DOM
+              Plotly.newPlot(chartPlotlyId,chartsLayoutList[i]);
+            }
+
+            //Adicionar um for para setar os charts ativos no dashboard document.getElementById(chart_id).checked = true
+          </script>
+        <!-- end: content -->
+{% endblock %}

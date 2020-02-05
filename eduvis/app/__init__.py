@@ -1,0 +1,27 @@
+from flask import Flask, render_template, redirect, url_for
+from flask_sqlalchemy import SQLAlchemy
+from flask_bootstrap import Bootstrap
+
+app = Flask(__name__)
+
+Bootstrap(app)
+
+
+# Basic Routes #
+
+@app.route('/')
+def index():
+	return redirect(url_for('eduvis.index'))
+	# return redirect(url_for('questionnaire.index'))
+
+# @app.errorhandler(404)
+# def not_found(error):
+# 	return render_template('404.html'), 404
+
+
+# BluePrints - Modules #
+
+
+# Eduvis Module
+from app.eduvis.views import mod as eduvisModule
+app.register_blueprint(eduvisModule)

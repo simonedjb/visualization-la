@@ -1,0 +1,40 @@
+{% extends "eduvis/frontend/base.html" %}
+{% block user %} {{ userName }} {% endblock %}
+{% block leftmenu %}{% endblock %}
+{% block content %}
+        <!-- start: content -->
+        <div id="content" style="padding-left: 0px;">
+            <form id="submitForm" class="cmxform" method="post" action="/eduvis/interview/post_aboutyou/" novalidate="novalidate">
+                <div class="col-md-12" style="padding:5px;">
+                    <div class="col-md-12">
+                        <div class="panel">                            
+                            <div class="col-md-12 bg-white border-none" style="padding:20px; margin-bottom: 20px;">
+                                <hr>
+                                <input class="submit btn btn-primary" type="submit" value="Próxima">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <script type="text/javascript">
+            var titleChart = {{titleCharts | safe}};
+            var topicsIdList = {{charts_topic | safe}};
+            var chartsIdList = {{charts_id | safe}};
+            var stringlist = {{charts_layout | safe}};
+            var graphlist = JSON.parse("[" + stringlist + "]");
+
+            console.log( chartsIdList );
+
+            for (i=0; i<graphlist.length; i++){
+              chartId = "T"+topicsIdList[i]+"@"+chartsIdList[i];
+              chartPlotlyId = "plotly_"+chartId;
+
+              buildingEvaluationDashboard(titleChart[i],chartPlotlyId,chartId); //Adding elements at DOM
+              Plotly.newPlot(chartPlotlyId,graphlist[i],{});
+            }
+
+          </script>
+        <!-- end: content -->
+{% endblock %}
