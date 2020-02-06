@@ -39,6 +39,31 @@ function buildingDashboard(title,chartPlotlyId,chartId) {
   colNode4att1.value = "col-md-3 col-sm-3 col-sm-12 text-right";
   colNode4.setAttributeNode(colNode4att1);              
 
+  var buttonMoveTop = document.createElement("button");
+  var buttonMoveTopatt1 = document.createAttribute("class");
+  var buttonMoveTopatt2 = document.createAttribute("data-toggle");
+  var buttonMoveTopatt3 = document.createAttribute("data-placement");
+  var buttonMoveTopatt4 = document.createAttribute("title");
+  var buttonMoveTopatt5 = document.createAttribute("value");
+  var buttonMoveTopatt6 = document.createAttribute("onclick");
+  buttonMoveTopatt1.value = "btn btn-outline btn-mn btn-lg btn-primary";
+  buttonMoveTopatt2.value = "tooltip";
+  buttonMoveTopatt3.value = "bottom";
+  buttonMoveTopatt4.value = "Mover para o topo";
+  buttonMoveTopatt5.value = "primary";
+  buttonMoveTopatt6.value = "moveTopItemDashboard(this,'"+chartId+"')";
+  buttonMoveTop.setAttributeNode(buttonMoveTopatt1);
+  buttonMoveTop.setAttributeNode(buttonMoveTopatt2);
+  buttonMoveTop.setAttributeNode(buttonMoveTopatt3);
+  buttonMoveTop.setAttributeNode(buttonMoveTopatt4);
+  buttonMoveTop.setAttributeNode(buttonMoveTopatt5);
+  buttonMoveTop.setAttributeNode(buttonMoveTopatt6);
+
+  var spanButtonMoveTop = document.createElement("span");
+  var spanButtonMoveTopatt1 = document.createAttribute("class");
+  spanButtonMoveTopatt1.value = "fa fa-angle-double-up";
+  spanButtonMoveTop.setAttributeNode(spanButtonMoveTopatt1);
+
   var buttonMoveUp = document.createElement("button");
   var buttonMoveUpatt1 = document.createAttribute("class");
   var buttonMoveUpatt2 = document.createAttribute("data-toggle");
@@ -61,7 +86,7 @@ function buildingDashboard(title,chartPlotlyId,chartId) {
 
   var spanButtonMoveUp = document.createElement("span");
   var spanButtonMoveUpatt1 = document.createAttribute("class");
-  spanButtonMoveUpatt1.value = "fa fa-sort-asc";
+  spanButtonMoveUpatt1.value = "fa fa-angle-up";
   spanButtonMoveUp.setAttributeNode(spanButtonMoveUpatt1);
   
   var buttonMoveDown = document.createElement("button");
@@ -86,8 +111,33 @@ function buildingDashboard(title,chartPlotlyId,chartId) {
 
   var spanButtonMoveDown = document.createElement("span");
   var spanButtonMoveDownatt1 = document.createAttribute("class");
-  spanButtonMoveDownatt1.value = "fa fa-sort-desc";
+  spanButtonMoveDownatt1.value = "fa fa-angle-down";
   spanButtonMoveDown.setAttributeNode(spanButtonMoveDownatt1);
+
+  var buttonMoveBottom = document.createElement("button");
+  var buttonMoveBottomatt1 = document.createAttribute("class");
+  var buttonMoveBottomatt2 = document.createAttribute("data-toggle");
+  var buttonMoveBottomatt3 = document.createAttribute("data-placement");
+  var buttonMoveBottomatt4 = document.createAttribute("title");
+  var buttonMoveBottomatt5 = document.createAttribute("value");
+  var buttonMoveBottomatt6 = document.createAttribute("onclick");
+  buttonMoveBottomatt1.value = "btn btn-outline btn-mn btn-lg btn-primary";
+  buttonMoveBottomatt2.value = "tooltip";
+  buttonMoveBottomatt3.value = "bottom";
+  buttonMoveBottomatt4.value = "Mover para a base";
+  buttonMoveBottomatt5.value = "primary";
+  buttonMoveBottomatt6.value = "moveBottomItemDashboard(this,'"+chartId+"')";
+  buttonMoveBottom.setAttributeNode(buttonMoveBottomatt1);
+  buttonMoveBottom.setAttributeNode(buttonMoveBottomatt2);
+  buttonMoveBottom.setAttributeNode(buttonMoveBottomatt3);
+  buttonMoveBottom.setAttributeNode(buttonMoveBottomatt4);
+  buttonMoveBottom.setAttributeNode(buttonMoveBottomatt5);
+  buttonMoveBottom.setAttributeNode(buttonMoveBottomatt6);
+
+  var spanButtonMoveBottom = document.createElement("span");
+  var spanButtonMoveBottomatt1 = document.createAttribute("class");
+  spanButtonMoveBottomatt1.value = "fa fa-angle-double-down";
+  spanButtonMoveBottom.setAttributeNode(spanButtonMoveBottomatt1);
 
   var buttonSettings = document.createElement("button");
   var buttonSettingsatt1 = document.createAttribute("class");
@@ -193,12 +243,16 @@ function buildingDashboard(title,chartPlotlyId,chartId) {
   titleNode.appendChild(titleNodeBold);
   colNode3.appendChild(titleNode);              
   panelHeading.appendChild(colNode3);
+  buttonMoveTop.appendChild(spanButtonMoveTop);
   buttonMoveUp.appendChild(spanButtonMoveUp);
   buttonMoveDown.appendChild(spanButtonMoveDown);
+  buttonMoveBottom.appendChild(spanButtonMoveBottom);
   buttonSettings.appendChild(spanButtonSettings);
   buttonRemove.appendChild(spanButtonRemove);
+  colNode4.appendChild(buttonMoveTop);
   colNode4.appendChild(buttonMoveUp);
   colNode4.appendChild(buttonMoveDown);
+  colNode4.appendChild(buttonMoveBottom);
   colNode4.appendChild(buttonSettings);
   colNode4.appendChild(buttonRemove);
   // optionDiv.appendChild(optionInput);
@@ -646,6 +700,44 @@ function addDashboard(chart_id) {
   xhttp.send(obj);
 }
 
+function moveTopItemDashboard(element,chart_id) {
+  console.log("moveTopItemDashboard");
+
+  var elCurr = element.parentNode.parentNode.parentNode.parentNode.parentNode;
+  var elRoot = elCurr.parentNode;
+  var elPre = elRoot.firstElementChild;
+
+  if (elPre == elCurr){
+    return;
+  }
+  // console.log(obj)
+
+  elRoot.insertBefore(elCurr,elPre);
+
+  // function transferComplete(evt) {
+  //   console.log("The transfer is complete.");
+  // }
+  // function transferFailed(evt) {
+  //   console.log("An error occurred while transferring the file.");
+  // }
+  // function transferCanceled(evt) {
+  //   console.log("The transfer has been canceled by the user.");
+  // }
+
+  // var xhttp = new XMLHttpRequest();
+  // xhttp.addEventListener("load", transferComplete);
+  // xhttp.addEventListener("error", transferFailed);
+  // xhttp.addEventListener("abort", transferCanceled);
+
+  // var obj = {"chart": chart_id, "value":"top"};
+  // var obj = JSON.stringify(obj);
+  // console.log(obj);
+
+  // xhttp.open("POST", "/eduvis/set_order/", true);
+  // xhttp.setRequestHeader("Content-type", "application/json");
+  // xhttp.send(obj);
+}
+
 function moveUpItemDashboard(element,chart_id) {
   console.log("moveUpItemDashboard");
   
@@ -655,7 +747,7 @@ function moveUpItemDashboard(element,chart_id) {
 
   if (elPre == null){
     return;
-  }  
+  }
   // console.log(obj)
 
   elRoot.insertBefore(elCurr,elPre);
@@ -719,6 +811,44 @@ function moveDownItemDashboard(element,chart_id) {
   xhttp.open("POST", "/eduvis/set_order/", true);
   xhttp.setRequestHeader("Content-type", "application/json");
   xhttp.send(obj);
+}
+
+function moveBottomItemDashboard(element,chart_id) {
+  console.log("moveBottomItemDashboard");
+
+  var elCurr = element.parentNode.parentNode.parentNode.parentNode.parentNode;
+  var elRoot = elCurr.parentNode;
+  var elNext = elRoot.lastElementChild;
+
+  if (elNext == elCurr){
+    return;
+  }
+  // console.log(obj)
+
+  elRoot.insertBefore(elCurr,elNext.nextElementSibling);
+
+  // function transferComplete(evt) {
+  //   console.log("The transfer is complete.");
+  // }
+  // function transferFailed(evt) {
+  //   console.log("An error occurred while transferring the file.");
+  // }
+  // function transferCanceled(evt) {
+  //   console.log("The transfer has been canceled by the user.");
+  // }
+
+  // var xhttp = new XMLHttpRequest();
+  // xhttp.addEventListener("load", transferComplete);
+  // xhttp.addEventListener("error", transferFailed);
+  // xhttp.addEventListener("abort", transferCanceled);
+
+  // var obj = {"chart": chart_id, "value":"bottom"};
+  // var obj = JSON.stringify(obj);
+  // console.log(obj);
+
+  // xhttp.open("POST", "/eduvis/set_order/", true);
+  // xhttp.setRequestHeader("Content-type", "application/json");
+  // xhttp.send(obj);
 }
 
 function settingsItemDashboard(chart_id) { 
