@@ -636,7 +636,7 @@ function loadMenu(menuListInfo,amountSelectedVG) {
 
   var aDashboard = document.createElement("a");
   var aDashboardatt1 = document.createAttribute("href");
-  aDashboardatt1.value = "/eduvis/dashboard/";
+  aDashboardatt1.value = "/eduvis/customizable_dashboard/";
   aDashboard.setAttributeNode(aDashboardatt1);
 
   var liDashboard = document.createElement("li");
@@ -714,28 +714,28 @@ function moveTopItemDashboard(element,chart_id) {
 
   elRoot.insertBefore(elCurr,elPre);
 
-  // function transferComplete(evt) {
-  //   console.log("The transfer is complete.");
-  // }
-  // function transferFailed(evt) {
-  //   console.log("An error occurred while transferring the file.");
-  // }
-  // function transferCanceled(evt) {
-  //   console.log("The transfer has been canceled by the user.");
-  // }
+  function transferComplete(evt) {
+    console.log("The transfer is complete.");
+  }
+  function transferFailed(evt) {
+    console.log("An error occurred while transferring the file.");
+  }
+  function transferCanceled(evt) {
+    console.log("The transfer has been canceled by the user.");
+  }
 
-  // var xhttp = new XMLHttpRequest();
-  // xhttp.addEventListener("load", transferComplete);
-  // xhttp.addEventListener("error", transferFailed);
-  // xhttp.addEventListener("abort", transferCanceled);
+  var xhttp = new XMLHttpRequest();
+  xhttp.addEventListener("load", transferComplete);
+  xhttp.addEventListener("error", transferFailed);
+  xhttp.addEventListener("abort", transferCanceled);
 
-  // var obj = {"chart": chart_id, "value":"top"};
-  // var obj = JSON.stringify(obj);
-  // console.log(obj);
+  var obj = {"chart": chart_id, "value":"top"};
+  var obj = JSON.stringify(obj);
+  console.log(obj);
 
-  // xhttp.open("POST", "/eduvis/set_order/", true);
-  // xhttp.setRequestHeader("Content-type", "application/json");
-  // xhttp.send(obj);
+  xhttp.open("POST", "/eduvis/set_order/", true);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send(obj);
 }
 
 function moveUpItemDashboard(element,chart_id) {
@@ -827,28 +827,28 @@ function moveBottomItemDashboard(element,chart_id) {
 
   elRoot.insertBefore(elCurr,elNext.nextElementSibling);
 
-  // function transferComplete(evt) {
-  //   console.log("The transfer is complete.");
-  // }
-  // function transferFailed(evt) {
-  //   console.log("An error occurred while transferring the file.");
-  // }
-  // function transferCanceled(evt) {
-  //   console.log("The transfer has been canceled by the user.");
-  // }
+  function transferComplete(evt) {
+    console.log("The transfer is complete.");
+  }
+  function transferFailed(evt) {
+    console.log("An error occurred while transferring the file.");
+  }
+  function transferCanceled(evt) {
+    console.log("The transfer has been canceled by the user.");
+  }
 
-  // var xhttp = new XMLHttpRequest();
-  // xhttp.addEventListener("load", transferComplete);
-  // xhttp.addEventListener("error", transferFailed);
-  // xhttp.addEventListener("abort", transferCanceled);
+  var xhttp = new XMLHttpRequest();
+  xhttp.addEventListener("load", transferComplete);
+  xhttp.addEventListener("error", transferFailed);
+  xhttp.addEventListener("abort", transferCanceled);
 
-  // var obj = {"chart": chart_id, "value":"bottom"};
-  // var obj = JSON.stringify(obj);
-  // console.log(obj);
+  var obj = {"chart": chart_id, "value":"bottom"};
+  var obj = JSON.stringify(obj);
+  console.log(obj);
 
-  // xhttp.open("POST", "/eduvis/set_order/", true);
-  // xhttp.setRequestHeader("Content-type", "application/json");
-  // xhttp.send(obj);
+  xhttp.open("POST", "/eduvis/set_order/", true);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send(obj);
 }
 
 function settingsItemDashboard(chart_id) { 
