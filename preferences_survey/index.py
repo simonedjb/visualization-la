@@ -171,12 +171,12 @@ def display_page(pathname):
 def update_page_cache(current_page):
     global _current_page
     global _control
-    
+
     user = home._user_cache
     if user == None or user == "":
         _current_page = None
         return
-    
+
     print("update_page_cache")
     print(current_page)
     if not current_page in ['/eadxp','/aboutyou','/abouteadxp','/aboutlogs','/aboutstudentinformation','/aboutvisualization','/thanks',
@@ -235,7 +235,7 @@ def update_page_cache(current_page):
 
         if current_page == '/thanks':
             _control.record_data(user, [{"field":"date_end_cache","value":datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}] )
-        
+
     return current_page
 
 if __name__ == '__main__':

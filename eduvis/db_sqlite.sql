@@ -22,6 +22,10 @@ CREATE TABLE `tb_user_background`(
 	`cl_ava_resources` varchar(500) DEFAULT NULL,
 	`cl_ava_student_age` varchar(500) DEFAULT NULL,
 	`cl_ava_student_information` varchar(500) DEFAULT NULL,
+	`cl_ava_data_meaningful` varchar(500) DEFAULT NULL,
+	`cl_ava_data_analyze` varchar(500) DEFAULT NULL,
+	`cl_freq_interpretation_chart` varchar(50) DEFAULT NULL,
+	`cl_freq_creation_chart` varchar(50) DEFAULT NULL,
 	FOREIGN KEY (`cl_user_id`) REFERENCES `tb_user` (`cl_id`)
 );
 

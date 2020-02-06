@@ -4,7 +4,7 @@
 {% block content %}
         <!-- start: content -->
         <div id="content" style="padding-left: 0px;">
-            <form id="submitForm" class="cmxform" method="post" action="/eduvis/interview/post_aboutyou/" novalidate="novalidate">
+            <form id="submitForm" class="cmxform" method="post" novalidate="novalidate">
                 <div class="col-md-12" style="padding:5px;">
                     <div class="col-md-12">
                         <div class="panel">                            
@@ -17,6 +17,14 @@
                 </div>
             </form>
         </div>
+        
+        <script type="text/javascript">
+            var action = '{{ post_action }}';
+
+            var actatt1 = document.createAttribute("action");
+            actatt1.value = action;
+            document.getElementById("submitForm").setAttributeNode(actatt1); //Link to post
+        </script>
 
         <script type="text/javascript">
             var titleChart = {{titleCharts | safe}};

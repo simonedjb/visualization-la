@@ -1,5 +1,6 @@
 {% extends "eduvis/frontend/base.html" %}
 {% block user %} {{ userName }} {% endblock %}
+{% block evaluation %} "http://127.0.0.1:8558/eduvis/evaluation/" {% endblock %}
 
 {% block leftmenu %}
   <!-- start: menu -->
@@ -24,7 +25,7 @@
           <div id="content">
           </div>
 
-          <!-- <div id="content">
+          <!-- <div id="content" style="padding-left: 0px;">
             <div class="col-md-12" style="padding:5px">
               <div class="col-md-12">
                 <div class="panel">
@@ -138,6 +139,23 @@
             </div>
 
           </div> -->
+          <script type="text/javascript">
+            var hasLeftMenu = '{{ enableLeftMenu }}';
+            var evalink = '/eduvis/evaluation_customizable_dashboard/';
+
+            if (!parseInt(hasLeftMenu, 10)){
+              var styleatt2 = document.createAttribute("style");
+              styleatt2.value = "padding-left: 0px;";
+              document.getElementById("content").setAttributeNode(styleatt2); //Remove menu gap
+
+              evalink = '/eduvis/evaluation_static_dashboard/';
+            }
+
+            var hrefatt1 = document.createAttribute("href");
+            hrefatt1.value = evalink;
+            document.getElementById("evalink").setAttributeNode(hrefatt1); //link to evaluation
+          </script>
+
 
           <script type="text/javascript">
             var titleChart = {{titleCharts | safe}};

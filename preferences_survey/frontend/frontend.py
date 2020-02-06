@@ -1,6 +1,6 @@
 import pandas as pd
 import os, sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath("eduvis"))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath("visualizations"))))
 
 import dash
 import dash_core_components as dcc
@@ -14,7 +14,7 @@ import visdcc
 control = backend.backend()
 students = pd.read_csv("assets/names.csv")
 view1 = V001.V001(type_result = "dash",language = "pt")
-view2 = V002.V002(type_result = "dash",language = "pt")
+view2 = V002.V002(type_result = "dash",language = "en")
 view3 = V003.V003(type_result = "dash",language = "pt")
 view4 = V004.V004(type_result = "dash",language = "pt")
 view5 = V005.V005(type_result = "dash",language = "pt")
@@ -109,7 +109,6 @@ class frontend:
                                 html.H6(className="header left blue-text", children=["E-mail para contato: adamasceno@inf.puc-rio.br"]),
                                 html.Br(),html.Br()
                             ]),
-                            
                             html.Div(className="row center", children=[
                                 html.Div(className="input-field col s4",children=[
                                     html.P(children=[
@@ -191,7 +190,7 @@ class frontend:
                                     html.P(children=[
                                         html.Label(className="left blue-text", children=["*Idade:"]),
                                     ]),
-                                    dcc.Input(id='user_age', placeholder="20,anos, 30 anos, etc.", type='text',value=control.load_frontend_data('user_age',data))
+                                    dcc.Input(id='user_age', placeholder="20 anos, 30 anos, etc.", type='text',value=control.load_frontend_data('user_age',data))
                                 ]),
                             ]),
                             ############################################################################################
@@ -664,8 +663,10 @@ class frontend:
     def linkert_scale(self,id,chart,data,id_load):
         global control
         return html.Div(className="col s12", children=[
-                   html.H5(className="center blue-text", children=[str("O "+chart+" responde a pergunta muito bem.")]),
-                   html.H6(className="center blue-text", children=[str("*Indique sua opinião sobre a seguinte afirmacao:")]),
+                html.H5(className="center blue-text", children=[str("O "+chart+" responde a pergunta muito bem.")]),
+                html.H6(className="center blue-text", children=[str("*Indique sua opinião sobre a seguinte afirmacao:")]),
+                # html.H5(className="center blue-text", children=[str("Chart 6 answers the question efficiently.")]),
+                # html.H6(className="center blue-text", children=[str("*Select your opinion about this statement:")]),
                    html.Div(children=[
                        dcc.RadioItems(
                             id=id,
@@ -679,6 +680,15 @@ class frontend:
                                 {'label': 'Concordo parcialmente', 'value': 'partially_agree'},
                                 {'label': 'Concordo totalmente', 'value': 'strong_agree'},
                             ],
+                            # options=[
+                            #     {'label': 'Strong disagree', 'value': 'strong_disagree'},
+                            #     {'label': 'Partially disagree', 'value': 'partially_disagree'},
+                            #     {'label': 'Slightly disagree', 'value': 'slightly_disagree'},
+                            #     {'label': 'Neutral', 'value': 'neutral'},
+                            #     {'label': 'Slightly agree', 'value': 'slightly_agree'},
+                            #     {'label': 'Partially agree', 'value': 'partially_agree'},
+                            #     {'label': 'Strong agree', 'value': 'strong_agree'},
+                            # ],
                             value=control.load_frontend_data_view(id_load,str(id),data),
                             labelStyle={'display': 'inline-block'}
                         ),

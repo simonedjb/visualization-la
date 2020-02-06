@@ -9,3 +9,4 @@
 - Arrumar o graph_05() do VG-11.
 - Arrumar o VG-09
 - Adicionar filtros de ordenação nos gráficos.
+- [BUG] Verificar pq na tela de evaluation não ta aparecendo em ordem. O problema que ele está adicionando de trás pra frente.

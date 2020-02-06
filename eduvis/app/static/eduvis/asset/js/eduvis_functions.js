@@ -430,7 +430,6 @@ function buildingEvaluationDashboard(title,chartPlotlyId,chartId) {
   panel1.appendChild(divEvaluation);
   colNode2.appendChild(panel1);  
   colNode1.appendChild(colNode2);
-  // document.getElementById("submitForm").appendChild(colNode1);
 
   document.getElementById("submitForm").insertBefore(colNode1,submit_btn);
   // #Falta botar um submit e o formulario.
@@ -825,7 +824,7 @@ function settingsItemDashboard(chart_id) {
       return
   }
 
-  window.location.pathname = path;  
+  window.location.pathname = path;
 }
 
 function removeItemDashboard(element,chart_id) {

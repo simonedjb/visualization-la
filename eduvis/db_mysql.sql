@@ -1,16 +1,16 @@
-CREATE DATABASE IF NOT EXISTS Eduvis;
-use Eduvis
+-- CREATE DATABASE IF NOT EXISTS Eduvis;
+-- use Eduvis
 
-DROP TABLE IF EXISTS `tb_user`;
-DROP TABLE IF EXISTS `tb_user_background`;
-DROP TABLE IF EXISTS `tb_topic`;
-DROP TABLE IF EXISTS `tb_evaluate`;
-DROP TABLE IF EXISTS `tb_dashboard`;
-DROP TABLE IF EXISTS `tb_chart`;
-DROP TABLE IF EXISTS `tb_topic_chart`;
-DROP TABLE IF EXISTS `tb_dashboard_topic_chart`;
-DROP TABLE IF EXISTS `tb_question_dashboard`;
-DROP TABLE IF EXISTS `tb_question_chart`;
+-- DROP TABLE IF EXISTS `tb_user`;
+-- DROP TABLE IF EXISTS `tb_user_background`;
+-- DROP TABLE IF EXISTS `tb_topic`;
+-- DROP TABLE IF EXISTS `tb_evaluate`;
+-- DROP TABLE IF EXISTS `tb_dashboard`;
+-- DROP TABLE IF EXISTS `tb_chart`;
+-- DROP TABLE IF EXISTS `tb_topic_chart`;
+-- DROP TABLE IF EXISTS `tb_dashboard_topic_chart`;
+-- DROP TABLE IF EXISTS `tb_question_dashboard`;
+-- DROP TABLE IF EXISTS `tb_question_chart`;
 
 CREATE TABLE `tb_user`(
 	`cl_id` bigint(11) NOT NULL AUTO_INCREMENT,
@@ -37,6 +37,10 @@ CREATE TABLE `tb_user_background`(
 	`cl_ava_resources` varchar(500) DEFAULT NULL COMMENT 'recursos que utiliza e que já utilizou nos AVAs (videos, ebooks, fórum, chat, badges, etc.)',
 	`cl_ava_student_age` varchar(500) DEFAULT NULL COMMENT 'faixa etária dos alunos que ensina (e que já ensinou) utilizando  AVAs',
 	`cl_ava_student_information` varchar(500) DEFAULT NULL COMMENT 'quais informações dos alunos você considera relevante',
+	`cl_ava_data_meaningful` varchar(500) DEFAULT NULL COMMENT 'que outros dados você considera importantes que não foram apresentados',
+	`cl_ava_data_analyze` varchar(500) DEFAULT NULL COMMENT 'como você gostaria que esses dados fossem apresentados (em uma tabela, em gráfico de barra, etc)',
+	`cl_freq_interpretation_chart` varchar(50) DEFAULT NULL COMMENT 'em geral, com que frequência você lê e interpreta gráficos',
+	`cl_freq_creation_chart` varchar(50) DEFAULT NULL COMMENT 'em geral, com que frequência você cria gráficos',
     KEY `fk_user_id` (`cl_user_id`),
 	CONSTRAINT `tb_user_background_fk_user_id` FOREIGN KEY (`cl_user_id`) REFERENCES `tb_user` (`cl_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='tabela de cadastro do background dos instrutores';
@@ -91,7 +95,7 @@ CREATE TABLE `tb_dashboard_topic_chart`(
 	`cl_dashboard_id` bigint(11) NOT NULL COMMENT 'chave estrangeira da tb_dashboard',
 	`cl_topic_chart_id` bigint(11) NOT NULL COMMENT 'chave estrangeira da tb_topic_chart',
 	`cl_order` bigint(11) NOT NULL  COMMENT 'indica a posição que o chart aparece no dashboard',
-	`cl_feedback` longtext NULL COMMENT 'o quão bem o gráfico do dashboard ajuda ele a analisar o respectivo tópico',
+	`cl_feedback` longtext NULL COMMENT 'duas informações que você consegue extrair com esse gráfico',
 	`cl_active` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'indica se aquele topico e chart estão ativos no dashboard',
 	PRIMARY KEY (`cl_id`),
 	KEY `fk_dashboard_id` (`cl_dashboard_id`),

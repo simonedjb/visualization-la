@@ -15,8 +15,10 @@ from dateutil.relativedelta import relativedelta
 
 # local application imports
 from app.eduvis.constants import DEFAULT_USER_ID
-from app.eduvis.constants import DEFAULT_DASHBOARD_ID
-from app.eduvis.constants import DEFAULT_DASHBOARD_TYPE
+from app.eduvis.constants import DEFAULT_STATIC_DASHBOARD_ID
+from app.eduvis.constants import DEFAULT_CUSTOMIZABLE_DASHBOARD_ID
+from app.eduvis.constants import STATIC_DASHBOARD_TYPE
+from app.eduvis.constants import CUSTOMIZABLE_DASHBOARD_TYPE
 
 # from app import db
 from app.eduvis.backend.dashboard import Dashboard
@@ -42,21 +44,21 @@ mod = Blueprint("eduvis", __name__, url_prefix='/eduvis')
 _conn = Connection_DB()
 
 _user_id = None
-_dashboard_id = None
-_dashboard_type = None
+_static_dashboard_id = None
+_customizable_dashboard_id = None
 
 def load_user_info():
     global _user_id
-    global _dashboard_id
-    global _dashboard_type
+    global _static_dashboard_id
+    global _customizable_dashboard_id
     
     _user_id = DEFAULT_USER_ID
-    _dashboard_id = DEFAULT_DASHBOARD_ID
-    _dashboard_type = DEFAULT_DASHBOARD_TYPE
+    _static_dashboard_id = DEFAULT_STATIC_DASHBOARD_ID
+    _customizable_dashboard_id = DEFAULT_CUSTOMIZABLE_DASHBOARD_ID
     
     # print("--------------------------------------------------")
     # print("load_user_info()")
-    # print((_user_id, _dashboard_id, _dashboard_type))
+    # print((_user_id, _static_dashboard_id, _customizable_dashboard_id))
     # print("--------------------------------------------------")
 
 def view_information():
@@ -223,30 +225,65 @@ def visualizationxp_data():
     else:
         pass
     
-    return redirect('/eduvis/dashboard/')
+    return redirect('/eduvis/static_dashboard/')
 
-@mod.route('/evaluation/')
-def evaluation():
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
-    user = User(_conn, _user_id, _dashboard_id, _dashboard_type)
-    return render_template('eduvis/frontend/dashboard/evaluate.html', userName=user.get_name(), charts_topic=dashboard.topic(), charts_id=dashboard.charts("id"), charts_layout=dashboard.charts("layout"), titleCharts=dashboard.title())
+@mod.route('/evaluation_static_dashboard/')
+def evaluation_static_dashboard():
+    dashboard = Dashboard(_conn, _user_id, _static_dashboard_id, STATIC_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _static_dashboard_id, STATIC_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/evaluate.html', userName=user.get_name(), charts_topic=dashboard.topic(), charts_id=dashboard.charts("id"), charts_layout=dashboard.charts("layout"), titleCharts=dashboard.title(), post_action="/eduvis/post_evaluation_static_dashboard/")
 
-@mod.route('/dashboard/')
-def dashboard():
+@mod.route('/post_evaluation_static_dashboard/', methods=['POST'])
+def evaluation_static_dashboard_data():
+    if request.method == 'POST':
+        print("--------------------------------post_evaluation_static_dashboard--------------------------------")
+    else:
+        pass
+
+    return redirect('/eduvis/customizable_dashboard/')
+
+@mod.route('/evaluation_customizable_dashboard/')
+def evaluation_customizable_dashboard():
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/evaluate.html', userName=user.get_name(), charts_topic=dashboard.topic(), charts_id=dashboard.charts("id"), charts_layout=dashboard.charts("layout"), titleCharts=dashboard.title(), post_action="/eduvis/post_evaluation_customizable_dashboard/")
+
+@mod.route('/post_evaluation_customizable_dashboard/', methods=['POST'])
+def evaluation_customizable_dashboard_data():
+    if request.method == 'POST':
+        print("--------------------------------post_evaluation_customizable_dashboard--------------------------------")
+    else:
+        pass
+
+    return redirect('/eduvis/thankyou/')
+
+@mod.route('/static_dashboard/')
+def static_dashboard():
     # global _user_id
-    # global _dashboard_id
-    # global _dashboard_type
-
+    # global _static_dashboard_id
+    
     # form = ConsentForm(request.form)
     # return render_template('questionnaire/consent.html', form=form)
     # return render_template('eduvis/frontend/dashboard.html', form=form)
     # load_user_info()    
     
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
-    user = User(_conn, _user_id, _dashboard_id, _dashboard_type)
-    return render_template('eduvis/frontend/dashboard/dashboard.html', userName=user.get_name(), charts_topic=dashboard.topic(), charts_id=dashboard.charts("id"), charts_layout=dashboard.charts("layout"), titleCharts=dashboard.title(), enableLeftMenu=_dashboard_type, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
+    dashboard = Dashboard(_conn, _user_id, _static_dashboard_id, STATIC_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _static_dashboard_id, STATIC_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/dashboard.html', userName=user.get_name(), charts_topic=dashboard.topic(), charts_id=dashboard.charts("id"), charts_layout=dashboard.charts("layout"), titleCharts=dashboard.title(), enableLeftMenu=STATIC_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
 
-    # return render_template('eduvis/frontend/dashboard.html')
+    # return render_template('eduvis/frontend/dashboard/dashboard.html')
+
+@mod.route('/customizable_dashboard/')
+def customizable_dashboard():
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/dashboard.html', userName=user.get_name(), charts_topic=dashboard.topic(), charts_id=dashboard.charts("id"), charts_layout=dashboard.charts("layout"), titleCharts=dashboard.title(), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
+
+    # return render_template('eduvis/frontend/dashboard/dashboard.html')
+
+@mod.route('/thankyou/')
+def thankyou():
+    return render_template('eduvis/frontend/thankyou.html')    
 
 @mod.route('/add_chart/', methods=['POST'])
 def add_chart():
@@ -269,7 +306,7 @@ def add_chart():
     # data = ("André Luiz", current_time)
     # _conn.insert("tb_user",data)
 
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
     dashboard.set_dashboard(raw_data)
 
     resp = Response(json.dumps('OK'), mimetype='application/json')
@@ -283,7 +320,7 @@ def set_order():
     print("Set Order")
     print(raw_data)
 
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, _dashboard_type)
     dashboard.set_order(raw_data)
 
     resp = Response(json.dumps('OK'), mimetype='application/json')
@@ -292,164 +329,164 @@ def set_order():
 
 @mod.route('/access1/')
 def access1(): # <!-- VG-08 -->
-    access = Access(_conn, _user_id, _dashboard_id, _dashboard_type)
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
-    user = User(_conn, _user_id, _dashboard_id, _dashboard_type)
-    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=access.charts("day","id"), charts_layout=access.charts("day","layout"), titleCharts=access.title("day"), topic=access.topic("day"), charts_active=access.charts_active("day"), enableLeftMenu=_dashboard_type, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
+    access = Access(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=access.charts("day","id"), charts_layout=access.charts("day","layout"), titleCharts=access.title("day"), topic=access.topic("day"), charts_active=access.charts_active("day"), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
 
 @mod.route('/access2/')
 def access2(): # <!-- VG-08 -->
-    access = Access(_conn, _user_id, _dashboard_id, _dashboard_type)
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
-    user = User(_conn, _user_id, _dashboard_id, _dashboard_type)
-    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=access.charts("week","id"), charts_layout=access.charts("week","layout"), titleCharts=access.title("week"), topic=access.topic("week"), charts_active=access.charts_active("week"), enableLeftMenu=_dashboard_type, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
+    access = Access(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=access.charts("week","id"), charts_layout=access.charts("week","layout"), titleCharts=access.title("week"), topic=access.topic("week"), charts_active=access.charts_active("week"), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
 
 @mod.route('/assignments1/')
 def assignments1(): # <!-- VG-01 -->
-    assignment = Assignment(_conn, _user_id, _dashboard_id, _dashboard_type)
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
-    user = User(_conn, _user_id, _dashboard_id, _dashboard_type)
-    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=assignment.charts("student","id"), charts_layout=assignment.charts("student","layout"), titleCharts=assignment.title("student"), topic=assignment.topic("student"), charts_active=assignment.charts_active("student"), enableLeftMenu=_dashboard_type, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
+    assignment = Assignment(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=assignment.charts("student","id"), charts_layout=assignment.charts("student","layout"), titleCharts=assignment.title("student"), topic=assignment.topic("student"), charts_active=assignment.charts_active("student"), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
 
 @mod.route('/assignments2/')
 def assignments2(): # <!-- VG-01 -->
-    assignment = Assignment(_conn, _user_id, _dashboard_id, _dashboard_type)
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
-    user = User(_conn, _user_id, _dashboard_id, _dashboard_type)
-    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=assignment.charts("assignment","id"), charts_layout=assignment.charts("assignment","layout"), titleCharts=assignment.title("assignment"), topic=assignment.topic("assignment"), charts_active=assignment.charts_active("assignment"), enableLeftMenu=_dashboard_type, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
+    assignment = Assignment(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=assignment.charts("assignment","id"), charts_layout=assignment.charts("assignment","layout"), titleCharts=assignment.title("assignment"), topic=assignment.topic("assignment"), charts_active=assignment.charts_active("assignment"), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
 
 @mod.route('/cluster1/')
 def cluster1(): # <!-- VG-05 -->
-    cluster = Cluster(_conn, _user_id, _dashboard_id, _dashboard_type)
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
-    user = User(_conn, _user_id, _dashboard_id, _dashboard_type)
-    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=cluster.charts("grades_access","id"), charts_layout=cluster.charts("grades_access","layout"), titleCharts=cluster.title("grades_access"), topic=cluster.topic("grades_access"), charts_active=cluster.charts_active("grades_access"), enableLeftMenu=_dashboard_type, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
+    cluster = Cluster(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=cluster.charts("grades_access","id"), charts_layout=cluster.charts("grades_access","layout"), titleCharts=cluster.title("grades_access"), topic=cluster.topic("grades_access"), charts_active=cluster.charts_active("grades_access"), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
 
 @mod.route('/cluster2/')
 def cluster2(): # <!-- VG-05 -->
-    cluster = Cluster(_conn, _user_id, _dashboard_id, _dashboard_type)
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
-    user = User(_conn, _user_id, _dashboard_id, _dashboard_type)
-    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=cluster.charts("grades_assignments","id"), charts_layout=cluster.charts("grades_assignments","layout"), titleCharts=cluster.title("grades_assignments"), topic=cluster.topic("grades_assignments"), charts_active=cluster.charts_active("grades_assignments"), enableLeftMenu=_dashboard_type, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
+    cluster = Cluster(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=cluster.charts("grades_assignments","id"), charts_layout=cluster.charts("grades_assignments","layout"), titleCharts=cluster.title("grades_assignments"), topic=cluster.topic("grades_assignments"), charts_active=cluster.charts_active("grades_assignments"), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
 
 @mod.route('/cluster3/')
 def cluster3(): # <!-- VG-05 -->    
-    cluster = Cluster(_conn, _user_id, _dashboard_id, _dashboard_type)
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
-    user = User(_conn, _user_id, _dashboard_id, _dashboard_type)
-    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=cluster.charts("grades_access_materials","id"), charts_layout=cluster.charts("grades_access_materials","layout"), titleCharts=cluster.title("grades_access_materials"), topic=cluster.topic("grades_access_materials"), charts_active=cluster.charts_active("grades_access_materials"), enableLeftMenu=_dashboard_type, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
+    cluster = Cluster(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=cluster.charts("grades_access_materials","id"), charts_layout=cluster.charts("grades_access_materials","layout"), titleCharts=cluster.title("grades_access_materials"), topic=cluster.topic("grades_access_materials"), charts_active=cluster.charts_active("grades_access_materials"), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
 
 @mod.route('/cluster4/')
 def cluster4(): # <!-- VG-05 -->
-    cluster = Cluster(_conn, _user_id, _dashboard_id, _dashboard_type)
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
-    user = User(_conn, _user_id, _dashboard_id, _dashboard_type)
-    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=cluster.charts("grades_access_forum","id"), charts_layout=cluster.charts("grades_access_forum","layout"), titleCharts=cluster.title("grades_access_forum"), topic=cluster.topic("grades_access_forum"), charts_active=cluster.charts_active("grades_access_forum"), enableLeftMenu=_dashboard_type, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
+    cluster = Cluster(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=cluster.charts("grades_access_forum","id"), charts_layout=cluster.charts("grades_access_forum","layout"), titleCharts=cluster.title("grades_access_forum"), topic=cluster.topic("grades_access_forum"), charts_active=cluster.charts_active("grades_access_forum"), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
 
 @mod.route('/cluster5/')
 def cluster5(): # <!-- VG-05 -->
-    cluster = Cluster(_conn, _user_id, _dashboard_id, _dashboard_type)
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
-    user = User(_conn, _user_id, _dashboard_id, _dashboard_type)
-    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=cluster.charts("grades_forum_post","id"), charts_layout=cluster.charts("grades_forum_post","layout"), titleCharts=cluster.title("grades_forum_post"), topic=cluster.topic("grades_forum_post"), charts_active=cluster.charts_active("grades_forum_post"), enableLeftMenu=_dashboard_type, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
+    cluster = Cluster(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=cluster.charts("grades_forum_post","id"), charts_layout=cluster.charts("grades_forum_post","layout"), titleCharts=cluster.title("grades_forum_post"), topic=cluster.topic("grades_forum_post"), charts_active=cluster.charts_active("grades_forum_post"), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
 
 @mod.route('/cluster6/')
 def cluster6(): # <!-- VG-05 -->
-    cluster = Cluster(_conn, _user_id, _dashboard_id, _dashboard_type)
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
-    user = User(_conn, _user_id, _dashboard_id, _dashboard_type)
-    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=cluster.charts("grades_forum_reply","id"), charts_layout=cluster.charts("grades_forum_reply","layout"), titleCharts=cluster.title("grades_forum_reply"), topic=cluster.topic("grades_forum_reply"), charts_active=cluster.charts_active("grades_forum_reply"), enableLeftMenu=_dashboard_type, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
+    cluster = Cluster(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=cluster.charts("grades_forum_reply","id"), charts_layout=cluster.charts("grades_forum_reply","layout"), titleCharts=cluster.title("grades_forum_reply"), topic=cluster.topic("grades_forum_reply"), charts_active=cluster.charts_active("grades_forum_reply"), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
 
 @mod.route('/cluster7/')
 def cluster7(): # <!-- VG-05 -->
-    cluster = Cluster(_conn, _user_id, _dashboard_id, _dashboard_type)
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
-    user = User(_conn, _user_id, _dashboard_id, _dashboard_type)
-    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=cluster.charts("grades_forum_thread","id"), charts_layout=cluster.charts("grades_forum_thread","layout"), titleCharts=cluster.title("grades_forum_thread"), topic=cluster.topic("grades_forum_thread"), charts_active=cluster.charts_active("grades_forum_thread"), enableLeftMenu=_dashboard_type, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
+    cluster = Cluster(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=cluster.charts("grades_forum_thread","id"), charts_layout=cluster.charts("grades_forum_thread","layout"), titleCharts=cluster.title("grades_forum_thread"), topic=cluster.topic("grades_forum_thread"), charts_active=cluster.charts_active("grades_forum_thread"), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
 
 @mod.route('/prediction1/')
 def prediction1(): # <!-- VG-07 -->
-    prediction = Prediction(_conn, _user_id, _dashboard_id, _dashboard_type)
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
-    user = User(_conn, _user_id, _dashboard_id, _dashboard_type)
-    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=prediction.charts("id"), charts_layout=prediction.charts("layout"), titleCharts=prediction.title(), topic=prediction.topic(), charts_active=prediction.charts_active(), enableLeftMenu=_dashboard_type, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
+    prediction = Prediction(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=prediction.charts("id"), charts_layout=prediction.charts("layout"), titleCharts=prediction.title(), topic=prediction.topic(), charts_active=prediction.charts_active(), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
 
 @mod.route('/materials1/')
 def materials1(): #  <!-- VG-02 -->
-    material = Material(_conn, _user_id, _dashboard_id, _dashboard_type)
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
-    user = User(_conn, _user_id, _dashboard_id, _dashboard_type)
-    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=material.charts("access_students","id"), charts_layout=material.charts("access_students","layout"), titleCharts=material.title("access_students"), topic=material.topic("access_students"), charts_active=material.charts_active("access_students"), enableLeftMenu=_dashboard_type, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
+    material = Material(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=material.charts("access_students","id"), charts_layout=material.charts("access_students","layout"), titleCharts=material.title("access_students"), topic=material.topic("access_students"), charts_active=material.charts_active("access_students"), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
 
 @mod.route('/materials2/')
 def materials2(): #  <!-- VG-02 -->
-    material = Material(_conn, _user_id, _dashboard_id, _dashboard_type)
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
-    user = User(_conn, _user_id, _dashboard_id, _dashboard_type)
-    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=material.charts("access_materials","id"), charts_layout=material.charts("access_materials","layout"), titleCharts=material.title("access_materials"), topic=material.topic("access_materials"), charts_active=material.charts_active("access_materials"), enableLeftMenu=_dashboard_type, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
+    material = Material(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=material.charts("access_materials","id"), charts_layout=material.charts("access_materials","layout"), titleCharts=material.title("access_materials"), topic=material.topic("access_materials"), charts_active=material.charts_active("access_materials"), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
 
 @mod.route('/forum1/')
 def forum1(): # <!-- VG-03 -->
-    forum = Forum(_conn, _user_id, _dashboard_id, _dashboard_type)
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
-    user = User(_conn, _user_id, _dashboard_id, _dashboard_type)
-    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=forum.charts("id"), charts_layout=forum.charts("layout"), titleCharts=forum.title(), topic=forum.topic(), charts_active=forum.charts_active(), enableLeftMenu=_dashboard_type, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
+    forum = Forum(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=forum.charts("id"), charts_layout=forum.charts("layout"), titleCharts=forum.title(), topic=forum.topic(), charts_active=forum.charts_active(), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
 
 @mod.route('/video_access1/')
 def video_access1(): # <!-- VG-04 -->
-    video_access = Video_Access(_conn, _user_id, _dashboard_id, _dashboard_type)
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
-    user = User(_conn, _user_id, _dashboard_id, _dashboard_type)
-    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=video_access.charts("id"), charts_layout=video_access.charts("layout"), titleCharts=video_access.title(), topic=video_access.topic(), charts_active=video_access.charts_active(), enableLeftMenu=_dashboard_type, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
+    video_access = Video_Access(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=video_access.charts("id"), charts_layout=video_access.charts("layout"), titleCharts=video_access.title(), topic=video_access.topic(), charts_active=video_access.charts_active(), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
 
 @mod.route('/age1/')
 def age1(): # <!-- VG-06 -->
-    age = Age(_conn, _user_id, _dashboard_id, _dashboard_type)
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
-    user = User(_conn, _user_id, _dashboard_id, _dashboard_type)
-    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=age.charts("age_access_forum","id"), charts_layout=age.charts("age_access_forum","layout"), titleCharts=age.title("age_access_forum"), topic=age.topic("age_access_forum"), charts_active=age.charts_active("age_access_forum"), enableLeftMenu=_dashboard_type, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
+    age = Age(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=age.charts("age_access_forum","id"), charts_layout=age.charts("age_access_forum","layout"), titleCharts=age.title("age_access_forum"), topic=age.topic("age_access_forum"), charts_active=age.charts_active("age_access_forum"), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
 
 @mod.route('/age2/')
 def age2(): # <!-- VG-06 -->
-    age = Age(_conn, _user_id, _dashboard_id, _dashboard_type)
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
-    user = User(_conn, _user_id, _dashboard_id, _dashboard_type)
-    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=age.charts("age_forum_post","id"), charts_layout=age.charts("age_forum_post","layout"), titleCharts=age.title("age_forum_post"), topic=age.topic("age_forum_post"), charts_active=age.charts_active("age_forum_post"), enableLeftMenu=_dashboard_type, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
+    age = Age(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=age.charts("age_forum_post","id"), charts_layout=age.charts("age_forum_post","layout"), titleCharts=age.title("age_forum_post"), topic=age.topic("age_forum_post"), charts_active=age.charts_active("age_forum_post"), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
 
 @mod.route('/age3/')
 def age3(): # <!-- VG-06 -->
-    age = Age(_conn, _user_id, _dashboard_id, _dashboard_type)
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
-    user = User(_conn, _user_id, _dashboard_id, _dashboard_type)
-    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=age.charts("age_forum_reply","id"), charts_layout=age.charts("age_forum_reply","layout"), titleCharts=age.title("age_forum_reply"), topic=age.topic("age_forum_reply"), charts_active=age.charts_active("age_forum_reply"), enableLeftMenu=_dashboard_type, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
+    age = Age(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=age.charts("age_forum_reply","id"), charts_layout=age.charts("age_forum_reply","layout"), titleCharts=age.title("age_forum_reply"), topic=age.topic("age_forum_reply"), charts_active=age.charts_active("age_forum_reply"), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
 
 @mod.route('/age4/')
 def age4(): # <!-- VG-06 -->
-    age = Age(_conn, _user_id, _dashboard_id, _dashboard_type)
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
-    user = User(_conn, _user_id, _dashboard_id, _dashboard_type)
-    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=age.charts("age_forum_topic","id"), charts_layout=age.charts("age_forum_topic","layout"), titleCharts=age.title("age_forum_topic"), topic=age.topic("age_forum_topic"), charts_active=age.charts_active("age_forum_topic"), enableLeftMenu=_dashboard_type, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
+    age = Age(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=age.charts("age_forum_topic","id"), charts_layout=age.charts("age_forum_topic","layout"), titleCharts=age.title("age_forum_topic"), topic=age.topic("age_forum_topic"), charts_active=age.charts_active("age_forum_topic"), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
 
 @mod.route('/video_interaction1/')
 def video_interaction1(): # <!-- VG-09 -->
-    video_interaction = Video_Interaction(_conn, _user_id, _dashboard_id, _dashboard_type)
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
-    user = User(_conn, _user_id, _dashboard_id, _dashboard_type)
-    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=video_interaction.charts("id"), charts_layout=video_interaction.charts("layout"), titleCharts=video_interaction.title(), topic=video_interaction.topic(), charts_active=video_interaction.charts_active(), enableLeftMenu=_dashboard_type, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
+    video_interaction = Video_Interaction(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=video_interaction.charts("id"), charts_layout=video_interaction.charts("layout"), titleCharts=video_interaction.title(), topic=video_interaction.topic(), charts_active=video_interaction.charts_active(), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
 
 @mod.route('/video_understood1/')
 def video_understood1(): # <!-- VG-10 -->
-    video_understood = Video_Understood(_conn, _user_id, _dashboard_id, _dashboard_type)
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
-    user = User(_conn, _user_id, _dashboard_id, _dashboard_type)
-    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=video_understood.charts("id"), charts_layout=video_understood.charts("layout"), titleCharts=video_understood.title(), topic=video_understood.topic(), charts_active=video_understood.charts_active(), enableLeftMenu=_dashboard_type, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
+    video_understood = Video_Understood(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=video_understood.charts("id"), charts_layout=video_understood.charts("layout"), titleCharts=video_understood.title(), topic=video_understood.topic(), charts_active=video_understood.charts_active(), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
 
 @mod.route('/navigation1/')
 def navigation1(): # <!-- VG-11 -->
-    navigation = Navigation(_conn, _user_id, _dashboard_id, _dashboard_type)
-    dashboard = Dashboard(_conn, _user_id, _dashboard_id, _dashboard_type)
-    user = User(_conn, _user_id, _dashboard_id, _dashboard_type)
-    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=navigation.charts("id"), charts_layout=navigation.charts("layout"), titleCharts=navigation.title(), topic=navigation.topic(), charts_active=navigation.charts_active(), enableLeftMenu=_dashboard_type, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
+    navigation = Navigation(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    user = User(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/configure.html', userName=user.get_name(), charts_id=navigation.charts("id"), charts_layout=navigation.charts("layout"), titleCharts=navigation.title(), topic=navigation.topic(), charts_active=navigation.charts_active(), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
 
 
 
