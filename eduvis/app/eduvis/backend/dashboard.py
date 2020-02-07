@@ -96,8 +96,7 @@ class Dashboard:
         print("curr_id: "+str(curr_id))
         print("curr_order: "+str(curr_order))
 
-        if value_action == 'up':
-            pass
+        if value_action == 'up':            
             res_db = self._conn.select("prev_user_dashboard_charts_active_by_topic_chart",(self._user_id, self._dashboard_id, self._dashboard_type, curr_order))
             prev_id = res_db[0][0]
             prev_order = res_db[0][4]
@@ -107,7 +106,6 @@ class Dashboard:
             self._conn.update("dashboard_charts_order",(int(curr_order),prev_id))
             
         elif value_action == 'down':
-            pass
             res_db = self._conn.select("next_user_dashboard_charts_active_by_topic_chart",(self._user_id, self._dashboard_id, self._dashboard_type, curr_order))
             next_id = res_db[0][0]
             next_order = res_db[0][4]
@@ -115,8 +113,24 @@ class Dashboard:
             print("next_order: "+str(next_order))
             self._conn.update("dashboard_charts_order",(int(next_order),curr_id))
             self._conn.update("dashboard_charts_order",(int(curr_order),next_id))
-        
 
+        elif value_action == 'top':
+            res_db = self._conn.select("first_user_dashboard_charts_active_by_topic_chart",(self._user_id, self._dashboard_id, self._dashboard_type, self._dashboard_id)) # Pega o chart ativo de menor order
+            prev_id = res_db[0][0]
+            prev_order = res_db[0][4]
+            print("prev_id: "+str(prev_id))
+            print("prev_order: "+str(prev_order))
+            self._conn.update("dashboard_charts_order",(int(prev_order)-1,curr_id))
+            # self._conn.update("dashboard_charts_order",(int(curr_order),prev_id))
+        
+        elif value_action == 'bottom':
+            res_db = self._conn.select("last_user_dashboard_charts_active_by_topic_chart",(self._user_id, self._dashboard_id, self._dashboard_type, self._dashboard_id)) # Pega o chart ativo de maior order
+            next_id = res_db[0][0]
+            next_order = res_db[0][4]
+            print("next_id: "+str(next_id))
+            print("next_order: "+str(next_order))
+            self._conn.update("dashboard_charts_order",(int(next_order)+1,curr_id))
+            # self._conn.update("dashboard_charts_order",(int(curr_order),next_id))
 
     def load_views(self,view):
         if view == "V001" and self._view1 == None:

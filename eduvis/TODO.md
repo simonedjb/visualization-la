@@ -2,8 +2,7 @@
 - Adicionar um iframe de carregando.
 - Implementar Backend das telas de entrevista inicial com o usuário.
 - Implementar Backend da tela de avaliação do dashboard.
-- Implementar um botão no dashboard para mover o gráfico para o topo e para base.
 - Fazer mais gráficos para o VG-02 Topico 02.
 - Arrumar o graph_05() do VG-11.
-- Arrumar o VG-09
+- Arrumar o VG-09.
 - Adicionar filtros de ordenação nos gráficos.

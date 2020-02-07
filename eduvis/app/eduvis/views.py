@@ -320,7 +320,7 @@ def set_order():
     print("Set Order")
     print(raw_data)
 
-    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, _dashboard_type)
+    dashboard = Dashboard(_conn, _user_id, _customizable_dashboard_id, CUSTOMIZABLE_DASHBOARD_TYPE)
     dashboard.set_order(raw_data)
 
     resp = Response(json.dumps('OK'), mimetype='application/json')

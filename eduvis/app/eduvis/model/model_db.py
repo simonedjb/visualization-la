@@ -22,8 +22,10 @@ qry_insert["tb_question_dashboard"] = """INSERT INTO tb_question_dashboard (cl_d
 # qry_select["user_dashboard_charts_active_by_topic_chart"] -> (user id, dashboard id, dashboard type, topic id, chart id)
 # qry_select["prev_user_dashboard_charts_active_by_topic_chart"] -> (user id, dashboard id, dashboard type, order)
 # qry_select["next_user_dashboard_charts_active_by_topic_chart"] -> (user id, dashboard id, dashboard type, order)
+# qry_select["first_user_dashboard_charts_active_by_topic_chart"] -> (user id, dashboard id, dashboard type, dashboard id)
+# qry_select["last_user_dashboard_charts_active_by_topic_chart"] -> (user id, dashboard id, dashboard type, dashboard id)
 
-qry_select = {"user":"", "dashboard":"", "topics_charts": "", "topic_chart_id": "", "topics": "", "chart": "", "user_dashboard_charts": "", "user_dashboard_charts_active": "", "user_dashboard_charts_active_by_topic": "", "user_dashboard_charts_active_by_topic_chart": "", "prev_user_dashboard_charts_active_by_topic_chart": "", "next_user_dashboard_charts_active_by_topic_chart": ""}
+qry_select = {"user":"", "dashboard":"", "topics_charts": "", "topic_chart_id": "", "topics": "", "chart": "", "user_dashboard_charts": "", "user_dashboard_charts_active": "", "user_dashboard_charts_active_by_topic": "", "user_dashboard_charts_active_by_topic_chart": "", "prev_user_dashboard_charts_active_by_topic_chart": "", "next_user_dashboard_charts_active_by_topic_chart": "", "first_user_dashboard_charts_active_by_topic_chart": "", "last_user_dashboard_charts_active_by_topic_chart": ""}
 
 ## Select user;
 qry_select["user"] = """SELECT * 
@@ -111,7 +113,7 @@ qry_select["user_dashboard_charts_active_by_topic_chart"] = """SELECT c.cl_id, b
                                                                 WHERE b.cl_user_id = ? and c.cl_dashboard_id = ? and b.cl_type = ? and d.cl_topic_id = ? and d.cl_chart_id = ? and c.cl_active = 1
                                                                 ORDER BY c.cl_order;"""
 
-## Select previous user charts active from dashboard specifying the topic and chart order;
+## Select previous user charts active from dashboard specifying the chart order;
 qry_select["prev_user_dashboard_charts_active_by_topic_chart"] = """SELECT c.cl_id, b.cl_user_id, a.cl_name, b.cl_name, c.cl_order, f.cl_label, e.cl_chart_value
                                                                         FROM tb_user a 
                                                                                 inner join tb_dashboard b on a.cl_id = b.cl_user_id 
@@ -122,7 +124,7 @@ qry_select["prev_user_dashboard_charts_active_by_topic_chart"] = """SELECT c.cl_
                                                                         WHERE b.cl_user_id = ? and c.cl_dashboard_id = ? and b.cl_type = ? and c.cl_order < ? and c.cl_active = 1
                                                                         ORDER BY c.cl_order DESC;"""
 
-## Select next user charts active from dashboard specifying the topic and chart order;
+## Select next user charts active from dashboard specifying the chart order;
 qry_select["next_user_dashboard_charts_active_by_topic_chart"] = """SELECT c.cl_id, b.cl_user_id, a.cl_name, b.cl_name, c.cl_order, f.cl_label, e.cl_chart_value
                                                                         FROM tb_user a 
                                                                                 inner join tb_dashboard b on a.cl_id = b.cl_user_id 
@@ -132,6 +134,31 @@ qry_select["next_user_dashboard_charts_active_by_topic_chart"] = """SELECT c.cl_
                                                                                 inner join tb_topic f on d.cl_topic_id = f.cl_id 
                                                                         WHERE b.cl_user_id = ? and c.cl_dashboard_id = ? and b.cl_type = ? and c.cl_order > ? and c.cl_active = 1
                                                                         ORDER BY c.cl_order;"""
+
+## Select first user charts active from dashboard specifying the chart order;
+qry_select["first_user_dashboard_charts_active_by_topic_chart"] = """SELECT c.cl_id, b.cl_user_id, a.cl_name, b.cl_name, c.cl_order, f.cl_label, e.cl_chart_value
+                                                                        FROM tb_user a 
+                                                                                inner join tb_dashboard b on a.cl_id = b.cl_user_id 
+                                                                                inner join tb_dashboard_topic_chart c on b.cl_id = c.cl_dashboard_id 
+                                                                                inner join tb_topic_chart d on c.cl_topic_chart_id = d.cl_id 
+                                                                                inner join tb_chart e on d.cl_chart_id = e.cl_id 
+                                                                                inner join tb_topic f on d.cl_topic_id = f.cl_id 
+                                                                        WHERE b.cl_user_id = ? and c.cl_dashboard_id = ? and b.cl_type = ? and c.cl_active = 1 
+                                                                                and c.cl_order = (SELECT MIN(cl_order) FROM tb_dashboard_topic_chart WHERE cl_dashboard_id = ?)
+                                                                        ORDER BY c.cl_order;"""
+
+## Select first user charts active from dashboard specifying the chart order;
+qry_select["last_user_dashboard_charts_active_by_topic_chart"] = """SELECT c.cl_id, b.cl_user_id, a.cl_name, b.cl_name, c.cl_order, f.cl_label, e.cl_chart_value
+                                                                        FROM tb_user a 
+                                                                                inner join tb_dashboard b on a.cl_id = b.cl_user_id 
+                                                                                inner join tb_dashboard_topic_chart c on b.cl_id = c.cl_dashboard_id 
+                                                                                inner join tb_topic_chart d on c.cl_topic_chart_id = d.cl_id 
+                                                                                inner join tb_chart e on d.cl_chart_id = e.cl_id 
+                                                                                inner join tb_topic f on d.cl_topic_id = f.cl_id 
+                                                                        WHERE b.cl_user_id = ? and c.cl_dashboard_id = ? and b.cl_type = ? and c.cl_active = 1 
+                                                                                and c.cl_order = (SELECT MAX(cl_order) FROM tb_dashboard_topic_chart WHERE cl_dashboard_id = ?)
+                                                                        ORDER BY c.cl_order;"""
+
 
 ## UPDATE PARAM
 # qry_update["dashboard_charts_active"] -> SET(active) WHERE(dashboard_topic_chart id)
