@@ -6,3 +6,5 @@
 - Arrumar o graph_05() do VG-11.
 - Arrumar o VG-09.
 - Adicionar filtros de ordenação nos gráficos.
+
+- Remover as opções de remover e configurações no dashboard estático.

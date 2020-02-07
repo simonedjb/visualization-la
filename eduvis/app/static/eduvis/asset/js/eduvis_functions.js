@@ -1,4 +1,4 @@
-function buildingDashboard(title,chartPlotlyId,chartId) {
+function buildingDashboard(title,chartPlotlyId,chartId,customizable) {
   var colNode1 = document.createElement("div");
   var colNode1att1 = document.createAttribute("class");
   var colNode1att2 = document.createAttribute("style");
@@ -27,7 +27,7 @@ function buildingDashboard(title,chartPlotlyId,chartId) {
   
   var colNode3 = document.createElement("div");
   var colNode3att1 = document.createAttribute("class");
-  colNode3att1.value = "col-md-9 col-sm-9 col-sm-12 text-left";
+  colNode3att1.value = "col-md-8 col-sm-8 col-sm-12 text-left";
   colNode3.setAttributeNode(colNode3att1);
 
   var titleNode = document.createElement("h4");
@@ -36,7 +36,7 @@ function buildingDashboard(title,chartPlotlyId,chartId) {
 
   var colNode4 = document.createElement("div");
   var colNode4att1 = document.createAttribute("class");
-  colNode4att1.value = "col-md-3 col-sm-3 col-sm-12 text-right";
+  colNode4att1.value = "col-md-4 col-sm-4 col-sm-12 text-right";
   colNode4.setAttributeNode(colNode4att1);              
 
   var buttonMoveTop = document.createElement("button");
@@ -253,8 +253,10 @@ function buildingDashboard(title,chartPlotlyId,chartId) {
   colNode4.appendChild(buttonMoveUp);
   colNode4.appendChild(buttonMoveDown);
   colNode4.appendChild(buttonMoveBottom);
-  colNode4.appendChild(buttonSettings);
-  colNode4.appendChild(buttonRemove);
+  if(customizable){
+    colNode4.appendChild(buttonSettings);
+    colNode4.appendChild(buttonRemove);
+  }
   // optionDiv.appendChild(optionInput);
   // optionDiv.appendChild(optionLabel);
   // colNode4.appendChild(optionDiv);
