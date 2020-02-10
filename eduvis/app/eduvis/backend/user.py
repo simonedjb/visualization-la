@@ -74,7 +74,7 @@ class User:
             
             lst_evaluate_topic = []
             for i in range(1,len(SUB_TOPIC)+1):
-                lst_evaluate_topic.append((id,i,""))
+                lst_evaluate_topic.append((user_id,i,""))
             
             self._conn.insert_many("tb_evaluate",lst_evaluate_topic)
 
@@ -95,5 +95,5 @@ class User:
         self._conn.update("user_background_data", (data['gostariadado'], data['comoapresentar'],id))        
         self._conn.update_many("tb_evaluate",lst_evaluate_topic)
 
-    def record_visualization_xp(self,data,id):
+    def record_visualization_xp(self,data,id):        
         self._conn.update("user_background_visualization", (data['frequencialeitura'], data['frequenciacria'],id))

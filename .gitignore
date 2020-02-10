@@ -7,3 +7,7 @@ ethumbs.db
 .Spotlight-V100
 .Trashes
 ehthumbs.db
+*.ipynb_checkpoints
+*__pycache__
+*eduvis.db
+*cpython-37.pyc

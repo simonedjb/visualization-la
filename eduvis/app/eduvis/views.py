@@ -231,6 +231,7 @@ def visualizationxp_data():
                 'frequenciacria':request.form['frequenciacria']}
         print(data)
 
+        user = User(_conn)
         user.record_visualization_xp(data, _user_id)
     else:
         pass
@@ -247,6 +248,8 @@ def evaluation_static_dashboard():
 def evaluation_static_dashboard_data():
     if request.method == 'POST':
         print("--------------------------------post_evaluation_static_dashboard--------------------------------")
+
+        user = User(_conn)
     else:
         pass
 
@@ -262,6 +265,8 @@ def evaluation_customizable_dashboard():
 def evaluation_customizable_dashboard_data():
     if request.method == 'POST':
         print("--------------------------------post_evaluation_customizable_dashboard--------------------------------")
+
+        user = User(_conn)
     else:
         pass
 
