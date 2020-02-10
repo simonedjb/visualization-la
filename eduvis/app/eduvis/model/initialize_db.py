@@ -238,7 +238,7 @@ lst_topic.append(('Padrão de navegação dos estudantes no AVA',)) # id 23 -> #
 
 ### tb_user ###
 lst_user = []
-lst_user.append(('TESTE','2020-01-08 11:40:01'))
+lst_user.append(('TESTE', "", "", "", "", "", "", '2020-01-08 11:40:01'))
 
 ################################################################################################
 
@@ -428,8 +428,8 @@ lst_topic_chart.append((182, 23)) # id 156 -> V011@4 - 11.1
 
 ### tb_dashboard
 lst_dashboard = []
-lst_dashboard.append((1, "Dashboard Fixo", 0, 1, "2020-01-08 11:40:01")) # id 1
-lst_dashboard.append((1, "Dashboard Customizável", 1, 1, "2020-01-08 11:40:01")) # id 2
+lst_dashboard.append((1, "Dashboard Default Fixo", 0, 1, "2020-01-08 11:40:01")) # id 1
+lst_dashboard.append((1, "Dashboard Default Customizável", 1, 1, "2020-01-08 11:40:01")) # id 2
 
 ################################################################################################
 

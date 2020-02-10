@@ -37,7 +37,7 @@ CREATE TABLE `tb_topic`(
 CREATE TABLE `tb_evaluate`(
 	`cl_user_id` INTEGER NOT NULL,
 	`cl_topic_id` INTEGER NOT NULL,
-	`cl_value` varchar(200) NOT NULL,
+	`cl_value` varchar(3) NOT NULL,
     FOREIGN KEY (`cl_user_id`) REFERENCES `tb_user` (`cl_id`),
 	FOREIGN KEY (`cl_topic_id`) REFERENCES `tb_topic` (`cl_id`)
 );

@@ -106,10 +106,13 @@
                 var inputRadio = document.createElement("input");
                 var inputRadioatt1 = document.createAttribute("type");
                 var inputRadioatt2 = document.createAttribute("name");
+                var inputRadioatt3 = document.createAttribute("value");
                 inputRadioatt1.value = "radio";
                 inputRadioatt2.value = lst_sub_topic[j]["id"];
+                inputRadioatt3.value = (z+1).toString();
                 inputRadio.setAttributeNode(inputRadioatt1);
                 inputRadio.setAttributeNode(inputRadioatt2);
+                inputRadio.setAttributeNode(inputRadioatt3);
     
                 var spanRadioOuter = document.createElement("span");
                 var spanRadioOuteratt1 = document.createAttribute("class");

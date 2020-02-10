@@ -64,7 +64,7 @@ class Connection_DB:
         pass
 
 
-    def insert(self,table,data):
+    def insert(self,table,data,feedback=False):
         try:
             self.connect()
             print("Recording on Database...")
@@ -73,10 +73,24 @@ class Connection_DB:
             self._cursor.execute(qry_insert[table], data)
             self._conn.commit()
             print("Data has been recorded on Database.")
+            if feedback:
+                return self._cursor.lastrowid
             self.disconnect()
         except:
             print("Error to record on Database.")
 
+    def insert_many(self,table,data):
+        try:
+            self.connect()
+            print("Recording on Database...")
+            print(qry_insert[table])
+            print(data)            
+            self._cursor.executemany(qry_insert[table], data)
+            self._conn.commit()
+            print("Data has been recorded on Database.")            
+            self.disconnect()
+        except:
+            print("Error to record on Database.")
 
     def update(self,table,data):
         try:
@@ -91,6 +105,18 @@ class Connection_DB:
         except:
             print("Error to update on Database.")
 
+    def update_many(self,table,data):
+        try:
+            self.connect()
+            print("Updating on Database...")
+            print(qry_update[table])
+            print(data)
+            self._cursor.executemany(qry_update[table], data)
+            self._conn.commit()
+            print("Data has been updated on Database.")
+            self.disconnect()
+        except:
+            print("Error to update on Database.")
 
     def remove(self,table,data):
         pass

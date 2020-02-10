@@ -54,7 +54,7 @@ CREATE TABLE `tb_topic`(
 CREATE TABLE `tb_evaluate`(
 	`cl_user_id` bigint(11) NOT NULL COMMENT 'chave estrangeira da tb_user',
 	`cl_topic_id` bigint(11) NOT NULL COMMENT 'chave estrangeira da tb_topic',
-	`cl_value` varchar(200) NOT NULL COMMENT 'valor da avaliação do usuário na escala likert (1 à 7)',
+	`cl_value` varchar(3) NOT NULL COMMENT 'valor da avaliação do usuário na escala likert (1 à 7)',
 	KEY `fk_user_id` (`cl_user_id`),
 	KEY `fk_topic_id` (`cl_topic_id`),
 	CONSTRAINT `tb_evaluate_fk_user_id` FOREIGN KEY (`cl_user_id`) REFERENCES `tb_user` (`cl_id`),
