@@ -250,6 +250,17 @@ def evaluation_static_dashboard_data():
         print("--------------------------------post_evaluation_static_dashboard--------------------------------")
 
         user = User(_conn)
+        dashboard = Dashboard(_conn, _user_id, user.get_static_dashboard_id(_user_id), STATIC_DASHBOARD_TYPE)
+        topics = dashboard.topic()
+        charts = dashboard.charts("id")
+
+        data = {}
+        for i in range(0,len(charts)):
+            name = "T"+str(topics[i])+"@"+str(charts[i])
+            data[name] = request.form[name]
+        print(data)
+
+        user.record_evaluation_dashboard(STATIC_DASHBOARD_TYPE, data, _user_id)
     else:
         pass
 
@@ -267,6 +278,17 @@ def evaluation_customizable_dashboard_data():
         print("--------------------------------post_evaluation_customizable_dashboard--------------------------------")
 
         user = User(_conn)
+        dashboard = Dashboard(_conn, _user_id, user.get_customizable_dashboard_id(_user_id), CUSTOMIZABLE_DASHBOARD_TYPE)
+        topics = dashboard.topic()
+        charts = dashboard.charts("id")
+
+        data = {}
+        for i in range(0,len(charts)):
+            name = "T"+str(topics[i])+"@"+str(charts[i])
+            data[name] = request.form[name]
+        print(data)
+
+        user.record_evaluation_dashboard(CUSTOMIZABLE_DASHBOARD_TYPE, data, _user_id)
     else:
         pass
 

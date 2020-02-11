@@ -97,3 +97,15 @@ class User:
 
     def record_visualization_xp(self,data,id):        
         self._conn.update("user_background_visualization", (data['frequencialeitura'], data['frequenciacria'],id))
+
+    def record_evaluation_dashboard(self,type_dash,data,id):
+        keys = list(data.keys())
+        lst_feedbacks = []
+        for key in keys:
+            topic = int(key.split("@")[0].replace('T',''))
+            chart = key.split("@")[1]+'@'+key.split("@")[2]
+            feedback = data[key]
+            lst_feedbacks.append((feedback, id, type_dash, topic, chart))
+
+        self._conn.update_many("dashboard_feedback",lst_feedbacks)
+        
