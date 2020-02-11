@@ -1,4 +1,3 @@
-# qry_insert = {"tb_user":"", "tb_user_background":"", "tb_topic":"", "tb_evaluate":"", "tb_dashboard":"", "tb_chart":"", "tb_topic_chart":"", "tb_dashboard_topic_chart":"", "tb_question_dashboard":""}
 qry_insert = {}
 qry_insert["tb_user"] = """INSERT INTO tb_user (cl_name, cl_age, cl_birth_place, cl_work_place, cl_formation_area, cl_education_level, cl_job, cl_record_date) VALUES (?,?,?,?,?,?,?,?);"""
 qry_insert["tb_user_background"] = """INSERT INTO tb_user_background (cl_user_id, cl_ava_xp, cl_ava_roles, cl_ava_time_xp, cl_ava_institution, cl_ava_subject, cl_ava_modality_xp, cl_ava_system, cl_ava_resources, cl_ava_student_age, cl_ava_student_information, cl_ava_data_meaningful, cl_ava_data_analyze, cl_freq_interpretation_chart, cl_freq_creation_chart) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"""
@@ -9,7 +8,6 @@ qry_insert["tb_chart"] = """INSERT INTO tb_chart (cl_chart_value) VALUES (?);"""
 qry_insert["tb_topic_chart"] = """INSERT INTO tb_topic_chart (cl_chart_id, cl_topic_id) VALUES (?,?);"""
 qry_insert["tb_dashboard_topic_chart"] = """INSERT INTO tb_dashboard_topic_chart (cl_dashboard_id, cl_topic_chart_id, cl_order, cl_feedback, cl_active) VALUES (?,?,?,?,?);"""
 qry_insert["tb_question_dashboard"] = """INSERT INTO tb_question_dashboard (cl_dashboard_id, cl_feedback, cl_important, cl_not_important) VALUES (?,?,?,?);"""
-
 
 ## SELECT PARAM
 # qry_select["user"] -> (user id)
@@ -27,7 +25,6 @@ qry_insert["tb_question_dashboard"] = """INSERT INTO tb_question_dashboard (cl_d
 # qry_select["first_user_dashboard_charts_active_by_topic_chart"] -> (user id, dashboard id, dashboard type, dashboard id)
 # qry_select["last_user_dashboard_charts_active_by_topic_chart"] -> (user id, dashboard id, dashboard type, dashboard id)
 
-# qry_select = {"user":"", "dashboard":"", "topics_charts": "", "topic_chart_id": "", "topics": "", "chart": "", "user_dashboard_charts": "", "user_dashboard_charts_active": "", "user_dashboard_charts_active_by_topic": "", "user_dashboard_charts_active_by_topic_chart": "", "prev_user_dashboard_charts_active_by_topic_chart": "", "next_user_dashboard_charts_active_by_topic_chart": "", "first_user_dashboard_charts_active_by_topic_chart": "", "last_user_dashboard_charts_active_by_topic_chart": ""}
 qry_select = {}
 ## Select user;
 qry_select["user"] = """SELECT * 
@@ -177,7 +174,6 @@ qry_select["last_user_dashboard_charts_active_by_topic_chart"] = """SELECT c.cl_
 # qry_update["tb_evaluate"] -> SET(value) WHERE(user id, topic id)
 # qry_update["dashboard_feedback"] -> SET(feedback) WHERE(user id, dashboard type, topic id, label chart)
 
-# qry_update = {"tb_user":"", "tb_user_background":"", "user_background_data":"", "user_background_visualization":"", "dashboard_charts_active":"", "dashboard_charts_order":"", "tb_evaluate":""}
 qry_update = {}
 qry_update["tb_user"] = """UPDATE tb_user
                             SET cl_name = ?, cl_age = ?, cl_birth_place = ?, cl_work_place = ?, cl_formation_area = ?, cl_education_level = ?, cl_job = ?
@@ -216,14 +212,3 @@ qry_update["dashboard_feedback"] = """UPDATE tb_dashboard_topic_chart
                                                                 inner join tb_chart d on b.cl_chart_id = d.cl_id
                                                                 inner join tb_dashboard e on a.cl_dashboard_id = e.cl_id
                                                         WHERE e.cl_user_id = ? and e.cl_type = ? and c.cl_id = ? and d.cl_chart_value = ?)"""
-# T1@V001@38
-
-# UPDATE tb_dashboard_topic_chart
-# SET cl_feedback = "TESTE"
-# WHERE cl_id = (SELECT a.cl_id
-#                 FROM tb_dashboard_topic_chart a 
-#                         inner join tb_topic_chart b on a.cl_topic_chart_id = b.cl_id
-#                         inner join tb_topic c on b.cl_topic_id = c.cl_id
-#                         inner join tb_chart d on b.cl_chart_id = d.cl_id
-#                         inner join tb_dashboard e on a.cl_dashboard_id = e.cl_id
-#                 WHERE e.cl_user_id = 2 and e.cl_type = 0 and c.cl_id = 1 and d.cl_chart_value = "V001@38");
