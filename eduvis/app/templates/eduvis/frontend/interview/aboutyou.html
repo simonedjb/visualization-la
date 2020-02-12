@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="col-md-12">
-    <form id="submitForm" class="cmxform" method="post" action="/eduvis/interview/post_aboutyou/" novalidate="novalidate">
+    <form id="submitForm" class="cmxform" method="post" action="/eduvis/interview/aboutyou/save/" novalidate="novalidate">
         <div class="col-md-6">
             <div class="form-group form-animate-text" style="margin-top:40px !important;">
                 <input type="text" class="form-text" id="nomecompleto" name="nomecompleto" required aria-required="true">
@@ -84,4 +84,9 @@
         </div>
     </form>
 </div>
+
+<script type="text/javascript">
+    var data = {{data | safe}};
+    highlightFieldEmpty(data);
+</script>
 {% endblock %}

@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="col-md-12">                                    
-    <form id="submitForm" class="cmxform" method="post" action="/eduvis/interview/post_visualizationxp/" novalidate="novalidate">
+    <form id="submitForm" class="cmxform" method="post" action="/eduvis/interview/visualizationxp/save/" novalidate="novalidate">
         <div class="col-md-6">
             <div class="form-group form-animate-text" style="margin-top:27px !important; font-size: 18px;">
                 Em geral, com que frequência você lê e interpreta gráficos?
@@ -39,4 +39,9 @@
         </div>
     </form>
 </div>
+
+<script type="text/javascript">
+    var data = {{data | safe}};
+    highlightFieldEmpty(data);
+</script>
 {% endblock %}

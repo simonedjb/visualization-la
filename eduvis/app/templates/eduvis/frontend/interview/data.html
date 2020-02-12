@@ -12,7 +12,7 @@
             <!-- Em relação aos dados que você analisa ou que gostaria de analisar, selecione o grau de importância dos seguintes tópicos -->
         </div>
     </div>    
-    <form id="submitForm" class="cmxform" method="post" action="/eduvis/interview/post_data/" novalidate="novalidate">
+    <form id="submitForm" class="cmxform" method="post" action="/eduvis/interview/data/save/" novalidate="novalidate">
         <div class="col-md-12">
             <div class="form-group form-animate-text" style="margin-top:40px !important;">
                 <input type="text" class="form-text" id="gostariadado" name="gostariadado" required aria-required="true">
@@ -68,11 +68,14 @@
         for(j=0; j<lst_sub_topic.length; j++){
             var div = document.createElement("div");
             var divatt1 = document.createAttribute("class");
+            var divatt2 = document.createAttribute("id");
             divatt1.value = "col-md-12";
             if(j%2==0){
                 divatt1.value = "col-md-12 bg-light-grey";
             }
+            divatt2.value = lst_sub_topic[j]["id"];
             div.setAttributeNode(divatt1);
+            div.setAttributeNode(divatt2);
 
             var divSubTopic = document.createElement("div");
             var divSubTopicatt1 = document.createAttribute("class");
@@ -107,12 +110,15 @@
                 var inputRadioatt1 = document.createAttribute("type");
                 var inputRadioatt2 = document.createAttribute("name");
                 var inputRadioatt3 = document.createAttribute("value");
+                var inputRadioatt4 = document.createAttribute("id");
                 inputRadioatt1.value = "radio";
                 inputRadioatt2.value = lst_sub_topic[j]["id"];
                 inputRadioatt3.value = (z+1).toString();
+                inputRadioatt4.value = lst_sub_topic[j]["id"].toString()+"#"+(z+1).toString();
                 inputRadio.setAttributeNode(inputRadioatt1);
                 inputRadio.setAttributeNode(inputRadioatt2);
                 inputRadio.setAttributeNode(inputRadioatt3);
+                inputRadio.setAttributeNode(inputRadioatt4);
     
                 var spanRadioOuter = document.createElement("span");
                 var spanRadioOuteratt1 = document.createAttribute("class");
@@ -141,4 +147,8 @@
     }
 </script>
 
+<script type="text/javascript">
+    var data = {{data | safe}};
+    highlightFieldEmpty(data);
+</script>
 {% endblock %}

@@ -118,13 +118,16 @@ def invite_data():
     
     return redirect('/eduvis/interview/aboutyou/')
 
+def check_data(data):
+    return '' in list(data.values())
+
 @mod.route('/interview/aboutyou/')
 def aboutyou():
-    return render_template('eduvis/frontend/interview/aboutyou.html')
+    return render_template('eduvis/frontend/interview/aboutyou.html', data={})
 
-@mod.route('/interview/post_aboutyou/', methods=['POST'])
-def aboutyou_data():
-    if request.method == 'POST':
+@mod.route('/interview/aboutyou/save/', methods=['POST'])
+def aboutyou_save():
+    if request.method == 'POST':        
         print("--------------------------------post_aboutyou--------------------------------")
         data = {'nomecompleto':request.form['nomecompleto'],
                 'idade':request.form['idade'],
@@ -135,28 +138,31 @@ def aboutyou_data():
                 'profissao':request.form['profissao'],
                 'avaxp':request.form['avaxp']}
         print(data)
-
-        user = User(_conn)
-        if session['user_eduvis'] == "":
-            user_id = user.record_about_user(data)
-            session['user_eduvis'] = user_id
-        else:
-            user_id = session['user_eduvis']
-            user.record_about_user(data, user_id)
         
-        if int(data['avaxp'])==0:
-            return redirect('/eduvis/interview/data/')
+        if '' in list(data.values()):
+            return render_template('eduvis/frontend/interview/aboutyou.html', data=data)
+        else:
+            user = User(_conn)
+            if session['user_eduvis'] == "":
+                user_id = user.record_about_user(data)
+                session['user_eduvis'] = user_id
+            else:
+                user_id = session['user_eduvis']
+                user.record_about_user(data, user_id)
+            
+            if int(data['avaxp'])==0:
+                return redirect('/eduvis/interview/data/')
     else:
         pass
 
     return redirect('/eduvis/interview/avaxp/')
 
 @mod.route('/interview/avaxp/')
-def avaxp():    
-    return render_template('eduvis/frontend/interview/avaxp.html')
+def avaxp():
+    return render_template('eduvis/frontend/interview/avaxp.html', data={})
 
-@mod.route('/interview/post_avaxp/', methods=['POST'])
-def avaxp_data():
+@mod.route('/interview/avaxp/save/', methods=['POST'])
+def avaxp_save():
     if request.method == 'POST':
         print("--------------------------------post_avaxp--------------------------------")
         data = {'papeisavas':request.form['papeisavas'],
@@ -170,15 +176,18 @@ def avaxp_data():
                 'inforelevante':request.form['inforelevante']}
         print(data)
 
-        user = User(_conn)
-        user.record_ava_xp(data, _user_id)
+        if '' in list(data.values()):
+            return render_template('eduvis/frontend/interview/avaxp.html', data=data)
+        else:
+            user = User(_conn)
+            user.record_ava_xp(data, _user_id)
     else:
         pass
     
     return redirect('/eduvis/interview/data/')
 
 @mod.route('/interview/data/')
-def data():
+def data(data={}):
     lst = LST_VIEW_INFORMATION
     
     lst_topics = []
@@ -195,25 +204,51 @@ def data():
     
     sorted_list = sorted(lst_topics, key=lambda k: k['label_pt'])
     
-    return render_template('eduvis/frontend/interview/data.html', selecting=sorted_list)
+    return render_template('eduvis/frontend/interview/data.html', selecting=sorted_list, data=data)
 
-@mod.route('/interview/post_data/', methods=['POST'])
-def data_data():
+@mod.route('/interview/data/save/', methods=['POST'])
+def data_save():
     if request.method == 'POST':
         print("--------------------------------post_data--------------------------------")
+        keys = []
+        form = request.form
+        for key in form.keys():
+            keys.append(key)
+            
+        print(keys)
+
         data = {}
         lst = LST_VIEW_INFORMATION
         for i in range(len(lst)):
             lst_question = lst[i]["Questions"]
             for j in range(len(lst_question)):
-                data[lst_question[j]["id"]] = request.form[lst_question[j]["id"]]
+                if lst_question[j]["id"] in keys:
+                    data[lst_question[j]["id"]] = request.form[lst_question[j]["id"]]
+                else:
+                    data[lst_question[j]["id"]] = ''
 
         data['gostariadado'] = request.form['gostariadado']
         data['comoapresentar'] = request.form['comoapresentar']
         print(data)
 
-        user = User(_conn)
-        user.record_data(data, _user_id)
+        if '' in list(data.values()):
+            lst_topics = []
+            for i in range(len(lst)):
+                sub_topic = []
+                lst_question = lst[i]["Questions"]
+            
+                for j in range(len(lst_question)):
+                    sub_topic.append({"id":lst_question[j]["id"],"label_pt":lst_question[j]["Sub_topic"]})
+            
+                curr_dict = {"label_pt":lst[i]["Label_pt"],"view":int(lst[i]["View"].replace("V","")),"sub_topic":sub_topic}
+            
+                lst_topics.append(curr_dict)
+            
+            sorted_list = sorted(lst_topics, key=lambda k: k['label_pt'])
+            return render_template('eduvis/frontend/interview/data.html', selecting=sorted_list, data=data)
+        else:
+            user = User(_conn)
+            user.record_data(data, _user_id)
     else:
         pass
     
@@ -221,18 +256,21 @@ def data_data():
 
 @mod.route('/interview/visualizationxp/')
 def visualizationxp():
-    return render_template('eduvis/frontend/interview/visualizationxp.html')
+    return render_template('eduvis/frontend/interview/visualizationxp.html', data={})
 
-@mod.route('/interview/post_visualizationxp/', methods=['POST'])
-def visualizationxp_data():
+@mod.route('/interview/visualizationxp/save/', methods=['POST'])
+def visualizationxp_save():
     if request.method == 'POST':
         print("--------------------------------post_visualizationxp--------------------------------")
         data = {'frequencialeitura':request.form['frequencialeitura'],
                 'frequenciacria':request.form['frequenciacria']}
         print(data)
 
-        user = User(_conn)
-        user.record_visualization_xp(data, _user_id)
+        if '' in list(data.values()):
+            return render_template('eduvis/frontend/interview/visualizationxp.html', data=data)
+        else:
+            user = User(_conn)
+            user.record_visualization_xp(data, _user_id)
     else:
         pass
     
@@ -242,10 +280,10 @@ def visualizationxp_data():
 def evaluation_static_dashboard():
     user = User(_conn)
     dashboard = Dashboard(_conn, _user_id, user.get_static_dashboard_id(_user_id), STATIC_DASHBOARD_TYPE)
-    return render_template('eduvis/frontend/dashboard/evaluate.html', userName=user.get_name(_user_id), charts_topic=dashboard.topic(), charts_id=dashboard.charts("id"), charts_layout=dashboard.charts("layout"), titleCharts=dashboard.title(), post_action="/eduvis/post_evaluation_static_dashboard/")
+    return render_template('eduvis/frontend/dashboard/evaluate.html', userName=user.get_name(_user_id), charts_topic=dashboard.topic(), charts_id=dashboard.charts("id"), charts_layout=dashboard.charts("layout"), titleCharts=dashboard.title(), post_action="/eduvis/evaluation_static_dashboard/save/")
 
-@mod.route('/post_evaluation_static_dashboard/', methods=['POST'])
-def evaluation_static_dashboard_data():
+@mod.route('/evaluation_static_dashboard/save/', methods=['POST'])
+def evaluation_static_dashboard_save():
     if request.method == 'POST':
         print("--------------------------------post_evaluation_static_dashboard--------------------------------")
 
@@ -270,10 +308,10 @@ def evaluation_static_dashboard_data():
 def evaluation_customizable_dashboard():
     user = User(_conn)
     dashboard = Dashboard(_conn, _user_id, user.get_customizable_dashboard_id(_user_id), CUSTOMIZABLE_DASHBOARD_TYPE)
-    return render_template('eduvis/frontend/dashboard/evaluate.html', userName=user.get_name(_user_id), charts_topic=dashboard.topic(), charts_id=dashboard.charts("id"), charts_layout=dashboard.charts("layout"), titleCharts=dashboard.title(), post_action="/eduvis/post_evaluation_customizable_dashboard/")
+    return render_template('eduvis/frontend/dashboard/evaluate.html', userName=user.get_name(_user_id), charts_topic=dashboard.topic(), charts_id=dashboard.charts("id"), charts_layout=dashboard.charts("layout"), titleCharts=dashboard.title(), post_action="/eduvis/evaluation_customizable_dashboard/save/")
 
-@mod.route('/post_evaluation_customizable_dashboard/', methods=['POST'])
-def evaluation_customizable_dashboard_data():
+@mod.route('/evaluation_customizable_dashboard/save/', methods=['POST'])
+def evaluation_customizable_dashboard_save():
     if request.method == 'POST':
         print("--------------------------------post_evaluation_customizable_dashboard--------------------------------")
 

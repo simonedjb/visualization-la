@@ -677,6 +677,70 @@ function loadMenu(menuListInfo,amountSelectedVG) {
   document.getElementById("left-menu").appendChild(subLeftMenu);
 }
 
+function highlightFieldEmpty(data) {
+  Object.entries(data).forEach(([key, value]) => {
+    // console.log(key, value);
+    el = document.getElementById(key);
+    
+    var highlight = document.createAttribute("style");
+    highlight.value = "color: #e43927;";
+
+    if (el.tagName == "INPUT") {
+        if (value == '') {
+            var child = el.parentNode.childNodes;
+            for (i=0;i<child.length;i++) {
+                if (child[i].tagName == 'LABEL'){
+                    child[i].setAttributeNode(highlight);
+                    break;
+                }
+            }
+        } else {
+            var elatt1 = document.createAttribute("value");
+            elatt1.value = value;
+            el.setAttributeNode(elatt1);
+        }
+    }
+
+    else if (el.tagName == "SELECT") {
+        if (value == '') {
+            var parent = el.parentNode;
+            var parentatt1 = document.createAttribute("style");
+            parentatt1.value = parent.getAttribute('style')+highlight.value;
+            parent.setAttributeNode(parentatt1);
+        } else {
+            var elatt1 = document.createAttribute("selected");
+            var child = el.childNodes;            
+            for (i=0;i<child.length;i++) {                
+                if (child[i].tagName != "OPTION"){
+                    continue;
+                }
+                else if (child[i].getAttribute('value') == value){                        
+                    var selected = document.createAttribute("selected");
+                    child[i].setAttributeNode(selected);
+                    break;
+                }
+            }
+        }
+    }
+
+    else if (el.tagName == "DIV") { //likert scale
+      console.log(key,"#",value);
+      if (value == '') {
+        var child = el.firstElementChild;
+        var childatt1 = document.createAttribute("style");
+        childatt1.value = child.getAttribute('style')+highlight.value;
+        child.setAttributeNode(childatt1);
+      } else {
+        var selected = document.createAttribute("checked");
+        document.getElementById(key.toString()+"#"+value).setAttributeNode(selected);
+      }
+    }
+  });
+
+}
+
+
+
 function addDashboard(chart_id) {
   function transferComplete(evt) {
     console.log("The transfer is complete.");

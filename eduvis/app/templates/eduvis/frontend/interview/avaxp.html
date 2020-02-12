@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="col-md-12">                                    
-    <form id="submitForm" class="cmxform" method="post" action="/eduvis/interview/post_avaxp/" novalidate="novalidate">
+    <form id="submitForm" class="cmxform" method="post" action="/eduvis/interview/avaxp/save/" novalidate="novalidate">
         <div class="col-md-6">
             <div class="form-group form-animate-text" style="margin-top:40px !important;">
                 <input type="text" class="form-text" id="papeisavas" name="papeisavas" required aria-required="true">
@@ -54,7 +54,7 @@
         </div>
         <div class="col-md-12">
             <div class="form-group form-animate-text" style="margin-top:40px !important;">
-                <input type="text" class="form-text" id="avasusados" name="recursosusados" required aria-required="true">
+                <input type="text" class="form-text" id="recursosusados" name="recursosusados" required aria-required="true">
                 <span class="bar"></span>
                 <label>Recursos que utiliza e já utilizou nos AVAs (vídeos, ebooks, fórum, chat, badges, etc.)?</label>
             </div>
@@ -81,4 +81,9 @@
         </div>
     </form>
 </div>
+
+<script type="text/javascript">
+    var data = {{data | safe}};
+    highlightFieldEmpty(data);
+</script>
 {% endblock %}
