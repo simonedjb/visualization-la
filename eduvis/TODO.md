@@ -1,6 +1,7 @@
-- Deixar os dados dummies dos gráficos já gerados em formato json sem precisar gerar a cada acesso.
-- Adicionar um iframe de carregando.
-- Fazer mais gráficos para o VG-02 Topico 02.
+- Criar alerta para os campos que não foram preenchidos
 - Arrumar o graph_05() do VG-11.
+- Fazer mais gráficos para o VG-02 Topico 02.
 - Arrumar o VG-09.
+- Deixar os dados dummies dos gráficos já gerados em formato json sem precisar gerar a cada acesso.
 - Adicionar filtros de ordenação nos gráficos.
+- Adicionar um iframe de carregando.
