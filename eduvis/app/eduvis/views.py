@@ -280,7 +280,7 @@ def visualizationxp_save():
 def evaluation_static_dashboard():
     user = User(_conn)
     dashboard = Dashboard(_conn, _user_id, user.get_static_dashboard_id(_user_id), STATIC_DASHBOARD_TYPE)
-    return render_template('eduvis/frontend/dashboard/evaluate.html', userName=user.get_name(_user_id), charts_topic=dashboard.topic(), charts_id=dashboard.charts("id"), charts_layout=dashboard.charts("layout"), titleCharts=dashboard.title(), post_action="/eduvis/evaluation_static_dashboard/save/")
+    return render_template('eduvis/frontend/dashboard/evaluate.html', userName=user.get_name(_user_id), charts_topic=dashboard.topic(), charts_id=dashboard.charts("id"), charts_layout=dashboard.charts("layout"), titleCharts=dashboard.title(), post_action="/eduvis/evaluation_static_dashboard/save/", data={})
 
 @mod.route('/evaluation_static_dashboard/save/', methods=['POST'])
 def evaluation_static_dashboard_save():
@@ -298,7 +298,10 @@ def evaluation_static_dashboard_save():
             data[name] = request.form[name]
         print(data)
 
-        user.record_evaluation_dashboard(STATIC_DASHBOARD_TYPE, data, _user_id)
+        if '' in list(data.values()):
+            return render_template('eduvis/frontend/dashboard/evaluate.html', userName=user.get_name(_user_id), charts_topic=dashboard.topic(), charts_id=dashboard.charts("id"), charts_layout=dashboard.charts("layout"), titleCharts=dashboard.title(), post_action="/eduvis/evaluation_static_dashboard/save/", data=data)
+        else:
+            user.record_evaluation_dashboard(STATIC_DASHBOARD_TYPE, data, _user_id)
     else:
         pass
 
@@ -308,7 +311,7 @@ def evaluation_static_dashboard_save():
 def evaluation_customizable_dashboard():
     user = User(_conn)
     dashboard = Dashboard(_conn, _user_id, user.get_customizable_dashboard_id(_user_id), CUSTOMIZABLE_DASHBOARD_TYPE)
-    return render_template('eduvis/frontend/dashboard/evaluate.html', userName=user.get_name(_user_id), charts_topic=dashboard.topic(), charts_id=dashboard.charts("id"), charts_layout=dashboard.charts("layout"), titleCharts=dashboard.title(), post_action="/eduvis/evaluation_customizable_dashboard/save/")
+    return render_template('eduvis/frontend/dashboard/evaluate.html', userName=user.get_name(_user_id), charts_topic=dashboard.topic(), charts_id=dashboard.charts("id"), charts_layout=dashboard.charts("layout"), titleCharts=dashboard.title(), post_action="/eduvis/evaluation_customizable_dashboard/save/", data={})
 
 @mod.route('/evaluation_customizable_dashboard/save/', methods=['POST'])
 def evaluation_customizable_dashboard_save():
@@ -326,7 +329,10 @@ def evaluation_customizable_dashboard_save():
             data[name] = request.form[name]
         print(data)
 
-        user.record_evaluation_dashboard(CUSTOMIZABLE_DASHBOARD_TYPE, data, _user_id)
+        if '' in list(data.values()):
+            return render_template('eduvis/frontend/dashboard/evaluate.html', userName=user.get_name(_user_id), charts_topic=dashboard.topic(), charts_id=dashboard.charts("id"), charts_layout=dashboard.charts("layout"), titleCharts=dashboard.title(), post_action="/eduvis/evaluation_customizable_dashboard/save/", data=data)
+        else:
+            user.record_evaluation_dashboard(CUSTOMIZABLE_DASHBOARD_TYPE, data, _user_id)
     else:
         pass
 
