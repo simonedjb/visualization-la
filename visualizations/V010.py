@@ -42,7 +42,7 @@ class V010:
         self._video_name = ["Video"+str(i+1) for i in range (0, self.NUMBER_VIDEOS)]
         
         if len(students_names.columns.tolist()) == 0:
-            names = pd.read_csv("names.csv")
+            names = pd.read_csv("assets/names.csv")
         else:
             names = students_names
         rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]

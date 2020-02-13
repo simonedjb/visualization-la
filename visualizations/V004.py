@@ -34,7 +34,7 @@ class V004:
         self._material_name = ['Video1','Video2','Video3','Video4','Video5']
         
         if len(students_names.columns.tolist()) == 0:
-            names = pd.read_csv("names.csv")
+            names = pd.read_csv("assets/names.csv")
         else:
             names = students_names
 

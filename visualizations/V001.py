@@ -37,7 +37,7 @@ class V001:
         self._assign_name = ["Assign"+str(i+1) for i in range (0, self.NUMBER_ASSIGNS)]
         
         if len(students_names.columns.tolist()) == 0:
-            names = pd.read_csv("names.csv")
+            names = pd.read_csv("assets/names.csv")
         else:
             names = students_names
         

@@ -44,7 +44,7 @@ class V011:
         self.NUMBER_STUDENTS = number_students
 
         if len(students_names.columns.tolist()) == 0:
-            names = pd.read_csv("names.csv")
+            names = pd.read_csv("assets/names.csv")
         else:
             names = students_names
         rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
@@ -399,7 +399,7 @@ class V011:
             config = {"displaylogo": False, "responsive": True, "displayModeBar": True, "modeBarButtonsToRemove": modeBarButtonsToRemove}
             return {"id":"V011@4","layout":json.dumps({"data": data, "layout": layout, "config": config}, cls=PlotlyJSONEncoder)}
 
-    def graph_05(self):
+    def graph_06(self):
         return html.Div([html.Div(className="row center", children=[
                                     html.H6(className="header center black-text", children=["Fluxo de acesso aos recursos do AVA por cluster"])
                                     ]),
@@ -506,6 +506,157 @@ class V011:
                         )
                     ])
 
+    def graph_05(self):
+        trace = []
+        
+        markerSize = 90
+        mark_cluster = ["Inicio do Curso", "Fim do Curso"]
+
+        cluster = []
+        cluster.append(['Video 1','Video 2','Video 3','Final Test'])
+        cluster.append(['Video 1','Video 2','Video 3','Assignment 1','Assignment 2','Assignment 3','Final Test'])
+        cluster.append(['Video 1','Video 2','Video 3','Assignment 1','Assignment 2','Assignment 3','Forum','Final Test'])
+
+        x = []
+        y = []        
+        x.append([1,2,3,4]) #cluster1
+        y.append([120,120,120,120,120]) #cluster1        
+
+        x.append([1, 2, 3, 1.5, 2.5, 3.5, 4]) #cluster2
+        y.append([80, 100, 100, 60, 60, 60, 80]) #cluster2        
+
+        x.append([1, 2, 3, 1.5, 2.5, 3.5, 1.5, 4]) #cluster3
+        y.append([20, 20, 20, 0, 0, 0, 40, 20]) #cluster3
+
+        color = ["rgba(255,0,0,1)","rgb(0,0,255,1)","rgb(0,255,0,1)"]
+
+        for i in range(0,len(cluster)):
+            trace.append(
+                    Scatter(
+                        x=x[i],
+                        y=y[i],
+                        mode='markers+text',
+                        name="Cluster"+str(i+1), #each cluster name
+                        text = cluster[i],
+                        textposition='middle center',
+                        hoverinfo='text',
+                        marker=dict(size=[markerSize]*len(cluster[i]), color = color[i], symbol='circle-open')
+                    )
+                )
+            
+            trace.append(
+                    Scatter(
+                        x=[x[i][0]-1, x[i][len(x[i])-1]+1],
+                        y=[y[i][0]-1, y[i][len(y[i])-1]+1],
+                        mode='markers+text',
+                        # name="Cluster"+str(i+1),
+                        text = mark_cluster,
+                        textposition='middle center',
+                        hoverinfo='text',
+                        marker=dict(size=[markerSize]*len(mark_cluster), color = color[i], symbol='circle')
+                    )
+
+                )
+
+            trace.append(
+                    Scatter(
+                        x=[x[i][0]-1.5],
+                        y=[y[i][0]-1.5],
+                        mode='markers+text',
+                        # name="Cluster"+str(i+1),
+                        text = ["Cluster "+str(i+1)],
+                        textposition='middle center',
+                        hoverinfo='text',
+                        marker=dict(size=[markerSize/1.5]*len(mark_cluster), color = color[i], symbol='square')
+                    )
+
+                )
+            
+
+        # Edges
+        x0 = []
+        x1 = []
+        y0 = []
+        y1 = []
+
+        width = []
+
+        xshift = []
+        yshift = []
+        
+        #cluster1
+        # cluster.append(['Video 1','Video 2','Video 3','Final Test'])
+        x0.append([x[0][0]-1, x[0][0], x[0][1], x[0][2], x[0][3]])
+        x1.append([x[0][0]   ,x[0][1], x[0][2], x[0][3], x[0][3]+1])
+        y0.append([y[0][0]-1, y[0][0], y[0][1], y[0][2], y[0][3]])
+        y1.append([y[0][0]  , y[0][1], y[0][2], y[0][3], y[0][3]+1])
+
+        width.append([10, 9, 6, 5, 5])
+
+        xshift.append([0,0,0,0,0])
+        yshift.append([0,0,0,0,0])
+
+        #cluster2
+        # cluster.append(['Video 1','Video 2','Video 3','Assignment 1','Assignment 2','Assignment 3','Final Test'])
+        x0.append([x[1][0]-1, x[1][0], x[1][0], x[1][1], x[1][1], x[1][2], x[1][3], x[1][4], x[1][5], x[1][2], x[1][6]])
+        x1.append([x[1][0],   x[1][1], x[1][3], x[1][2], x[1][4], x[1][5], x[1][1], x[1][2], x[1][6], x[1][6], x[1][6]+1])
+        y0.append([y[1][0]-1, y[1][0], y[1][0], y[1][1], y[1][1], y[1][2], y[1][3], y[1][4], y[1][5], y[1][2], y[1][6]])
+        y1.append([y[1][0],   y[1][1], y[1][3], y[1][2], y[1][4], y[1][5], y[1][1], y[1][2], y[1][6], y[1][6], y[1][6]+1])
+
+        width.append([9, 4, 8, 3, 7, 6, 5, 7, 6, 4, 10])
+
+        xshift.append([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        yshift.append([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+
+        #cluster3
+        # cluster.append(['Video 1','Video 2','Video 3','Assignment 1','Assignment 2','Assignment 3','Forum','Final Test'])
+        x0.append([x[2][0]-1, x[2][0]-1, x[2][0], x[2][0], x[2][6], x[2][1], x[2][1], x[2][2], x[2][2], x[2][3], x[2][3], x[2][4], x[2][4], x[2][5], x[2][5], x[2][7]])
+        x1.append([x[2][0],   x[2][3],   x[2][6], x[2][3], x[2][1], x[2][2], x[2][4], x[2][5], x[2][7], x[2][0], x[2][1], x[2][1], x[2][2], x[2][2], x[2][7], x[2][7]+1])
+        y0.append([y[2][0]-1, y[2][0]-1, y[2][0], y[2][0], y[2][6], y[2][1], y[2][1], y[2][2], y[2][2], y[2][3], y[2][3], y[2][4], y[2][4], y[2][5], y[2][5], y[2][7]])
+        y1.append([y[2][0],   y[2][3],   y[2][6], y[2][3], y[2][1], y[2][2], y[2][4], y[2][5], y[2][7], y[2][0], y[2][1], y[2][1], y[2][2], y[2][2], y[2][7], y[2][7]+1])
+
+        width.append([5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5])
+
+        xshift.append([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        yshift.append([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        
+        annotations = []        
+        for i in range(0,len(x0)):
+            for j in range(0,len(x0[i])):
+                annotations.append(
+                    dict(ax=x0[i][j], ay=y0[i][j], axref='x', ayref='y',
+                            x=x1[i][j], y=y1[i][j], xref='x', yref='y',
+                            xshift = xshift[i][j], yshift = yshift[i][j],
+                            startstandoff=markerSize/2,standoff=markerSize/2,
+                            arrowcolor=color[i],arrowwidth=width[i][j],arrowsize=1,
+                            showarrow=True, arrowhead=3,)
+                )
+
+        layout=Layout(
+                autosize=True,
+                width=1500,
+                height=1500,
+                hovermode='closest',
+                xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                annotations = annotations                
+            )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        # iplot(fig, filename='Scatter')
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Scatter')
+        elif self._type_result == "dash":
+            return dcc.Graph(
+                id='V011@5',
+                figure=fig
+            )
+        elif self._type_result == "flask":
+            modeBarButtonsToRemove = ['toImage', 'sendDataToCloud', 'hoverCompareCartesian', 'lasso2d', 'hoverClosestCartesian', 'toggleHover', 'hoverClosest3d', 'hoverClosestGeo', 'hoverClosestGl2d', 'hoverClosestPie']
+            config = {"displaylogo": False, "responsive": True, "displayModeBar": True, "modeBarButtonsToRemove": modeBarButtonsToRemove}
+            return {"id":"V011@5","layout":json.dumps({"data": data, "layout": layout, "config": config}, cls=PlotlyJSONEncoder)}
+
     def get_chart(self,id):
         if id == 1:
             return self.graph_01()
@@ -515,8 +666,8 @@ class V011:
             return self.graph_03()
         elif id == 4:
             return self.graph_04()
-        # elif id == 5:
-        #     return self.graph_05()
+        elif id == 5:
+            return self.graph_05()
         else:
             print("V011@"+str(id)+" not found")
 
@@ -526,4 +677,5 @@ class V011:
         self.graph_02() #Scatter
         self.graph_03() #Box
         self.graph_04() #Violin
-        # self.graph_05() #Flow Chart
+        self.graph_05() #Flow Chart
+        # self.graph_06() #Flow Chart

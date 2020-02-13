@@ -204,7 +204,7 @@ lst_chart.append(('V011@1',))   # id 179
 lst_chart.append(('V011@2',))   # id 180
 lst_chart.append(('V011@3',))   # id 181
 lst_chart.append(('V011@4',))   # id 182
-# lst_chart.append(('V011@5',))   # id 183
+lst_chart.append(('V011@5',))   # id 183
 
 ################################################################################################
 
@@ -422,7 +422,7 @@ lst_topic_chart.append((179, 23)) # id 153 -> V011@1 - 11.1
 lst_topic_chart.append((180, 23)) # id 154 -> V011@2 - 11.1
 lst_topic_chart.append((181, 23)) # id 155 -> V011@3 - 11.1
 lst_topic_chart.append((182, 23)) # id 156 -> V011@4 - 11.1
-# lst_topic_chart.append((183, 23)) # id 157 -> V011@5 - 11.1
+lst_topic_chart.append((183, 23)) # id 157 -> V011@5 - 11.1
 
 ################################################################################################
 

@@ -42,7 +42,7 @@ class V007:
         self.COUNTDATA = pd.DataFrame(0, index=range(0,1), columns=["Dropout", "0 - 60", "61 - 70", "71 - 80", "81 - 90", "91 - 100"])
 
         if len(students_names.columns.tolist()) == 0:
-            names = pd.read_csv("names.csv")
+            names = pd.read_csv("assets/names.csv")
         else:
             names = students_names
         rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]

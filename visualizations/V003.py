@@ -29,7 +29,7 @@ class V003:
 
         self.DATASET = pd.DataFrame(columns=["Students","Likes","Posts","Access","Total"])
         if len(students_names.columns.tolist()) == 0:
-            names = pd.read_csv("names.csv")
+            names = pd.read_csv("assets/names.csv")
         else:
             names = students_names
         rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
