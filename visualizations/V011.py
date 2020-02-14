@@ -399,113 +399,7 @@ class V011:
             config = {"displaylogo": False, "responsive": True, "displayModeBar": True, "modeBarButtonsToRemove": modeBarButtonsToRemove}
             return {"id":"V011@4","layout":json.dumps({"data": data, "layout": layout, "config": config}, cls=PlotlyJSONEncoder)}
 
-    def graph_06(self):
-        return html.Div([html.Div(className="row center", children=[
-                                    html.H6(className="header center black-text", children=["Fluxo de acesso aos recursos do AVA por cluster"])
-                                    ]),
-                        visdcc.Network(id='net',
-                        data={
-                                'nodes':[
-                                        {'id': 0, 'label': 'Cluster 1','color': 'rgb(255,0,0)', 'shape':'box', 'size':'5', 'level':'1', 'font': {'size':18, 'color':'rgb(255,255,255)'}},
-                                        {'id': 1, 'label': 'Begin Season', 'color':'rgb(255,0,0)', 'level':'1', 'font': {'size':18, 'color':'rgb(255,255,255)'}},
-                                        {'id': 2, 'label': 'Video 1', 'color':'rgb(255,120,120)', 'level':'1', 'font':{'size':18}},
-                                        {'id': 3, 'label': 'Video 2', 'color':'rgb(255,120,120)', 'level':'1', 'font':{'size':18}},
-                                        {'id': 4, 'label': 'Video 3', 'color':'rgb(255,120,120)', 'level':'1', 'font':{'size':18}},
-                                        {'id': 5, 'label': 'Final Test', 'color':'rgb(255,120,120)', 'level':'1', 'font':{'size':18}},
-                                        {'id': 6, 'label': 'End Season', 'color':'rgb(255,0,0)', 'level':'1', 'font': {'size':18, 'color':'rgb(255,255,255)'}},
-
-                                        {'id': 10, 'label': 'Cluster 2', 'color': 'rgb(0,0,255)', 'shape':'box', 'size':'10', 'level':'3', 'font': {'size':18, 'color':'rgb(255,255,255)'}},
-                                        {'id': 11, 'label': 'Begin Season', 'color':'rgb(0,0,255)', 'x':'150', 'y':'50', 'level':'3', 'font': {'size':18, 'color':'rgb(255,255,255)'}},
-                                        {'id': 12, 'label': 'Video 1', 'color':'rgb(120,120,255)', 'level':'3', 'font':{'size':18}},
-                                        {'id': 13, 'label': 'Video 2', 'color':'rgb(120,120,255)', 'level':'2', 'font':{'size':18}},
-                                        {'id': 14, 'label': 'Video 3', 'color':'rgb(120,120,255)', 'level':'2', 'font':{'size':18}},
-                                        {'id': 15, 'label': 'Assigment 1', 'color':'rgb(120,120,255)', 'level':'4', 'font':{'size':18}},
-                                        {'id': 16, 'label': 'Assigment 2', 'color':'rgb(120,120,255)', 'level':'4', 'font':{'size':18}},
-                                        {'id': 17, 'label': 'Assigment 3', 'color':'rgb(120,120,255)', 'level':'4', 'font':{'size':18}},
-                                        {'id': 18, 'label': 'Final Test', 'color':'rgb(120,120,255)', 'level':'3', 'font':{'size':18}},
-                                        {'id': 19, 'label': 'End Season', 'color':'rgb(0,0,255)', 'level':'3', 'font': {'size':18, 'color':'rgb(255,255,255)'}},
-
-                                        {'id': 20, 'label': 'Cluster 3', 'color': 'rgb(0,255,0)', 'shape':'box', 'size':'10', 'level':'1', 'font':{'size':18}},
-                                        {'id': 21, 'label': 'Begin Season', 'color':'rgb(0,255,0)', 'level':'1', 'font':{'size':18}},
-                                        {'id': 22, 'label': 'Video 1', 'color':'rgb(120,255,120)', 'level':'1', 'font':{'size':18}},
-                                        {'id': 23, 'label': 'Video 2', 'color':'rgb(120,255,120)', 'level':'1', 'font':{'size':18}},
-                                        {'id': 24, 'label': 'Video 3', 'color':'rgb(120,255,120)', 'level':'1', 'font':{'size':18}},
-                                        {'id': 25, 'label': 'Assigment 1', 'color':'rgb(120,255,120)', 'level':'2', 'font':{'size':18}},
-                                        {'id': 26, 'label': 'Assigment 2', 'color':'rgb(120,255,120)', 'level':'2', 'font':{'size':18}},
-                                        {'id': 27, 'label': 'Assigment 3', 'color':'rgb(120,255,120)', 'level':'2', 'font':{'size':18}},
-                                        {'id': 28, 'label': 'Final Test', 'color':'rgb(120,255,120)', 'level':'2', 'font':{'size':18}},
-                                        {'id': 29, 'label': 'Forum', 'color':'rgb(120,255,120)', 'level':'0', 'font':{'size':18}},
-                                        {'id': 30, 'label': 'End Season', 'color':'rgb(0,255,0)', 'level':'2', 'font':{'size':18}}
-
-                                        ],
-
-                                'edges':[
-                                        {'id':'0-1','from': 0, 'to': 1, 'hidden':'false'},
-                                        {'id':'0-10','from': 0, 'to': 10, 'hidden':'false'},
-                                        {'id':'0-20','from': 0, 'to': 20, 'hidden':'false'},
-                                        {'id':'1-2', 'arrows':'arrow.to','from': 1, 'to': 2, 'width':4},
-                                        {'id':'2-3', 'arrows':'arrow.to','from': 2, 'to': 3, 'width':4},
-                                        {'id':'2-2', 'arrows':'arrow.to','from': 2, 'to': 2},
-                                        {'id':'3-4', 'arrows':'arrow.to','from': 3, 'to': 4, 'width':4},
-                                        {'id':'3-3', 'arrows':'arrow.to','from': 3, 'to': 3},
-                                        {'id':'4-5', 'arrows':'arrow.to','from': 4, 'to': 5, 'width':4},
-                                        {'id':'4-4', 'arrows':'arrow.to','from': 4, 'to': 4},
-                                        {'id':'5-6', 'arrows':'arrow.to','from': 5, 'to': 6, 'width':4},
-
-                                        {'id':'10-11','from': 10, 'to': 11, 'hidden':'true'},
-                                        {'id':'11-12', 'arrows':'arrow.to','from': 11, 'to': 12, 'width':4},
-                                        {'id':'12-13', 'arrows':'arrow.to','from': 12, 'to': 13, 'width':1},
-                                        {'id':'12-15', 'arrows':'arrow.to','from': 12, 'to': 15, 'width':4},
-                                        {'id':'13-14', 'arrows':'arrow.to','from': 13, 'to': 14, 'width':1},
-                                        {'id':'13-16', 'arrows':'arrow.to','from': 13, 'to': 16, 'width':1},
-                                        {'id':'14-17', 'arrows':'arrow.to','from': 14, 'to': 17, 'width':1},
-                                        {'id':'15-13', 'arrows':'arrow.to','from': 15, 'to': 13, 'width':1},
-                                        {'id':'15-16', 'arrows':'arrow.to','from': 15, 'to': 16, 'width':4},
-                                        {'id':'16-14', 'arrows':'arrow.to','from': 16, 'to': 14, 'width':1},
-                                        {'id':'16-17', 'arrows':'arrow.to','from': 16, 'to': 17, 'width':4},
-                                        {'id':'17-18', 'arrows':'arrow.to','from': 17, 'to': 18, 'width':4},
-                                        {'id':'18-19', 'arrows':'arrow.to','from': 18, 'to': 19, 'width':4},
-
-                                        {'id':'20-21','from': 20, 'to': 21, 'hidden':'true'},
-                                        {'id':'20-30','from': 20, 'to': 30, 'hidden':'true'},
-                                        {'id':'21-22', 'arrows':'arrow.to','from': 21, 'to': 22, 'width':4},
-                                        {'id':'21-25', 'arrows':'arrow.to','from': 21, 'to': 25, 'width':1},
-                                        {'id':'22-25', 'arrows':'arrow.to','from': 22, 'to': 25, 'width':4},
-                                        {'id':'22-29', 'arrows':'arrow.to','from': 22, 'to': 29, 'width':1},
-                                        {'id':'23-24', 'arrows':'arrow.to','from': 23, 'to': 24, 'width':1},
-                                        {'id':'23-26', 'arrows':'arrow.to','from': 23, 'to': 26, 'width':1},
-                                        {'id':'24-27', 'arrows':'arrow.to','from': 24, 'to': 27, 'width':4},
-                                        {'id':'24-28', 'arrows':'arrow.to','from': 24, 'to': 28, 'width':1},
-                                        {'id':'25-22', 'arrows':'arrow.to','from': 25, 'to': 22, 'width':1},
-                                        {'id':'25-26', 'arrows':'arrow.to','from': 25, 'to': 26, 'width':4},
-                                        {'id':'25-23', 'arrows':'arrow.to','from': 25, 'to': 23, 'width':1},
-                                        {'id':'26-23', 'arrows':'arrow.to','from': 26, 'to': 23, 'width':1},
-                                        {'id':'26-24', 'arrows':'arrow.to','from': 26, 'to': 24, 'width':4},
-                                        {'id':'27-24', 'arrows':'arrow.to','from': 27, 'to': 24, 'width':1},
-                                        {'id':'27-28', 'arrows':'arrow.to','from': 27, 'to': 28, 'width':4},
-                                        {'id':'28-30', 'arrows':'arrow.to','from': 28, 'to': 30, 'width':4},
-                                        {'id':'29-23', 'arrows':'arrow.to','from': 29, 'to': 23, 'width':1},
-                                        ],
-                        },
-
-                        options={'height':'600px',
-                                        'width':'100%',
-                                        'layout':{'hierarchical':
-                                                                {
-                                                                 'enabled':True,
-                                                                 'sortMethod': 'directed',
-                                                                 'parentCentralization':True,
-                                                                 'direction':'UD',
-                                                                 'blockShifting':True,
-                                                                }},
-                                        'interaction':{'zoomView':False,
-                                                        'dragNodes':False,
-                                                        'dragView':False
-                                                      },
-                                }
-                        )
-                    ])
-
+    #Flow Chart
     def graph_05(self):
         trace = []
         
@@ -539,7 +433,8 @@ class V011:
                         name="Cluster"+str(i+1), #each cluster name
                         text = cluster[i],
                         textposition='middle center',
-                        hoverinfo='text',
+                        hoverinfo='none',
+                        showlegend = False,
                         marker=dict(size=[markerSize]*len(cluster[i]), color = color[i], symbol='circle-open')
                     )
                 )
@@ -552,7 +447,8 @@ class V011:
                         # name="Cluster"+str(i+1),
                         text = mark_cluster,
                         textposition='middle center',
-                        hoverinfo='text',
+                        hoverinfo='none',
+                        showlegend = False,
                         marker=dict(size=[markerSize]*len(mark_cluster), color = color[i], symbol='circle')
                     )
 
@@ -566,7 +462,8 @@ class V011:
                         # name="Cluster"+str(i+1),
                         text = ["Cluster "+str(i+1)],
                         textposition='middle center',
-                        hoverinfo='text',
+                        hoverinfo='none',
+                        showlegend = False,
                         marker=dict(size=[markerSize/1.5]*len(mark_cluster), color = color[i], symbol='square')
                     )
 
@@ -586,10 +483,10 @@ class V011:
         
         #cluster1
         # cluster.append(['Video 1','Video 2','Video 3','Final Test'])
-        x0.append([x[0][0]-1, x[0][0], x[0][1], x[0][2], x[0][3]])
-        x1.append([x[0][0]   ,x[0][1], x[0][2], x[0][3], x[0][3]+1])
-        y0.append([y[0][0]-1, y[0][0], y[0][1], y[0][2], y[0][3]])
-        y1.append([y[0][0]  , y[0][1], y[0][2], y[0][3], y[0][3]+1])
+        x0.append([x[0][cluster[0].index('Video 1')]-1, x[0][cluster[0].index('Video 1')], x[0][cluster[0].index('Video 2')], x[0][cluster[0].index('Video 3')],    x[0][cluster[0].index('Final Test')]])
+        x1.append([x[0][cluster[0].index('Video 1')]   ,x[0][cluster[0].index('Video 2')], x[0][cluster[0].index('Video 3')], x[0][cluster[0].index('Final Test')], x[0][cluster[0].index('Final Test')]+1])
+        y0.append([y[0][cluster[0].index('Video 1')]-1, y[0][cluster[0].index('Video 1')], y[0][cluster[0].index('Video 2')], y[0][cluster[0].index('Video 3')],    y[0][cluster[0].index('Final Test')]])
+        y1.append([y[0][cluster[0].index('Video 1')]  , y[0][cluster[0].index('Video 2')], y[0][cluster[0].index('Video 3')], y[0][cluster[0].index('Final Test')], y[0][cluster[0].index('Final Test')]+1])
 
         width.append([10, 9, 6, 5, 5])
 
@@ -598,10 +495,10 @@ class V011:
 
         #cluster2
         # cluster.append(['Video 1','Video 2','Video 3','Assignment 1','Assignment 2','Assignment 3','Final Test'])
-        x0.append([x[1][0]-1, x[1][0], x[1][0], x[1][1], x[1][1], x[1][2], x[1][3], x[1][4], x[1][5], x[1][2], x[1][6]])
-        x1.append([x[1][0],   x[1][1], x[1][3], x[1][2], x[1][4], x[1][5], x[1][1], x[1][2], x[1][6], x[1][6], x[1][6]+1])
-        y0.append([y[1][0]-1, y[1][0], y[1][0], y[1][1], y[1][1], y[1][2], y[1][3], y[1][4], y[1][5], y[1][2], y[1][6]])
-        y1.append([y[1][0],   y[1][1], y[1][3], y[1][2], y[1][4], y[1][5], y[1][1], y[1][2], y[1][6], y[1][6], y[1][6]+1])
+        x0.append([x[1][cluster[1].index('Video 1')]-1, x[1][cluster[1].index('Video 1')], x[1][cluster[1].index('Video 1')],      x[1][cluster[1].index('Video 2')], x[1][cluster[1].index('Video 2')],      x[1][cluster[1].index('Video 3')], x[1][cluster[1].index('Assignment 1')], x[1][cluster[1].index('Assignment 2')], x[1][cluster[1].index('Assignment 3')], x[1][cluster[1].index('Video 3')],    x[1][cluster[1].index('Final Test')]])
+        x1.append([x[1][cluster[1].index('Video 1')],   x[1][cluster[1].index('Video 2')], x[1][cluster[1].index('Assignment 1')], x[1][cluster[1].index('Video 3')], x[1][cluster[1].index('Assignment 2')], x[1][cluster[1].index('Assignment 3')], x[1][cluster[1].index('Video 2')], x[1][cluster[1].index('Video 3')],      x[1][cluster[1].index('Final Test')],   x[1][cluster[1].index('Final Test')], x[1][cluster[1].index('Final Test')]+1])
+        y0.append([y[1][cluster[1].index('Video 1')]-1, y[1][cluster[1].index('Video 1')], y[1][cluster[1].index('Video 1')],      y[1][cluster[1].index('Video 2')], y[1][cluster[1].index('Video 2')],      y[1][cluster[1].index('Video 3')], y[1][cluster[1].index('Assignment 1')], y[1][cluster[1].index('Assignment 2')], y[1][cluster[1].index('Assignment 3')], y[1][cluster[1].index('Video 3')],    y[1][cluster[1].index('Final Test')]])
+        y1.append([y[1][cluster[1].index('Video 1')],   y[1][cluster[1].index('Video 2')], y[1][cluster[1].index('Assignment 1')], y[1][cluster[1].index('Video 3')], y[1][cluster[1].index('Assignment 2')], y[1][cluster[1].index('Assignment 3')], y[1][cluster[1].index('Video 2')], y[1][cluster[1].index('Video 3')],      y[1][cluster[1].index('Final Test')],   y[1][cluster[1].index('Final Test')], y[1][cluster[1].index('Final Test')]+1])
 
         width.append([9, 4, 8, 3, 7, 6, 5, 7, 6, 4, 10])
 
@@ -610,15 +507,15 @@ class V011:
 
         #cluster3
         # cluster.append(['Video 1','Video 2','Video 3','Assignment 1','Assignment 2','Assignment 3','Forum','Final Test'])
-        x0.append([x[2][0]-1, x[2][0]-1, x[2][0], x[2][0], x[2][6], x[2][1], x[2][1], x[2][2], x[2][2], x[2][3], x[2][3], x[2][4], x[2][4], x[2][5], x[2][5], x[2][7]])
-        x1.append([x[2][0],   x[2][3],   x[2][6], x[2][3], x[2][1], x[2][2], x[2][4], x[2][5], x[2][7], x[2][0], x[2][1], x[2][1], x[2][2], x[2][2], x[2][7], x[2][7]+1])
-        y0.append([y[2][0]-1, y[2][0]-1, y[2][0], y[2][0], y[2][6], y[2][1], y[2][1], y[2][2], y[2][2], y[2][3], y[2][3], y[2][4], y[2][4], y[2][5], y[2][5], y[2][7]])
-        y1.append([y[2][0],   y[2][3],   y[2][6], y[2][3], y[2][1], y[2][2], y[2][4], y[2][5], y[2][7], y[2][0], y[2][1], y[2][1], y[2][2], y[2][2], y[2][7], y[2][7]+1])
+        x0.append([x[2][cluster[2].index('Video 1')]-1, x[2][cluster[2].index('Video 1')]-1,    x[2][cluster[2].index('Video 1')], x[2][cluster[2].index('Video 1')],      x[2][cluster[2].index('Forum')],   x[2][cluster[2].index('Video 2')], x[2][cluster[2].index('Video 2')],      x[2][cluster[2].index('Video 3')],      x[2][cluster[2].index('Video 3')],    x[2][cluster[2].index('Assignment 1')], x[2][cluster[2].index('Assignment 1')], x[2][cluster[2].index('Assignment 2')], x[2][cluster[2].index('Assignment 2')], x[2][cluster[2].index('Assignment 3')], x[2][cluster[2].index('Assignment 3')], x[2][cluster[2].index('Final Test')]])
+        x1.append([x[2][cluster[2].index('Video 1')],   x[2][cluster[2].index('Assignment 1')], x[2][cluster[2].index('Forum')],   x[2][cluster[2].index('Assignment 1')], x[2][cluster[2].index('Video 2')], x[2][cluster[2].index('Video 3')], x[2][cluster[2].index('Assignment 2')], x[2][cluster[2].index('Assignment 3')], x[2][cluster[2].index('Final Test')], x[2][cluster[2].index('Video 1')],      x[2][cluster[2].index('Video 2')],      x[2][cluster[2].index('Video 2')],      x[2][cluster[2].index('Video 3')],      x[2][cluster[2].index('Video 3')],      x[2][cluster[2].index('Final Test')],   x[2][cluster[2].index('Final Test')]+1])
+        y0.append([y[2][cluster[2].index('Video 1')]-1, y[2][cluster[2].index('Video 1')]-1,    y[2][cluster[2].index('Video 1')], y[2][cluster[2].index('Video 1')],      y[2][cluster[2].index('Forum')],   y[2][cluster[2].index('Video 2')], y[2][cluster[2].index('Video 2')],      y[2][cluster[2].index('Video 3')],      y[2][cluster[2].index('Video 3')],    y[2][cluster[2].index('Assignment 1')], y[2][cluster[2].index('Assignment 1')], y[2][cluster[2].index('Assignment 2')], y[2][cluster[2].index('Assignment 2')], y[2][cluster[2].index('Assignment 3')], y[2][cluster[2].index('Assignment 3')], y[2][cluster[2].index('Final Test')]])
+        y1.append([y[2][cluster[2].index('Video 1')],   y[2][cluster[2].index('Assignment 1')], y[2][cluster[2].index('Forum')],   y[2][cluster[2].index('Assignment 1')], y[2][cluster[2].index('Video 2')], y[2][cluster[2].index('Video 3')], y[2][cluster[2].index('Assignment 2')], y[2][cluster[2].index('Assignment 3')], y[2][cluster[2].index('Final Test')], y[2][cluster[2].index('Video 1')],      y[2][cluster[2].index('Video 2')],      y[2][cluster[2].index('Video 2')],      y[2][cluster[2].index('Video 3')],      y[2][cluster[2].index('Video 3')],      y[2][cluster[2].index('Final Test')],   y[2][cluster[2].index('Final Test')]+1])
 
-        width.append([5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5])
+        width.append([9, 3, 2, 5, 2, 2, 5, 5, 2, 3, 5, 2, 5, 2, 5, 7])
 
-        xshift.append([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-        yshift.append([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        xshift.append([0, -10, 0, 15, 0, 0, 15, 15, 0, -10, 0, -10, 0, -10, 0, 0])
+        yshift.append([0, -15, 0, 10, 0, 0, 10, 10, 0, -10, 0, -10, 0, -10, 0, 0])
         
         annotations = []        
         for i in range(0,len(x0)):
@@ -634,8 +531,8 @@ class V011:
 
         layout=Layout(
                 autosize=True,
-                width=1500,
-                height=1500,
+                # width=1500,
+                height=1250,
                 hovermode='closest',
                 xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
                 yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
@@ -678,4 +575,3 @@ class V011:
         self.graph_03() #Box
         self.graph_04() #Violin
         self.graph_05() #Flow Chart
-        # self.graph_06() #Flow Chart
