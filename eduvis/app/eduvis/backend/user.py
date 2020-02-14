@@ -1,6 +1,7 @@
 import pandas as pd
 import os, sys
 import json
+import random
 
 from datetime import datetime
 from app.eduvis.constants import LST_VIEW_INFORMATION
@@ -45,20 +46,23 @@ class User:
 
         dash_id = self._conn.insert("tb_dashboard",(user_id, name, type_dash, language, current_time), True)
 
+        order_list = [i for i in range(1, 14)]
+        random.shuffle(order_list)
+
         lst_dashboard_topic_chart = []
-        lst_dashboard_topic_chart.append((dash_id, 15, 1, "", 1))
-        lst_dashboard_topic_chart.append((dash_id, 27, 2, "", 1))
-        lst_dashboard_topic_chart.append((dash_id, 30, 3, "", 1))
-        lst_dashboard_topic_chart.append((dash_id, 40, 4, "", 1))
-        lst_dashboard_topic_chart.append((dash_id, 42, 5, "", 1))
-        lst_dashboard_topic_chart.append((dash_id, 55, 6, "", 1))
-        lst_dashboard_topic_chart.append((dash_id, 64, 7, "", 1))
-        lst_dashboard_topic_chart.append((dash_id, 70, 8, "", 1))
-        lst_dashboard_topic_chart.append((dash_id, 76, 9, "", 1))
-        lst_dashboard_topic_chart.append((dash_id, 88, 10, "", 1))
-        lst_dashboard_topic_chart.append((dash_id, 117, 11, "", 1))
-        lst_dashboard_topic_chart.append((dash_id, 126, 12, "", 1))
-        lst_dashboard_topic_chart.append((dash_id, 153, 13, "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 15, order_list[0], "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 27, order_list[1], "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 30, order_list[2], "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 40, order_list[3], "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 42, order_list[4], "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 55, order_list[5], "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 64, order_list[6], "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 70, order_list[7], "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 76, order_list[8], "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 88, order_list[9], "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 117, order_list[10], "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 126, order_list[11], "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 153, order_list[12], "", 1))
         self._conn.insert_many("tb_dashboard_topic_chart",lst_dashboard_topic_chart)
         
 
