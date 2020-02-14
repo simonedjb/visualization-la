@@ -401,10 +401,12 @@ class V011:
 
     #Flow Chart
     def graph_05(self):
-        trace = []
-        
+        legend = {"title":"Fluxo de navegação dos estudantes por cluster"}
+        if (self._language == "en"):
+            legend = {"title":"Students' navigation flow by cluster"}
+
         markerSize = 90
-        mark_cluster = ["Inicio do Curso", "Fim do Curso"]
+        mark_cluster = ["Inicio do Curso", "Fim do Curso"]        
 
         cluster = []
         cluster.append(['Video 1','Video 2','Video 3','Final Test'])
@@ -422,8 +424,10 @@ class V011:
         x.append([1, 2, 3, 1.5, 2.5, 3.5, 1.5, 4]) #cluster3
         y.append([20, 20, 20, 0, 0, 0, 40, 20]) #cluster3
 
-        color = ["rgba(255,0,0,1)","rgb(0,0,255,1)","rgb(0,255,0,1)"]
+        color = ["rgba(255,0,0,1)","rgba(0,0,255,1)","rgba(0,255,0,1)"]
+        text_color = ["rgb(255,255,255)","rgb(255,255,255)","rgb(0,0,0)"]
 
+        trace = []
         for i in range(0,len(cluster)):
             trace.append(
                     Scatter(
@@ -435,7 +439,7 @@ class V011:
                         textposition='middle center',
                         hoverinfo='none',
                         showlegend = False,
-                        marker=dict(size=[markerSize]*len(cluster[i]), color = color[i], symbol='circle-open')
+                        marker=dict(size=[markerSize]*len(cluster[i]), color = color[i], symbol='circle-open', line=dict(width=3))
                     )
                 )
             
@@ -444,9 +448,13 @@ class V011:
                         x=[x[i][0]-1, x[i][len(x[i])-1]+1],
                         y=[y[i][0]-1, y[i][len(y[i])-1]+1],
                         mode='markers+text',
-                        # name="Cluster"+str(i+1),
                         text = mark_cluster,
-                        textposition='middle center',
+                        textposition='middle center',                        
+                        textfont=dict(
+                            # family="sans serif",
+                            # size=18,
+                            color=text_color[i]
+                        ),
                         hoverinfo='none',
                         showlegend = False,
                         marker=dict(size=[markerSize]*len(mark_cluster), color = color[i], symbol='circle')
@@ -459,9 +467,13 @@ class V011:
                         x=[x[i][0]-1.5],
                         y=[y[i][0]-1.5],
                         mode='markers+text',
-                        # name="Cluster"+str(i+1),
                         text = ["Cluster "+str(i+1)],
                         textposition='middle center',
+                        textfont=dict(
+                            # family="sans serif",
+                            # size=18,
+                            color=text_color[i]
+                        ),
                         hoverinfo='none',
                         showlegend = False,
                         marker=dict(size=[markerSize/1.5]*len(mark_cluster), color = color[i], symbol='square')
@@ -524,12 +536,13 @@ class V011:
                     dict(ax=x0[i][j], ay=y0[i][j], axref='x', ayref='y',
                             x=x1[i][j], y=y1[i][j], xref='x', yref='y',
                             xshift = xshift[i][j], yshift = yshift[i][j],
-                            startstandoff=markerSize/2,standoff=markerSize/2,
+                            startstandoff=markerSize/1.8,standoff=markerSize/1.8,
                             arrowcolor=color[i],arrowwidth=width[i][j],arrowsize=1,
                             showarrow=True, arrowhead=3,)
                 )
 
         layout=Layout(
+                title = legend["title"],
                 autosize=True,
                 # width=1500,
                 height=1250,
