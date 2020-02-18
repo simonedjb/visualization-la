@@ -437,7 +437,7 @@ class V005:
                     }
         df = self._df_sum.sort_values(by="Grade")
         Clusters = df.Cluster.unique()        
-        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(127,0,127)","rgb(0,255,0)"]        
+        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(127,0,127)","rgb(0,255,0)"]
         color[Clusters[0]] = "rgb(255,0,0)"
         color[Clusters[1]] = "rgb(127,0,127)"
         color[Clusters[2]] = "rgb(0,0,255)"        

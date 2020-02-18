@@ -46,12 +46,25 @@ _conn = Connection_DB()
 _user_id = None
 
 def load_user_info():
-    global _user_id    
-
-    if (session['user_eduvis'] == ""):
-        _user_id = DEFAULT_USER_ID
+    global _user_id
+    print("----------------load_user_info()----------------")
+    if session.get('user_eduvis') == True:
+        print("----------------True----------------")
+        if (session['user_eduvis'] == ""):
+            print("----------------_user_id = DEFAULT_USER_ID----------------")
+            _user_id = DEFAULT_USER_ID
+            print(_user_id)
+        else:
+            print("----------------_user_id = session[user_eduvis]----------------")
+            _user_id = session['user_eduvis']
+            print(_user_id)
+    
     else:
-        _user_id = session['user_eduvis']
+        print("----------------False----------------")
+        print("----------------_user_id = DEFAULT_USER_ID----------------")
+        print("----------------session[user_eduvis] = \'\'----------------")
+        _user_id = DEFAULT_USER_ID
+        session['user_eduvis'] = ""
     
     # print("--------------------------------------------------")
     # print("load_user_info()")
@@ -106,7 +119,7 @@ def index():
 
 @mod.route('/invite/')
 def invite():
-    session['user_eduvis'] = ""    
+    session['user_eduvis'] = ""
     return render_template('eduvis/frontend/invite.html')
 
 @mod.route('/post_invite/', methods=['POST'])
