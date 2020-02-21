@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 
 from random import randrange
-import datetime
+import datetime, requests
 
 import json
 
@@ -23,6 +23,8 @@ class V009:
 
     _language = "pt"
     _type_result="jupyter-notebook"
+
+    _df_chronology = pd.DataFrame()
 
     def __init__(self, language="pt", type_result = "jupyter-notebook"):
         self._language = language
@@ -79,8 +81,76 @@ class V009:
             elif time == self.VIDEO_SIZE:
                 self.DATASET.loc[i,self.DATASET.columns[6]] = np.random.randint(0, 7, size=1)[0]
 
-        return self.DATASET
+        self._df_chronology = pd.DataFrame(columns=[self.DATASET.columns[0],'Timestamp','Action'])
 
+        textAction = ['Play at ', 'Pause at ', 'Seek from ', ' to ', 'Dropout at ']
+
+        length = len(self.DATASET)
+        actions = self.DATASET.columns[2:].tolist()
+        lst_students = []
+        lst_timestamp = []
+        lst_action = []
+        for i in range(0, length):
+            student = self.DATASET.iloc[i,0]
+            for j in range(0,len(actions)):
+                if (self.DATASET.iloc[i,j+2] == 0):
+                    continue
+
+                if(j == 3): #Seek to
+                    continue
+
+                lst_students.append(student)
+                lst_timestamp.append(datetime.datetime(year=2019, month=np.random.randint(1, 6, size=1)[0], day=np.random.randint(1, 27, size=1)[0], hour=np.random.randint(0, 23, size=1)[0], minute=np.random.randint(0, 59, size=1)[0], second=np.random.randint(0, 59, size=1)[0]))
+                
+                action = textAction[j]+str(self.DATASET.iloc[i,1])+"s"
+                if(j == 2): #Seek from adding seek to
+                    action = action+textAction[3]+str(np.random.randint(0, self.VIDEO_SIZE, size=1)[0])+"s"
+
+                lst_action.append(action)
+
+        self._df_chronology[self._df_chronology.columns[0]] = lst_students
+        self._df_chronology[self._df_chronology.columns[1]] = lst_timestamp
+        self._df_chronology[self._df_chronology.columns[2]] = lst_action
+
+        self._df_chronology = self._df_chronology.sort_values(by=[self._df_chronology.columns[0],self._df_chronology.columns[1]])
+
+    def get_b1(self, b0, b2):
+        # b0, b1 list of x, y coordinates
+        if len(b0) != len(b2) != 2:
+            raise ValueError('b0, b1 must be lists of two elements')
+        b1 = 0.5 * (np.asarray(b0)+np.asarray(b2))+\
+            0.5 * np.array([0,1.0]) * np.sqrt(3) * np.linalg.norm(np.array(b2)-np.array(b0))
+        return b1.tolist()
+
+    def dim_plus_1(self, b, w):#lift the points b0, b1, b2 to 3D points a0, a1, a2
+        #b is a list of 3 lists of 2D points, i.e. a list of three 2-lists 
+        #w is a list of numbers (weights) of len equal to the len of b
+        if not isinstance(b, list) or  not isinstance(b[0], list):
+            raise ValueError('b must be a list of three 2-lists')
+        if len(b) != len(w)   != 3:
+            raise ValueError('the number of weights must be  equal to the nr of points')
+        else:
+            a = np.array([point + [w[i]] for (i, point) in enumerate(b)])
+            a[1, :2] *= w[1]
+            return a
+
+    def bezier_curve(self, bz, nr): #the control point coordinates are passed in a list bz=[bz0, bz1, bz2] 
+        # bz is a list of three 2-lists 
+        # nr is the number of points to be computed on each arc
+        t = np.linspace(0, 1, nr)
+        #for each parameter t[i] evaluate a point on the Bezier curve with the de Casteljau algorithm
+        N = len(bz) 
+        points = [] # the list of points to be computed on the Bezier curve
+        for i in range(nr):
+            aa = np.copy(bz) 
+            for r in range(1, N):
+                aa[:N-r,:] = (1-t[i]) * aa[:N-r,:] + t[i] * aa[1:N-r+1,:]  # convex combination of points
+            points.append(aa[0,:])
+        return np.array(points)
+
+    def rational_bezier_curve(self, a, nr):
+        discrete_curve = self.bezier_curve(a, nr)
+        return [p[:2]/p[2] for p in discrete_curve]
 
     # Table presenting raw data
     def graph_01(self):
@@ -163,47 +233,14 @@ class V009:
         if (self._language == "en"):
             legend = {"title":"Chronology of students' interaction"}
 
-        df = pd.DataFrame(columns=[self.DATASET.columns[0],'Timestamp','Action'])
-
-        textAction = ['Play at ', 'Pause at ', 'Seek from ', ' to ', 'Dropout at ']
-
-        length = len(self.DATASET)
-        actions = self.DATASET.columns[2:].tolist()
-        lst_students = []
-        lst_timestamp = []
-        lst_action = []
-        for i in range(0, length):
-            student = self.DATASET.iloc[i,0]
-            for j in range(0,len(actions)):
-                if (self.DATASET.iloc[i,j+2] == 0):
-                    continue
-
-                if(j == 3): #Seek to
-                    continue
-
-                lst_students.append(student)
-                lst_timestamp.append(datetime.datetime(year=2019, month=np.random.randint(1, 6, size=1)[0], day=np.random.randint(1, 27, size=1)[0], hour=np.random.randint(0, 23, size=1)[0], minute=np.random.randint(0, 59, size=1)[0], second=np.random.randint(0, 59, size=1)[0]))
-                
-                action = textAction[j]+str(self.DATASET.iloc[i,1])+"s"
-                if(j == 2): #Seek from adding seek to
-                    action = action+textAction[3]+str(np.random.randint(0, self.VIDEO_SIZE, size=1)[0])+"s"
-
-                lst_action.append(action)
-
-        df[df.columns[0]] = lst_students
-        df[df.columns[1]] = lst_timestamp
-        df[df.columns[2]] = lst_action
-
-        df = df.sort_values(by=[df.columns[0],df.columns[1]])
-        
         trace = [Table(
             header=dict(
-                values=list(df.columns[:len(df.columns)]),
+                values=list(self._df_chronology.columns[:len(self._df_chronology.columns)]),
                 fill = dict(color='#C2D4FF'),
                 align = 'center'
             ),
             cells=dict(
-                values=[df[i].tolist() for i in df.columns[:len(df.columns)]],
+                values=[self._df_chronology[i].tolist() for i in self._df_chronology.columns[:len(self._df_chronology.columns)]],
                 fill = dict(color='#F5F8FF'),
                 align = ['left','center']
             )
@@ -224,7 +261,6 @@ class V009:
             modeBarButtonsToRemove = ['toImage', 'sendDataToCloud', 'hoverCompareCartesian', 'lasso2d', 'hoverClosestCartesian', 'toggleHover', 'hoverClosest3d', 'hoverClosestGeo', 'hoverClosestGl2d', 'hoverClosestPie']
             config = {"displaylogo": False, "responsive": True, "displayModeBar": True, "modeBarButtonsToRemove": modeBarButtonsToRemove}
             return {"id":"V009@3","layout":json.dumps({"data": data, "layout": layout, "config": config}, cls=PlotlyJSONEncoder)}
-        
 
     def graph_04(self):
         legend = {"title":"Número de interações por tempo do vídeo",
@@ -243,7 +279,6 @@ class V009:
             df_aux = self.DATASET[self.DATASET.columns[2:]].loc[self.DATASET[self.DATASET.columns[1]] == i].apply(np.sum)
             df.loc[i] = df_aux.append(pd.Series([i],index=[self.DATASET.columns[1]]))
 
-        # color = ["rgb(100,100,100)","rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,127,127)","rgb(0,255,0)"]
         color = ["rgb(0,127,127)", "rgb(0,255,0)", "rgb(127,0,127)", "rgb(255,0,0)", "rgb(0,0,255)", "rgb(100,100,100)"]
         trace = []
         for i in range(1,len(df.columns.tolist())):
@@ -307,7 +342,159 @@ class V009:
             modeBarButtonsToRemove = ['toImage', 'sendDataToCloud', 'hoverCompareCartesian', 'lasso2d', 'hoverClosestCartesian', 'toggleHover', 'hoverClosest3d', 'hoverClosestGeo', 'hoverClosestGl2d', 'hoverClosestPie']
             config = {"displaylogo": False, "responsive": True, "displayModeBar": True, "modeBarButtonsToRemove": modeBarButtonsToRemove}
             return {"id":"V009@4","layout":json.dumps({"data": data, "layout": layout, "config": config}, cls=PlotlyJSONEncoder)}
+    
+    def graph_05(self):
+        legend = {"title":"Interações de seek forward e seek backward por tempo de vídeo"}
+        if (self._language == "en"):
+            legend = {"title":"Interactions of seek forward and seek backward by time"}
+
+        df_seek = self._df_chronology.loc[(self._df_chronology[self._df_chronology.columns[2]].str.contains('Seek'))]
+        df_seek.insert(column='From', loc=len(df_seek.columns), value=df_seek['Action'].apply(lambda x: int(x.replace('Seek from','').replace('s','').split('to')[0]))) #Get From of each seek
+        df_seek.insert(column='To', loc=len(df_seek.columns), value=df_seek['Action'].apply(lambda x: int(x.replace('Seek from','').replace('s','').split('to')[1]))) #Get to of each seek
+        df_seek.insert(column='Type', loc=len(df_seek.columns), value=df_seek.apply(lambda x: 'Forward' if x['From'] < x['To'] else 'Backward', axis=1)) #Classifying seek by Forward or Backward
+
+        values = labels = list(range(self.VIDEO_SIZE+1))
+        #Transform 'from' and 'to' in edge
+        se_forward = df_seek.loc[df_seek['Type'] == 'Forward'].apply(lambda x: (x['From'],x['To']), axis=1) 
+        se_backward = df_seek.loc[df_seek['Type'] == 'Backward'].apply(lambda x: (x['From'],x['To']), axis=1)
+        
+        #Get unique edges
+        lst_edge_forward = se_forward.unique().tolist()
+        lst_edge_backward = se_backward.unique().tolist()
+
+        #Count how many time each edge is presented
+        lst_edge_forward_value = [0]*len(lst_edge_forward)
+        lst_edge_backward_value = [0]*len(lst_edge_backward)
+
+        for edge in se_forward.iteritems():
+            idx = lst_edge_forward.index(edge[1])
+            lst_edge_forward_value[idx] = lst_edge_forward_value[idx] + 1
+
+        for edge in se_backward.iteritems():
+            idx = lst_edge_backward.index(edge[1])
+            lst_edge_backward_value[idx] = lst_edge_backward_value[idx] + 1
+        
+        edge_range_value = sorted(set(lst_edge_backward_value+lst_edge_forward_value))
+        widths = [0.5+k*0.25 for k in range(5)] + [2+k*0.25 for k in range(4)]+[3, 3.25, 3.75, 4.25, 5, 5.25, 7] #Make list of widths
+        d = dict(zip(edge_range_value, widths)) #Match edge_range_value with list of widths
+        edge_forward_widths = [d[val] for val in lst_edge_forward_value]
+        edge_backward_widths = [d[val] for val in lst_edge_backward_value]
+
+        # Define the trace for nodes placed on the x-axis. The nodes are colored with the colorscale `pl_density`: 
+        # pl_density = [[0.0, 'rgb(230,240,240)'],
+        #                 [0.1, 'rgb(187,220,228)'],
+        #                 [0.2, 'rgb(149,197,226)'],
+        #                 [0.3, 'rgb(123,173,227)'],
+        #                 [0.4, 'rgb(115,144,227)'],
+        #                 [0.5, 'rgb(119,113,213)'],
+        #                 [0.6, 'rgb(120,84,186)'],
+        #                 [0.7, 'rgb(115,57,151)'],
+        #                 [0.8, 'rgb(103,35,112)'],
+        #                 [0.9, 'rgb(82,20,69)'],
+        #                 [1.0, 'rgb(54,14,36)']]
+        trace = []
+        # xx = []
+        # yy = []
+
+        X = list(range(len(values))) # node x-coordinates
+        nr = 75 
+        for i, (j, k) in enumerate(lst_edge_forward):            
+            b0 = [X[j], 0.0]
+            b2 = [X[k], 0.0]
+            b1 = self.get_b1(b0, b2)
+            a = self.dim_plus_1([b0, b1, b2], [1, 0.5, 1])
+            pts = self.rational_bezier_curve(a, nr)
+            # xx.append(pts[nr//2][0]) #abscissa of the middle point on the computed arc
+            # yy.append(pts[nr//2][1]) #ordinate of the same point
+            x,y = zip(*pts)
             
+            trace.append(dict(type='scatter',
+                            x=x, 
+                            y=y, 
+                            name='',
+                            mode='lines', 
+                            line=dict(width=edge_forward_widths[i], color='rgb(0,0,255)', shape='spline'),
+                            hoverinfo='none'
+                            )
+                        )
+
+        for i, (j, k) in enumerate(lst_edge_backward):
+            b0 = [X[j], 0.0]
+            b2 = [X[k], 0.0]
+            b1 = self.get_b1(b0, b2)
+            a = self.dim_plus_1([b0, b1, b2], [1, 0.5, 1])
+            pts = self.rational_bezier_curve(a, nr)
+            # xx.append(pts[nr//2][0]) #abscissa of the middle point on the computed arc
+            # yy.append(pts[nr//2][1]) #ordinate of the same point
+            x,y = zip(*pts)
+            y = tuple([-1*iterator for iterator in y]) #Make opposite axes            
+            
+            trace.append(dict(type='scatter',
+                            x=x, 
+                            y=y, 
+                            name='',
+                            mode='lines', 
+                            line=dict(width=edge_backward_widths[i], color='rgb(255,0,0)', shape='spline'),
+                            hoverinfo='none'
+                            )
+                        )
+
+        trace.append(
+                    Scatter(
+                        x=list(range(len(values))),
+                        y=[0]*len(values),
+                        mode='markers+text',
+                        # name="Cluster"+str(i+1), #each cluster name
+                        text = [str(i)+'s' for i in range(len(values))],
+                        textposition='middle center',
+                        # hoverinfo='none',
+                        # hoverinfo='text'
+                        # showlegend = False,
+                        # marker=dict(size=20, color = 'rgb(100,100,100)', symbol='circle', line=dict(color='rgb(0,0,255)', width=3.75))
+                        marker=dict(size=25, color = 'rgb(180,180,180)', symbol='circle')
+                    )
+                )
+
+        layout=Layout(
+                title = legend["title"],
+                autosize=True,
+                font=dict(size=10), 
+                # width=1500,
+                # height=1250,
+                showlegend=False,
+                hovermode='closest',
+                xaxis=dict(anchor='y', showline=False, zeroline=False, showgrid=False, 
+                            showticklabels=False, tickvals=list(range(len(values))), ticktext=labels, tickangle=50,
+                            ),
+                yaxis=dict(visible=False),
+                margin=dict(t=80, b=110, l=10, r=10),
+                # annotations=[dict(showarrow=False, 
+                #         #    text=anno_text,
+                #            xref='paper',     
+                #            yref='paper',     
+                #            x=0.05,  
+                #            y=-0.3,  
+                #            xanchor='left',   
+                #            yanchor='bottom',  
+                #            font=dict(size=11 ))
+                #                   ]
+            )
+        
+        data = trace
+        fig = Figure(data=data, layout=layout)
+
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Scatter')
+        elif self._type_result == "dash":
+            return dcc.Graph(
+                id='V009@5',
+                figure=fig
+            )
+        elif self._type_result == "flask":
+            modeBarButtonsToRemove = ['toImage', 'sendDataToCloud', 'hoverCompareCartesian', 'lasso2d', 'hoverClosestCartesian', 'toggleHover', 'hoverClosest3d', 'hoverClosestGeo', 'hoverClosestGl2d', 'hoverClosestPie']
+            config = {"displaylogo": False, "responsive": True, "displayModeBar": True, "modeBarButtonsToRemove": modeBarButtonsToRemove}
+            return {"id":"V009@5","layout":json.dumps({"data": data, "layout": layout, "config": config}, cls=PlotlyJSONEncoder)}
+
     def get_chart(self,id):
         if id == 1:
             return self.graph_01()
@@ -318,7 +505,7 @@ class V009:
         elif id == 4:
             return self.graph_04()
         elif id == 5:
-            return self.graph_03()
+            return self.graph_05()
         else:
             print("V009@"+str(id)+" not found")
 
@@ -328,7 +515,7 @@ class V009:
         self.graph_02() 
         self.graph_03()
         self.graph_04() #Area Chart
-        # self.graph_05() #Arc Diagram
+        self.graph_05() #Arc Diagram
 
 # instance = V009()
 # instance.generate_dataset(number_actions = 100, video_size = 30)
