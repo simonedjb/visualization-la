@@ -62,7 +62,7 @@ class User:
         lst_dashboard_topic_chart.append((dash_id, 88, order_list[9], "", 1))
         lst_dashboard_topic_chart.append((dash_id, 117, order_list[10], "", 1))
         lst_dashboard_topic_chart.append((dash_id, 126, order_list[11], "", 1))
-        lst_dashboard_topic_chart.append((dash_id, 153, order_list[12], "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 154, order_list[12], "", 1))
         self._conn.insert_many("tb_dashboard_topic_chart",lst_dashboard_topic_chart)
         
 

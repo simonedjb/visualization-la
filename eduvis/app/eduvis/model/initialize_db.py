@@ -398,31 +398,32 @@ lst_topic_chart.append((142, 21)) # id 131 -> V009@1 - 9.1
 lst_topic_chart.append((143, 21)) # id 132 -> V009@2 - 9.1
 lst_topic_chart.append((144, 21)) # id 133 -> V009@3 - 9.1
 lst_topic_chart.append((145, 21)) # id 134 -> V009@4 - 9.1
+lst_topic_chart.append((146, 21)) # id 135 -> V009@5 - 9.1
 
-lst_topic_chart.append((147, 22)) # id 135 -> V010@1 - 10.1
-lst_topic_chart.append((148, 22)) # id 136 -> V010@2 - 10.1
-lst_topic_chart.append((149, 22)) # id 137 -> V010@3 - 10.1
-lst_topic_chart.append((151, 22)) # id 138 -> V010@5 - 10.1
-lst_topic_chart.append((153, 22)) # id 139 -> V010@7 - 10.1
-lst_topic_chart.append((155, 22)) # id 140 -> V010@9 - 10.1
-lst_topic_chart.append((157, 22)) # id 141 -> V010@11 - 10.1
-lst_topic_chart.append((159, 22)) # id 142 -> V010@13 - 10.1
-lst_topic_chart.append((161, 22)) # id 143 -> V010@15 - 10.1
-lst_topic_chart.append((162, 22)) # id 144 -> V010@16 - 10.1
-lst_topic_chart.append((164, 22)) # id 145 -> V010@18 - 10.1
-lst_topic_chart.append((165, 22)) # id 146 -> V010@19 - 10.1
-lst_topic_chart.append((166, 22)) # id 147 -> V010@20 - 10.1
-lst_topic_chart.append((168, 22)) # id 148 -> V010@22 - 10.1
-lst_topic_chart.append((169, 22)) # id 149 -> V010@23 - 10.1
-lst_topic_chart.append((170, 22)) # id 150 -> V010@24 - 10.1
-lst_topic_chart.append((173, 22)) # id 151 -> V010@27 - 10.1
-lst_topic_chart.append((176, 22)) # id 152 -> V010@30 - 10.1
+lst_topic_chart.append((147, 22)) # id 136 -> V010@1 - 10.1
+lst_topic_chart.append((148, 22)) # id 137 -> V010@2 - 10.1
+lst_topic_chart.append((149, 22)) # id 138 -> V010@3 - 10.1
+lst_topic_chart.append((151, 22)) # id 139 -> V010@5 - 10.1
+lst_topic_chart.append((153, 22)) # id 130 -> V010@7 - 10.1
+lst_topic_chart.append((155, 22)) # id 141 -> V010@9 - 10.1
+lst_topic_chart.append((157, 22)) # id 142 -> V010@11 - 10.1
+lst_topic_chart.append((159, 22)) # id 143 -> V010@13 - 10.1
+lst_topic_chart.append((161, 22)) # id 144 -> V010@15 - 10.1
+lst_topic_chart.append((162, 22)) # id 145 -> V010@16 - 10.1
+lst_topic_chart.append((164, 22)) # id 146 -> V010@18 - 10.1
+lst_topic_chart.append((165, 22)) # id 147 -> V010@19 - 10.1
+lst_topic_chart.append((166, 22)) # id 148 -> V010@20 - 10.1
+lst_topic_chart.append((168, 22)) # id 149 -> V010@22 - 10.1
+lst_topic_chart.append((169, 22)) # id 140 -> V010@23 - 10.1
+lst_topic_chart.append((170, 22)) # id 151 -> V010@24 - 10.1
+lst_topic_chart.append((173, 22)) # id 152 -> V010@27 - 10.1
+lst_topic_chart.append((176, 22)) # id 153 -> V010@30 - 10.1
 
-lst_topic_chart.append((179, 23)) # id 153 -> V011@1 - 11.1
-lst_topic_chart.append((180, 23)) # id 154 -> V011@2 - 11.1
-lst_topic_chart.append((181, 23)) # id 155 -> V011@3 - 11.1
-lst_topic_chart.append((182, 23)) # id 156 -> V011@4 - 11.1
-lst_topic_chart.append((183, 23)) # id 157 -> V011@5 - 11.1
+lst_topic_chart.append((179, 23)) # id 154 -> V011@1 - 11.1
+lst_topic_chart.append((180, 23)) # id 155 -> V011@2 - 11.1
+lst_topic_chart.append((181, 23)) # id 156 -> V011@3 - 11.1
+lst_topic_chart.append((182, 23)) # id 157 -> V011@4 - 11.1
+lst_topic_chart.append((183, 23)) # id 158 -> V011@5 - 11.1
 
 ################################################################################################
 
@@ -447,7 +448,7 @@ lst_dashboard_topic_chart.append((1, 76, 9, "", 1))
 lst_dashboard_topic_chart.append((1, 88, 10, "", 1))
 lst_dashboard_topic_chart.append((1, 117, 11, "", 1))
 lst_dashboard_topic_chart.append((1, 126, 12, "", 1))
-lst_dashboard_topic_chart.append((1, 153, 13, "", 1))
+lst_dashboard_topic_chart.append((1, 154, 13, "", 1))
 
 lst_dashboard_topic_chart.append((2, 15, 1, "", 1))
 lst_dashboard_topic_chart.append((2, 27, 2, "", 1))
@@ -461,7 +462,7 @@ lst_dashboard_topic_chart.append((2, 76, 9, "", 1))
 lst_dashboard_topic_chart.append((2, 88, 10, "", 1))
 lst_dashboard_topic_chart.append((2, 117, 11, "", 1))
 lst_dashboard_topic_chart.append((2, 126, 12, "", 1))
-lst_dashboard_topic_chart.append((2, 153, 13, "", 1))
+lst_dashboard_topic_chart.append((2, 154, 13, "", 1))
 
 # VG-01 -> Q-01 -> j -> V001@38 - 1.1 -> id 15 -> Which students completed the assignments?
 # VG-01 -> Q-02 -> j -> V001@41 - 1.2 -> id 27 -> Which assignments were completed by the students?
@@ -475,7 +476,7 @@ lst_dashboard_topic_chart.append((2, 153, 13, "", 1))
 # VG-05 -> Q-06 -> a -> V005@1 - 5.6 -> id 88 -> What is the relation between students’ grades and forum replies?
 # VG-07 -> Q-01 -> b -> V007@2 - 7.1 -> id 117 -> What is the prediction of students’ grades and dropout?
 # VG-08 -> Q-02 -> a -> V008@3 - 8.2 -> id 126 -> How many students’ accesses were there per week?
-# VG-11 -> Q-11 -> a -> V011@1 - 11.1 -> id 153 -> What were the students’ navigation patterns on the VLE?
+# VG-11 -> Q-11 -> a -> V011@1 - 11.1 -> id 154 -> What were the students’ navigation patterns on the VLE?
 
 
 boot_data = [
