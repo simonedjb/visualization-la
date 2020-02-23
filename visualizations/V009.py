@@ -18,7 +18,7 @@ init_notebook_mode(connected=True) # initiate notebook for offline plot
 
 class V009:
     NUMBER_STUDENTS = 10
-    VIDEO_SIZE = 30
+    VIDEO_SIZE = 45
     DATASET = pd.DataFrame()
 
     _language = "pt"
@@ -57,12 +57,39 @@ class V009:
         
         curr = ''
         time = 0
+
+        #Generate actions time
+        lst_play = np.random.randint(0, self.VIDEO_SIZE+1, size=int(self.VIDEO_SIZE/1.5)).tolist()
+        lst_pause = np.random.randint(0, self.VIDEO_SIZE+1, size=int(self.VIDEO_SIZE/1.5)).tolist()
+        lst_seek_from = np.random.randint(0, self.VIDEO_SIZE+1, size=int(self.VIDEO_SIZE/2)).tolist()
+        lst_seek_to = np.random.randint(0, self.VIDEO_SIZE+1, size=int(self.VIDEO_SIZE/2)).tolist()
+        lst_dropout = np.random.randint(0, self.VIDEO_SIZE+1, size=int(self.VIDEO_SIZE/3)).tolist()
+
         for i in range(0,len(names)):
-            self.DATASET.loc[i,self.DATASET.columns[2]] = np.random.randint(0, 2, size=1)[0]
-            self.DATASET.loc[i,self.DATASET.columns[3]] = np.random.randint(0, 2, size=1)[0]
-            self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(0, 4, size=1)[0]
-            self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(0, 4, size=1)[0]
-            self.DATASET.loc[i,self.DATASET.columns[6]] = np.random.randint(0, 2, size=1)[0]
+            if time in lst_play:
+                self.DATASET.loc[i,self.DATASET.columns[2]] = np.random.randint(0, 2, size=1)[0] #Play
+            else:
+                self.DATASET.loc[i,self.DATASET.columns[2]] = 0 #Play
+
+            if time in lst_pause:
+                self.DATASET.loc[i,self.DATASET.columns[3]] = np.random.randint(0, 2, size=1)[0] #Pause
+            else:
+                self.DATASET.loc[i,self.DATASET.columns[3]] = 0 #Pause
+
+            if time in lst_seek_from:
+                self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(0, 4, size=1)[0] #Seek from
+            else:
+                self.DATASET.loc[i,self.DATASET.columns[4]] = 0 #Seek from
+
+            if time in lst_seek_to:
+                self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(0, 4, size=1)[0] #Seek to
+            else:
+                self.DATASET.loc[i,self.DATASET.columns[5]] = 0 #Seek to
+
+            if time in lst_dropout:
+                self.DATASET.loc[i,self.DATASET.columns[6]] = np.random.randint(0, 2, size=1)[0] #Dropout
+            else:
+                self.DATASET.loc[i,self.DATASET.columns[6]] = 0 #Dropout
 
             if names[i] != curr:
                 curr = names[i]
@@ -354,10 +381,21 @@ class V009:
         df_seek.insert(column='Type', loc=len(df_seek.columns), value=df_seek.apply(lambda x: 'Forward' if x['From'] < x['To'] else 'Backward', axis=1)) #Classifying seek by Forward or Backward
 
         values = labels = list(range(self.VIDEO_SIZE+1))
+
+        lst_count_forward_from = [0]*len(values)
+        lst_count_forward_to = [0]*len(values)
+        lst_count_backward_from = [0]*len(values)
+        lst_count_backward_to = [0]*len(values)
+        for i in range(len(values)):
+            lst_count_forward_from[i] = len(df_seek.loc[(df_seek['Type']=='Forward') & (df_seek['From']==i)])
+            lst_count_forward_to[i] = len(df_seek.loc[(df_seek['Type']=='Forward') & (df_seek['To']==i)])
+            lst_count_backward_from[i] = len(df_seek.loc[(df_seek['Type']=='Backward') & (df_seek['From']==i)])
+            lst_count_backward_to[i] = len(df_seek.loc[(df_seek['Type']=='Backward') & (df_seek['To']==i)])
+
         #Transform 'from' and 'to' in edge
         se_forward = df_seek.loc[df_seek['Type'] == 'Forward'].apply(lambda x: (x['From'],x['To']), axis=1) 
         se_backward = df_seek.loc[df_seek['Type'] == 'Backward'].apply(lambda x: (x['From'],x['To']), axis=1)
-        
+
         #Get unique edges
         lst_edge_forward = se_forward.unique().tolist()
         lst_edge_backward = se_backward.unique().tolist()
@@ -408,7 +446,7 @@ class V009:
             # yy.append(pts[nr//2][1]) #ordinate of the same point
             x,y = zip(*pts)
             
-            trace.append(
+            trace.append( #Forward arcs
                         Scatter(
                             x=x, 
                             y=y, 
@@ -431,7 +469,7 @@ class V009:
             x,y = zip(*pts)
             y = tuple([-1*iterator for iterator in y]) #Make opposite axes            
             
-            trace.append(
+            trace.append( #Backward arcs
                         Scatter(
                             x=x, 
                             y=y, 
@@ -443,7 +481,7 @@ class V009:
                             )
                         )
 
-        trace.append(
+        trace.append( #Nodes
                     Scatter(
                         x=list(range(len(values))),
                         y=[0]*len(values),
@@ -451,15 +489,18 @@ class V009:
                         # name="Cluster"+str(i+1), #each cluster name
                         text = [str(i)+'s' for i in range(len(values))],
                         textposition='middle center',
-                        # hoverinfo='none',
-                        # hoverinfo='text'
+                        hovertext = ['<b>Seek Forward</b><br>Origem:'+str(lst_count_forward_from[i])+"<br>Destino:"+str(lst_count_forward_to[i])+"<br><br><b>"+str(i)+"s</b><br><br><b>Seek Backward</b><br>Origem:"+str(lst_count_backward_from[i])+"<br>Destino:"+str(lst_count_backward_to[i]) for i in range(len(values))],
+                        # lst_count_forward[i]
+                        # lst_count_backward[i]
+                        hoverinfo='text',
+                        # hoverlabel_align = 'right',
                         showlegend = False,
                         # marker=dict(size=20, color = 'rgb(100,100,100)', symbol='circle', line=dict(color='rgb(0,0,255)', width=3.75))
                         marker=dict(size=25, color = 'rgb(200,200,200)', symbol='circle')
                     )
                 )
 
-        trace.append(
+        trace.append( #Legend
                     Scatter(
                         x=[len(values)-2]*2,
                         y=[5,-5],
@@ -538,7 +579,3 @@ class V009:
 # instance = V009()
 # instance.generate_dataset(number_actions = 100, video_size = 30)
 # res = instance.graph_03()
-
-# for i in range(0,30+1):
-    
-
