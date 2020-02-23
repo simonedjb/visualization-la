@@ -408,13 +408,15 @@ class V009:
             # yy.append(pts[nr//2][1]) #ordinate of the same point
             x,y = zip(*pts)
             
-            trace.append(dict(type='scatter',
+            trace.append(
+                        Scatter(
                             x=x, 
                             y=y, 
                             name='',
                             mode='lines', 
                             line=dict(width=edge_forward_widths[i], color='rgb(0,0,255)', shape='spline'),
-                            hoverinfo='none'
+                            hoverinfo='none',
+                            showlegend = False,
                             )
                         )
 
@@ -429,13 +431,15 @@ class V009:
             x,y = zip(*pts)
             y = tuple([-1*iterator for iterator in y]) #Make opposite axes            
             
-            trace.append(dict(type='scatter',
+            trace.append(
+                        Scatter(
                             x=x, 
                             y=y, 
                             name='',
                             mode='lines', 
                             line=dict(width=edge_backward_widths[i], color='rgb(255,0,0)', shape='spline'),
-                            hoverinfo='none'
+                            hoverinfo='none',
+                            showlegend = False
                             )
                         )
 
@@ -449,9 +453,23 @@ class V009:
                         textposition='middle center',
                         # hoverinfo='none',
                         # hoverinfo='text'
-                        # showlegend = False,
+                        showlegend = False,
                         # marker=dict(size=20, color = 'rgb(100,100,100)', symbol='circle', line=dict(color='rgb(0,0,255)', width=3.75))
-                        marker=dict(size=25, color = 'rgb(180,180,180)', symbol='circle')
+                        marker=dict(size=25, color = 'rgb(200,200,200)', symbol='circle')
+                    )
+                )
+
+        trace.append(
+                    Scatter(
+                        x=[len(values)-2]*2,
+                        y=[5,-5],
+                        mode='markers+text',
+                        # name="Cluster"+str(i+1), #each cluster name
+                        text = ['<b> Seek Forward</b>', '<b> Seek Backward</b>'],
+                        textposition='middle right',
+                        hoverinfo='none',
+                        showlegend = False,
+                        marker=dict(size=[20]*2, color = ['rgb(0,0,255)','rgb(255,0,0)'], symbol=141, line=dict(width=3))
                     )
                 )
 
@@ -461,13 +479,13 @@ class V009:
                 font=dict(size=10), 
                 # width=1500,
                 # height=1250,
-                showlegend=False,
+                showlegend=True,
                 hovermode='closest',
                 xaxis=dict(anchor='y', showline=False, zeroline=False, showgrid=False, 
                             showticklabels=False, tickvals=list(range(len(values))), ticktext=labels, tickangle=50,
                             ),
                 yaxis=dict(visible=False),
-                margin=dict(t=80, b=110, l=10, r=10),
+                margin=dict(t=80, b=110, l=10, r=10),                
                 # annotations=[dict(showarrow=False, 
                 #         #    text=anno_text,
                 #            xref='paper',     
@@ -482,7 +500,7 @@ class V009:
         
         data = trace
         fig = Figure(data=data, layout=layout)
-
+        
         if self._type_result == "jupyter-notebook":
             iplot(fig, filename='Scatter')
         elif self._type_result == "dash":
