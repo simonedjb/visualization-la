@@ -1,4 +1,3 @@
-- Melhorar o generate seek data
 - Fazer mais gráficos para o VG-02 Topico 02.
 - Deixar os dados dummies dos gráficos já gerados em formato json sem precisar gerar a cada acesso.
 - Adicionar filtros nos gráficos.

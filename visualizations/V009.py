@@ -94,7 +94,7 @@ class V009:
             if names[i] != curr:
                 curr = names[i]
                 time = 0
-                self.DATASET.loc[i,self.DATASET.columns[2]] = np.random.randint(1, 9, size=1)[0]
+                self.DATASET.loc[i,self.DATASET.columns[2]] = np.random.randint(1, 20, size=1)[0]
 
             self.DATASET.loc[i,self.DATASET.columns[1]] = time
             time = time+1
@@ -300,7 +300,7 @@ class V009:
                         "yaxis":"Interaction",
                     }
         
-        df = pd.DataFrame(columns=self.DATASET.columns[1:].tolist())        
+        df = pd.DataFrame(columns=self.DATASET.columns[1:].tolist())
         
         for i in range(0,self.VIDEO_SIZE+1):
             df_aux = self.DATASET[self.DATASET.columns[2:]].loc[self.DATASET[self.DATASET.columns[1]] == i].apply(np.sum)
@@ -313,7 +313,9 @@ class V009:
                 Scatter(
                     x=df[df.columns[0]],
                     y=df[df.columns[i]],
-                    hoverinfo='x+y',
+                    # hoverinfo='x+y',
+                    hoverinfo='text',
+                    hovertext=['<b>'+str(df[df.columns[0]][j])+"s</b>: "+str(df[df.columns[i]][j])+' '+df.columns[i] for j in range(len(df))],
                     mode='lines',
                     name=df.columns[i],
                     text = [df.columns[i]],
