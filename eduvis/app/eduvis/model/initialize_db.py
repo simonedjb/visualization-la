@@ -218,29 +218,29 @@ lst_chart.append(('V002@18',))  # id 189
 
 ### tb_topic ###
 lst_topic = []
-lst_topic.append(('Estudantes que fizeram e não fizeram as tarefas',)) # id 1 -> # 1.1
-lst_topic.append(('Tarefas feitas e não feitas pelos estudantes',)) # id 2 -> # 1.2
-lst_topic.append(('Acesso dos estudantes aos materiais',)) # id 3 -> # 2.1
-lst_topic.append(('Materiais mais acessados pelos estudantes',)) # id 4 -> # 2.2
-lst_topic.append(('Número de acessos, postagens e curtidas dos estudantes',)) # id 5 -> # 3.1
-lst_topic.append(('Tempo de permanência dos estudantes nos vídeos',)) # id 6 -> # 4.1
-lst_topic.append(('Correlação entre as notas e os dados de acesso no AVA',)) # id 7 -> # 5.1
-lst_topic.append(('Correlação entre as notas e os dados de acesso nos AVAs materiais do AVA',)) # id 8 -> # 5.2
-lst_topic.append(('Correlação entre as notas e a quantidade de tarefas feitas',)) # id 9 -> # 5.3
-lst_topic.append(('Correlação entre as notas e os dados de acesso no fórum',)) # id 10 -> # 5.4
-lst_topic.append(('Correlação entre as notas e a quantidade de postagens no fórum ',)) # id 11 -> # 5.5
-lst_topic.append(('Correlação entre as notas e a quantidade de postagens de respostas no fórum ',)) # id 12 -> # 5.6
-lst_topic.append(('Correlação entre as notas e a quantidade de tópicos adicionados no fórum',)) # id 13 -> # 5.7
-lst_topic.append(('Correlação entre a idade dos alunos e os dados de acesso no Fórum',)) # id 14 -> # 6.1
-lst_topic.append(('Correlação entre a idade dos alunos e a quantidade de postagens no Fórum',)) # id 15 -> # 6.2
-lst_topic.append(('Correlação entre a idade dos alunos e a quantidade de postagens de respostas no Fórum',)) # id 16 -> # 6.3
-lst_topic.append(('Correlação entre a idade dos alunos e a quantidade de tópicos adicionados no fórum',)) # id 17 -> # 6.4
-lst_topic.append(('Predição das notas e dos estudantes desistentes',)) # id 18 -> # 7.1
+lst_topic.append(('Estudantes que completaram as atividades',)) # id 1 -> # 1.1
+lst_topic.append(('Atividades completadas',)) # id 2 -> # 1.2
+lst_topic.append(('Estudantes que acessaram os materiais',)) # id 3 -> # 2.1
+lst_topic.append(('Materiais mais acessados',)) # id 4 -> # 2.2
+lst_topic.append(('Uso do fórum',)) # id 5 -> # 3.1
+lst_topic.append(('Vídeos acessados',)) # id 6 -> # 4.1
+lst_topic.append(('Correlação entre notas e acesso ao AVA',)) # id 7 -> # 5.1
+lst_topic.append(('Correlação entre notas e materiais acessados',)) # id 8 -> # 5.2
+lst_topic.append(('Correlação entre notas e atividades completadas',)) # id 9 -> # 5.3
+lst_topic.append(('Correlação entre notas e acesso ao fórum',)) # id 10 -> # 5.4
+lst_topic.append(('Correlação entre notas e postagens no fórum ',)) # id 11 -> # 5.5
+lst_topic.append(('Correlação entre notas e respostas no fórum ',)) # id 12 -> # 5.6
+lst_topic.append(('Correlação entre notas e tópicos no fórum',)) # id 13 -> # 5.7
+lst_topic.append(('Correlação entre idade e acesso ao fórum',)) # id 14 -> # 6.1
+lst_topic.append(('Correlação entre idade e postagens no fórum',)) # id 15 -> # 6.2
+lst_topic.append(('Correlação entre idade e respostas no fórum',)) # id 16 -> # 6.3
+lst_topic.append(('Correlação entre idade e tópicos no fórum',)) # id 17 -> # 6.4
+lst_topic.append(('Predição de performance',)) # id 18 -> # 7.1
 lst_topic.append(('Acesso dos estudantes por dia',)) # id 19 -> # 8.1
 lst_topic.append(('Acesso dos estudantes por semana',)) # id 20 -> # 8.2
-lst_topic.append(('Interação dos estudantes nos vídeos',)) # id 21 -> # 9.1
-lst_topic.append(('Vídeos que os estudantes entenderam e não entenderam',)) # id 22 -> # 10.1
-lst_topic.append(('Padrão de navegação dos estudantes no AVA',)) # id 23 -> # 11.1
+lst_topic.append(('Interação nos vídeos',)) # id 21 -> # 9.1
+lst_topic.append(('Entendimento do vídeo',)) # id 22 -> # 10.1
+lst_topic.append(('Navegação dos estudantes',)) # id 23 -> # 11.1
 
 ################################################################################################
 
