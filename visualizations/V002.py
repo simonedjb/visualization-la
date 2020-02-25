@@ -16,6 +16,7 @@ init_notebook_mode(connected=True) # initiate notebook for offline plot
 class V002:
     NUMBER_STUDENTS = 21
     DATASET = pd.DataFrame()
+    _df_sum_access = pd.DataFrame()
     
     _language = "pt"
     _type_result="jupyter-notebook"
@@ -40,6 +41,15 @@ class V002:
             self.DATASET.loc[i,"Students"] = rand_names[i]
         
         self.DATASET['Total'] = self.DATASET.apply(self.sum_row,axis=1)
+        
+        self._df_sum_access = pd.DataFrame(columns=['Materials','Access'])
+        self._df_sum_access[self._df_sum_access.columns[0]] = self.DATASET.columns[1:len(self.DATASET.columns)-1].tolist()
+
+        lst_aux = []
+        for material in self._df_sum_access[self._df_sum_access.columns[0]]:
+            lst_aux.append(sum(self.DATASET[material].tolist()))
+        self._df_sum_access[self._df_sum_access.columns[1]] = lst_aux
+
 
     def sum_row(self,row):
         total = 0
@@ -84,7 +94,6 @@ class V002:
             modeBarButtonsToRemove = ['toImage', 'sendDataToCloud', 'hoverCompareCartesian', 'lasso2d', 'hoverClosestCartesian', 'toggleHover', 'hoverClosest3d', 'hoverClosestGeo', 'hoverClosestGl2d', 'hoverClosestPie']
             config = {"displaylogo": False, "responsive": True, "displayModeBar": True, "modeBarButtonsToRemove": modeBarButtonsToRemove}
             return {"id":"V002@1","layout":json.dumps({"data": data, "layout": layout, "config": config}, cls=PlotlyJSONEncoder)}
-
 
     #Grouped Bar
     def graph_02(self):
@@ -916,6 +925,443 @@ class V002:
             config = {"displaylogo": False, "responsive": True, "displayModeBar": True, "modeBarButtonsToRemove": modeBarButtonsToRemove}
             return {"id":"V002@12","layout":json.dumps({"data": data, "layout": layout, "config": config}, cls=PlotlyJSONEncoder)}
 
+    #Barchart
+    def graph_13(self):
+        legend = {"title":"Número de acessos por material",
+                    "xaxis":"",
+                    "yaxis":"Número de acessos",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of access by material",
+                        "xaxis":"",
+                        "yaxis":"Number of access",
+                    }
+
+        trace = []
+        trace.append(Bar(
+            x=self._df_sum_access.iloc[:,0].values,
+            y=self._df_sum_access.iloc[:,1].values
+        ))
+
+        data = trace
+        layout = Layout(
+            title = legend["title"],
+            xaxis=dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
+            yaxis=dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                showticklabels=True,
+                # tick0=0,
+                # dtick=1,
+                # ticklen=4,
+                # tickwidth=4,
+                exponentformat='e',
+                showexponent='all',
+                gridcolor='#bdbdbd',
+                # range=[0, 4.1]
+            )
+        )
+
+        fig = Figure(data=data, layout=layout)
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                    id='V002@13',
+                    figure=fig
+                )
+        elif self._type_result == "flask":
+            modeBarButtonsToRemove = ['toImage', 'sendDataToCloud', 'hoverCompareCartesian', 'lasso2d', 'hoverClosestCartesian', 'toggleHover', 'hoverClosest3d', 'hoverClosestGeo', 'hoverClosestGl2d', 'hoverClosestPie']
+            config = {"displaylogo": False, "responsive": True, "displayModeBar": True, "modeBarButtonsToRemove": modeBarButtonsToRemove}
+            return {"id":"V002@13","layout":json.dumps({"data": data, "layout": layout, "config": config}, cls=PlotlyJSONEncoder)}
+    
+    def graph_14(self):
+        legend = {"title":"Número de acessos por material",
+                    "xaxis":"",
+                    "yaxis":"Número de acessos",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of access by material",
+                        "xaxis":"",
+                        "yaxis":"Number of access",
+                    }
+
+        df = self._df_sum_access.sort_values(by=[self._df_sum_access.columns[1]])
+
+        trace = []
+        trace.append(Bar(
+            x=df.iloc[:,0].values,
+            y=df.iloc[:,1].values
+        ))
+
+        data = trace
+        layout = Layout(
+            title = legend["title"],
+            xaxis=dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
+            yaxis=dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                showticklabels=True,
+                # tick0=0,
+                # dtick=1,
+                # ticklen=4,
+                # tickwidth=4,
+                exponentformat='e',
+                showexponent='all',
+                gridcolor='#bdbdbd',
+                # range=[0, 4.1]
+            )
+        )
+
+        fig = Figure(data=data, layout=layout)
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                    id='V002@14',
+                    figure=fig
+                )
+        elif self._type_result == "flask":
+            modeBarButtonsToRemove = ['toImage', 'sendDataToCloud', 'hoverCompareCartesian', 'lasso2d', 'hoverClosestCartesian', 'toggleHover', 'hoverClosest3d', 'hoverClosestGeo', 'hoverClosestGl2d', 'hoverClosestPie']
+            config = {"displaylogo": False, "responsive": True, "displayModeBar": True, "modeBarButtonsToRemove": modeBarButtonsToRemove}
+            return {"id":"V002@14","layout":json.dumps({"data": data, "layout": layout, "config": config}, cls=PlotlyJSONEncoder)}
+
+    def graph_15(self):
+        legend = {"title":"Número de acessos por material",
+                    "xaxis":"Número de acessos",
+                    "yaxis":"",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of access by material",
+                        "xaxis":"Number of access",
+                        "yaxis":"",
+                    }
+
+        trace = []
+        trace.append(Bar(
+            x=self._df_sum_access.iloc[:,1].values,
+            y=self._df_sum_access.iloc[:,0].values,
+            orientation = 'h'
+        ))
+
+        data = trace
+        layout = Layout(
+            title = legend["title"],
+            xaxis=dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
+            yaxis=dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                showticklabels=True,
+                # tick0=0,
+                # dtick=1,
+                # ticklen=4,
+                # tickwidth=4,
+                exponentformat='e',
+                showexponent='all',
+                gridcolor='#bdbdbd',
+                # range=[0, 4.1]
+            )
+        )
+
+        fig = Figure(data=data, layout=layout)
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                    id='V002@15',
+                    figure=fig
+                )
+        elif self._type_result == "flask":
+            modeBarButtonsToRemove = ['toImage', 'sendDataToCloud', 'hoverCompareCartesian', 'lasso2d', 'hoverClosestCartesian', 'toggleHover', 'hoverClosest3d', 'hoverClosestGeo', 'hoverClosestGl2d', 'hoverClosestPie']
+            config = {"displaylogo": False, "responsive": True, "displayModeBar": True, "modeBarButtonsToRemove": modeBarButtonsToRemove}
+            return {"id":"V002@15","layout":json.dumps({"data": data, "layout": layout, "config": config}, cls=PlotlyJSONEncoder)}
+    
+    def graph_16(self):
+        legend = {"title":"Número de acessos por material",
+                    "xaxis":"Número de acessos",
+                    "yaxis":"",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of access by material",
+                        "xaxis":"Number of access",
+                        "yaxis":"",
+                    }
+        
+        df = self._df_sum_access.sort_values(by=[self._df_sum_access.columns[1]])
+
+        trace = []
+        trace.append(Bar(
+            x=df.iloc[:,1].values,
+            y=df.iloc[:,0].values,
+            orientation = 'h'
+        ))
+
+        data = trace
+        layout = Layout(
+            title = legend["title"],
+            xaxis=dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
+            yaxis=dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                showticklabels=True,
+                # tick0=0,
+                # dtick=1,
+                # ticklen=4,
+                # tickwidth=4,
+                exponentformat='e',
+                showexponent='all',
+                gridcolor='#bdbdbd',
+                # range=[0, 4.1]
+            )
+        )
+
+        fig = Figure(data=data, layout=layout)
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Bar')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                    id='V002@16',
+                    figure=fig
+                )
+        elif self._type_result == "flask":
+            modeBarButtonsToRemove = ['toImage', 'sendDataToCloud', 'hoverCompareCartesian', 'lasso2d', 'hoverClosestCartesian', 'toggleHover', 'hoverClosest3d', 'hoverClosestGeo', 'hoverClosestGl2d', 'hoverClosestPie']
+            config = {"displaylogo": False, "responsive": True, "displayModeBar": True, "modeBarButtonsToRemove": modeBarButtonsToRemove}
+            return {"id":"V002@16","layout":json.dumps({"data": data, "layout": layout, "config": config}, cls=PlotlyJSONEncoder)}
+
+    def graph_17(self):
+        legend = {"title":"Número de acessos por material",
+                    "xaxis":"Número de acessos",
+                    "yaxis":"",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of access by material",
+                        "xaxis":"Number of access",
+                        "yaxis":"",
+                    }
+
+        trace = []
+        trace.append(Bar(
+            x=self._df_sum_access.iloc[:,1].values,
+            y=self._df_sum_access.iloc[:,0].values,
+            orientation = 'h',
+            width=[0.04]*20,
+            name="",
+            text="",
+            marker=dict(
+                    color = 'lightgray'
+                )
+        ))
+        
+        trace.append(
+            Scatter(
+                x=self._df_sum_access.iloc[:,1].values,
+                y=self._df_sum_access.iloc[:,0].values,
+                mode='markers',
+                name = "",
+                hoverinfo='text',
+                hovertext=[str(self._df_sum_access.iloc[i,1]) for i in range(len(self._df_sum_access))],                
+                marker=dict(
+                    symbol='circle',
+                    sizemode='area',
+                    color = 'rgb(0,0,255)',
+                    line=dict(
+                        width=0
+                    )
+                )
+            )        
+        )
+
+        data = trace
+        
+        layout = Layout(
+            title = legend["title"],
+            showlegend=False,
+            # showgrid=False,
+            hovermode = "closest",
+            xaxis=dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                # tick0=0,
+                # dtick=1,
+                showgrid=True
+            ),
+            yaxis=dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                showticklabels=True,
+                tick0=0,
+                dtick=1,
+                showgrid=False,
+                # ticklen=4,
+                # tickwidth=4,
+                exponentformat='e',
+                showexponent='all',
+                gridcolor='#bdbdbd',
+                # range=[0, 4.1]
+            )
+        )
+
+        fig = Figure(data=data, layout=layout)
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Lollipop')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V002@17',
+                figure=fig
+            )
+        elif self._type_result == "flask":
+            modeBarButtonsToRemove = ['toImage', 'sendDataToCloud', 'hoverCompareCartesian', 'lasso2d', 'hoverClosestCartesian', 'toggleHover', 'hoverClosest3d', 'hoverClosestGeo', 'hoverClosestGl2d', 'hoverClosestPie']
+            config = {"displaylogo": False, "responsive": True, "displayModeBar": True, "modeBarButtonsToRemove": modeBarButtonsToRemove}
+            return {"id":"V002@17","layout":json.dumps({"data": data, "layout": layout, "config": config}, cls=PlotlyJSONEncoder)}
+
+    def graph_18(self):
+        legend = {"title":"Número de acessos por material",
+                    "xaxis":"Número de acessos",
+                    "yaxis":"",
+                }
+        if (self._language == "en"):
+            legend = {"title":"Number of access by material",
+                        "xaxis":"Number of access",
+                        "yaxis":"",
+                    }
+
+        df = self._df_sum_access.sort_values(by=[self._df_sum_access.columns[1]])
+
+        trace = []
+        trace.append(Bar(
+            x=df.iloc[:,1].values,
+            y=df.iloc[:,0].values,
+            orientation = 'h',
+            width=[0.04]*20,
+            name="",
+            text="",
+            marker=dict(
+                    color = 'lightgray'
+                )
+        ))
+        
+        trace.append(
+            Scatter(
+                x=df.iloc[:,1].values,
+                y=df.iloc[:,0].values,
+                mode='markers',
+                name = "",
+                hoverinfo='text',
+                hovertext=[str(df.iloc[i,1]) for i in range(len(df))],                
+                marker=dict(
+                    symbol='circle',
+                    sizemode='area',
+                    color = 'rgb(0,0,255)',
+                    line=dict(
+                        width=0
+                    )
+                )
+            )        
+        )
+
+        data = trace
+        
+        layout = Layout(
+            title = legend["title"],
+            showlegend=False,
+            # showgrid=False,
+            hovermode = "closest",
+            xaxis=dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                # tick0=0,
+                # dtick=1,
+                showgrid=True
+            ),
+            yaxis=dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                showticklabels=True,
+                tick0=0,
+                dtick=1,
+                showgrid=False,
+                # ticklen=4,
+                # tickwidth=4,
+                exponentformat='e',
+                showexponent='all',
+                gridcolor='#bdbdbd',
+                # range=[0, 4.1]
+            )
+        )
+
+        fig = Figure(data=data, layout=layout)
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Lollipop')
+        elif self._type_result == "dash":            
+            return dcc.Graph(
+                id='V002@18',
+                figure=fig
+            )
+        elif self._type_result == "flask":
+            modeBarButtonsToRemove = ['toImage', 'sendDataToCloud', 'hoverCompareCartesian', 'lasso2d', 'hoverClosestCartesian', 'toggleHover', 'hoverClosest3d', 'hoverClosestGeo', 'hoverClosestGl2d', 'hoverClosestPie']
+            config = {"displaylogo": False, "responsive": True, "displayModeBar": True, "modeBarButtonsToRemove": modeBarButtonsToRemove}
+            return {"id":"V002@18","layout":json.dumps({"data": data, "layout": layout, "config": config}, cls=PlotlyJSONEncoder)}
+
     def get_chart(self,id):
         if id == 1:
             return self.graph_01()
@@ -940,7 +1386,19 @@ class V002:
         elif id == 11:
             return self.graph_11()
         elif id == 12:
-            return self.graph_12()        
+            return self.graph_12()
+        elif id == 13:
+            return self.graph_13()
+        elif id == 14:
+            return self.graph_14()    
+        elif id == 15:
+            return self.graph_15()
+        elif id == 16:
+            return self.graph_16()
+        elif id == 17:
+            return self.graph_17()
+        elif id == 18:
+            return self.graph_18()
         else:
             print("V002@"+str(id)+" not found")
 
@@ -958,6 +1416,12 @@ class V002:
         self.graph_10()
         self.graph_11() #Scatter
         self.graph_12()
+        self.graph_13() #Barchart
+        self.graph_14()
+        self.graph_15()
+        self.graph_16()
+        self.graph_17() #Lollipop
+        self.graph_18()
 
         #Fazer Heatmap e Scatter apresentando total tbm.
 
