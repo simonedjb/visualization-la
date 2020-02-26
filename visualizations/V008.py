@@ -14,7 +14,6 @@ from plotly.offline import init_notebook_mode, iplot
 from sklearn import metrics
 from sklearn.cluster import KMeans
 
-
 init_notebook_mode(connected=True) # initiate notebook for offline plot
 
 class V008:
@@ -30,11 +29,15 @@ class V008:
     _df_sum_day = pd.DataFrame()
     _df_sum_week = pd.DataFrame()
     _df_all_day = pd.DataFrame()
+    _preprocessed_folder = os.path.join('Preprocessed')
 
     def __init__(self, language="pt", type_result = "jupyter-notebook"):
         self._language = language
         self._type_result = type_result
-        
+    
+    def load_dataset(self, url):
+        pass
+
     def generate_dataset(self, number_students = 20, number_weeks = 7, students_names = pd.DataFrame()):
         self.NUMBER_STUDENTS = number_students
         self.NUMBER_WEEKS = number_weeks
@@ -53,7 +56,7 @@ class V008:
         rand_names.sort()
 
         for i in range(0,self.NUMBER_STUDENTS):
-            self.DATASET.loc[i,"Students"] = rand_names[i]            
+            self.DATASET.loc[i,"Students"] = rand_names[i]
 
             lst = sorted(np.random.triangular(0,5,15,int(self.NUMBER_WEEKS/2)+(self.NUMBER_WEEKS%2))) + sorted(np.random.triangular(0,5,15,int(self.NUMBER_WEEKS/2)))
             self.DATASET.loc[i,"Sunday"] = [int(i) for i in lst]
@@ -963,6 +966,39 @@ class V008:
             return self.graph_11()        
         else:
             print("V008@"+str(id)+" not found")
+
+    def get_preprocessed_chart(self,id):
+        if not os.path.exists(self._preprocessed_folder):
+            print('There is no preprocessed folder')
+            return
+        
+        file_name = 'V008_'+str(id)+'.pkl'
+        file_path = os.path.join(self._preprocessed_folder,file_name)
+
+        if not os.path.exists(file_path):
+            print('There is no preprocessed chart')
+            return
+
+        f = open(file_path,'rb')
+        data = pickle.load(f)
+        f.close()
+        
+        return data
+
+    def save_chart(self,id):
+        aux_type_result = self._type_result
+        self._type_result = "flask"
+        
+        if not os.path.exists(self._preprocessed_folder):
+            os.mkdir(self._preprocessed_folder)
+        
+        file_name = 'V008_'+str(id)+'.pkl'
+        file_path = os.path.join(self._preprocessed_folder,file_name)
+        f = open(file_path,'wb')
+        pickle.dump(self.get_chart(id),f)
+        f.close()
+
+        self._type_result = aux_type_result
 
     def print_all_graphs(self,language="pt"):
         self._language = language
