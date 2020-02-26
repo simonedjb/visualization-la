@@ -2,9 +2,11 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 
+import os
 import pandas as pd
 import numpy as np
 
+import pickle
 import json
 
 from plotly.utils import PlotlyJSONEncoder
@@ -26,24 +28,30 @@ class V002:
         self._language = language
         self._type_result = type_result
     
-    def generate_dataset(self, number_students = 21, students_names = pd.DataFrame()):
-        self.NUMBER_STUDENTS = number_students+1
+    def generate_dataset(self, number_students = 20, rand_names = []):
+        self.NUMBER_STUDENTS = number_students
 
-        self.DATASET = pd.DataFrame(columns=["Students","Video1","Video2",'Quiz1','Quiz2','Pdf1','Pdf2','Ebook1','Ebook2','Total'])
-        if len(students_names.columns.tolist()) == 0:
-            names = pd.read_csv("assets/names.csv")
+        if (self._language == "pt"):
+            self.DATASET = pd.DataFrame(columns=["Estudantes","Video 1","Video 2",'Quiz 1','Quiz 2','Pdf 1','Pdf 2','Ebook 1','Ebook 2','Total'])
+            self._df_sum_access = pd.DataFrame(columns=['Materiais','Acesso'])
         else:
-            names = students_names
-        rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
-        rand_names.sort()
+            self.DATASET = pd.DataFrame(columns=["Students","Video 1","Video 2",'Quiz 1','Quiz 2','Pdf 1','Pdf 2','Ebook 1','Ebook 2','Total'])
+            self._df_sum_access = pd.DataFrame(columns=['Materials','Access'])
+        
+        if len(rand_names) == 0:
+            names = pd.read_csv("assets/names.csv")
+            rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
+            rand_names.sort()
+        else:
+            self.NUMBER_STUDENTS = len(rand_names)
 
-        for i in range(1,self.NUMBER_STUDENTS):
+        for i in range(1,self.NUMBER_STUDENTS+1):
             self.DATASET.loc[i] = [np.random.randint(0,30) for n in range(len(self.DATASET.columns))]
-            self.DATASET.loc[i,"Students"] = rand_names[i]
+            self.DATASET.loc[i,self.DATASET.columns[0]] = rand_names[i-1]
         
-        self.DATASET['Total'] = self.DATASET.apply(self.sum_row,axis=1)
+        self.DATASET[self.DATASET.columns[len(self.DATASET.columns)-1]] = self.DATASET.apply(self.sum_row,axis=1)
         
-        self._df_sum_access = pd.DataFrame(columns=['Materials','Access'])
+        
         self._df_sum_access[self._df_sum_access.columns[0]] = self.DATASET.columns[1:len(self.DATASET.columns)-1].tolist()
 
         lst_aux = []
@@ -65,16 +73,16 @@ class V002:
         if (self._language == "en"):
             legend = {"title":"Number of access in the materials grouped by student"}
         
-        df = self.DATASET.sort_values(by=["Students"])
+        df = self.DATASET.sort_values(by=[self.DATASET.columns[0]])
         
         trace = [Table(
             header=dict(
-                values=list(df.columns[:len(df.columns)-1]),
+                values=list(df.columns[:len(df.columns)]),
                 fill = dict(color='#C2D4FF'),
                 align = 'center'
             ),
             cells=dict(
-                values=[df[i].tolist() for i in df.columns[:len(df.columns)-1]],
+                values=[df[i].tolist() for i in df.columns[:len(df.columns)]],
                 fill = dict(color='#F5F8FF'),
                 align = ['left','center']
             )
@@ -107,11 +115,11 @@ class V002:
                         "xaxis":"",
                         "yaxis":"Number of access",
                     }
-        df = self.DATASET.sort_values(by=["Students"])
+        df = self.DATASET.sort_values(by=[self.DATASET.columns[0]])
         trace = []
         for i in range(1,len(df.columns[1:len(df.columns)])):
             trace.append(Bar(
-                    x=df.Students.values,
+                    x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
                     name=df.columns[i]
             ))
@@ -170,11 +178,11 @@ class V002:
                         "xaxis":"",
                         "yaxis":"Number of access",
                     }
-        df = self.DATASET.sort_values(by=["Students"])
+        df = self.DATASET.sort_values(by=[self.DATASET.columns[0]])
         trace = []
         for i in range(1,len(df.columns[1:len(df.columns)])):
             trace.append(Bar(
-                    x=df.Students.values,
+                    x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
                     name=df.columns[i]
             ))
@@ -233,12 +241,12 @@ class V002:
                         "xaxis":"",
                         "yaxis":"Number of access",
                     }
-        df = self.DATASET.sort_values(by=["Total","Students"])
+        df = self.DATASET.sort_values(by=[self.DATASET.columns[len(self.DATASET.columns)-1],self.DATASET.columns[0]])
         
         trace = []
         for i in range(1,len(df.columns[1:len(df.columns)])):
             trace.append(Bar(
-                    x=df.Students.values,
+                    x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
                     name=df.columns[i]
             ))
@@ -297,12 +305,12 @@ class V002:
                         "xaxis":"Number of access",
                         "yaxis":"",
                     }
-        df = self.DATASET.sort_values(by=["Students"])
+        df = self.DATASET.sort_values(by=[self.DATASET.columns[0]])
         trace = []
         for i in range(1,len(df.columns[1:len(df.columns)])):
             trace.append(Bar(
                     x=df.iloc[:,i].values,
-                    y=df.Students.values,
+                    y=df[df.columns[0]].values,
                     name=df.columns[i],
                     orientation = 'h'
             ))
@@ -361,19 +369,19 @@ class V002:
                         "xaxis":"Number of access",
                         "yaxis":"",
                     }
-        df = self.DATASET.sort_values(by=["Total","Students"])
+        df = self.DATASET.sort_values(by=[self.DATASET.columns[len(self.DATASET.columns)-1],self.DATASET.columns[0]])
         trace = []
         for i in range(1,len(df.columns[1:len(df.columns)])):
             trace.append(Bar(
                     x=df.iloc[:,i].values,
-                    y=df.Students.values,                    
+                    y=df[df.columns[0]].values,
                     name=df.columns[i],
                     orientation = 'h'
             ))
 
         data = trace
         layout = Layout(
-                title = legend["title"],                
+                title=legend["title"],                
                 barmode='stack',
                 xaxis=dict(
                     title = legend["xaxis"],
@@ -426,7 +434,7 @@ class V002:
                         "xaxis":"",
                         "yaxis":"",
                     }
-        df = self.DATASET.sort_values(by=["Students"])
+        df = self.DATASET.sort_values(by=[self.DATASET.columns[0]])
         z = []
         for i in range (1, len(df.columns)-1):
             z.append(df.iloc[:,i].values.tolist())
@@ -494,7 +502,7 @@ class V002:
                         "xaxis":"",
                         "yaxis":"",
                     }
-        df = self.DATASET.sort_values(by=["Students"])
+        df = self.DATASET.sort_values(by=[self.DATASET.columns[0]])
         z = []
         max_value = 0
         
@@ -586,7 +594,7 @@ class V002:
                         "xaxis":"",
                         "yaxis":"",
                     }
-        df = self.DATASET.sort_values(by=["Students"])
+        df = self.DATASET.sort_values(by=[self.DATASET.columns[0]])
         z = []
         for i in range (1, len(df.columns)):
             z.append(df.iloc[:,i].values.tolist())
@@ -654,7 +662,7 @@ class V002:
                         "xaxis":"",
                         "yaxis":"",
                     }
-        df = self.DATASET.sort_values(by=["Students"])
+        df = self.DATASET.sort_values(by=[self.DATASET.columns[0]])
         z = []
         max_value = 0
         
@@ -750,7 +758,7 @@ class V002:
         # https://plot.ly/python/bubble-charts/
         # https://plot.ly/python/reference/#layout-xaxis
         # https://plot.ly/python/axes/#subcategory-axes
-        df = self.DATASET.sort_values(by=["Students"])        
+        df = self.DATASET.sort_values(by=[self.DATASET.columns[0]])        
         
         sizeref = 0.05
         # print (sizeref)
@@ -845,7 +853,7 @@ class V002:
         # https://plot.ly/python/bubble-charts/
         # https://plot.ly/python/reference/#layout-xaxis
         # https://plot.ly/python/axes/#subcategory-axes
-        df = self.DATASET.sort_values(by=["Students"])        
+        df = self.DATASET.sort_values(by=[self.DATASET.columns[0]])        
         
         sizeref = 0.3
         
