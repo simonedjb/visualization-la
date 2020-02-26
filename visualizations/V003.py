@@ -19,6 +19,7 @@ class V003:
 
     _language = "pt"
     _type_result="jupyter-notebook"
+    _preprocessed_folder = os.path.join('Preprocessed')
 
     def __init__(self, language="pt", type_result = "jupyter-notebook"):
         self._language = language
@@ -776,6 +777,39 @@ class V003:
             return self.graph_10()
         else:
             print("V003@"+str(id)+" not found")
+
+    def get_preprocessed_chart(self,id):
+        if not os.path.exists(self._preprocessed_folder):
+            print('There is no preprocessed folder')
+            return
+        
+        file_name = 'V003_'+str(id)+'.pkl'
+        file_path = os.path.join(self._preprocessed_folder,file_name)
+
+        if not os.path.exists(file_path):
+            print('There is no preprocessed chart')
+            return
+
+        f = open(file_path,'rb')
+        data = pickle.load(f)
+        f.close()
+        
+        return data
+
+    def save_chart(self,id):
+        aux_type_result = self._type_result
+        self._type_result = "flask"
+        
+        if not os.path.exists(self._preprocessed_folder):
+            os.mkdir(self._preprocessed_folder)
+        
+        file_name = 'V003_'+str(id)+'.pkl'
+        file_path = os.path.join(self._preprocessed_folder,file_name)
+        f = open(file_path,'wb')
+        pickle.dump(self.get_chart(id),f)
+        f.close()
+
+        self._type_result = aux_type_result
 
     def print_all_graphs(self,language="pt"):
         self._language = language
