@@ -49,8 +49,7 @@ class V002:
             self.DATASET.loc[i] = [np.random.randint(0,30) for n in range(len(self.DATASET.columns))]
             self.DATASET.loc[i,self.DATASET.columns[0]] = rand_names[i-1]
         
-        self.DATASET[self.DATASET.columns[len(self.DATASET.columns)-1]] = self.DATASET.apply(self.sum_row,axis=1)
-        
+        self.DATASET[self.DATASET.columns[len(self.DATASET.columns)-1]] = self.DATASET.apply(self.sum_row,axis=1)        
         
         self._df_sum_access[self._df_sum_access.columns[0]] = self.DATASET.columns[1:len(self.DATASET.columns)-1].tolist()
 
