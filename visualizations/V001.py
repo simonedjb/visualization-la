@@ -2,9 +2,11 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 
+import os
 import pandas as pd
 import numpy as np
 
+import pickle
 import json
 
 from plotly.utils import PlotlyJSONEncoder
@@ -24,31 +26,39 @@ class V001:
     _students = pd.DataFrame()
     _assigns = pd.DataFrame()
     _map = pd.DataFrame()
+    _preprocessed_folder = os.path.join('Preprocessed')
 
     def __init__(self, language="pt", type_result = "jupyter-notebook"):
         self._language = language
         self._type_result = type_result
         self.load_map_view()
 
-    def generate_dataset(self, number_students = 20, number_assigns = 4, students_names = pd.DataFrame()):
+    def generate_dataset(self, number_students = 20, number_assigns = 4, rand_names = []):
         self.NUMBER_STUDENTS = number_students
         self.NUMBER_ASSIGNS = number_assigns
 
-        self._assign_name = ["Assign"+str(i+1) for i in range (0, self.NUMBER_ASSIGNS)]
-        
-        if len(students_names.columns.tolist()) == 0:
-            names = pd.read_csv("assets/names.csv")
+        if (self._language == "pt"):
+            assign_label = "Atividade "
+            students_label = "Estudantes"
         else:
-            names = students_names
+            assign_label = "Assign "
+            students_label = "Students"
+
+        self._assign_name = [assign_label+str(i+1) for i in range (0, self.NUMBER_ASSIGNS)]
         
-        rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
-        rand_names.sort()
+        if len(rand_names) == 0:
+            names = pd.read_csv("assets/names.csv")
+            rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
+            rand_names.sort()
+        else:
+            self.NUMBER_STUDENTS = len(rand_names)
+        
 
         self.DATASET = pd.DataFrame(columns=self._assign_name)
         for i in range(0,self.NUMBER_STUDENTS):
             self.DATASET.loc[i] = [np.random.randint(0,2) for n in range(len(self.DATASET.columns))]
         
-        self.DATASET.insert(0,"Students", rand_names)
+        self.DATASET.insert(0,students_label,rand_names)
 
         self.get_students_frame()
         self.get_assigns_frame()
@@ -70,7 +80,7 @@ class V001:
         return len(lst)-sum_value
 
     def get_student(self, row):
-        return row["Students"]
+        return row[self.DATASET.columns[1]]
 
     def get_students_frame(self):
         self._students = pd.DataFrame(columns=["Name","Total_Done","Total_Undone"])
@@ -160,8 +170,8 @@ class V001:
                     color='rgb(180,180,180)',
                 ),
                 showticklabels=True,
-                tick0=0,
-                dtick=1,
+                # tick0=0,
+                # dtick=1,
                 # ticklen=4,
                 # tickwidth=4,
                 exponentformat='e',
@@ -4752,7 +4762,41 @@ class V001:
             return self.graph_55()
         else:
             print("V001@"+str(id)+" not found")
-    
+
+    def get_preprocessed_chart(self,id):
+        if not os.path.exists(self._preprocessed_folder):
+            print('There is no preprocessed folder')
+            return
+        
+        file_name = 'V001_'+str(id)+'.pkl'
+        file_path = os.path.join(self._preprocessed_folder,file_name)
+
+        if not os.path.exists(file_path):
+            print('There is no preprocessed chart')
+            return
+
+        f = open(file_path,'rb')
+        data = pickle.load(f)
+        f.close()
+        
+        return data
+
+    def save_chart(self,id):
+        aux_type_result = self._type_result
+        self._type_result = "flask"
+        
+        if not os.path.exists(self._preprocessed_folder):
+            os.mkdir(self._preprocessed_folder)
+        
+        file_name = 'V001_'+str(id)+'.pkl'
+        file_path = os.path.join(self._preprocessed_folder,file_name)
+        f = open(file_path,'wb')
+        pickle.dump(self.get_chart(id),f)
+        f.close()
+
+        self._type_result = aux_type_result
+
+
     def print_all_graphs(self,language="pt",type_result="jupyter-notebook"):
         self._language = language
         self._type_result = type_result
