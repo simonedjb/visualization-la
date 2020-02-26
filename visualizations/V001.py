@@ -80,7 +80,7 @@ class V001:
         return len(lst)-sum_value
 
     def get_student(self, row):
-        return row[self.DATASET.columns[1]]
+        return row[self.DATASET.columns[0]]
 
     def get_students_frame(self):
         self._students = pd.DataFrame(columns=["Name","Total_Done","Total_Undone"])
@@ -4795,7 +4795,6 @@ class V001:
         f.close()
 
         self._type_result = aux_type_result
-
 
     def print_all_graphs(self,language="pt",type_result="jupyter-notebook"):
         self._language = language
