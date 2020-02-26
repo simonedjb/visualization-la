@@ -27,7 +27,7 @@ class V003:
         self._language = language
         self._type_result = type_result
 
-    def generate_dataset(self, number_students = 21, rand_names = []):
+    def generate_dataset(self, number_students = 20, rand_names = []):
         self.NUMBER_STUDENTS = number_students
 
         if (self._language == "pt"):

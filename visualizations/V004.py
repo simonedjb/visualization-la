@@ -2,9 +2,11 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 
+import os
 import pandas as pd
 import numpy as np
 
+import pickle
 import json
 
 from plotly.utils import PlotlyJSONEncoder
@@ -27,22 +29,29 @@ class V004:
         self._language = language
         self._type_result = type_result
     
-    def generate_dataset(self, number_students = 20, students_names = pd.DataFrame()):
+    def generate_dataset(self, number_students = 20, rand_names = []):
         self.NUMBER_STUDENTS = number_students
 
-        video_dur = []
-        video_dur = [np.random.randint(240,600) for n in range(7)] #video duration ranging between 240 and 600 seconds
-        self._material_name = ['Video1','Video2','Video3','Video4','Video5']
-        
-        if len(students_names.columns.tolist()) == 0:
-            names = pd.read_csv("assets/names.csv")
+        if (self._language == "pt"):
+            assign_label = "Atividade "
+            students_label = "Estudantes"
+            self._material_name = ['Vídeo 1','Vídeo 2','Vídeo 3','Vídeo 4','Vídeo 5']
         else:
-            names = students_names
+            assign_label = "Assign "
+            students_label = "Students"
+            self._material_name = ['Video 1','Video 2','Video 3','Video 4','Video 5']
 
-        rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
-        rand_names.sort()
+        video_dur = []
+        video_dur = [np.random.randint(240,600) for n in range(7)] #video duration ranging between 240 and 600 seconds        
+        
+        if len(rand_names) == 0:
+            names = pd.read_csv("assets/names.csv")
+            rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
+            rand_names.sort()
+        else:
+            self.NUMBER_STUDENTS = len(rand_names)
 
-        self.DATASET = pd.DataFrame(columns=['Students',str(self._material_name[0])+' ('+str(video_dur[0])+'s)',
+        self.DATASET = pd.DataFrame(columns=[students_label,str(self._material_name[0])+' ('+str(video_dur[0])+'s)',
                         str(self._material_name[1])+' ('+str(video_dur[1])+'s)',str(self._material_name[2])+' ('+str(video_dur[2])+'s)',
                         str(self._material_name[3])+' ('+str(video_dur[3])+'s)',str(self._material_name[4])+' ('+str(video_dur[4])+'s)','Total'])
         
@@ -53,13 +62,13 @@ class V004:
                         [np.random.randint(5,video_dur[j]) for n in range(np.random.randint(0,5))] #user access ranging between  
                     )                                                                       
             self.DATASET.loc[i] = list_aux
-            self.DATASET.loc[i,"Students"] = rand_names[i]
+            self.DATASET.loc[i,self.DATASET.columns[0]] = rand_names[i]
             list_aux.clear()
 
-        self.DATASET["Total"] = self.DATASET.apply(self.sum_times, axis=1)
+        self.DATASET[self.DATASET.columns[len(self.DATASET.columns)-1]] = self.DATASET.apply(self.sum_times, axis=1)
 
         self._df_sum = pd.DataFrame(columns=self._material_name)
-        self._df_sum.insert(loc=0,column="Students",value=self.DATASET.Students)
+        self._df_sum.insert(loc=0,column=students_label,value=self.DATASET[self.DATASET.columns[0]])
         self._df_sum.insert(loc=len(self._material_name)+1,column="Total",value=self.DATASET.Total) #Add into the self._df_sum a column to assign Total values
         
         lst = self.DATASET.columns[1:].tolist() #Get all columns after students
@@ -590,7 +599,7 @@ class V004:
         trace = []
         for i in range(1,len(df.columns[1:])):
             trace.append(Bar(
-                    x=df.Students.values,
+                    x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
                     name=df.columns[i]
                     # name=df.iloc[i,0], #each student name
@@ -654,7 +663,7 @@ class V004:
         trace = []
         for i in range(1,len(df.columns[1:])):
             trace.append(Bar(
-                    x=df.Students.values,
+                    x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
                     name=df.columns[i]
                     # name=df.iloc[i,0], #each student name
@@ -714,11 +723,11 @@ class V004:
                         "xaxis":"",
                         "yaxis":"Length of access in seconds",
                     }        
-        df = self._df_sum.sort_values(by=["Total","Students"])
+        df = self._df_sum.sort_values(by=[self._df_sum.columns[len(self._df_sum.columns)-1],self._df_sum.columns[0]])
         trace = []
         for i in range(1,len(df.columns[1:])):
             trace.append(Bar(
-                    x=df.Students.values,
+                    x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
                     name=df.columns[i]
                     # name=df.iloc[i,0], #each student name
@@ -783,7 +792,7 @@ class V004:
         for i in range(1,len(df.columns[1:])):
             trace.append(Bar(
                     x=df.iloc[:,i].values,
-                    y=df.Students.values,
+                    y=df[df.columns[0]].values,
                     name=df.columns[i],
                     orientation = 'h'
                     # name=df.iloc[i,0], #each student name
@@ -843,12 +852,12 @@ class V004:
                         "xaxis":"Length of access in seconds",
                         "yaxis":"",
                     }
-        df = self._df_sum.sort_values(by=["Total","Students"])
+        df = self._df_sum.sort_values(by=[self._df_sum.columns[len(self._df_sum.columns)-1],self._df_sum.columns[0]])
         trace = []
         for i in range(1,len(df.columns[1:])):
             trace.append(Bar(
                     x=df.iloc[:,i].values,
-                    y=df.Students.values,
+                    y=df[df.columns[0]].values,
                     name=df.columns[i],
                     orientation = 'h'
                     # name=df.iloc[i,0], #each student name
@@ -974,7 +983,7 @@ class V004:
         self.graph_11()
         self.graph_12()
 
-# instance = V004()
-# instance.generate_dataset(number_students = 20)
+instance = V004()
+instance.generate_dataset(number_students = 20)
 # instance.print_all_graphs("pt")
 # instance.print_all_graphs("en")
