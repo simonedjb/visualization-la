@@ -2,9 +2,11 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 
+import os
 import pandas as pd
 import numpy as np
 
+import pickle
 import json
 
 from plotly.utils import PlotlyJSONEncoder
@@ -29,74 +31,77 @@ class V006:
         self._language = language
         self._type_result = type_result
 
-    def generate_dataset(self, number_students = 20, students_names = pd.DataFrame()):
+    def generate_dataset(self, number_students = 20, rand_names = []):
         self.NUMBER_STUDENTS = number_students
 
-        if len(students_names.columns.tolist()) == 0:
+        if (self._language == "pt"):
+            self.DATASET = pd.DataFrame(columns=["Estudantes","Idade","Acesso ao Fórum","Postagens no Fórum","Respostas no Fórum","Adição de Tópicos no Fórum","Cluster"])
+        else: 
+            self.DATASET = pd.DataFrame(columns=["Students","Age","Forum Access","Forum Post","Forum Replies","Forum Add Thread","Cluster"])
+
+        if len(rand_names) == 0:
             names = pd.read_csv("assets/names.csv")
+            rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
+            rand_names.sort()
         else:
-            names = students_names
-        self.DATASET = pd.DataFrame(columns=["Students","Age","Forum Access","Forum Post","Forum Replies","Forum Add Thread","Cluster"])
+            self.NUMBER_STUDENTS = len(rand_names)
 
-        self.DATASET.Age = np.random.triangular(18,30,70,self.NUMBER_STUDENTS)
-        self.DATASET["Age"] = self.DATASET.apply(self.convert_to_int, axis=1)
-
-        rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
-        rand_names.sort()
+        self.DATASET[self.DATASET.columns[1]] = np.random.triangular(18,30,70,self.NUMBER_STUDENTS)
+        self.DATASET[self.DATASET.columns[1]] = self.DATASET.apply(self.convert_to_int, axis=1)
 
         for i in range(0,self.NUMBER_STUDENTS):
-            self.DATASET.loc[i,"Students"] = rand_names[i]
+            self.DATASET.loc[i,self.DATASET.columns[0]] = rand_names[i]
 
-            if (self.DATASET.loc[i,"Age"] <= 25):
-                self.DATASET.loc[i,"Forum Post"] = np.random.randint(0,4)
-                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,4)
-                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,4)
+            if (self.DATASET.loc[i,self.DATASET.columns[1]] <= 25):
+                self.DATASET.loc[i,self.DATASET.columns[3]] = np.random.randint(0,4)
+                self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(0,4)
+                self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(0,4)
 
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(0,7)
-                self.DATASET.loc[i,"Cluster"] = 1
+                self.DATASET.loc[i,self.DATASET.columns[2]] =  self.DATASET.loc[i,self.DATASET.columns[3]] + self.DATASET.loc[i,self.DATASET.columns[4]] + self.DATASET.loc[i,self.DATASET.columns[5]] + np.random.randint(0,7)
+                self.DATASET.loc[i,self.DATASET.columns[len(self.DATASET.columns)-1]] = 1
 
-            elif (self.DATASET.loc[i,"Age"] <= 30):
-                self.DATASET.loc[i,"Forum Post"] = np.random.randint(0,8)
-                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,8)
-                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,4)
+            elif (self.DATASET.loc[i,self.DATASET.columns[1]] <= 30):
+                self.DATASET.loc[i,self.DATASET.columns[3]] = np.random.randint(0,8)
+                self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(0,8)
+                self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(0,4)
 
-                self.DATASET.loc[i,"Forum Access"] = self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(0,22)
-                self.DATASET.loc[i,"Cluster"] = 2
+                self.DATASET.loc[i,self.DATASET.columns[2]] = self.DATASET.loc[i,self.DATASET.columns[3]] + self.DATASET.loc[i,self.DATASET.columns[4]] + self.DATASET.loc[i,self.DATASET.columns[5]] + np.random.randint(0,22)
+                self.DATASET.loc[i,self.DATASET.columns[len(self.DATASET.columns)-1]] = 2
 
-            elif (self.DATASET.loc[i,"Age"] <= 40):
-                self.DATASET.loc[i,"Forum Post"] = np.random.randint(1,12)
-                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,12)
-                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,8)
+            elif (self.DATASET.loc[i,self.DATASET.columns[1]] <= 40):
+                self.DATASET.loc[i,self.DATASET.columns[3]] = np.random.randint(1,12)
+                self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(0,12)
+                self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(0,8)
 
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(2,26)
-                self.DATASET.loc[i,"Cluster"] = 3
+                self.DATASET.loc[i,self.DATASET.columns[2]] =  self.DATASET.loc[i,self.DATASET.columns[3]] + self.DATASET.loc[i,self.DATASET.columns[4]] + self.DATASET.loc[i,self.DATASET.columns[5]] + np.random.randint(2,26)
+                self.DATASET.loc[i,self.DATASET.columns[len(self.DATASET.columns)-1]] = 3
 
-            elif (self.DATASET.loc[i,"Age"] <= 50):
-                self.DATASET.loc[i,"Forum Post"] = np.random.randint(2,21)
-                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(2,21)
-                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,7)
+            elif (self.DATASET.loc[i,self.DATASET.columns[1]] <= 50):
+                self.DATASET.loc[i,self.DATASET.columns[3]] = np.random.randint(2,21)
+                self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(2,21)
+                self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(0,7)
 
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(4,31)
-                self.DATASET.loc[i,"Cluster"] = 4
+                self.DATASET.loc[i,self.DATASET.columns[2]] =  self.DATASET.loc[i,self.DATASET.columns[3]] + self.DATASET.loc[i,self.DATASET.columns[4]] + self.DATASET.loc[i,self.DATASET.columns[5]] + np.random.randint(4,31)
+                self.DATASET.loc[i,self.DATASET.columns[len(self.DATASET.columns)-1]] = 4
 
-            elif (self.DATASET.loc[i,"Age"] <= 60):
-                self.DATASET.loc[i,"Forum Post"] = np.random.randint(5,36)
-                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(5,36)
-                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(1,11)
+            elif (self.DATASET.loc[i,self.DATASET.columns[1]] <= 60):
+                self.DATASET.loc[i,self.DATASET.columns[3]] = np.random.randint(5,36)
+                self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(5,36)
+                self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(1,11)
 
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(6,36)
-                self.DATASET.loc[i,"Cluster"] = 5
+                self.DATASET.loc[i,self.DATASET.columns[2]] =  self.DATASET.loc[i,self.DATASET.columns[3]] + self.DATASET.loc[i,self.DATASET.columns[4]] + self.DATASET.loc[i,self.DATASET.columns[5]] + np.random.randint(6,36)
+                self.DATASET.loc[i,self.DATASET.columns[len(self.DATASET.columns)-1]] = 5
 
             else:
-                self.DATASET.loc[i,"Forum Post"] = np.random.randint(10,41)
-                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(10,41)
-                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(3,14)
+                self.DATASET.loc[i,self.DATASET.columns[3]] = np.random.randint(10,41)
+                self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(10,41)
+                self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(3,14)
 
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(10,41)
-                self.DATASET.loc[i,"Cluster"] = 6
+                self.DATASET.loc[i,self.DATASET.columns[2]] =  self.DATASET.loc[i,self.DATASET.columns[3]] + self.DATASET.loc[i,self.DATASET.columns[4]] + self.DATASET.loc[i,self.DATASET.columns[5]] + np.random.randint(10,41)
+                self.DATASET.loc[i,self.DATASET.columns[len(self.DATASET.columns)-1]] = 6
 
     def convert_to_int(self,row):
-        return int(row["Age"])
+        return int(row[self.DATASET.columns[1]])
 
     # Table presenting raw data
     def graph_01(self):
@@ -150,15 +155,15 @@ class V006:
         for i in range(0, self.NUMBER_STUDENTS):
             trace.append(
                 Scatter(
-                    x=[self.DATASET["Forum Access"][i]], #Acesso ao fórum
-                    y=[self.DATASET.Age[i]], #Age
+                    x=[self.DATASET[self.DATASET.columns[2]][i]], #Acesso ao fórum
+                    y=[self.DATASET[self.DATASET.columns[1]][i]], #Age
                     mode='markers',
-                    name=self.DATASET.Students[i], #each student name
-                    text = [str(self.DATASET.Students[i])],
+                    name=self.DATASET[self.DATASET.columns[0]][i], #each student name
+                    text = [str(self.DATASET[self.DATASET.columns[0]][i])],
                     marker=dict(
                         size=12,
-                        symbol=self.DATASET.Cluster[i]-1,
-                        color = color[self.DATASET.Cluster[i]-1],
+                        symbol=self.DATASET[self.DATASET.columns[len(self.DATASET.columns)-1]][i]-1,
+                        color = color[self.DATASET[self.DATASET.columns[len(self.DATASET.columns)-1]][i]-1],
                         line=dict(
                             width=2
                         )
@@ -179,7 +184,7 @@ class V006:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self.DATASET["Forum Access"].max()+10],
+                range = [0, self.DATASET[self.DATASET.columns[2]].max()+10],
                 rangemode = "normal",
                 zeroline= False,
                 showline = True,
@@ -193,7 +198,7 @@ class V006:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self.DATASET.Age.max()+10],
+                range = [0, self.DATASET[self.DATASET.columns[1]].max()+10],
                 rangemode = "normal",
                 showline = True,                
             )
@@ -228,15 +233,15 @@ class V006:
         for i in range(0, self.NUMBER_STUDENTS):
             trace.append(
                 Scatter(
-                    x=[self.DATASET["Forum Post"][i]], #Posts
-                    y=[self.DATASET.Age[i]], #Age
+                    x=[self.DATASET[self.DATASET.columns[3]][i]], #Posts
+                    y=[self.DATASET[self.DATASET.columns[1]][i]], #Age
                     mode='markers',
-                    name=self.DATASET.Students[i], #each student name                    
-                    text = [str(self.DATASET.Students[i])],                    
+                    name=self.DATASET[self.DATASET.columns[0]][i], #each student name                    
+                    text = [str(self.DATASET[self.DATASET.columns[0]][i])],                    
                     marker=dict(
                         size=12,                        
-                        symbol=self.DATASET.Cluster[i]-1,
-                        color = color[self.DATASET.Cluster[i]-1],
+                        symbol=self.DATASET[self.DATASET.columns[len(self.DATASET.columns)-1]][i]-1,
+                        color = color[self.DATASET[self.DATASET.columns[len(self.DATASET.columns)-1]][i]-1],
                         line=dict(
                             width=2
                         )
@@ -257,7 +262,7 @@ class V006:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self.DATASET["Forum Post"].max()+10],
+                range = [0, self.DATASET[self.DATASET.columns[3]].max()+10],
                 rangemode = "normal",
                 zeroline= False,
                 showline = True,                
@@ -271,7 +276,7 @@ class V006:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self.DATASET.Age.max()+10],
+                range = [0, self.DATASET[self.DATASET.columns[1]].max()+10],
                 rangemode = "normal",
                 showline = True,                
             )
@@ -306,15 +311,15 @@ class V006:
         for i in range(0, self.NUMBER_STUDENTS):
             trace.append(
                 Scatter(
-                    x=[self.DATASET["Forum Replies"][i]], #Replies
-                    y=[self.DATASET.Age[i]], #Age
+                    x=[self.DATASET[self.DATASET.columns[4]][i]], #Replies
+                    y=[self.DATASET[self.DATASET.columns[1]][i]], #Age
                     mode='markers',
-                    name=self.DATASET.Students[i], #each student name                    
-                    text = [str(self.DATASET.Students[i])],                    
+                    name=self.DATASET[self.DATASET.columns[0]][i], #each student name                    
+                    text = [str(self.DATASET[self.DATASET.columns[0]][i])],                    
                     marker=dict(
                         size=12,                        
-                        symbol=self.DATASET.Cluster[i]-1,
-                        color = color[self.DATASET.Cluster[i]-1],
+                        symbol=self.DATASET[self.DATASET.columns[len(self.DATASET.columns)-1]][i]-1,
+                        color = color[self.DATASET[self.DATASET.columns[len(self.DATASET.columns)-1]][i]-1],
                         line=dict(
                             width=2
                         )
@@ -335,7 +340,7 @@ class V006:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self.DATASET["Forum Replies"].max()+10],
+                range = [0, self.DATASET[self.DATASET.columns[4]].max()+10],
                 rangemode = "normal",
                 zeroline= False,
                 showline = True,                
@@ -349,7 +354,7 @@ class V006:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self.DATASET.Age.max()+10],
+                range = [0, self.DATASET[self.DATASET.columns[1]].max()+10],
                 rangemode = "normal",
                 showline = True,                
             )
@@ -384,15 +389,15 @@ class V006:
         for i in range(0, self.NUMBER_STUDENTS):
             trace.append(
                 Scatter(
-                    x=[self.DATASET["Forum Add Thread"][i]], #Init threads in forum
-                    y=[self.DATASET.Age[i]], #Age
+                    x=[self.DATASET[self.DATASET.columns[5]][i]], #Init threads in forum
+                    y=[self.DATASET[self.DATASET.columns[1]][i]], #Age
                     mode='markers',
-                    name=self.DATASET.Students[i], #each student name                    
-                    text = [str(self.DATASET.Students[i])],                    
+                    name=self.DATASET[self.DATASET.columns[0]][i], #each student name                    
+                    text = [str(self.DATASET[self.DATASET.columns[0]][i])],                    
                     marker=dict(
                         size=12,                        
-                        symbol=self.DATASET.Cluster[i]-1,
-                        color = color[self.DATASET.Cluster[i]-1],
+                        symbol=self.DATASET[self.DATASET.columns[len(self.DATASET.columns)-1]][i]-1,
+                        color = color[self.DATASET[self.DATASET.columns[len(self.DATASET.columns)-1]][i]-1],
                         line=dict(
                             width=2
                         )
@@ -413,7 +418,7 @@ class V006:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self.DATASET["Forum Add Thread"].max()+10],
+                range = [0, self.DATASET[self.DATASET.columns[5]].max()+10],
                 rangemode = "normal",
                 zeroline= False,
                 showline = True,                
@@ -427,7 +432,7 @@ class V006:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self.DATASET.Age.max()+10],
+                range = [0, self.DATASET[self.DATASET.columns[1]].max()+10],
                 rangemode = "normal",
                 showline = True,                
             )
@@ -460,17 +465,17 @@ class V006:
                         "yaxis":"Access in the forum",
                         "age":{1:"until 25 years", 2:"26 to 30 years", 3:"31 to 40 years", 4: "41 to 50 years", 5: "51 to 60 years", 6: "over 60 years"},
                     }
-        df = self.DATASET.sort_values(by="Age")
-        Clusters = df.Cluster.unique()
+        df = self.DATASET.sort_values(by=self.DATASET.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(127,0,0)","rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,127,127)","rgb(0,255,0)"]        
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
             trace.append(
                 Box(
-                    y=df["Forum Access"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    y=df[df.columns[2]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     name=legend['age'][i+1],
-                    text=df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -502,7 +507,7 @@ class V006:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-1, self.DATASET["Forum Access"].max()+10],
+                range = [-1, self.DATASET[self.DATASET.columns[2]].max()+10],
                 rangemode = "normal",
                 # showline = True,
                 zeroline = False,
@@ -535,17 +540,17 @@ class V006:
                         "yaxis":"Posts in the forum",
                         "age":{1:"until 25 years", 2:"26 to 30 years", 3:"31 to 40 years", 4: "41 to 50 years", 5: "51 to 60 years", 6: "over 60 years"},
                     }
-        df = self.DATASET.sort_values(by="Age")
-        Clusters = df.Cluster.unique()
+        df = self.DATASET.sort_values(by=self.DATASET.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(127,0,0)","rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,127,127)","rgb(0,255,0)"]        
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
             trace.append(
                 Box(
-                    y=df["Forum Post"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    y=df[df.columns[3]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     name=legend['age'][i+1],
-                    text=df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -577,7 +582,7 @@ class V006:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-1, self.DATASET["Forum Post"].max()+10],
+                range = [-1, self.DATASET[self.DATASET.columns[3]].max()+10],
                 rangemode = "normal",
                 # showline = True,
                 zeroline = False,
@@ -610,17 +615,17 @@ class V006:
                         "yaxis":"Replies in the forum",
                         "age":{1:"until 25 years", 2:"26 to 30 years", 3:"31 to 40 years", 4: "41 to 50 years", 5: "51 to 60 years", 6: "over 60 years"},
                     }
-        df = self.DATASET.sort_values(by="Age")
-        Clusters = df.Cluster.unique()
+        df = self.DATASET.sort_values(by=self.DATASET.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(127,0,0)","rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,127,127)","rgb(0,255,0)"]        
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
             trace.append(
                 Box(
-                    y=df["Forum Replies"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    y=df[df.columns[4]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     name=legend['age'][i+1],
-                    text=df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -652,7 +657,7 @@ class V006:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-1, self.DATASET["Forum Replies"].max()+10],
+                range = [-1, self.DATASET[self.DATASET.columns[4]].max()+10],
                 rangemode = "normal",
                 # showline = True,
                 zeroline = False,
@@ -685,17 +690,17 @@ class V006:
                         "yaxis":"Threads in the forum",
                         "age":{1:"until 25 years", 2:"26 to 30 years", 3:"31 to 40 years", 4: "41 to 50 years", 5: "51 to 60 years", 6: "over 60 years"},
                     }
-        df = self.DATASET.sort_values(by="Age")
-        Clusters = df.Cluster.unique()
+        df = self.DATASET.sort_values(by=self.DATASET.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(127,0,0)","rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,127,127)","rgb(0,255,0)"]        
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
             trace.append(
                 Box(
-                    y=df["Forum Add Thread"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    y=df[df.columns[5]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     name=legend['age'][i+1],
-                    text=df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -727,7 +732,7 @@ class V006:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-1, self.DATASET["Forum Add Thread"].max()+10],
+                range = [-1, self.DATASET[self.DATASET.columns[5]].max()+10],
                 rangemode = "normal",
                 # showline = True,
                 zeroline = False,
@@ -763,8 +768,8 @@ class V006:
                     }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
-        df = self.DATASET.sort_values(by="Age")
-        Clusters = df.Cluster.unique()
+        df = self.DATASET.sort_values(by=self.DATASET.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(127,0,0)","rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,127,127)","rgb(0,255,0)"]
         # print(Clusters)
         trace = []
@@ -772,10 +777,10 @@ class V006:
             trace.append(
                 {
                     "type":'violin',
-                    "x":[legend['age'][i+1]]*len(df.loc[df['Cluster']==Clusters[i]]),
-                    "y":df["Forum Access"].loc[df['Cluster']==Clusters[i]],
+                    "x":[legend['age'][i+1]]*len(df.loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
+                    "y":df[df.columns[2]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
                     "name":legend['age'][i+1],
-                    "text":df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     "box":{
                         "visible":True
                         },
@@ -814,7 +819,7 @@ class V006:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-15, self.DATASET["Forum Access"].max()+10],                
+                range = [-15, self.DATASET[self.DATASET.columns[2]].max()+10],                
                 rangemode = "normal",
                 zeroline = False,
             )
@@ -848,8 +853,8 @@ class V006:
                     }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
-        df = self.DATASET.sort_values(by="Age")
-        Clusters = df.Cluster.unique()
+        df = self.DATASET.sort_values(by=self.DATASET.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(127,0,0)","rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,127,127)","rgb(0,255,0)"]
         # print(Clusters)
         trace = []
@@ -857,10 +862,10 @@ class V006:
             trace.append(
                 {
                     "type":'violin',
-                    "x":[legend['age'][i+1]]*len(df.loc[df['Cluster']==Clusters[i]]),
-                    "y":df["Forum Post"].loc[df['Cluster']==Clusters[i]],
+                    "x":[legend['age'][i+1]]*len(df.loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
+                    "y":df[df.columns[3]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
                     "name":legend['age'][i+1],
-                    "text":df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     "box":{
                         "visible":True
                         },
@@ -899,7 +904,7 @@ class V006:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-15, self.DATASET["Forum Post"].max()+10],                
+                range = [-15, self.DATASET[self.DATASET.columns[3]].max()+10],                
                 rangemode = "normal",
                 zeroline = False,
             )
@@ -933,8 +938,8 @@ class V006:
                     }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
-        df = self.DATASET.sort_values(by="Age")
-        Clusters = df.Cluster.unique()
+        df = self.DATASET.sort_values(by=self.DATASET.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(127,0,0)","rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,127,127)","rgb(0,255,0)"]
         # print(Clusters)
         trace = []
@@ -942,10 +947,10 @@ class V006:
             trace.append(
                 {
                     "type":'violin',
-                    "x":[legend['age'][i+1]]*len(df.loc[df['Cluster']==Clusters[i]]),
-                    "y":df["Forum Replies"].loc[df['Cluster']==Clusters[i]],
+                    "x":[legend['age'][i+1]]*len(df.loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
+                    "y":df[df.columns[4]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
                     "name":legend['age'][i+1],
-                    "text":df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     "box":{
                         "visible":True
                         },
@@ -984,7 +989,7 @@ class V006:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-15, self.DATASET["Forum Replies"].max()+10],                
+                range = [-15, self.DATASET[self.DATASET.columns[4]].max()+10],                
                 rangemode = "normal",
                 zeroline = False,
             )
@@ -1018,8 +1023,8 @@ class V006:
                     }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
-        df = self.DATASET.sort_values(by="Age")
-        Clusters = df.Cluster.unique()
+        df = self.DATASET.sort_values(by=self.DATASET.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(127,0,0)","rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,127,127)","rgb(0,255,0)"]
         # print(Clusters)
         trace = []
@@ -1027,10 +1032,10 @@ class V006:
             trace.append(
                 {
                     "type":'violin',
-                    "x":[legend['age'][i+1]]*len(df.loc[df['Cluster']==Clusters[i]]),
-                    "y":df["Forum Add Thread"].loc[df['Cluster']==Clusters[i]],
+                    "x":[legend['age'][i+1]]*len(df.loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
+                    "y":df[df.columns[5]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
                     "name":legend['age'][i+1],
-                    "text":df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     "box":{
                         "visible":True
                         },
@@ -1069,7 +1074,7 @@ class V006:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-15, self.DATASET["Forum Add Thread"].max()+10],                
+                range = [-15, self.DATASET[self.DATASET.columns[5]].max()+10],                
                 rangemode = "normal",
                 zeroline = False,
             )

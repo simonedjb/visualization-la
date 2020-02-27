@@ -983,7 +983,7 @@ class V004:
         self.graph_11()
         self.graph_12()
 
-instance = V004()
-instance.generate_dataset(number_students = 20)
+# instance = V004()
+# instance.generate_dataset(number_students = 20)
 # instance.print_all_graphs("pt")
 # instance.print_all_graphs("en")

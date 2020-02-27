@@ -2229,8 +2229,8 @@ class V005:
         self.graph_23()
         self.graph_24()
 
-instance = V005()
-instance.generate_dataset(number_students = 60)
+# instance = V005()
+# instance.generate_dataset(number_students = 60)
 # instance.print_all_graphs("pt")
 # instance.print_all_graphs("en")
 
