@@ -2,9 +2,11 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 
+import os
 import pandas as pd
 import numpy as np
 
+import pickle
 import json
 
 from plotly.utils import PlotlyJSONEncoder
@@ -30,188 +32,195 @@ class V005:
         self._language = language
         self._type_result = type_result
 
-    def generate_dataset(self, number_students = 20, students_names = pd.DataFrame()):
+    def generate_dataset(self, number_students = 20, rand_names = []):
         self.NUMBER_STUDENTS = number_students
         
-        self._df_sum = pd.DataFrame(columns=["Students","Grade","AssignTotal","MaterialTotal"])
-        if len(students_names.columns.tolist()) == 0:
-            names = pd.read_csv("assets/names.csv")
+        if (self._language == "pt"):
+            self.DATASET = pd.DataFrame(columns=["Estudantes","Notas","Acesso ao AVA",
+                                                "Acesso ao Fórum","Postagens no Fórum","Respostas no Fórum","Adição de Tópicos no Fórum", 
+                                                "Atividade 1","Atividade 2","Atividade 3","Atividade 4","Vídeo 1","Vídeo 2", 
+                                                "Quiz 1","Quiz 2","Pdf 1","Pdf 2","Ebook 1","Ebook 2",])
+            self._df_sum = pd.DataFrame(columns=["Estudantes","Notas","Total de Atividades","Total de Materiais"])
         else:
-            names = students_names
-            
-        self.DATASET = pd.DataFrame(columns=["Students","Grade","AVA Access",
+            self.DATASET = pd.DataFrame(columns=["Students","Grade","AVA Access",
                                                 "Forum Access","Forum Post","Forum Replies","Forum Add Thread", 
-                                                "Assign1","Assign2","Assign3","Assign4","Video1","Video2", 
-                                                "Quiz1","Quiz2","Pdf1","Pdf2","Ebook1","Ebook2",])
+                                                "Assign 1","Assign 2","Assign 3","Assign 4","Video 1","Video 2", 
+                                                "Quiz 1","Quiz 2","Pdf 1","Pdf 2","Ebook 1","Ebook 2",])
+            self._df_sum = pd.DataFrame(columns=["Students","Grade","AssignTotal","MaterialTotal"])
         
-        self.DATASET.Grade = np.random.triangular(0,85,100,self.NUMBER_STUDENTS)
-        self.DATASET["Grade"] = self.DATASET.apply(self.convert_to_int, axis=1)
         
-        rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
-        rand_names.sort()
+        if len(rand_names) == 0:
+            names = pd.read_csv("assets/names.csv")
+            rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
+            rand_names.sort()
+        else:
+            self.NUMBER_STUDENTS = len(rand_names)
+        
+        self.DATASET[self.DATASET.columns[1]] = np.random.triangular(0,85,100,self.NUMBER_STUDENTS)
+        self.DATASET[self.DATASET.columns[1]] = self.DATASET.apply(self.convert_to_int, axis=1)
         
         for i in range(0,self.NUMBER_STUDENTS):
-            self.DATASET.loc[i,"Students"] = rand_names[i]
+            self.DATASET.loc[i,self.DATASET.columns[0]] = rand_names[i]
             
-            if (self.DATASET.loc[i,"Grade"] <= 50):
-                self.DATASET.loc[i,"AVA Access"] = np.random.randint(5,26)
-                self.DATASET.loc[i,"Forum Post"] = np.random.randint(0,4)
-                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,4)
-                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,4)
+            if (self.DATASET.loc[i,self.DATASET.columns[1]] <= 50):
+                self.DATASET.loc[i,self.DATASET.columns[2]] = np.random.randint(5,26)
+                self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(0,4)
+                self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(0,4)
+                self.DATASET.loc[i,self.DATASET.columns[6]] = np.random.randint(0,4)
 
-                self.DATASET.loc[i,"Assign1"] = int(0)
-                self.DATASET.loc[i,"Assign2"] = int(0)
-                self.DATASET.loc[i,"Assign3"] = int(0)
-                self.DATASET.loc[i,"Assign4"] = int(0)
+                self.DATASET.loc[i,self.DATASET.columns[7]] = int(0)
+                self.DATASET.loc[i,self.DATASET.columns[8]] = int(0)
+                self.DATASET.loc[i,self.DATASET.columns[9]] = int(0)
+                self.DATASET.loc[i,self.DATASET.columns[10]] = int(0)
 
-                self.DATASET.loc[i,"Video1"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Video2"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Quiz1"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Quiz2"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Pdf1"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Pdf2"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Ebook1"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Ebook2"] = np.random.randint(0,2)
+                self.DATASET.loc[i,self.DATASET.columns[11]] = np.random.randint(0,2)
+                self.DATASET.loc[i,self.DATASET.columns[12]] = np.random.randint(0,2)
+                self.DATASET.loc[i,self.DATASET.columns[13]] = np.random.randint(0,2)
+                self.DATASET.loc[i,self.DATASET.columns[14]] = np.random.randint(0,2)
+                self.DATASET.loc[i,self.DATASET.columns[15]] = np.random.randint(0,2)
+                self.DATASET.loc[i,self.DATASET.columns[16]] = np.random.randint(0,2)
+                self.DATASET.loc[i,self.DATASET.columns[17]] = np.random.randint(0,2)
+                self.DATASET.loc[i,self.DATASET.columns[18]] = np.random.randint(0,2)
 
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(0,7)
-                self._df_sum.loc[i,"AssignTotal"] = self.DATASET.loc[i,"Assign1"] + self.DATASET.loc[i,"Assign2"] + self.DATASET.loc[i,"Assign3"] + self.DATASET.loc[i,"Assign4"]
-                self._df_sum.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]  
+                self.DATASET.loc[i,self.DATASET.columns[3]] =  self.DATASET.loc[i,self.DATASET.columns[4]] + self.DATASET.loc[i,self.DATASET.columns[5]] + self.DATASET.loc[i,self.DATASET.columns[6]] + np.random.randint(0,7)
+                self._df_sum.loc[i,self._df_sum.columns[2]] = self.DATASET.loc[i,self.DATASET.columns[7]] + self.DATASET.loc[i,self.DATASET.columns[8]] + self.DATASET.loc[i,self.DATASET.columns[9]] + self.DATASET.loc[i,self.DATASET.columns[10]]
+                self._df_sum.loc[i,self._df_sum.columns[3]] = self.DATASET.loc[i,self.DATASET.columns[11]] + self.DATASET.loc[i,self.DATASET.columns[12]] + self.DATASET.loc[i,self.DATASET.columns[13]] + self.DATASET.loc[i,self.DATASET.columns[14]] + self.DATASET.loc[i,self.DATASET.columns[15]] + self.DATASET.loc[i,self.DATASET.columns[16]] + self.DATASET.loc[i,self.DATASET.columns[17]] + self.DATASET.loc[i,self.DATASET.columns[18]]  
 
-            elif (self.DATASET.loc[i,"Grade"] <= 60):
-                self.DATASET.loc[i,"AVA Access"] = np.random.randint(20,41)
-                self.DATASET.loc[i,"Forum Post"] = np.random.randint(0,8)
-                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,8)
-                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,4)
+            elif (self.DATASET.loc[i,self.DATASET.columns[1]] <= 60):
+                self.DATASET.loc[i,self.DATASET.columns[2]] = np.random.randint(20,41)
+                self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(0,8)
+                self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(0,8)
+                self.DATASET.loc[i,self.DATASET.columns[6]] = np.random.randint(0,4)
 
-                self.DATASET.loc[i,"Assign1"] = int(1)
-                self.DATASET.loc[i,"Assign2"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Assign3"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Assign4"] = np.random.randint(0,2)
+                self.DATASET.loc[i,self.DATASET.columns[7]] = int(1)
+                self.DATASET.loc[i,self.DATASET.columns[8]] = np.random.randint(0,2)
+                self.DATASET.loc[i,self.DATASET.columns[9]] = np.random.randint(0,2)
+                self.DATASET.loc[i,self.DATASET.columns[10]] = np.random.randint(0,2)
 
-                self.DATASET.loc[i,"Video1"] = np.random.randint(0,5)
-                self.DATASET.loc[i,"Video2"] = np.random.randint(0,5)
-                self.DATASET.loc[i,"Quiz1"] = np.random.randint(0,5)
-                self.DATASET.loc[i,"Quiz2"] = np.random.randint(0,5)
-                self.DATASET.loc[i,"Pdf1"] = np.random.randint(0,5)
-                self.DATASET.loc[i,"Pdf2"] = np.random.randint(0,5)
-                self.DATASET.loc[i,"Ebook1"] = np.random.randint(0,5)
-                self.DATASET.loc[i,"Ebook2"] = np.random.randint(0,5)
+                self.DATASET.loc[i,self.DATASET.columns[11]] = np.random.randint(0,5)
+                self.DATASET.loc[i,self.DATASET.columns[12]] = np.random.randint(0,5)
+                self.DATASET.loc[i,self.DATASET.columns[13]] = np.random.randint(0,5)
+                self.DATASET.loc[i,self.DATASET.columns[14]] = np.random.randint(0,5)
+                self.DATASET.loc[i,self.DATASET.columns[15]] = np.random.randint(0,5)
+                self.DATASET.loc[i,self.DATASET.columns[16]] = np.random.randint(0,5)
+                self.DATASET.loc[i,self.DATASET.columns[17]] = np.random.randint(0,5)
+                self.DATASET.loc[i,self.DATASET.columns[18]] = np.random.randint(0,5)
 
-                self.DATASET.loc[i,"Forum Access"] = self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(0,22)
-                self._df_sum.loc[i,"AssignTotal"] = self.DATASET.loc[i,"Assign1"] + self.DATASET.loc[i,"Assign2"] + self.DATASET.loc[i,"Assign3"] + self.DATASET.loc[i,"Assign4"]
-                self._df_sum.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]
+                self.DATASET.loc[i,self.DATASET.columns[3]] = self.DATASET.loc[i,self.DATASET.columns[4]] + self.DATASET.loc[i,self.DATASET.columns[5]] + self.DATASET.loc[i,self.DATASET.columns[6]] + np.random.randint(0,22)
+                self._df_sum.loc[i,self._df_sum.columns[2]] = self.DATASET.loc[i,self.DATASET.columns[7]] + self.DATASET.loc[i,self.DATASET.columns[8]] + self.DATASET.loc[i,self.DATASET.columns[9]] + self.DATASET.loc[i,self.DATASET.columns[10]]
+                self._df_sum.loc[i,self._df_sum.columns[3]] = self.DATASET.loc[i,self.DATASET.columns[11]] + self.DATASET.loc[i,self.DATASET.columns[12]] + self.DATASET.loc[i,self.DATASET.columns[13]] + self.DATASET.loc[i,self.DATASET.columns[14]] + self.DATASET.loc[i,self.DATASET.columns[15]] + self.DATASET.loc[i,self.DATASET.columns[16]] + self.DATASET.loc[i,self.DATASET.columns[17]] + self.DATASET.loc[i,self.DATASET.columns[18]]
 
-            elif (self.DATASET.loc[i,"Grade"] <= 70):
-                self.DATASET.loc[i,"AVA Access"] = np.random.randint(35,57)
-                self.DATASET.loc[i,"Forum Post"] = np.random.randint(1,12)
-                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,12)
-                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,8)
+            elif (self.DATASET.loc[i,self.DATASET.columns[1]] <= 70):
+                self.DATASET.loc[i,self.DATASET.columns[2]] = np.random.randint(35,57)
+                self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(1,12)
+                self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(0,12)
+                self.DATASET.loc[i,self.DATASET.columns[6]] = np.random.randint(0,8)
 
-                self.DATASET.loc[i,"Assign1"] = int(1)
-                self.DATASET.loc[i,"Assign2"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Assign3"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Assign4"] = int(1)
+                self.DATASET.loc[i,self.DATASET.columns[7]] = int(1)
+                self.DATASET.loc[i,self.DATASET.columns[8]] = np.random.randint(0,2)
+                self.DATASET.loc[i,self.DATASET.columns[9]] = np.random.randint(0,2)
+                self.DATASET.loc[i,self.DATASET.columns[10]] = int(1)
 
-                self.DATASET.loc[i,"Video1"] = np.random.randint(0,6)
-                self.DATASET.loc[i,"Video2"] = np.random.randint(0,6)
-                self.DATASET.loc[i,"Quiz1"] = np.random.randint(0,6)
-                self.DATASET.loc[i,"Quiz2"] = np.random.randint(0,6)
-                self.DATASET.loc[i,"Pdf1"] = np.random.randint(0,6)
-                self.DATASET.loc[i,"Pdf2"] = np.random.randint(0,6)
-                self.DATASET.loc[i,"Ebook1"] = np.random.randint(0,6)
-                self.DATASET.loc[i,"Ebook2"] = np.random.randint(0,6)
+                self.DATASET.loc[i,self.DATASET.columns[11]] = np.random.randint(0,6)
+                self.DATASET.loc[i,self.DATASET.columns[12]] = np.random.randint(0,6)
+                self.DATASET.loc[i,self.DATASET.columns[13]] = np.random.randint(0,6)
+                self.DATASET.loc[i,self.DATASET.columns[14]] = np.random.randint(0,6)
+                self.DATASET.loc[i,self.DATASET.columns[15]] = np.random.randint(0,6)
+                self.DATASET.loc[i,self.DATASET.columns[16]] = np.random.randint(0,6)
+                self.DATASET.loc[i,self.DATASET.columns[17]] = np.random.randint(0,6)
+                self.DATASET.loc[i,self.DATASET.columns[18]] = np.random.randint(0,6)
 
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(2,26)
-                self._df_sum.loc[i,"AssignTotal"] = self.DATASET.loc[i,"Assign1"] + self.DATASET.loc[i,"Assign2"] + self.DATASET.loc[i,"Assign3"] + self.DATASET.loc[i,"Assign4"]
-                self._df_sum.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]
+                self.DATASET.loc[i,self.DATASET.columns[3]] =  self.DATASET.loc[i,self.DATASET.columns[4]] + self.DATASET.loc[i,self.DATASET.columns[5]] + self.DATASET.loc[i,self.DATASET.columns[6]] + np.random.randint(2,26)
+                self._df_sum.loc[i,self._df_sum.columns[2]] = self.DATASET.loc[i,self.DATASET.columns[7]] + self.DATASET.loc[i,self.DATASET.columns[8]] + self.DATASET.loc[i,self.DATASET.columns[9]] + self.DATASET.loc[i,self.DATASET.columns[10]]
+                self._df_sum.loc[i,self._df_sum.columns[3]] = self.DATASET.loc[i,self.DATASET.columns[11]] + self.DATASET.loc[i,self.DATASET.columns[12]] + self.DATASET.loc[i,self.DATASET.columns[13]] + self.DATASET.loc[i,self.DATASET.columns[14]] + self.DATASET.loc[i,self.DATASET.columns[15]] + self.DATASET.loc[i,self.DATASET.columns[16]] + self.DATASET.loc[i,self.DATASET.columns[17]] + self.DATASET.loc[i,self.DATASET.columns[18]]
 
-            elif (self.DATASET.loc[i,"Grade"] <= 80):
-                self.DATASET.loc[i,"AVA Access"] = np.random.randint(50,71)
-                self.DATASET.loc[i,"Forum Post"] = np.random.randint(2,21)
-                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(2,21)
-                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,7)
+            elif (self.DATASET.loc[i,self.DATASET.columns[1]] <= 80):
+                self.DATASET.loc[i,self.DATASET.columns[2]] = np.random.randint(50,71)
+                self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(2,21)
+                self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(2,21)
+                self.DATASET.loc[i,self.DATASET.columns[6]] = np.random.randint(0,7)
 
-                self.DATASET.loc[i,"Assign1"] = int(1)
-                self.DATASET.loc[i,"Assign2"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Assign3"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Assign4"] = int(1)
+                self.DATASET.loc[i,self.DATASET.columns[7]] = int(1)
+                self.DATASET.loc[i,self.DATASET.columns[8]] = np.random.randint(0,2)
+                self.DATASET.loc[i,self.DATASET.columns[9]] = np.random.randint(0,2)
+                self.DATASET.loc[i,self.DATASET.columns[10]] = int(1)
 
-                self.DATASET.loc[i,"Video1"] = np.random.randint(0,11)
-                self.DATASET.loc[i,"Video2"] = np.random.randint(1,11)
-                self.DATASET.loc[i,"Quiz1"] = np.random.randint(0,11)
-                self.DATASET.loc[i,"Quiz2"] = np.random.randint(1,11)
-                self.DATASET.loc[i,"Pdf1"] = np.random.randint(0,11)
-                self.DATASET.loc[i,"Pdf2"] = np.random.randint(1,11)
-                self.DATASET.loc[i,"Ebook1"] = np.random.randint(0,11)
-                self.DATASET.loc[i,"Ebook2"] = np.random.randint(1,11)
+                self.DATASET.loc[i,self.DATASET.columns[11]] = np.random.randint(0,11)
+                self.DATASET.loc[i,self.DATASET.columns[12]] = np.random.randint(1,11)
+                self.DATASET.loc[i,self.DATASET.columns[13]] = np.random.randint(0,11)
+                self.DATASET.loc[i,self.DATASET.columns[14]] = np.random.randint(1,11)
+                self.DATASET.loc[i,self.DATASET.columns[15]] = np.random.randint(0,11)
+                self.DATASET.loc[i,self.DATASET.columns[16]] = np.random.randint(1,11)
+                self.DATASET.loc[i,self.DATASET.columns[17]] = np.random.randint(0,11)
+                self.DATASET.loc[i,self.DATASET.columns[18]] = np.random.randint(1,11)
 
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(4,31)
-                self._df_sum.loc[i,"AssignTotal"] = self.DATASET.loc[i,"Assign1"] + self.DATASET.loc[i,"Assign2"] + self.DATASET.loc[i,"Assign3"] + self.DATASET.loc[i,"Assign4"]
-                self._df_sum.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]
+                self.DATASET.loc[i,self.DATASET.columns[3]] =  self.DATASET.loc[i,self.DATASET.columns[4]] + self.DATASET.loc[i,self.DATASET.columns[5]] + self.DATASET.loc[i,self.DATASET.columns[6]] + np.random.randint(4,31)
+                self._df_sum.loc[i,self._df_sum.columns[2]] = self.DATASET.loc[i,self.DATASET.columns[7]] + self.DATASET.loc[i,self.DATASET.columns[8]] + self.DATASET.loc[i,self.DATASET.columns[9]] + self.DATASET.loc[i,self.DATASET.columns[10]]
+                self._df_sum.loc[i,self._df_sum.columns[3]] = self.DATASET.loc[i,self.DATASET.columns[11]] + self.DATASET.loc[i,self.DATASET.columns[12]] + self.DATASET.loc[i,self.DATASET.columns[13]] + self.DATASET.loc[i,self.DATASET.columns[14]] + self.DATASET.loc[i,self.DATASET.columns[15]] + self.DATASET.loc[i,self.DATASET.columns[16]] + self.DATASET.loc[i,self.DATASET.columns[17]] + self.DATASET.loc[i,self.DATASET.columns[18]]
 
-            elif (self.DATASET.loc[i,"Grade"] <= 90):
-                self.DATASET.loc[i,"AVA Access"] = np.random.randint(65,86)
-                self.DATASET.loc[i,"Forum Post"] = np.random.randint(5,36)
-                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(5,36)
-                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(1,11)
+            elif (self.DATASET.loc[i,self.DATASET.columns[1]] <= 90):
+                self.DATASET.loc[i,self.DATASET.columns[2]] = np.random.randint(65,86)
+                self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(5,36)
+                self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(5,36)
+                self.DATASET.loc[i,self.DATASET.columns[6]] = np.random.randint(1,11)
 
-                self.DATASET.loc[i,"Assign1"] = int(1)
-                self.DATASET.loc[i,"Assign2"] = int(1)
-                self.DATASET.loc[i,"Assign3"] = np.random.randint(0,2)
-                self.DATASET.loc[i,"Assign4"] = int(1)
+                self.DATASET.loc[i,self.DATASET.columns[7]] = int(1)
+                self.DATASET.loc[i,self.DATASET.columns[8]] = int(1)
+                self.DATASET.loc[i,self.DATASET.columns[9]] = np.random.randint(0,2)
+                self.DATASET.loc[i,self.DATASET.columns[10]] = int(1)
 
-                self.DATASET.loc[i,"Video1"] = np.random.randint(1,10)
-                self.DATASET.loc[i,"Video2"] = np.random.randint(3,14)
-                self.DATASET.loc[i,"Quiz1"] = np.random.randint(1,10)
-                self.DATASET.loc[i,"Quiz2"] = np.random.randint(3,14)
-                self.DATASET.loc[i,"Pdf1"] = np.random.randint(1,10)
-                self.DATASET.loc[i,"Pdf2"] = np.random.randint(3,14)
-                self.DATASET.loc[i,"Ebook1"] = np.random.randint(1,10)
-                self.DATASET.loc[i,"Ebook2"] = np.random.randint(3,14)
+                self.DATASET.loc[i,self.DATASET.columns[11]] = np.random.randint(1,10)
+                self.DATASET.loc[i,self.DATASET.columns[12]] = np.random.randint(3,14)
+                self.DATASET.loc[i,self.DATASET.columns[13]] = np.random.randint(1,10)
+                self.DATASET.loc[i,self.DATASET.columns[14]] = np.random.randint(3,14)
+                self.DATASET.loc[i,self.DATASET.columns[15]] = np.random.randint(1,10)
+                self.DATASET.loc[i,self.DATASET.columns[16]] = np.random.randint(3,14)
+                self.DATASET.loc[i,self.DATASET.columns[17]] = np.random.randint(1,10)
+                self.DATASET.loc[i,self.DATASET.columns[18]] = np.random.randint(3,14)
 
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(6,36)
-                self._df_sum.loc[i,"AssignTotal"] = self.DATASET.loc[i,"Assign1"] + self.DATASET.loc[i,"Assign2"] + self.DATASET.loc[i,"Assign3"] + self.DATASET.loc[i,"Assign4"]
-                self._df_sum.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]
+                self.DATASET.loc[i,self.DATASET.columns[3]] =  self.DATASET.loc[i,self.DATASET.columns[4]] + self.DATASET.loc[i,self.DATASET.columns[5]] + self.DATASET.loc[i,self.DATASET.columns[6]] + np.random.randint(6,36)
+                self._df_sum.loc[i,self._df_sum.columns[2]] = self.DATASET.loc[i,self.DATASET.columns[7]] + self.DATASET.loc[i,self.DATASET.columns[8]] + self.DATASET.loc[i,self.DATASET.columns[9]] + self.DATASET.loc[i,self.DATASET.columns[10]]
+                self._df_sum.loc[i,self._df_sum.columns[3]] = self.DATASET.loc[i,self.DATASET.columns[11]] + self.DATASET.loc[i,self.DATASET.columns[12]] + self.DATASET.loc[i,self.DATASET.columns[13]] + self.DATASET.loc[i,self.DATASET.columns[14]] + self.DATASET.loc[i,self.DATASET.columns[15]] + self.DATASET.loc[i,self.DATASET.columns[16]] + self.DATASET.loc[i,self.DATASET.columns[17]] + self.DATASET.loc[i,self.DATASET.columns[18]]
 
             else:
-                self.DATASET.loc[i,"AVA Access"] = np.random.randint(80,101)
-                self.DATASET.loc[i,"Forum Post"] = np.random.randint(10,41)
-                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(10,41)
-                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(3,14)
+                self.DATASET.loc[i,self.DATASET.columns[2]] = np.random.randint(80,101)
+                self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(10,41)
+                self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(10,41)
+                self.DATASET.loc[i,self.DATASET.columns[6]] = np.random.randint(3,14)
 
-                self.DATASET.loc[i,"Assign1"] = int(1)
-                self.DATASET.loc[i,"Assign2"] = int(1)
-                self.DATASET.loc[i,"Assign3"] = int(1)
-                self.DATASET.loc[i,"Assign4"] = int(1)
+                self.DATASET.loc[i,self.DATASET.columns[7]] = int(1)
+                self.DATASET.loc[i,self.DATASET.columns[8]] = int(1)
+                self.DATASET.loc[i,self.DATASET.columns[9]] = int(1)
+                self.DATASET.loc[i,self.DATASET.columns[10]] = int(1)
 
-                self.DATASET.loc[i,"Video1"] = np.random.randint(2,13)
-                self.DATASET.loc[i,"Video2"] = np.random.randint(4,15)
-                self.DATASET.loc[i,"Quiz1"] = np.random.randint(2,13)
-                self.DATASET.loc[i,"Quiz2"] = np.random.randint(4,15)
-                self.DATASET.loc[i,"Pdf1"] = np.random.randint(2,13)
-                self.DATASET.loc[i,"Pdf2"] = np.random.randint(4,15)
-                self.DATASET.loc[i,"Ebook1"] = np.random.randint(2,13)
-                self.DATASET.loc[i,"Ebook2"] = np.random.randint(4,15)
+                self.DATASET.loc[i,self.DATASET.columns[11]] = np.random.randint(2,13)
+                self.DATASET.loc[i,self.DATASET.columns[12]] = np.random.randint(4,15)
+                self.DATASET.loc[i,self.DATASET.columns[13]] = np.random.randint(2,13)
+                self.DATASET.loc[i,self.DATASET.columns[14]] = np.random.randint(4,15)
+                self.DATASET.loc[i,self.DATASET.columns[15]] = np.random.randint(2,13)
+                self.DATASET.loc[i,self.DATASET.columns[16]] = np.random.randint(4,15)
+                self.DATASET.loc[i,self.DATASET.columns[17]] = np.random.randint(2,13)
+                self.DATASET.loc[i,self.DATASET.columns[18]] = np.random.randint(4,15)
 
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(10,41)
-                self._df_sum.loc[i,"AssignTotal"] = self.DATASET.loc[i,"Assign1"] + self.DATASET.loc[i,"Assign2"] + self.DATASET.loc[i,"Assign3"] + self.DATASET.loc[i,"Assign4"]
-                self._df_sum.loc[i,"MaterialTotal"] = self.DATASET.loc[i,"Video1"] + self.DATASET.loc[i,"Video2"] + self.DATASET.loc[i,"Quiz1"] + self.DATASET.loc[i,"Quiz2"] + self.DATASET.loc[i,"Pdf1"] + self.DATASET.loc[i,"Pdf2"] + self.DATASET.loc[i,"Ebook1"] + self.DATASET.loc[i,"Ebook2"]  
+                self.DATASET.loc[i,self.DATASET.columns[3]] =  self.DATASET.loc[i,self.DATASET.columns[4]] + self.DATASET.loc[i,self.DATASET.columns[5]] + self.DATASET.loc[i,self.DATASET.columns[6]] + np.random.randint(10,41)
+                self._df_sum.loc[i,self._df_sum.columns[2]] = self.DATASET.loc[i,self.DATASET.columns[7]] + self.DATASET.loc[i,self.DATASET.columns[8]] + self.DATASET.loc[i,self.DATASET.columns[9]] + self.DATASET.loc[i,self.DATASET.columns[10]]
+                self._df_sum.loc[i,self._df_sum.columns[3]] = self.DATASET.loc[i,self.DATASET.columns[11]] + self.DATASET.loc[i,self.DATASET.columns[12]] + self.DATASET.loc[i,self.DATASET.columns[13]] + self.DATASET.loc[i,self.DATASET.columns[14]] + self.DATASET.loc[i,self.DATASET.columns[15]] + self.DATASET.loc[i,self.DATASET.columns[16]] + self.DATASET.loc[i,self.DATASET.columns[17]] + self.DATASET.loc[i,self.DATASET.columns[18]]  
 
 
         df_k = self.DATASET.iloc[:,1:] #Selecting features to cluster
         kmeans = KMeans(n_clusters=4, init='random').fit(df_k) #Clustering
         
-        self._df_sum["Students"] = self.DATASET["Students"]
-        self._df_sum["Grade"] = self.DATASET["Grade"]
-        self._df_sum["AVA Access"] = self.DATASET["AVA Access"]
-        self._df_sum["Forum Access"] = self.DATASET["Forum Access"]
-        self._df_sum["Forum Post"] = self.DATASET["Forum Post"]
-        self._df_sum["Forum Replies"] = self.DATASET["Forum Replies"]
-        self._df_sum["Forum Add Thread"] = self.DATASET["Forum Add Thread"]
+        self._df_sum[self.DATASET.columns[0]] = self.DATASET[self.DATASET.columns[0]]
+        self._df_sum[self.DATASET.columns[1]] = self.DATASET[self.DATASET.columns[1]]
+        self._df_sum[self.DATASET.columns[2]] = self.DATASET[self.DATASET.columns[2]]
+        self._df_sum[self.DATASET.columns[3]] = self.DATASET[self.DATASET.columns[3]]
+        self._df_sum[self.DATASET.columns[4]] = self.DATASET[self.DATASET.columns[4]]
+        self._df_sum[self.DATASET.columns[5]] = self.DATASET[self.DATASET.columns[5]]
+        self._df_sum[self.DATASET.columns[6]] = self.DATASET[self.DATASET.columns[6]]
         self._df_sum["Cluster"] = np.asarray(kmeans.labels_)
 
     def convert_to_int(self,row):
-        return int(row["Grade"])
+        return int(row[self.DATASET.columns[1]])
 
     # Table presenting raw data
     def graph_01(self):
@@ -261,8 +270,9 @@ class V005:
                         "xaxis":"Access in the VLE",
                         "yaxis":"Grades",
                     }
-        df = self._df_sum.sort_values(by=["Grade"])
-        Clusters = df.Cluster.unique()        
+        
+        df = self._df_sum.sort_values(by=[self._df_sum.columns[len(self._df_sum.columns)-1]])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(127,0,127)","rgb(0,255,0)"]        
         color[Clusters[0]] = "rgb(255,0,0)"
         color[Clusters[1]] = "rgb(127,0,127)"
@@ -271,18 +281,18 @@ class V005:
 
         trace = []
         for i in range(0, self.NUMBER_STUDENTS):
-            # print(df.Students[i])
+            # print(df[df.columns[0]][i]) #print students
             trace.append(
                 Scatter(
-                    x=[df["AVA Access"][i]], #Access
-                    y=[df.Grade[i]], #Grade
+                    x=[df[df.columns[4]][i]], #Access
+                    y=[df[df.columns[1]][i]], #Grade
                     mode='markers',
-                    name=df.Students[i], #each student name                    
-                    text = [str(df.Students[i])],
+                    name=df[df.columns[0]][i], #each student name                    
+                    text = [str(df[df.columns[0]][i])],
                     marker=dict(
                         size=12,
-                        symbol=df.Cluster[i],
-                        color = color[df.Cluster[i]],
+                        symbol=df[df.columns[len(df.columns)-1]][i],
+                        color = color[df[df.columns[len(df.columns)-1]][i]],
                         colorscale='Viridis',
                         line=dict(
                             width=2
@@ -304,7 +314,7 @@ class V005:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self.DATASET["AVA Access"].max()+10],
+                range = [0, self.DATASET[self.DATASET.columns[2]].max()+10],
                 rangemode = "normal",
                 zeroline= False,
                 showline = True,
@@ -319,7 +329,7 @@ class V005:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self.DATASET.Grade.max()+10],
+                range = [0, self.DATASET[self.DATASET.columns[1]].max()+10],
                 rangemode = "normal",
                 showline = True,                
                 # type = "category",
@@ -350,27 +360,27 @@ class V005:
                         "xaxis":"Access in the materials",
                         "yaxis":"Grades",
                     }
-        df = self._df_sum.sort_values(by="Grade")
-        Clusters = df.Cluster.unique()        
-        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(127,0,127)","rgb(0,255,0)"]        
+        df = self._df_sum.sort_values(by=self._df_sum.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
+        color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(127,0,127)","rgb(0,255,0)"]
         color[Clusters[0]] = "rgb(255,0,0)"
         color[Clusters[1]] = "rgb(127,0,127)"
-        color[Clusters[2]] = "rgb(0,0,255)"        
+        color[Clusters[2]] = "rgb(0,0,255)"
         color[Clusters[3]] = "rgb(0,255,0)"
 
         trace = []
         for i in range(0, self.NUMBER_STUDENTS):
             trace.append(
                 Scatter(
-                    x=[self._df_sum.MaterialTotal[i]], #Material Access
-                    y=[self.DATASET.Grade[i]], #Grade
+                    x=[self._df_sum[self._df_sum.columns[3]][i]], #Material Access
+                    y=[self.DATASET[self.DATASET.columns[1]][i]], #Grade
                     mode='markers',
-                    name=self.DATASET.Students[i], #each student name                    
-                    text = [str(self.DATASET.Students[i])],                    
+                    name=self.DATASET[self.DATASET.columns[0]][i], #each student name
+                    text = [str(self.DATASET[self.DATASET.columns[0]][i])],
                     marker=dict(
                         size=12,
-                        symbol=self._df_sum.Cluster[i],
-                        color = color[self._df_sum.Cluster[i]],
+                        symbol=self._df_sum[self._df_sum.columns[len(self._df_sum.columns)-1]][i],
+                        color = color[self._df_sum[self._df_sum.columns[len(self._df_sum.columns)-1]][i]],
                         colorscale='Viridis',
                         line=dict(
                             width=2
@@ -392,7 +402,7 @@ class V005:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self._df_sum.MaterialTotal.max()+10],
+                range = [0, self._df_sum[self._df_sum.columns[3]].max()+10],
                 rangemode = "normal",
                 zeroline= False,
                 showline = True,
@@ -406,7 +416,7 @@ class V005:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self.DATASET.Grade.max()+10],
+                range = [0, self.DATASET[self.DATASET.columns[1]].max()+10],
                 rangemode = "normal",
                 showline = True,
             )
@@ -436,8 +446,8 @@ class V005:
                         "xaxis":"Activities completed",
                         "yaxis":"Grades",
                     }
-        df = self._df_sum.sort_values(by="Grade")
-        Clusters = df.Cluster.unique()        
+        df = self._df_sum.sort_values(by=self._df_sum.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(127,0,127)","rgb(0,255,0)"]
         color[Clusters[0]] = "rgb(255,0,0)"
         color[Clusters[1]] = "rgb(127,0,127)"
@@ -448,15 +458,15 @@ class V005:
         for i in range(0, self.NUMBER_STUDENTS):
             trace.append(
                 Scatter(
-                    x=[self._df_sum.AssignTotal[i]], #AssignAnswered
-                    y=[self.DATASET.Grade[i]], #Grade
+                    x=[self._df_sum[self._df_sum.columns[2]][i]], #AssignAnswered
+                    y=[self.DATASET[self.DATASET.columns[1]][i]], #Grade
                     mode='markers',
-                    name=self.DATASET.Students[i], #each student name                    
-                    text = [str(self.DATASET.Students[i])],                    
+                    name=self.DATASET[self.DATASET.columns[0]][i], #each student name                    
+                    text = [str(self.DATASET[self.DATASET.columns[0]][i])],                    
                     marker=dict(
                         size=12,
-                        symbol=self._df_sum.Cluster[i],
-                        color = color[self._df_sum.Cluster[i]],
+                        symbol=self._df_sum[self._df_sum.columns[len(self._df_sum.columns)-1]][i],
+                        color = color[self._df_sum[self._df_sum.columns[len(self._df_sum.columns)-1]][i]],
                         colorscale='Viridis',
                         line=dict(
                             width=2
@@ -478,7 +488,7 @@ class V005:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self._df_sum.AssignTotal.max()+10],
+                range = [0, self._df_sum[self._df_sum.columns[2]].max()+10],
                 rangemode = "normal",
                 zeroline= False,
                 showline = True,                
@@ -492,7 +502,7 @@ class V005:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self.DATASET.Grade.max()+10],
+                range = [0, self.DATASET[self.DATASET.columns[1]].max()+10],
                 rangemode = "normal",
                 showline = True,                
             )
@@ -522,8 +532,8 @@ class V005:
                         "xaxis":"Access in the forum",
                         "yaxis":"Grades",
                     }
-        df = self._df_sum.sort_values(by="Grade")
-        Clusters = df.Cluster.unique()        
+        df = self._df_sum.sort_values(by=self._df_sum.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(127,0,127)","rgb(0,255,0)"]        
         color[Clusters[0]] = "rgb(255,0,0)"
         color[Clusters[1]] = "rgb(127,0,127)"
@@ -534,15 +544,15 @@ class V005:
         for i in range(0, self.NUMBER_STUDENTS):
             trace.append(
                 Scatter(
-                    x=[self.DATASET["Forum Access"][i]], #Acesso ao fórum
-                    y=[self.DATASET.Grade[i]], #Grade
+                    x=[self.DATASET[self.DATASET.columns[3]][i]], #Acesso ao fórum
+                    y=[self.DATASET[self.DATASET.columns[1]][i]], #Grade
                     mode='markers',
-                    name=self.DATASET.Students[i], #each student name                    
-                    text = [str(self.DATASET.Students[i])],                    
+                    name=self.DATASET[self.DATASET.columns[0]][i], #each student name                    
+                    text = [str(self.DATASET[self.DATASET.columns[0]][i])],                    
                     marker=dict(
                         size=12,
-                        symbol=self._df_sum.Cluster[i],
-                        color = color[self._df_sum.Cluster[i]],
+                        symbol=self._df_sum[self._df_sum.columns[len(self._df_sum.columns)-1]][i],
+                        color = color[self._df_sum[self._df_sum.columns[len(self._df_sum.columns)-1]][i]],
                         colorscale='Viridis',
                         line=dict(
                             width=2
@@ -564,7 +574,7 @@ class V005:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self.DATASET["Forum Access"].max()+10],
+                range = [0, self.DATASET[self.DATASET.columns[3]].max()+10],
                 rangemode = "normal",
                 zeroline= False,
                 showline = True,
@@ -578,7 +588,7 @@ class V005:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self.DATASET.Grade.max()+10],
+                range = [0, self.DATASET[self.DATASET.columns[1]].max()+10],
                 rangemode = "normal",
                 showline = True,                
             )
@@ -608,8 +618,8 @@ class V005:
                         "xaxis":"Posts in the forum",
                         "yaxis":"Grades",
                     }
-        df = self._df_sum.sort_values(by="Grade")
-        Clusters = df.Cluster.unique()        
+        df = self._df_sum.sort_values(by=self._df_sum.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(127,0,127)","rgb(0,255,0)"]        
         color[Clusters[0]] = "rgb(255,0,0)"
         color[Clusters[1]] = "rgb(127,0,127)"
@@ -620,15 +630,15 @@ class V005:
         for i in range(0, self.NUMBER_STUDENTS):
             trace.append(
                 Scatter(
-                    x=[self.DATASET["Forum Post"][i]], #Postagem no fórum
-                    y=[self.DATASET.Grade[i]], #Grade
+                    x=[self.DATASET[self.DATASET.columns[4]][i]], #Postagem no fórum
+                    y=[self.DATASET[self.DATASET.columns[1]][i]], #Grade
                     mode='markers',
-                    name=self.DATASET.Students[i], #each student name                    
-                    text = [str(self.DATASET.Students[i])],                    
+                    name=self.DATASET[self.DATASET.columns[0]][i], #each student name                    
+                    text = [str(self.DATASET[self.DATASET.columns[0]][i])],                    
                     marker=dict(
                         size=12,
-                        symbol=self._df_sum.Cluster[i],
-                        color = color[self._df_sum.Cluster[i]],
+                        symbol=self._df_sum[self._df_sum.columns[len(self._df_sum.columns)-1]][i],
+                        color = color[self._df_sum[self._df_sum.columns[len(self._df_sum.columns)-1]][i]],
                         colorscale='Viridis',
                         line=dict(
                             width=2
@@ -650,7 +660,7 @@ class V005:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self.DATASET["Forum Post"].max()+10],
+                range = [0, self.DATASET[self.DATASET.columns[4]].max()+10],
                 rangemode = "normal",
                 zeroline= False,
                 showline = True,                
@@ -664,7 +674,7 @@ class V005:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self.DATASET.Grade.max()+10],
+                range = [0, self.DATASET[self.DATASET.columns[1]].max()+10],
                 rangemode = "normal",
                 showline = True,                
             )
@@ -694,8 +704,8 @@ class V005:
                         "xaxis":"Replies in the forum",
                         "yaxis":"Grades",
                     }
-        df = self._df_sum.sort_values(by="Grade")
-        Clusters = df.Cluster.unique()        
+        df = self._df_sum.sort_values(by=self._df_sum.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(127,0,127)","rgb(0,255,0)"]        
         color[Clusters[0]] = "rgb(255,0,0)"
         color[Clusters[1]] = "rgb(127,0,127)"
@@ -706,15 +716,15 @@ class V005:
         for i in range(0, self.NUMBER_STUDENTS):
             trace.append(
                 Scatter(
-                    x=[self.DATASET["Forum Replies"][i]], #Replies
-                    y=[self.DATASET.Grade[i]], #Grade
+                    x=[self.DATASET[self.DATASET.columns[5]][i]], #Replies
+                    y=[self.DATASET[self.DATASET.columns[1]][i]], #Grade
                     mode='markers',
-                    name=self.DATASET.Students[i], #each student name                    
-                    text = [str(self.DATASET.Students[i])],                    
+                    name=self.DATASET[self.DATASET.columns[0]][i], #each student name                    
+                    text = [str(self.DATASET[self.DATASET.columns[0]][i])],                    
                     marker=dict(
                         size=12,
-                        symbol=self._df_sum.Cluster[i],
-                        color = color[self._df_sum.Cluster[i]],
+                        symbol=self._df_sum[self._df_sum.columns[len(self._df_sum.columns)-1]][i],
+                        color = color[self._df_sum[self._df_sum.columns[len(self._df_sum.columns)-1]][i]],
                         colorscale='Viridis',
                         line=dict(
                             width=2
@@ -736,7 +746,7 @@ class V005:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self.DATASET["Forum Replies"].max()+10],
+                range = [0, self.DATASET[self.DATASET.columns[5]].max()+10],
                 rangemode = "normal",
                 zeroline= False,
                 showline = True,
@@ -750,7 +760,7 @@ class V005:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self.DATASET.Grade.max()+10],
+                range = [0, self.DATASET[self.DATASET.columns[1]].max()+10],
                 rangemode = "normal",
                 showline = True,
             )
@@ -780,8 +790,8 @@ class V005:
                         "xaxis":"Threads in the forum",
                         "yaxis":"Grades",
                     }
-        df = self._df_sum.sort_values(by="Grade")
-        Clusters = df.Cluster.unique()        
+        df = self._df_sum.sort_values(by=self._df_sum.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(127,0,127)","rgb(0,255,0)"]
         color[Clusters[0]] = "rgb(255,0,0)"
         color[Clusters[1]] = "rgb(127,0,127)"
@@ -792,15 +802,15 @@ class V005:
         for i in range(0, self.NUMBER_STUDENTS):
             trace.append(
                 Scatter(
-                    x=[self.DATASET["Forum Add Thread"][i]], #Init threads in forum
-                    y=[self.DATASET.Grade[i]], #Grade
+                    x=[self.DATASET[self.DATASET.columns[6]][i]], #Init threads in forum
+                    y=[self.DATASET[self.DATASET.columns[1]][i]], #Grade
                     mode='markers',
-                    name=self.DATASET.Students[i], #each student name                    
-                    text = [str(self.DATASET.Students[i])],                    
+                    name=self.DATASET[self.DATASET.columns[0]][i], #each student name                    
+                    text = [str(self.DATASET[self.DATASET.columns[0]][i])],                    
                     marker=dict(
                         size=12,
-                        symbol=self._df_sum.Cluster[i],
-                        color = color[self._df_sum.Cluster[i]],
+                        symbol=self._df_sum[self._df_sum.columns[len(self._df_sum.columns)-1]][i],
+                        color = color[self._df_sum[self._df_sum.columns[len(self._df_sum.columns)-1]][i]],
                         colorscale='Viridis',
                         line=dict(
                             width=2
@@ -822,7 +832,7 @@ class V005:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self.DATASET["Forum Add Thread"].max()+10],
+                range = [0, self.DATASET[self.DATASET.columns[6]].max()+10],
                 rangemode = "normal",
                 zeroline= False,
                 showline = True,
@@ -836,7 +846,7 @@ class V005:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self.DATASET.Grade.max()+10],
+                range = [0, self.DATASET[self.DATASET.columns[1]].max()+10],
                 rangemode = "normal",
                 showline = True,
             )
@@ -867,17 +877,17 @@ class V005:
                         "xaxis":"",
                         "yaxis":"Grades",
                     }
-        df = self._df_sum.sort_values(by="Grade")
-        Clusters = df.Cluster.unique()
-        color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
+        df = self._df_sum.sort_values(by=self._df_sum.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
+        color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
             trace.append(
                 Box(
-                    y=df.Grade.loc[df['Cluster']==Clusters[i]].values.tolist(), #Access
+                    y=df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(), #Grades
                     name="Cluster "+str(i+1),
-                    text=df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -909,7 +919,7 @@ class V005:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-1, self.DATASET.Grade.max()+10],
+                range = [-1, self.DATASET[self.DATASET.columns[1]].max()+10],
                 rangemode = "normal",
                 # showline = True,                
                 zeroline = False,
@@ -940,17 +950,17 @@ class V005:
                         "xaxis":"",
                         "yaxis":"Access in the VLE",
                     }
-        df = self._df_sum.sort_values(by="Grade")
-        Clusters = df.Cluster.unique()
+        df = self._df_sum.sort_values(by=self._df_sum.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
             trace.append(
                 Box(
-                    y=df["AVA Access"].loc[df['Cluster']==Clusters[i]].values.tolist(), #Access
+                    y=df[df.columns[4]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(), #Access
                     name="Cluster "+str(i+1),
-                    text=df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -982,7 +992,7 @@ class V005:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-1, self.DATASET["AVA Access"].max()+10],
+                range = [-1, self.DATASET[self.DATASET.columns[2]].max()+10],
                 rangemode = "normal",
                 # showline = True,                
                 zeroline = False,
@@ -1013,17 +1023,17 @@ class V005:
                         "xaxis":"",
                         "yaxis":"Access in the materials",
                     }
-        df = self._df_sum.sort_values(by="Grade")
-        Clusters = df.Cluster.unique()
+        df = self._df_sum.sort_values(by=self._df_sum.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
             trace.append(
                 Box(
-                    y=df.MaterialTotal.loc[df['Cluster']==Clusters[i]].values.tolist(), #Access
+                    y=df[df.columns[3]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(), #Access
                     name="Cluster "+str(i+1),
-                    text=df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -1055,7 +1065,7 @@ class V005:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-1, self._df_sum.MaterialTotal.max()+10],
+                range = [-1, self._df_sum[self._df_sum.columns[3]].max()+10],
                 rangemode = "normal",
                 # showline = True,                
                 zeroline = False,
@@ -1086,17 +1096,17 @@ class V005:
                         "xaxis":"",
                         "yaxis":"Activities completed",
                     }
-        df = self._df_sum.sort_values(by="Grade")
-        Clusters = df.Cluster.unique()
+        df = self._df_sum.sort_values(by=self._df_sum.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
             trace.append(
                 Box(
-                    y=df.AssignTotal.loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    y=df[df.columns[2]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     name="Cluster "+str(i+1),
-                    text=df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -1128,7 +1138,7 @@ class V005:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-1, df.AssignTotal.max()+10],
+                range = [-1, df[df.columns[2]].max()+10],
                 rangemode = "normal",
                 # showline = True,
                 zeroline = False,
@@ -1159,17 +1169,17 @@ class V005:
                         "xaxis":"",
                         "yaxis":"Access in the forum",
                     }
-        df = self._df_sum.sort_values(by="Grade")
-        Clusters = df.Cluster.unique()
+        df = self._df_sum.sort_values(by=self._df_sum.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
             trace.append(
                 Box(
-                    y=df["Forum Access"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    y=df[df.columns[5]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     name="Cluster "+str(i+1),
-                    text=df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -1201,7 +1211,7 @@ class V005:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-1, self.DATASET["Forum Access"].max()+10],
+                range = [-1, self.DATASET[self.DATASET.columns[3]].max()+10],
                 rangemode = "normal",
                 # showline = True,
                 zeroline = False,
@@ -1232,17 +1242,17 @@ class V005:
                         "xaxis":"",
                         "yaxis":"Posts in the forum",
                     }
-        df = self._df_sum.sort_values(by="Grade")
-        Clusters = df.Cluster.unique()
+        df = self._df_sum.sort_values(by=self._df_sum.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
             trace.append(
                 Box(
-                    y=df["Forum Post"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    y=df[df.columns[6]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     name="Cluster "+str(i+1),
-                    text=df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -1274,7 +1284,7 @@ class V005:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-1, self.DATASET["Forum Post"].max()+10],
+                range = [-1, self.DATASET[self.DATASET.columns[4]].max()+10],
                 rangemode = "normal",
                 # showline = True,
                 zeroline = False,
@@ -1305,17 +1315,17 @@ class V005:
                         "xaxis":"",
                         "yaxis":"Replies in the forum",
                     }
-        df = self._df_sum.sort_values(by="Grade")
-        Clusters = df.Cluster.unique()
+        df = self._df_sum.sort_values(by=self._df_sum.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
             trace.append(
                 Box(
-                    y=df["Forum Replies"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    y=df[df.columns[7]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     name="Cluster "+str(i+1),
-                    text=df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -1347,7 +1357,7 @@ class V005:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-1, self.DATASET["Forum Replies"].max()+10],
+                range = [-1, self.DATASET[self.DATASET.columns[5]].max()+10],
                 rangemode = "normal",
                 # showline = True,
                 zeroline = False,
@@ -1378,17 +1388,17 @@ class V005:
                         "xaxis":"",
                         "yaxis":"Threads in the forum",
                     }
-        df = self._df_sum.sort_values(by="Grade")
-        Clusters = df.Cluster.unique()
+        df = self._df_sum.sort_values(by=self._df_sum.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
             trace.append(
                 Box(
-                    y=df["Forum Add Thread"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    y=df[df.columns[8]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     name="Cluster "+str(i+1),
-                    text=df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],                        
@@ -1420,7 +1430,7 @@ class V005:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-1, self.DATASET["Forum Add Thread"].max()+10],
+                range = [-1, self.DATASET[self.DATASET.columns[6]].max()+10],
                 rangemode = "normal",
                 # showline = True,
                 zeroline = False,
@@ -1454,8 +1464,8 @@ class V005:
                     }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
-        df = self._df_sum.sort_values(by="Grade")
-        Clusters = df.Cluster.unique()
+        df = self._df_sum.sort_values(by=self._df_sum.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
         # print(Clusters)
         trace = []
@@ -1463,10 +1473,10 @@ class V005:
             trace.append(
                 {
                     "type":'violin',
-                    "x":["Cluster "+str(i+1)]*len(df.Grade.loc[df['Cluster']==Clusters[i]]),
-                    "y":df.Grade.loc[df['Cluster']==Clusters[i]],
+                    "x":["Cluster "+str(i+1)]*len(df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
+                    "y":df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
                     "name":"Cluster "+str(i+1),
-                    "text":df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     "box":{
                         "visible":True
                         },
@@ -1505,7 +1515,7 @@ class V005:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-15, self.DATASET.Grade.max()+10],                
+                range = [-15, self.DATASET[self.DATASET.columns[1]].max()+10],                
                 rangemode = "normal",
                 zeroline = False,
             )
@@ -1537,8 +1547,8 @@ class V005:
                     }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
-        df = self._df_sum.sort_values(by="Grade")
-        Clusters = df.Cluster.unique()
+        df = self._df_sum.sort_values(by=self._df_sum.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
         # print(Clusters)
         trace = []
@@ -1546,10 +1556,10 @@ class V005:
             trace.append(
                 {
                     "type":'violin',
-                    "x":["Cluster "+str(i+1)]*len(df.Grade.loc[df['Cluster']==Clusters[i]]),
-                    "y":df["AVA Access"].loc[df['Cluster']==Clusters[i]],
+                    "x":["Cluster "+str(i+1)]*len(df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
+                    "y":df[df.columns[4]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
                     "name":"Cluster "+str(i+1),
-                    "text":df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     "box":{
                         "visible":True
                         },
@@ -1589,7 +1599,7 @@ class V005:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-15, self.DATASET["AVA Access"].max()+10],                
+                range = [-15, self.DATASET[self.DATASET.columns[2]].max()+10],
                 rangemode = "normal",
                 zeroline = False,
             )
@@ -1621,8 +1631,8 @@ class V005:
                     }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
-        df = self._df_sum.sort_values(by="Grade")
-        Clusters = df.Cluster.unique()
+        df = self._df_sum.sort_values(by=self._df_sum.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
         # print(Clusters)
         trace = []
@@ -1630,10 +1640,10 @@ class V005:
             trace.append(
                 {
                     "type":'violin',
-                    "x":["Cluster "+str(i+1)]*len(df.Grade.loc[df['Cluster']==Clusters[i]]),
-                    "y":df.MaterialTotal.loc[df['Cluster']==Clusters[i]],
+                    "x":["Cluster "+str(i+1)]*len(df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
+                    "y":df[df.columns[3]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
                     "name":"Cluster "+str(i+1),
-                    "text":df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     "box":{
                         "visible":True
                         },
@@ -1672,7 +1682,7 @@ class V005:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-15, self._df_sum.MaterialTotal.max()+10],
+                range = [-15, self._df_sum[self._df_sum.columns[3]].max()+10],
                 rangemode = "normal",
                 zeroline = False,
             )
@@ -1704,8 +1714,8 @@ class V005:
                     }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
-        df = self._df_sum.sort_values(by="Grade")
-        Clusters = df.Cluster.unique()
+        df = self._df_sum.sort_values(by=self._df_sum.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
         # print(Clusters)
         trace = []
@@ -1713,10 +1723,10 @@ class V005:
             trace.append(
                 {
                     "type":'violin',
-                    "x":["Cluster "+str(i+1)]*len(df.Grade.loc[df['Cluster']==Clusters[i]]),
-                    "y":df.AssignTotal.loc[df['Cluster']==Clusters[i]],
+                    "x":["Cluster "+str(i+1)]*len(df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
+                    "y":df[df.columns[2]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
                     "name":"Cluster "+str(i+1),
-                    "text":df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     "box":{
                         "visible":True
                         },
@@ -1755,7 +1765,7 @@ class V005:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-15, df.AssignTotal.max()+10],                
+                range = [-15, df[df.columns[2]].max()+10],                
                 rangemode = "normal",
                 zeroline = False,
             )
@@ -1787,8 +1797,8 @@ class V005:
                     }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
-        df = self._df_sum.sort_values(by="Grade")
-        Clusters = df.Cluster.unique()
+        df = self._df_sum.sort_values(by=self._df_sum.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
         # print(Clusters)
         trace = []
@@ -1796,10 +1806,10 @@ class V005:
             trace.append(
                 {
                     "type":'violin',
-                    "x":["Cluster "+str(i+1)]*len(df.Grade.loc[df['Cluster']==Clusters[i]]),
-                    "y":df["Forum Access"].loc[df['Cluster']==Clusters[i]],
+                    "x":["Cluster "+str(i+1)]*len(df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
+                    "y":df[df.columns[5]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
                     "name":"Cluster "+str(i+1),
-                    "text":df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     "box":{
                         "visible":True
                         },
@@ -1838,7 +1848,7 @@ class V005:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-15, self.DATASET["Forum Access"].max()+10],                
+                range = [-15, self.DATASET[self.DATASET.columns[3]].max()+10],                
                 rangemode = "normal",
                 zeroline = False,
             )
@@ -1870,8 +1880,8 @@ class V005:
                     }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
-        df = self._df_sum.sort_values(by="Grade")
-        Clusters = df.Cluster.unique()
+        df = self._df_sum.sort_values(by=self._df_sum.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
         # print(Clusters)
         trace = []
@@ -1879,10 +1889,10 @@ class V005:
             trace.append(
                 {
                     "type":'violin',
-                    "x":["Cluster "+str(i+1)]*len(df.Grade.loc[df['Cluster']==Clusters[i]]),
-                    "y":df["Forum Post"].loc[df['Cluster']==Clusters[i]],
+                    "x":["Cluster "+str(i+1)]*len(df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
+                    "y":df[df.columns[6]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
                     "name":"Cluster "+str(i+1),
-                    "text":df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     "box":{
                         "visible":True
                         },
@@ -1921,7 +1931,7 @@ class V005:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-15, self.DATASET["Forum Post"].max()+10],                
+                range = [-15, self.DATASET[self.DATASET.columns[4]].max()+10],                
                 rangemode = "normal",
                 zeroline = False,
             )
@@ -1953,8 +1963,8 @@ class V005:
                     }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
-        df = self._df_sum.sort_values(by="Grade")
-        Clusters = df.Cluster.unique()
+        df = self._df_sum.sort_values(by=self._df_sum.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
         # print(Clusters)
         trace = []
@@ -1962,10 +1972,10 @@ class V005:
             trace.append(
                 {
                     "type":'violin',
-                    "x":["Cluster "+str(i+1)]*len(df.Grade.loc[df['Cluster']==Clusters[i]]),
-                    "y":df["Forum Replies"].loc[df['Cluster']==Clusters[i]],
+                    "x":["Cluster "+str(i+1)]*len(df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
+                    "y":df[df.columns[7]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
                     "name":"Cluster "+str(i+1),
-                    "text":df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     "box":{
                         "visible":True
                         },
@@ -2004,7 +2014,7 @@ class V005:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-15, self.DATASET["Forum Replies"].max()+10],                
+                range = [-15, self.DATASET[self.DATASET.columns[5]].max()+10],                
                 rangemode = "normal",
                 zeroline = False,
             )
@@ -2036,8 +2046,8 @@ class V005:
                     }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
-        df = self._df_sum.sort_values(by="Grade")
-        Clusters = df.Cluster.unique()
+        df = self._df_sum.sort_values(by=self._df_sum.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,255,0)"]        
         # print(Clusters)
         trace = []
@@ -2045,10 +2055,10 @@ class V005:
             trace.append(
                 {
                     "type":'violin',
-                    "x":["Cluster "+str(i+1)]*len(df.Grade.loc[df['Cluster']==Clusters[i]]),
-                    "y":df["Forum Add Thread"].loc[df['Cluster']==Clusters[i]],
+                    "x":["Cluster "+str(i+1)]*len(df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
+                    "y":df[df.columns[8]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
                     "name":"Cluster "+str(i+1),
-                    "text":df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     "box":{
                         "visible":True
                         },
@@ -2087,7 +2097,7 @@ class V005:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-15, self.DATASET["Forum Add Thread"].max()+10],                
+                range = [-15, self.DATASET[self.DATASET.columns[6]].max()+10],                
                 rangemode = "normal",
                 zeroline = False,
             )
@@ -2219,8 +2229,8 @@ class V005:
         self.graph_23()
         self.graph_24()
 
-# instance = V005()
-# instance.generate_dataset(number_students = 60)
+instance = V005()
+instance.generate_dataset(number_students = 60)
 # instance.print_all_graphs("pt")
 # instance.print_all_graphs("en")
 
