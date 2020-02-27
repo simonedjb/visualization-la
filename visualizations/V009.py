@@ -2,12 +2,14 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 
+import os
 import pandas as pd
 import numpy as np
 
 from random import randrange
 import datetime, requests
 
+import pickle
 import json
 
 from plotly.utils import PlotlyJSONEncoder
@@ -26,6 +28,7 @@ class V009:
 
     _df_chronology = pd.DataFrame()
     _preprocessed_folder = os.path.join('Preprocessed')
+    textAction = []
 
     def __init__(self, language="pt", type_result = "jupyter-notebook"):
         self._language = language
@@ -34,21 +37,26 @@ class V009:
     def load_dataset(self, url):
         pass
 
-    def generate_dataset(self, number_actions = 100, video_size = 30, students_names = pd.DataFrame()):
+    def generate_dataset(self, number_actions = 100, video_size = 30, rand_names = []):
         self.NUMBER_ACTIONS = number_actions
         self.VIDEO_SIZE = video_size
 
-        if len(students_names.columns.tolist()) == 0:
-            names = pd.read_csv("assets/names.csv")
+        if (self._language == "pt"):
+            self.DATASET = pd.DataFrame(columns=["Estudantes","Tempo (segundos)","Play","Pause","Seek de","Seek para","Abandono"])
+            self._df_chronology = pd.DataFrame(columns=[self.DATASET.columns[0],'Tempo','Ação'])
+            self.textAction = ['Play aos ', 'Pause aos ', 'Seek de ', ' para ', 'Abandono aos ']
         else:
-            names = students_names
+            self.DATASET = pd.DataFrame(columns=["Students","Time (seconds)","Play","Pause","Seek from","Seek to","Dropout"])
+            self._df_chronology = pd.DataFrame(columns=[self.DATASET.columns[0],'Timestamp','Action'])
+            self.textAction = ['Play at ', 'Pause at ', 'Seek from ', ' to ', 'Dropout at ']
 
-        self.DATASET = pd.DataFrame(columns=["Students","Time (seconds)","Play","Pause","Seek from","Seek to","Dropout"])
+        if len(rand_names) == 0:
+            names = pd.read_csv("assets/names.csv")
+            rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
+            rand_names.sort()
+        else:
+            self.NUMBER_STUDENTS = len(rand_names)
 
-        rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
-        rand_names.sort()
-
-        
         lst = [ [rand_names[i]]*(video_size+1) for i in range(0,self.NUMBER_STUDENTS)]
         names = []
         for i in range(0, len(lst)):
@@ -109,10 +117,7 @@ class V009:
             elif time == self.VIDEO_SIZE:
                 self.DATASET.loc[i,self.DATASET.columns[6]] = np.random.randint(0, 7, size=1)[0]
 
-        self._df_chronology = pd.DataFrame(columns=[self.DATASET.columns[0],'Timestamp','Action'])
-
-        textAction = ['Play at ', 'Pause at ', 'Seek from ', ' to ', 'Dropout at ']
-
+        
         length = len(self.DATASET)
         actions = self.DATASET.columns[2:].tolist()
         lst_students = []
@@ -130,9 +135,9 @@ class V009:
                 lst_students.append(student)
                 lst_timestamp.append(datetime.datetime(year=2019, month=np.random.randint(1, 6, size=1)[0], day=np.random.randint(1, 27, size=1)[0], hour=np.random.randint(0, 23, size=1)[0], minute=np.random.randint(0, 59, size=1)[0], second=np.random.randint(0, 59, size=1)[0]))
                 
-                action = textAction[j]+str(self.DATASET.iloc[i,1])+"s"
+                action = self.textAction[j]+str(self.DATASET.iloc[i,1])+"s"
                 if(j == 2): #Seek from adding seek to
-                    action = action+textAction[3]+str(np.random.randint(0, self.VIDEO_SIZE, size=1)[0])+"s"
+                    action = action+self.textAction[3]+str(np.random.randint(0, self.VIDEO_SIZE, size=1)[0])+"s"
 
                 lst_action.append(action)
 
@@ -375,12 +380,18 @@ class V009:
     
     def graph_05(self):
         legend = {"title":"Interações de seek forward e seek backward por tempo de vídeo"}
+        label_from = 'Origem'
+        label_to = 'Destino'
+        label_prep = ' de '
         if (self._language == "en"):
             legend = {"title":"Interactions of seek forward and seek backward by time"}
+            label_from = 'Origin'
+            label_to = 'Target'
+            label_prep = ' of '
 
         df_seek = self._df_chronology.loc[(self._df_chronology[self._df_chronology.columns[2]].str.contains('Seek'))]
-        df_seek.insert(column='From', loc=len(df_seek.columns), value=df_seek['Action'].apply(lambda x: int(x.replace('Seek from','').replace('s','').split('to')[0]))) #Get From of each seek
-        df_seek.insert(column='To', loc=len(df_seek.columns), value=df_seek['Action'].apply(lambda x: int(x.replace('Seek from','').replace('s','').split('to')[1]))) #Get to of each seek
+        df_seek.insert(column='From', loc=len(df_seek.columns), value=df_seek[df_seek.columns[len(df_seek.columns)-1]].apply(lambda x: int(x.replace(self.textAction[2],'').replace('s','').split(self.textAction[3])[0]))) #Get From of each seek
+        df_seek.insert(column='To', loc=len(df_seek.columns), value=df_seek[df_seek.columns[len(df_seek.columns)-2]].apply(lambda x: int(x.replace(self.textAction[2],'').replace('s','').split(self.textAction[3])[1]))) #Get to of each seek
         df_seek.insert(column='Type', loc=len(df_seek.columns), value=df_seek.apply(lambda x: 'Forward' if x['From'] < x['To'] else 'Backward', axis=1)) #Classifying seek by Forward or Backward
 
         values = labels = list(range(self.VIDEO_SIZE+1))
@@ -492,7 +503,7 @@ class V009:
                         # name="Cluster"+str(i+1), #each cluster name
                         text = [str(i)+'s' for i in range(len(values))],
                         textposition='middle center',
-                        hovertext = ['<b>Seek Forward</b><br>Origem:'+str(lst_count_forward_from[i])+"<br>Destino:"+str(lst_count_forward_to[i])+"<br><br><b>"+str(i)+"s</b><br><br><b>Seek Backward</b><br>Origem:"+str(lst_count_backward_from[i])+"<br>Destino:"+str(lst_count_backward_to[i]) for i in range(len(values))],
+                        hovertext = ['<b>Seek Forward</b><br>'+label_from+label_prep+str(lst_count_forward_from[i])+" seek(s)<br>"+label_to+label_prep+str(lst_count_forward_to[i])+" seek(s)<br><br><b>"+str(i)+"s</b><br><br><b>Seek Backward</b><br>"+label_from+label_prep+str(lst_count_backward_from[i])+" seek(s)<br>"+label_to+label_prep+str(lst_count_backward_to[i])+" seek(s)" for i in range(len(values))],
                         # lst_count_forward[i]
                         # lst_count_backward[i]
                         hoverinfo='text',
