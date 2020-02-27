@@ -5,6 +5,8 @@ import dash_html_components as html
 import pandas as pd
 import numpy as np
 
+import os
+import pickle
 import json
 
 from plotly.utils import PlotlyJSONEncoder
@@ -38,56 +40,60 @@ class V008:
     def load_dataset(self, url):
         pass
 
-    def generate_dataset(self, number_students = 20, number_weeks = 7, students_names = pd.DataFrame()):
+    def generate_dataset(self, number_students = 20, number_weeks = 7, rand_names = []):
         self.NUMBER_STUDENTS = number_students
         self.NUMBER_WEEKS = number_weeks
+
+        if (self._language == "pt"):
+            self.DATASET = pd.DataFrame(columns=["Estudantes","Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"])
+            week_label = 'Semana'
+        else:
+            self.DATASET = pd.DataFrame(columns=["Students","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"])
+            week_label = 'Week'
 
         self._work_deadline = (int(self.NUMBER_WEEKS/2)+(self.NUMBER_WEEKS%2))*7
         self._test_day = self.NUMBER_WEEKS*7
 
-        if len(students_names.columns.tolist()) == 0:
+        if len(rand_names) == 0:
             names = pd.read_csv("assets/names.csv")
+            rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
+            rand_names.sort()
         else:
-            names = students_names
-            
-        self.DATASET = pd.DataFrame(columns=["Students","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"])
-
-        rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
-        rand_names.sort()
+            self.NUMBER_STUDENTS = len(rand_names)
 
         for i in range(0,self.NUMBER_STUDENTS):
-            self.DATASET.loc[i,"Students"] = rand_names[i]
+            self.DATASET.loc[i,self.DATASET.columns[0]] = rand_names[i]
 
             lst = sorted(np.random.triangular(0,5,15,int(self.NUMBER_WEEKS/2)+(self.NUMBER_WEEKS%2))) + sorted(np.random.triangular(0,5,15,int(self.NUMBER_WEEKS/2)))
-            self.DATASET.loc[i,"Sunday"] = [int(i) for i in lst]
+            self.DATASET.loc[i,self.DATASET.columns[1]] = [int(i) for i in lst]
 
             lst = sorted(np.random.triangular(0,8,18,int(self.NUMBER_WEEKS/2)+(self.NUMBER_WEEKS%2))) + sorted(np.random.triangular(0,8,18,int(self.NUMBER_WEEKS/2)))
-            self.DATASET.loc[i,"Monday"] = [int(i) for i in lst]
+            self.DATASET.loc[i,self.DATASET.columns[2]] = [int(i) for i in lst]
 
             lst = sorted(np.random.triangular(0,10,20,int(self.NUMBER_WEEKS/2)+(self.NUMBER_WEEKS%2))) + sorted(np.random.triangular(0,10,20,int(self.NUMBER_WEEKS/2)))
-            self.DATASET.loc[i,"Tuesday"] = [int(i) for i in lst]
+            self.DATASET.loc[i,self.DATASET.columns[3]] = [int(i) for i in lst]
 
             lst = sorted(np.random.triangular(0,12,23,int(self.NUMBER_WEEKS/2)+(self.NUMBER_WEEKS%2))) + sorted(np.random.triangular(0,12,23,int(self.NUMBER_WEEKS/2)))
-            self.DATASET.loc[i,"Wednesday"] = [int(i) for i in lst]
+            self.DATASET.loc[i,self.DATASET.columns[4]] = [int(i) for i in lst]
 
             lst = sorted(np.random.triangular(0,15,26,int(self.NUMBER_WEEKS/2)+(self.NUMBER_WEEKS%2))) + sorted(np.random.triangular(0,15,26,int(self.NUMBER_WEEKS/2)))
-            self.DATASET.loc[i,"Thursday"] = [int(i) for i in lst]
+            self.DATASET.loc[i,self.DATASET.columns[5]] = [int(i) for i in lst]
 
             lst = sorted(np.random.triangular(0,17,28,int(self.NUMBER_WEEKS/2)+(self.NUMBER_WEEKS%2))) + sorted(np.random.triangular(0,17,28,int(self.NUMBER_WEEKS/2)))
-            self.DATASET.loc[i,"Friday"] = [int(i) for i in lst]
+            self.DATASET.loc[i,self.DATASET.columns[6]] = [int(i) for i in lst]
 
             lst = sorted(np.random.triangular(0,8,34,int(self.NUMBER_WEEKS/2)+(self.NUMBER_WEEKS%2))) + sorted(np.random.triangular(0,8,34,int(self.NUMBER_WEEKS/2)))
-            self.DATASET.loc[i,"Saturday"] = [int(i) for i in lst]
+            self.DATASET.loc[i,self.DATASET.columns[7]] = [int(i) for i in lst]
 
         self._df_sum_day = self.DATASET.apply(self.sum_access_by_day, axis=1, result_type='expand') # Total of access by day
         self._df_sum_day.columns = self.DATASET.columns
 
         self._df_sum_week = self.DATASET.apply(self.sum_access_by_week, axis=1, result_type='expand') # Total of access by week
-        self._df_sum_week.columns = ["Week"+str(i+1) for i in range(0,self.NUMBER_WEEKS)]
-        self._df_sum_week.insert(0,"Students",self.DATASET.Students)
+        self._df_sum_week.columns = [week_label+str(i+1) for i in range(0,self.NUMBER_WEEKS)]
+        self._df_sum_week.insert(0,self.DATASET.columns[0],self.DATASET[self.DATASET.columns[0]])
 
         self._df_all_day = self.DATASET.apply(self.all_day, axis=1, result_type='expand') # All days
-        self._df_all_day.insert(0,"Students",self.DATASET.Students)        
+        self._df_all_day.insert(0,self.DATASET.columns[0],self.DATASET[self.DATASET.columns[0]])        
 
     def sum_access_by_day(self,row):
         lst = []
@@ -284,7 +290,14 @@ class V008:
                     exponentformat='e',
                     showexponent='all',
                     gridcolor='#bdbdbd',
-                )
+                ),
+                margin = dict(
+                    l=125,
+                    r=5,
+                    b=150,
+                    t=50,
+                    pad=4
+                ),
             )
 
         data = [trace]
@@ -382,6 +395,13 @@ class V008:
                     exponentformat='e',
                     showexponent='all',
                     gridcolor='#bdbdbd',
+                ),
+                margin = dict(
+                    l=125,
+                    r=5,
+                    b=150,
+                    t=50,
+                    pad=4
                 ),
                 annotations = annotations
             )
@@ -609,7 +629,7 @@ class V008:
                 Box(
                     y=df.iloc[:,i].values.tolist(), #Access
                     name=lst[i-1],
-                    text=df["Students"].values.tolist(),
+                    text=df[df.columns[0]].values.tolist(),
                     boxpoints = 'all',
                     marker=dict(
                         color = color,
@@ -697,7 +717,7 @@ class V008:
                 Box(
                     y=df.iloc[:,i].values.tolist(), #Access                    
                     name=lst[i-1],
-                    text=df["Students"].values.tolist(),
+                    text=df[df.columns[0]].values.tolist(),
                     boxpoints = 'all',
                     marker=dict(
                         color = color,
@@ -787,7 +807,7 @@ class V008:
                     "x":[lst[i-1]]*len(df),
                     "y":df.iloc[:,i].values.tolist(), #Access
                     "name":lst[i-1],
-                    "text":df["Students"].values.tolist(),
+                    "text":df[df.columns[0]].values.tolist(),
                     "box":{
                         "visible":True
                         },
@@ -882,7 +902,7 @@ class V008:
                     "x":[lst[i-1]]*len(df),
                     "y":df.iloc[:,i].values.tolist(), #Access
                     "name":lst[i-1],
-                    "text":df["Students"].values.tolist(),
+                    "text":df[df.columns[0]].values.tolist(),
                     "box":{
                         "visible":True
                         },
