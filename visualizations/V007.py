@@ -8,9 +8,11 @@ import plotly.plotly as py
 import plotly.tools as tls
 import plotly.graph_objs as go
 
+import os
 import pandas as pd
 import numpy as np
 
+import pickle
 import json
 
 from plotly.utils import PlotlyJSONEncoder
@@ -38,94 +40,97 @@ class V007:
         self._language = language
         self._type_result = type_result
 
-    def generate_dataset(self, number_students = 20, students_names = pd.DataFrame()):
+    def generate_dataset(self, number_students = 20, rand_names = []):
         self.NUMBER_STUDENTS = number_students
-        self.COUNTDATA = pd.DataFrame(0, index=range(0,1), columns=["Dropout", "0 - 60", "61 - 70", "71 - 80", "81 - 90", "91 - 100"])
-
-        if len(students_names.columns.tolist()) == 0:
-            names = pd.read_csv("assets/names.csv")
+        if (self._language == "pt"):
+            self.COUNTDATA = pd.DataFrame(0, index=range(0,1), columns=["Desistência", "0 - 60", "61 - 70", "71 - 80", "81 - 90", "91 - 100"])
+            self.DATASET = pd.DataFrame(columns=["Estudantes","Predição de Cluster","Predição de Desistência","Predição de Nota",
+        	                                        "Acesso ao AVA","Postagens no Fórum","Respostas no Fórum","Adição de Tópicos no Fórum","Acesso ao Fórum", "Cluster"])
         else:
-            names = students_names
-        rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
-        rand_names.sort()
+            self.COUNTDATA = pd.DataFrame(0, index=range(0,1), columns=["Dropout", "0 - 60", "61 - 70", "71 - 80", "81 - 90", "91 - 100"])
+            self.DATASET = pd.DataFrame(columns=["Students","Predicted Cluster","Predicted Dropout","Predicted Grade",
+        	                                        "AVA Access","Forum Post","Forum Replies","Forum Add Thread","Forum Access", "Cluster"])
 
-
-        self.DATASET = pd.DataFrame(columns=["Students","Predicted Cluster","Predicted Dropout","Predicted Grade",
-        	                                 "AVA Access","Forum Post","Forum Replies","Forum Add Thread","Forum Access", "Cluster"])
+        if len(rand_names) == 0:
+            names = pd.read_csv("assets/names.csv")
+            rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
+            rand_names.sort()
+        else:
+            self.NUMBER_STUDENTS = len(rand_names)
 
         for i in range(0,self.NUMBER_STUDENTS):
-            self.DATASET.loc[i,"Students"] = rand_names[i]
-            self.DATASET.loc[i,"Predicted Cluster"] = random.choice(['Dropout','0 - 60','61 - 70', '71 - 80', '81 - 90', '91 - 100'])
-            if self.DATASET.loc[i,"Predicted Cluster"] == 'Dropout':
-                self.DATASET.loc[i,"Predicted Dropout"] = True
-                self.DATASET.loc[i,"Predicted Grade"] = np.random.randint(0,5)
-                self.DATASET.loc[i,"Cluster"] = 0
+            self.DATASET.loc[i,self.DATASET.columns[0]] = rand_names[i]
+            self.DATASET.loc[i,self.DATASET.columns[1]] = random.choice(self.COUNTDATA.columns.tolist())
+            if self.DATASET.loc[i,self.DATASET.columns[1]] == self.COUNTDATA.columns.tolist()[0]:
+                self.DATASET.loc[i,self.DATASET.columns[2]] = True
+                self.DATASET.loc[i,self.DATASET.columns[3]] = np.random.randint(0,5)
+                self.DATASET.loc[i,self.DATASET.columns[len(self.DATASET.columns)-1]] = 0
 
-                self.DATASET.loc[i,"AVA Access"] = np.random.randint(5,26)
-                self.DATASET.loc[i,"Forum Post"] = np.random.randint(0,4)
-                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,4)
-                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,4)
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(0,7)
+                self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(5,26)
+                self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(0,4)
+                self.DATASET.loc[i,self.DATASET.columns[6]] = np.random.randint(0,4)
+                self.DATASET.loc[i,self.DATASET.columns[7]] = np.random.randint(0,4)
+                self.DATASET.loc[i,self.DATASET.columns[8]] =  self.DATASET.loc[i,self.DATASET.columns[5]] + self.DATASET.loc[i,self.DATASET.columns[6]] + self.DATASET.loc[i,self.DATASET.columns[7]] + np.random.randint(0,7)
 
-            elif self.DATASET.loc[i,"Predicted Cluster"] == '0 - 60':
-                self.DATASET.loc[i,"Predicted Dropout"] = False
-                self.DATASET.loc[i,"Predicted Grade"] = int(random.triangular(0,30,60))
-                self.DATASET.loc[i,"Cluster"] = 1
-                self.COUNTDATA.loc[0,"0 - 60"] += 1
+            elif self.DATASET.loc[i,self.DATASET.columns[1]] == self.COUNTDATA.columns.tolist()[1]:
+                self.DATASET.loc[i,self.DATASET.columns[2]] = False
+                self.DATASET.loc[i,self.DATASET.columns[3]] = int(random.triangular(0,30,60))
+                self.DATASET.loc[i,self.DATASET.columns[len(self.DATASET.columns)-1]] = 1
+                self.COUNTDATA.loc[0,self.COUNTDATA.columns[1]] += 1
 
-                self.DATASET.loc[i,"AVA Access"] = np.random.randint(20,41)
-                self.DATASET.loc[i,"Forum Post"] = np.random.randint(0,8)
-                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,8)
-                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,4)
-                self.DATASET.loc[i,"Forum Access"] = self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(0,22)
+                self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(20,41)
+                self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(0,8)
+                self.DATASET.loc[i,self.DATASET.columns[6]] = np.random.randint(0,8)
+                self.DATASET.loc[i,self.DATASET.columns[7]] = np.random.randint(0,4)
+                self.DATASET.loc[i,self.DATASET.columns[8]] = self.DATASET.loc[i,self.DATASET.columns[5]] + self.DATASET.loc[i,self.DATASET.columns[6]] + self.DATASET.loc[i,self.DATASET.columns[7]] + np.random.randint(0,22)
 
-            elif self.DATASET.loc[i,"Predicted Cluster"] == '61 - 70':
-                self.DATASET.loc[i,"Predicted Dropout"] = False
-                self.DATASET.loc[i,"Predicted Grade"] = int(random.triangular(61,65,70))
-                self.DATASET.loc[i,"Cluster"] = 2
-                self.COUNTDATA.loc[0,"61 - 70"] += 1
+            elif self.DATASET.loc[i,self.DATASET.columns[1]] == self.COUNTDATA.columns.tolist()[2]:
+                self.DATASET.loc[i,self.DATASET.columns[2]] = False
+                self.DATASET.loc[i,self.DATASET.columns[3]] = int(random.triangular(61,65,70))
+                self.DATASET.loc[i,self.DATASET.columns[len(self.DATASET.columns)-1]] = 2
+                self.COUNTDATA.loc[0,self.COUNTDATA.columns[2]] += 1
 
-                self.DATASET.loc[i,"AVA Access"] = np.random.randint(35,57)
-                self.DATASET.loc[i,"Forum Post"] = np.random.randint(1,12)
-                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,12)
-                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,8)
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(2,26)
+                self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(35,57)
+                self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(1,12)
+                self.DATASET.loc[i,self.DATASET.columns[6]] = np.random.randint(0,12)
+                self.DATASET.loc[i,self.DATASET.columns[7]] = np.random.randint(0,8)
+                self.DATASET.loc[i,self.DATASET.columns[8]] =  self.DATASET.loc[i,self.DATASET.columns[5]] + self.DATASET.loc[i,self.DATASET.columns[6]] + self.DATASET.loc[i,self.DATASET.columns[7]] + np.random.randint(2,26)
 
-            elif self.DATASET.loc[i,"Predicted Cluster"] == '71 - 80':
-                self.DATASET.loc[i,"Predicted Dropout"] = False
-                self.DATASET.loc[i,"Predicted Grade"] = int(random.triangular(71,75,80))
-                self.DATASET.loc[i,"Cluster"] = 3
-                self.COUNTDATA.loc[0,"71 - 80"] += 1
+            elif self.DATASET.loc[i,self.DATASET.columns[1]] == self.COUNTDATA.columns.tolist()[3]:
+                self.DATASET.loc[i,self.DATASET.columns[2]] = False
+                self.DATASET.loc[i,self.DATASET.columns[3]] = int(random.triangular(71,75,80))
+                self.DATASET.loc[i,self.DATASET.columns[len(self.DATASET.columns)-1]] = 3
+                self.COUNTDATA.loc[0,self.COUNTDATA.columns[3]] += 1
 
-                self.DATASET.loc[i,"AVA Access"] = np.random.randint(50,71)
-                self.DATASET.loc[i,"Forum Post"] = np.random.randint(2,21)
-                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(2,21)
-                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,7)
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(4,31)
+                self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(50,71)
+                self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(2,21)
+                self.DATASET.loc[i,self.DATASET.columns[6]] = np.random.randint(2,21)
+                self.DATASET.loc[i,self.DATASET.columns[7]] = np.random.randint(0,7)
+                self.DATASET.loc[i,self.DATASET.columns[8]] =  self.DATASET.loc[i,self.DATASET.columns[5]] + self.DATASET.loc[i,self.DATASET.columns[6]] + self.DATASET.loc[i,self.DATASET.columns[7]] + np.random.randint(4,31)
 
-            elif self.DATASET.loc[i,"Predicted Cluster"] == '81 - 90':
-                self.DATASET.loc[i,"Predicted Dropout"] = False
-                self.DATASET.loc[i,"Predicted Grade"] = int(random.triangular(81,85,90))
-                self.DATASET.loc[i,"Cluster"] = 4
-                self.COUNTDATA.loc[0,"81 - 90"] += 1
+            elif self.DATASET.loc[i,self.DATASET.columns[1]] == self.COUNTDATA.columns.tolist()[4]:
+                self.DATASET.loc[i,self.DATASET.columns[2]] = False
+                self.DATASET.loc[i,self.DATASET.columns[3]] = int(random.triangular(81,85,90))
+                self.DATASET.loc[i,self.DATASET.columns[len(self.DATASET.columns)-1]] = 4
+                self.COUNTDATA.loc[0,self.COUNTDATA.columns[4]] += 1
 
-                self.DATASET.loc[i,"AVA Access"] = np.random.randint(65,86)
-                self.DATASET.loc[i,"Forum Post"] = np.random.randint(5,36)
-                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(5,36)
-                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(1,11)
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(6,36)
+                self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(65,86)
+                self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(5,36)
+                self.DATASET.loc[i,self.DATASET.columns[6]] = np.random.randint(5,36)
+                self.DATASET.loc[i,self.DATASET.columns[7]] = np.random.randint(1,11)
+                self.DATASET.loc[i,self.DATASET.columns[8]] =  self.DATASET.loc[i,self.DATASET.columns[5]] + self.DATASET.loc[i,self.DATASET.columns[6]] + self.DATASET.loc[i,self.DATASET.columns[7]] + np.random.randint(6,36)
 
-            elif self.DATASET.loc[i,"Predicted Cluster"] == '91 - 100':
-                self.DATASET.loc[i,"Predicted Dropout"] = False
-                self.DATASET.loc[i,"Predicted Grade"] = int(random.triangular(91,95,100))
-                self.DATASET.loc[i,"Cluster"] = 5
-                self.COUNTDATA.loc[0,"91 - 100"] += 1
+            elif self.DATASET.loc[i,self.DATASET.columns[1]] == self.COUNTDATA.columns.tolist()[5]:
+                self.DATASET.loc[i,self.DATASET.columns[2]] = False
+                self.DATASET.loc[i,self.DATASET.columns[3]] = int(random.triangular(91,95,100))
+                self.DATASET.loc[i,self.DATASET.columns[len(self.DATASET.columns)-1]] = 5
+                self.COUNTDATA.loc[0,self.COUNTDATA.columns[5]] += 1
 
-                self.DATASET.loc[i,"AVA Access"] = np.random.randint(80,101)
-                self.DATASET.loc[i,"Forum Post"] = np.random.randint(10,41)
-                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(10,41)
-                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(3,14)
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(10,41)
+                self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(80,101)
+                self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(10,41)
+                self.DATASET.loc[i,self.DATASET.columns[6]] = np.random.randint(10,41)
+                self.DATASET.loc[i,self.DATASET.columns[7]] = np.random.randint(3,14)
+                self.DATASET.loc[i,self.DATASET.columns[8]] =  self.DATASET.loc[i,self.DATASET.columns[5]] + self.DATASET.loc[i,self.DATASET.columns[6]] + self.DATASET.loc[i,self.DATASET.columns[7]] + np.random.randint(10,41)
 
     def graph_01(self):
         legend = {"title":"Previsão das notas relacionado com o número de acessos no AVA"}
@@ -174,8 +179,8 @@ class V007:
                         "yaxis":"Predicted Grades",
                     }
         
-        df = self.DATASET.sort_values(by=["Predicted Grade"])
-        Clusters = df.Cluster.unique()
+        df = self.DATASET.sort_values(by=[self.DATASET.columns[3]])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(100,100,100)","rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,127,127)","rgb(0,255,0)"]
         color[Clusters[0]] = "rgb(100,100,100)"
         color[Clusters[1]] = "rgb(255,0,0)"
@@ -186,18 +191,18 @@ class V007:
 
         trace = []
         for i in range(0, self.NUMBER_STUDENTS):
-            # print(df.Students[i])
+            # print(df[df.columns[0]][i])
             trace.append(
                 Scatter(
-                    x=[df["AVA Access"][i]], #Access
-                    y=[df["Predicted Grade"][i]], #Grade
+                    x=[df[df.columns[4]][i]], #Access
+                    y=[df[df.columns[3]][i]], #Grade
                     mode='markers',
-                    name=df.Students[i], #each student name
-                    text = [str(df.Students[i])],
+                    name=df[df.columns[0]][i], #each student name
+                    text = [str(df[df.columns[0]][i])],
                     marker=dict(
                         size=12,
-                        symbol=df.Cluster[i],
-                        color = color[df.Cluster[i]],
+                        symbol=df[df.columns[len(df.columns)-1]][i],
+                        color = color[df[df.columns[len(df.columns)-1]][i]],
                         colorscale='Viridis',
                         line=dict(
                             width=2
@@ -219,7 +224,7 @@ class V007:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self.DATASET["AVA Access"].max()+10],
+                range = [0, self.DATASET[self.DATASET.columns[4]].max()+10],
                 rangemode = "normal",
                 zeroline= False,
                 showline = True,
@@ -233,7 +238,7 @@ class V007:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self.DATASET["Predicted Grade"].max()+10],
+                range = [0, self.DATASET[self.DATASET.columns[3]].max()+10],
                 rangemode = "normal",
                 showline = True,
             )
@@ -267,17 +272,17 @@ class V007:
                         "cluster":["Dropout",'Grades between 0 and 60','Grades between 61 and 70', 'Grades between 71 and 80', 'Grades between 81 and 90', 'Grades between 91 and 100']
                     }
         
-        df = self.DATASET.sort_values(by=["Predicted Grade"])
-        Clusters = df.Cluster.unique()
+        df = self.DATASET.sort_values(by=[self.DATASET.columns[3]])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(100,100,100)","rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,127,127)","rgb(0,255,0)"]
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
             trace.append(
                 Box(
-                    y=df["Predicted Grade"].loc[df['Cluster']==Clusters[i]].values.tolist(), #Access
+                    y=df[df.columns[3]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(), #Access
                     name=legend["cluster"][i],
-                    text=df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -309,7 +314,7 @@ class V007:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-1, self.DATASET["Predicted Grade"].max()+10],
+                range = [-1, self.DATASET[self.DATASET.columns[3]].max()+10],
                 rangemode = "normal",
                 # showline = True,
                 zeroline = False,
@@ -345,8 +350,8 @@ class V007:
                     }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
-        df = self.DATASET.sort_values(by=["Predicted Grade"])
-        Clusters = df.Cluster.unique()
+        df = self.DATASET.sort_values(by=[self.DATASET.columns[3]])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(100,100,100)","rgb(255,0,0)","rgb(127,0,127)","rgb(0,0,255)","rgb(0,127,127)","rgb(0,255,0)"]
         color[Clusters[0]] = "rgb(100,100,100)"
         color[Clusters[1]] = "rgb(255,0,0)"
@@ -360,10 +365,10 @@ class V007:
             trace.append(
                 {
                     "type":'violin',
-                    "x":["Cluster "+str(i+1)]*len(df["Predicted Grade"].loc[df['Cluster']==Clusters[i]]),
-                    "y":df["Predicted Grade"].loc[df['Cluster']==Clusters[i]],
+                    "x":["Cluster "+str(i+1)]*len(df[df.columns[3]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
+                    "y":df[df.columns[3]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
                     "name":legend["cluster"][i],
-                    "text":df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     "box":{
                         "visible":True
                         },
@@ -402,7 +407,7 @@ class V007:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-15, self.DATASET["Predicted Grade"].max()+10],
+                range = [-15, self.DATASET[self.DATASET.columns[3]].max()+10],
                 rangemode = "normal",
                 zeroline = False,
             )
@@ -473,3 +478,6 @@ class V007:
         self.graph_02() #Scatter
         self.graph_03() #Box
         self.graph_04() #Violin
+
+# instance = V007()
+# instance.generate_dataset(number_students = 20)
