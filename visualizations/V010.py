@@ -2,9 +2,11 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 
+import os
 import pandas as pd
 import numpy as np
 
+import pickle
 import json
 
 from plotly.utils import PlotlyJSONEncoder
@@ -35,22 +37,31 @@ class V010:
         self._language = language
         self._type_result = type_result
 
-    def generate_dataset(self, number_students = 20, number_video = 10, students_names = pd.DataFrame()):
+    def generate_dataset(self, number_students = 20, number_video = 10, rand_names = []):
         self.NUMBER_STUDENTS = number_students
         self.NUMBER_VIDEOS = number_video
 
-        self._video_dur = [np.random.randint(240,600) for n in range(self.NUMBER_VIDEOS)] #video duration ranging between 240 and 600 seconds
-        self._video_name = ["Video"+str(i+1) for i in range (0, self.NUMBER_VIDEOS)]
-        
-        if len(students_names.columns.tolist()) == 0:
-            names = pd.read_csv("assets/names.csv")
+        if (self._language == "pt"):
+            video_label = "Vídeo "
+            students_label = "Estudantes"
+            self._df_sum_feedback = pd.DataFrame(columns=[video_label,"Entendido","Não entendido","Total"])
         else:
-            names = students_names
-        rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
-        rand_names.sort()
+            video_label = "Video "
+            students_label = "Students"
+            self._df_sum_feedback = pd.DataFrame(columns=[video_label,"Understood","Misunderstood","Total"])
+
+        self._video_dur = [np.random.randint(240,600) for n in range(self.NUMBER_VIDEOS)] #video duration ranging between 240 and 600 seconds
+        self._video_name = [video_label+str(i+1) for i in range (0, self.NUMBER_VIDEOS)]
+        
+        if len(rand_names) == 0:
+            names = pd.read_csv("assets/names.csv")
+            rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
+            rand_names.sort()
+        else:
+            self.NUMBER_STUDENTS = len(rand_names)
 
         self.DATASET = pd.DataFrame(columns=self._video_name)
-        self.DATASET.insert(0,"Students", rand_names)
+        self.DATASET.insert(0,students_label, rand_names)
         
         for i in range(1,len(self.DATASET.columns)):
             self.DATASET.iloc[:,i] = [self._understood]*self.NUMBER_STUDENTS #Adding 'well-understanding' to Video[i]
@@ -59,11 +70,10 @@ class V010:
             for j in range(0, number_doubts):
                 self.DATASET.iloc[int(index[j]),i] = self._misunderstood #Adding doubt to Video[i] for student with index[j]
 
-        self._df_sum_feedback = pd.DataFrame(columns=["Videos","Understood","Misunderstood","Total"])
-        self._df_sum_feedback.Videos = self.DATASET.columns[1:].tolist()
-        self._df_sum_feedback.Understood = self.sum_feedback(True) # Sum all understood feedback
-        self._df_sum_feedback.Misunderstood = self.sum_feedback(False) # Sum all misunderstood feedback
-        self._df_sum_feedback.Total = [len(self.DATASET)]*len(self.DATASET.columns[1:])
+        self._df_sum_feedback[self._df_sum_feedback.columns[0]] = self.DATASET.columns[1:].tolist()
+        self._df_sum_feedback[self._df_sum_feedback.columns[1]] = self.sum_feedback(True) # Sum all understood feedback
+        self._df_sum_feedback[self._df_sum_feedback.columns[2]] = self.sum_feedback(False) # Sum all misunderstood feedback
+        self._df_sum_feedback[self._df_sum_feedback.columns[3]] = [len(self.DATASET)]*len(self.DATASET.columns[1:])
 
     def sum_feedback(self, understood=True):
         if understood == True:
@@ -163,8 +173,8 @@ class V010:
 
         df = self._df_sum_feedback
         trace = [Bar(
-            x=df.Videos.values,
-            y=df.Understood.values,
+            x=df[df.columns[0]].values,
+            y=df[df.columns[1]].values,
         )]
 
         data = trace
@@ -221,10 +231,10 @@ class V010:
                         "yaxis":"Number of students",
                     }
 
-        df = self._df_sum_feedback.sort_values(by=["Understood","Videos"])
+        df = self._df_sum_feedback.sort_values(by=[self._df_sum_feedback.columns[1],self._df_sum_feedback.columns[0]])
         trace = [Bar(
-            x=df.Videos.values,
-            y=df.Understood.values,
+            x=df[df.columns[0]].values,
+            y=df[df.columns[1]].values,
         )]
 
         data = trace
@@ -283,8 +293,8 @@ class V010:
 
         df = self._df_sum_feedback
         trace = [Bar(
-            x=df.Videos.values,
-            y=df.Misunderstood.values,
+            x=df[df.columns[0]].values,
+            y=df[df.columns[2]].values,
             marker=dict(
                 color='rgb(255,126,24)',                
             ),
@@ -344,10 +354,10 @@ class V010:
                         "yaxis":"Number of students",
                     }
 
-        df = self._df_sum_feedback.sort_values(by=["Misunderstood","Videos"])
+        df = self._df_sum_feedback.sort_values(by=[self._df_sum_feedback.columns[2],self._df_sum_feedback.columns[0]])
         trace = [Bar(
-            x=df.Videos.values,
-            y=df.Misunderstood.values,
+            x=df[df.columns[0]].values,
+            y=df[df.columns[2]].values,
             marker=dict(
                 color='rgb(255,126,24)',                
             ),
@@ -409,8 +419,8 @@ class V010:
 
         df = self._df_sum_feedback
         trace = [Bar(
-            x=df.Understood.values,
-            y=df.Videos.values,
+            x=df[df.columns[1]].values,
+            y=df[df.columns[0]].values,
             orientation='h'
         )]
 
@@ -468,10 +478,10 @@ class V010:
                         "yaxis":"",
                     }
 
-        df = self._df_sum_feedback.sort_values(by=["Understood","Videos"])
+        df = self._df_sum_feedback.sort_values(by=[self._df_sum_feedback.columns[1],self._df_sum_feedback.columns[0]])
         trace = [Bar(
-            x=df.Understood.values,
-            y=df.Videos.values,
+            x=df[df.columns[1]].values,
+            y=df[df.columns[0]].values,
             orientation='h'
         )]
 
@@ -531,8 +541,8 @@ class V010:
 
         df = self._df_sum_feedback
         trace = [Bar(
-            x=df.Misunderstood.values,
-            y=df.Videos.values,
+            x=df[df.columns[2]].values,
+            y=df[df.columns[0]].values,
             orientation='h',
             marker=dict(
                 color='rgb(255,126,24)',                
@@ -593,10 +603,10 @@ class V010:
                         "yaxis":"",
                     }
 
-        df = self._df_sum_feedback.sort_values(by=["Misunderstood","Videos"])
+        df = self._df_sum_feedback.sort_values(by=[self._df_sum_feedback.columns[2],self._df_sum_feedback.columns[0]])
         trace = [Bar(
-            x=df.Misunderstood.values,
-            y=df.Videos.values,
+            x=df[df.columns[2]].values,
+            y=df[df.columns[0]].values,
             orientation='h',
             marker=dict(
                 color='rgb(255,126,24)',
@@ -666,8 +676,8 @@ class V010:
         trace = []
         trace.append(
             Bar(
-                x=df.Understood.values,
-                y=df.Videos.values,
+                x=df[df.columns[1]].values,
+                y=df[df.columns[0]].values,
                 width=[0.07]*20,
                 orientation = 'h',
                 name="",
@@ -678,18 +688,18 @@ class V010:
             )
         )
         
-        for i in range(0, max(df.Understood.values.tolist())+1):
+        for i in range(0, max(df[df.columns[1]].values.tolist())+1):
             text=str(i)+" "+legend['text_p'],
             if i==1:
                 text=str(i)+" "+legend['text_s'],
 
             trace.append(
                 Scatter(
-                    x=[i]*len(df.Videos),
-                    y=df.Videos.loc[df["Understood"]==i].values.tolist(),
+                    x=[i]*len(df[df.columns[0]]),
+                    y=df[df.columns[0]].loc[df[df.columns[1]]==i].values.tolist(),
                     mode='markers',
                     name = "",                 
-                    text=text*len(df.Videos.loc[df["Understood"]==i]),                    
+                    text=text*len(df[df.columns[0]].loc[df[df.columns[1]]==i]),                    
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
@@ -767,13 +777,13 @@ class V010:
                         "text_s":"student",
                         "text_p":"students",
                     }
-        df = self._df_sum_feedback.sort_values(by=["Understood","Videos"])
+        df = self._df_sum_feedback.sort_values(by=[self._df_sum_feedback.columns[1],self._df_sum_feedback.columns[0]])
         
         trace = []
         trace.append(
             Bar(
-                x=df.Understood.values,
-                y=df.Videos.values,
+                x=df[df.columns[1]].values,
+                y=df[df.columns[0]].values,
                 width=[0.07]*20,
                 orientation = 'h',
                 name="",
@@ -784,18 +794,18 @@ class V010:
             )
         )
         
-        for i in range(0, max(df.Understood.values.tolist())+1):
+        for i in range(0, max(df[df.columns[1]].values.tolist())+1):
             text=str(i)+" "+legend['text_p'],
             if i==1:
                 text=str(i)+" "+legend['text_s'],
 
             trace.append(
                 Scatter(
-                    x=[i]*len(df.Videos),
-                    y=df.Videos.loc[df["Understood"]==i].values.tolist(),
+                    x=[i]*len(df[df.columns[0]]),
+                    y=df[df.columns[0]].loc[df[df.columns[1]]==i].values.tolist(),
                     mode='markers',
                     name = "",                 
-                    text=text*len(df.Videos.loc[df["Understood"]==i]),                    
+                    text=text*len(df[df.columns[0]].loc[df[df.columns[1]]==i]),                    
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
@@ -878,8 +888,8 @@ class V010:
         trace = []
         trace.append(
             Bar(
-                x=df.Misunderstood.values,
-                y=df.Videos.values,
+                x=df[df.columns[2]].values,
+                y=df[df.columns[0]].values,
                 width=[0.07]*20,
                 orientation = 'h',
                 name="",
@@ -890,18 +900,18 @@ class V010:
             )
         )
         
-        for i in range(0, max(df.Misunderstood.values.tolist())+1):
+        for i in range(0, max(df[df.columns[2]].values.tolist())+1):
             text=str(i)+" "+legend['text_p'],
             if i==1:
                 text=str(i)+" "+legend['text_s'],
 
             trace.append(
                 Scatter(
-                    x=[i]*len(df.Videos),
-                    y=df.Videos.loc[df["Misunderstood"]==i].values.tolist(),
+                    x=[i]*len(df[df.columns[0]]),
+                    y=df[df.columns[0]].loc[df[df.columns[2]]==i].values.tolist(),
                     mode='markers',
                     name = "",                 
-                    text=text*len(df.Videos.loc[df["Misunderstood"]==i]),                    
+                    text=text*len(df[df.columns[0]].loc[df[df.columns[2]]==i]),                    
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
@@ -979,13 +989,13 @@ class V010:
                         "text_s":"student",
                         "text_p":"students",
                     }
-        df = self._df_sum_feedback.sort_values(by=["Misunderstood","Videos"])
+        df = self._df_sum_feedback.sort_values(by=[self._df_sum_feedback.columns[2],self._df_sum_feedback.columns[0]])
         
         trace = []
         trace.append(
             Bar(
-                x=df.Misunderstood.values,
-                y=df.Videos.values,
+                x=df[df.columns[2]].values,
+                y=df[df.columns[0]].values,
                 width=[0.07]*20,
                 orientation = 'h',
                 name="",
@@ -996,18 +1006,18 @@ class V010:
             )
         )
         
-        for i in range(0, max(df.Misunderstood.values.tolist())+1):
+        for i in range(0, max(df[df.columns[2]].values.tolist())+1):
             text=str(i)+" "+legend['text_p'],
             if i==1:
                 text=str(i)+" "+legend['text_s'],
 
             trace.append(
                 Scatter(
-                    x=[i]*len(df.Videos),
-                    y=df.Videos.loc[df["Misunderstood"]==i].values.tolist(),
+                    x=[i]*len(df[df.columns[0]]),
+                    y=df[df.columns[0]].loc[df[df.columns[2]]==i].values.tolist(),
                     mode='markers',
                     name = "",                 
-                    text=text*len(df.Videos.loc[df["Misunderstood"]==i]),                    
+                    text=text*len(df[df.columns[0]].loc[df[df.columns[2]]==i]),                    
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
@@ -1886,7 +1896,7 @@ class V010:
         trace = []
         for i in range(1,len(df.columns[1:len(df.columns)])): 
             trace.append(Bar(
-                    x=df.Videos.values,
+                    x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
                     # name=df.columns[i]
                     name=legend['columns'][i]
@@ -1948,12 +1958,12 @@ class V010:
                         "columns":{1:"Understood", 2:"Misunderstood"}
                     }
         
-        df = self._df_sum_feedback.sort_values(by=["Understood","Videos"])
+        df = self._df_sum_feedback.sort_values(by=[self._df_sum_feedback.columns[1],self._df_sum_feedback.columns[0]])
         
         trace = []
         for i in range(1,len(df.columns[1:len(df.columns)])): 
             trace.append(Bar(
-                    x=df.Videos.values,
+                    x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
                     # name=df.columns[i]
                     name=legend['columns'][i]
@@ -2015,12 +2025,12 @@ class V010:
                         "columns":{1:"Understood", 2:"Misunderstood"}
                     }
         
-        df = self._df_sum_feedback.sort_values(by=["Misunderstood","Videos"])
+        df = self._df_sum_feedback.sort_values(by=[self._df_sum_feedback.columns[2],self._df_sum_feedback.columns[0]])
         
         trace = []
         for i in range(1,len(df.columns[1:len(df.columns)])): 
             trace.append(Bar(
-                    x=df.Videos.values,
+                    x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
                     # name=df.columns[i]
                     name=legend['columns'][i]
@@ -2087,7 +2097,7 @@ class V010:
         trace = []
         for i in range(1,len(df.columns[1:len(df.columns)])):         
             trace.append(Bar(
-                    x=df.Videos.values,
+                    x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
                     # name=df.columns[i]
                     name=legend['columns'][i]
@@ -2150,11 +2160,11 @@ class V010:
                         "columns":{1:"Understood", 2:"Misunderstood"}
                     }
 
-        df = self._df_sum_feedback.sort_values(by=["Understood","Videos"])
+        df = self._df_sum_feedback.sort_values(by=[self._df_sum_feedback.columns[1],self._df_sum_feedback.columns[0]])
         trace = []
         for i in range(1,len(df.columns[1:len(df.columns)])):         
             trace.append(Bar(
-                    x=df.Videos.values,
+                    x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
                     # name=df.columns[i]
                     name=legend['columns'][i]
@@ -2217,11 +2227,11 @@ class V010:
                         "columns":{1:"Understood", 2:"Misunderstood"}
                     }
 
-        df = self._df_sum_feedback.sort_values(by=["Misunderstood","Videos"])
+        df = self._df_sum_feedback.sort_values(by=[self._df_sum_feedback.columns[2],self._df_sum_feedback.columns[0]])
         trace = []
         for i in range(1,len(df.columns[1:len(df.columns)])):         
             trace.append(Bar(
-                    x=df.Videos.values,
+                    x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
                     # name=df.columns[i]
                     name=legend['columns'][i]
@@ -2289,7 +2299,7 @@ class V010:
         for i in range(1,len(df.columns[1:len(df.columns)])):
             trace.append(Bar(                    
                     x=df.iloc[:,i].values,
-                    y=df.Videos.values,
+                    y=df[df.columns[0]].values,
                     # name=df.columns[i],
                     name=legend['columns'][i],
                     orientation = 'h'
@@ -2352,12 +2362,12 @@ class V010:
                         "columns":{1:"Understood", 2:"Misunderstood"}
                     }
 
-        df = self._df_sum_feedback.sort_values(by=["Understood","Videos"])
+        df = self._df_sum_feedback.sort_values(by=[self._df_sum_feedback.columns[1],self._df_sum_feedback.columns[0]])
         trace = []
         for i in range(1,len(df.columns[1:len(df.columns)])):
             trace.append(Bar(                    
                     x=df.iloc[:,i].values,
-                    y=df.Videos.values,
+                    y=df[df.columns[0]].values,
                     # name=df.columns[i],
                     name=legend['columns'][i],
                     orientation = 'h'
@@ -2420,12 +2430,12 @@ class V010:
                         "columns":{1:"Understood", 2:"Misunderstood"}
                     }
 
-        df = self._df_sum_feedback.sort_values(by=["Misunderstood","Videos"])
+        df = self._df_sum_feedback.sort_values(by=[self._df_sum_feedback.columns[2],self._df_sum_feedback.columns[0]])
         trace = []
         for i in range(1,len(df.columns[1:len(df.columns)])):
             trace.append(Bar(                    
                     x=df.iloc[:,i].values,
-                    y=df.Videos.values,
+                    y=df[df.columns[0]].values,
                     # name=df.columns[i],
                     name=legend['columns'][i],
                     orientation = 'h'
