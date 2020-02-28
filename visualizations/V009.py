@@ -37,7 +37,8 @@ class V009:
     def load_dataset(self, url):
         pass
 
-    def generate_dataset(self, number_actions = 100, video_size = 30, rand_names = []):
+    def generate_dataset(self, number_actions = 100, video_size = 30, number_students = 20, rand_names = []):
+        self.NUMBER_STUDENTS = number_students
         self.NUMBER_ACTIONS = number_actions
         self.VIDEO_SIZE = video_size
 
