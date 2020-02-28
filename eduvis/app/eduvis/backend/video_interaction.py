@@ -1,8 +1,11 @@
+import numpy as np
 import pandas as pd
 import os, sys
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath("visualizations"))))
 
+from app.eduvis.constants import LANGUAGE
+from app.eduvis.constants import RANDOM_NUMBER_STUDENTS
 from app.eduvis.backend.connection_db import Connection_DB
 from visualizations import V009
 
@@ -12,16 +15,19 @@ class Video_Interaction:
     _dashboard_type = None
     _conn = Connection_DB()
     _students = pd.DataFrame()
-    _view9 = V009.V009(type_result = "flask",language = "pt")    
+    _view9 = V009.V009(type_result = "flask",language = LANGUAGE)
 
     def __init__(self,conn,user_id,dashboard_id,dashboard_type):
         self._conn = conn
         self._user_id = user_id
         self._dashboard_id = dashboard_id
         self._dashboard_type = dashboard_type
-        self._students = pd.read_csv("app/eduvis/names.csv")
+        self.number_students = RANDOM_NUMBER_STUDENTS
+        names = pd.read_csv("app/eduvis/names.csv")        
+        self._students = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.number_students)]
+        self._students.sort()
 
-        self._view9.generate_dataset(number_actions = 100, video_size = 30, students_names = self._students)
+        self._view9.generate_dataset(number_actions = 100, video_size = 30, number_students = self.number_students, rand_names = self._students)
     
     def title(self):
         res = None

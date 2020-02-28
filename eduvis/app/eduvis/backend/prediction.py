@@ -1,8 +1,11 @@
+import numpy as np
 import pandas as pd
 import os, sys
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath("visualizations"))))
 
+from app.eduvis.constants import LANGUAGE
+from app.eduvis.constants import RANDOM_NUMBER_STUDENTS
 from app.eduvis.backend.connection_db import Connection_DB
 from visualizations import V007
 
@@ -12,16 +15,19 @@ class Prediction:
     _dashboard_type = None
     _conn = Connection_DB()
     _students = pd.DataFrame()
-    _view7 = V007.V007(type_result = "flask",language = "pt")
+    _view7 = V007.V007(type_result = "flask",language = LANGUAGE)
 
     def __init__(self,conn,user_id,dashboard_id,dashboard_type):
         self._conn = conn
         self._user_id = user_id
         self._dashboard_id = dashboard_id
         self._dashboard_type = dashboard_type
-        self._students = pd.read_csv("app/eduvis/names.csv")
+        self.number_students = RANDOM_NUMBER_STUDENTS
+        names = pd.read_csv("app/eduvis/names.csv")        
+        self._students = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.number_students)]
+        self._students.sort()
 
-        self._view7.generate_dataset(number_students = 60, students_names = self._students)
+        self._view7.generate_dataset(number_students = self.number_students, rand_names = self._students)
     
     def title(self):
         res = None

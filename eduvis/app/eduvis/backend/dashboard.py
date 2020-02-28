@@ -1,9 +1,12 @@
+import numpy as np
 import pandas as pd
 import os, sys
 import json
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath("visualizations"))))
 
+from app.eduvis.constants import LANGUAGE
+from app.eduvis.constants import RANDOM_NUMBER_STUDENTS
 from app.eduvis.backend.connection_db import Connection_DB
 from visualizations import V001, V002, V003, V004, V005, V006, V007, V008, V009, V010, V011
 # from app.eduvis import V001
@@ -13,7 +16,7 @@ class Dashboard:
     _dashboard_id = None
     _dashboard_type = None
     _conn = Connection_DB()
-    _language = "pt"
+    _language = LANGUAGE
     _students = pd.DataFrame()
     _view1 = None
     _view2 = None
@@ -32,7 +35,10 @@ class Dashboard:
         self._user_id = user_id
         self._dashboard_id = dashboard_id
         self._dashboard_type = dashboard_type
-        self._students = pd.read_csv("app/eduvis/names.csv")
+        self.number_students = RANDOM_NUMBER_STUDENTS
+        names = pd.read_csv("app/eduvis/names.csv")
+        self._students = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.number_students)]
+        self._students.sort()
 
     def set_dashboard(self,data):
         # print("-----------------------------")
@@ -135,37 +141,37 @@ class Dashboard:
     def load_views(self,view):
         if view == "V001" and self._view1 == None:
             self._view1 = V001.V001(type_result = "flask",language = self._language)
-            self._view1.generate_dataset(number_students = 20, number_assigns = 10, students_names = self._students)
+            self._view1.generate_dataset(number_students = self.number_students, number_assigns = 10, rand_names = self._students)
         elif view == "V002" and self._view2 == None:
             self._view2 = V002.V002(type_result = "flask",language = self._language)
-            self._view2.generate_dataset(number_students = 20, students_names = self._students)
+            self._view2.generate_dataset(number_students = self.number_students, rand_names = self._students)
         elif view == "V003" and self._view3 == None:
             self._view3 = V003.V003(type_result = "flask",language = self._language)
-            self._view3.generate_dataset(number_students = 20, students_names = self._students)
+            self._view3.generate_dataset(number_students = self.number_students, rand_names = self._students)
         elif view == "V004" and self._view4 == None:
             self._view4 = V004.V004(type_result = "flask",language = self._language)
-            self._view4.generate_dataset(number_students = 20, students_names = self._students)
+            self._view4.generate_dataset(number_students = self.number_students, rand_names = self._students)
         elif view == "V005" and self._view5 == None:
             self._view5 = V005.V005(type_result = "flask",language = self._language)
-            self._view5.generate_dataset(number_students = 60, students_names = self._students)
+            self._view5.generate_dataset(number_students = self.number_students, rand_names = self._students)
         elif view == "V006" and self._view6 == None:
             self._view6 = V006.V006(type_result = "flask",language = self._language)
-            self._view6.generate_dataset(number_students = 60, students_names = self._students)
+            self._view6.generate_dataset(number_students = self.number_students, rand_names = self._students)
         elif view == "V007" and self._view7 == None:
             self._view7 = V007.V007(type_result = "flask",language = self._language)
-            self._view7.generate_dataset(number_students = 60, students_names = self._students)
+            self._view7.generate_dataset(number_students = self.number_students, rand_names = self._students)
         elif view == "V008" and self._view8 == None:
             self._view8 = V008.V008(type_result = "flask",language = self._language)
-            self._view8.generate_dataset(number_students=35, number_weeks=7, students_names = self._students)
+            self._view8.generate_dataset(number_students = self.number_students, number_weeks=7, rand_names = self._students)
         elif view == "V009" and self._view9 == None:
             self._view9 = V009.V009(type_result = "flask",language = self._language)
-            self._view9.generate_dataset(number_actions = 100, video_size = 30, students_names = self._students)
+            self._view9.generate_dataset(number_actions = 100, video_size = 30, number_students = self.number_students, rand_names = self._students)
         elif view == "V010" and self._view10 == None:
             self._view10 = V010.V010(type_result = "flask",language = self._language)
-            self._view10.generate_dataset(number_students=35, number_video=10, students_names = self._students)
+            self._view10.generate_dataset(number_students = self.number_students, number_video=10, rand_names = self._students)
         elif view == "V011" and self._view11 == None:
             self._view11 = V011.V011(type_result = "flask",language = self._language)
-            self._view11.generate_dataset(number_students = 60, students_names = self._students)
+            self._view11.generate_dataset(number_students = self.number_students, rand_names = self._students)
 
     def title(self):
         lst_dash_charts = self._conn.select("user_dashboard_charts_active",(self._user_id, self._dashboard_id, self._dashboard_type))
