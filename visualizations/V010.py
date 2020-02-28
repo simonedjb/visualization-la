@@ -97,12 +97,12 @@ class V010:
 
         trace = [Table(
             header=dict(
-                values=list(df.columns),
+                values=list(df.columns)+["Total"],
                 fill = dict(color='#C2D4FF'),
                 align = 'center'
             ),
             cells=dict(
-                values=[df[i].tolist() for i in df.columns],
+                values=[df[i].tolist() for i in df.columns]+[[sum(df.iloc[j,1:]) for j in range(len(df))]],
                 fill = dict(color='#F5F8FF'),
                 align = ['left','center']
             )
@@ -678,7 +678,7 @@ class V010:
             Bar(
                 x=df[df.columns[1]].values,
                 y=df[df.columns[0]].values,
-                width=[0.07]*20,
+                width=[0.07]*len(df[df.columns[1]].values),
                 orientation = 'h',
                 name="",
                 text="",
@@ -784,7 +784,7 @@ class V010:
             Bar(
                 x=df[df.columns[1]].values,
                 y=df[df.columns[0]].values,
-                width=[0.07]*20,
+                width=[0.07]*len(df[df.columns[1]].values),
                 orientation = 'h',
                 name="",
                 text="",
@@ -890,7 +890,7 @@ class V010:
             Bar(
                 x=df[df.columns[2]].values,
                 y=df[df.columns[0]].values,
-                width=[0.07]*20,
+                width=[0.07]*len(df[df.columns[2]].values),
                 orientation = 'h',
                 name="",
                 text="",
@@ -996,7 +996,7 @@ class V010:
             Bar(
                 x=df[df.columns[2]].values,
                 y=df[df.columns[0]].values,
-                width=[0.07]*20,
+                width=[0.07]*len(df[df.columns[2]].values),
                 orientation = 'h',
                 name="",
                 text="",
@@ -2622,7 +2622,7 @@ class V010:
         self.graph_32()
         
 
-# instance = V010()
-# instance.generate_dataset(number_students=35, number_video=10)
+instance = V010()
+instance.generate_dataset(number_students=35, number_video=10)
 # instance.print_all_graphs("pt")
 # instance.print_all_graphs("en")
