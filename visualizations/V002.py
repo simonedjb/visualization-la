@@ -1196,7 +1196,7 @@ class V002:
             x=self._df_sum_access.iloc[:,1].values,
             y=self._df_sum_access.iloc[:,0].values,
             orientation = 'h',
-            width=[0.04]*20,
+            width=[0.04]*len(self._df_sum_access.iloc[:,1].values),
             name="",
             text="",
             marker=dict(
@@ -1292,7 +1292,7 @@ class V002:
             x=df.iloc[:,1].values,
             y=df.iloc[:,0].values,
             orientation = 'h',
-            width=[0.04]*20,
+            width=[0.04]*len(df.iloc[:,1].values),
             name="",
             text="",
             marker=dict(

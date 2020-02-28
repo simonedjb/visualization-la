@@ -110,7 +110,7 @@ class V001:
                 align = 'center'
             ),
             cells=dict(
-                values=[df[i].tolist() for i in df.columns]+[self._students["Total_Done"].tolist()] ,
+                values=[df[i].tolist() for i in df.columns]+[self._students["Total_Done"].tolist()],
                 fill = dict(color='#F5F8FF'),
                 align = ['left','center']
             )
@@ -655,7 +655,7 @@ class V001:
             Bar(
                 x=df.iloc[:,1].values,
                 y=df.iloc[:,0].values,
-                width=[0.07]*20,
+                width=[0.07]*self.NUMBER_STUDENTS,
                 orientation = 'h',
                 name="",
                 text="",
@@ -760,7 +760,7 @@ class V001:
             Bar(
                 x=df.iloc[:,1].values,
                 y=df.iloc[:,0].values,
-                width=[0.07]*20,
+                width=[0.07]*self.NUMBER_STUDENTS,
                 orientation = 'h',
                 name="",
                 text="",
@@ -866,7 +866,7 @@ class V001:
             Bar(
                 x=df.iloc[:,1].values,
                 y=df.iloc[:,0].values,
-                width=[0.07]*20,
+                width=[0.07]*self.NUMBER_STUDENTS,
                 orientation = 'h',
                 name="",
                 text="",
@@ -971,7 +971,7 @@ class V001:
             Bar(
                 x=df.iloc[:,1].values,
                 y=df.iloc[:,0].values,
-                width=[0.07]*20,
+                width=[0.07]*self.NUMBER_STUDENTS,
                 orientation = 'h',
                 name="",
                 text="",
@@ -1569,13 +1569,13 @@ class V001:
                         "text_p":"students",
                     }
         df = self._assigns.iloc[:,[0,1]]
-        
+
         trace = []
         trace.append(
             Bar(
                 x=df.iloc[:,1].values,
                 y=df.iloc[:,0].values,
-                width=[0.04]*20,
+                width=[0.04]*len(df.iloc[:,1].values),
                 orientation = 'h',
                 name="",
                 text="",
@@ -1684,7 +1684,7 @@ class V001:
             Bar(
                 x=df.iloc[:,1].values,
                 y=df.iloc[:,0].values,
-                width=[0.04]*20,
+                width=[0.04]*len(df.iloc[:,1].values),
                 orientation = 'h',
                 name="",
                 text="",
@@ -1793,7 +1793,7 @@ class V001:
             Bar(
                 x=df.iloc[:,1].values,
                 y=df.iloc[:,0].values,
-                width=[0.04]*20,
+                width=[0.04]*len(df.iloc[:,1].values),
                 orientation = 'h',
                 name="",
                 text="",
@@ -1902,7 +1902,7 @@ class V001:
             Bar(
                 x=df.iloc[:,1].values,
                 y=df.iloc[:,0].values,
-                width=[0.04]*20,
+                width=[0.04]*len(df.iloc[:,1].values),
                 orientation = 'h',
                 name="",
                 text="",

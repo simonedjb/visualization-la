@@ -2622,7 +2622,7 @@ class V010:
         self.graph_32()
         
 
-instance = V010()
-instance.generate_dataset(number_students=35, number_video=10)
+# instance = V010()
+# instance.generate_dataset(number_students=35, number_video=10)
 # instance.print_all_graphs("pt")
 # instance.print_all_graphs("en")

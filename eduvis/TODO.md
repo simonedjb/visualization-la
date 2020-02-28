@@ -1,13 +1,14 @@
+- BUG - Session não está funcionando
 - Adicionar filtros nos gráficos.
 - Atualizar o número de gráficos selecionados ao excluir ou selecionar o gráfico
 - Adicionar um iframe de carregando.
 - Melhorar legendas e hovertexts
 
-- No V001, adicionar na tabela uma coluna de total. Adicionar um gráfico de Treemap e Pie.
+- No V001, adicionar um gráfico de Treemap e Pie.
 - No V002, adicionar um gráfico de Treemap e Pie para visualizar os materiais mais acessados.
 - No V005, adicionar gráfico de linha e histogram em cada correção. Os pontos do gráfico de linha são as médias de cada feature por acesso.
 - No V006, adicionar gráfico de linha e histogram em cada correção. Os pontos do gráfico de linha são as médias de cada feature por idade.
 - No V008, adicionar gráfico de linha e histogram (acesso por dia e acesso por semana). Os pontos do gráfico de linha são as médias de acesso por dia ou por semana.
 - No V009, Group Bar Chart e Stacked Barchart exibindo a quantidade de ações de cada categoria por aluno.
-- No V010, adicionar na tabela uma coluna de total. Adicionar um gráfico de Treemap e Pie.
+- No V010, adicionar um gráfico de Treemap e Pie.
 - No V011, adicionar gráfico de linha e histogram em cada correção. Os pontos do gráfico de linha são as médias de cada feature por acesso.
