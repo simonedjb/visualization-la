@@ -15,19 +15,23 @@ class Video_Understood:
     _dashboard_type = None
     _conn = Connection_DB()
     _students = pd.DataFrame()
+    _preprocessed_chart = True
     _view10 = V010.V010(type_result = "flask",language = LANGUAGE)
 
-    def __init__(self,conn,user_id,dashboard_id,dashboard_type):
+    def __init__(self,conn,user_id,dashboard_id,dashboard_type,preprocessed_chart=True):
         self._conn = conn
         self._user_id = user_id
         self._dashboard_id = dashboard_id
         self._dashboard_type = dashboard_type
-        self.number_students = RANDOM_NUMBER_STUDENTS
-        names = pd.read_csv("app/eduvis/names.csv")
-        self._students = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.number_students)]
-        self._students.sort()
+        self._preprocessed_chart = preprocessed_chart
+        
+        if not self._preprocessed_chart:
+            self.number_students = RANDOM_NUMBER_STUDENTS
+            names = pd.read_csv("app/eduvis/names.csv")
+            self._students = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.number_students)]
+            self._students.sort()
 
-        self._view10.generate_dataset(number_students = self.number_students, number_video=10, rand_names = self._students)
+            self._view10.generate_dataset(number_students = self.number_students, number_video=10, rand_names = self._students)
     
     def title(self):
         res = None
@@ -48,7 +52,10 @@ class Video_Understood:
             curr = lst_charts[i][0].split("@")            
             id = int(curr[1])
             # print(id)
-            charts.append(self._view10.get_chart(id)[focus_chart])
+            if self._preprocessed_chart:
+                charts.append(self._view10.get_preprocessed_chart(id)[focus_chart])
+            else:
+                charts.append(self._view10.get_chart(id)[focus_chart])
         
         # Vídeos que os estudantes entenderam e não entenderam # 10.1 # T22
         # charts = [self._view10.graph_01()[focus_chart],                                      #01

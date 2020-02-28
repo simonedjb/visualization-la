@@ -18,6 +18,7 @@ class Dashboard:
     _conn = Connection_DB()
     _language = LANGUAGE
     _students = pd.DataFrame()
+    _preprocessed_chart = True
     _view1 = None
     _view2 = None
     _view3 = None
@@ -30,15 +31,18 @@ class Dashboard:
     _view10 = None
     _view11 = None
 
-    def __init__(self,conn,user_id,dashboard_id,dashboard_type):
+    def __init__(self,conn,user_id,dashboard_id,dashboard_type,preprocessed_chart=True):
         self._conn = conn
         self._user_id = user_id
         self._dashboard_id = dashboard_id
         self._dashboard_type = dashboard_type
-        self.number_students = RANDOM_NUMBER_STUDENTS
-        names = pd.read_csv("app/eduvis/names.csv")
-        self._students = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.number_students)]
-        self._students.sort()
+        self._preprocessed_chart = preprocessed_chart
+        
+        if not self._preprocessed_chart:
+            self.number_students = RANDOM_NUMBER_STUDENTS
+            names = pd.read_csv("app/eduvis/names.csv")
+            self._students = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.number_students)]
+            self._students.sort()
 
     def set_dashboard(self,data):
         # print("-----------------------------")
@@ -141,37 +145,48 @@ class Dashboard:
     def load_views(self,view):
         if view == "V001" and self._view1 == None:
             self._view1 = V001.V001(type_result = "flask",language = self._language)
-            self._view1.generate_dataset(number_students = self.number_students, number_assigns = 10, rand_names = self._students)
+            if not self._preprocessed_chart:
+                self._view1.generate_dataset(number_students = self.number_students, number_assigns = 10, rand_names = self._students)
         elif view == "V002" and self._view2 == None:
             self._view2 = V002.V002(type_result = "flask",language = self._language)
-            self._view2.generate_dataset(number_students = self.number_students, rand_names = self._students)
+            if not self._preprocessed_chart:
+                self._view2.generate_dataset(number_students = self.number_students, rand_names = self._students)
         elif view == "V003" and self._view3 == None:
             self._view3 = V003.V003(type_result = "flask",language = self._language)
-            self._view3.generate_dataset(number_students = self.number_students, rand_names = self._students)
+            if not self._preprocessed_chart:
+                self._view3.generate_dataset(number_students = self.number_students, rand_names = self._students)
         elif view == "V004" and self._view4 == None:
             self._view4 = V004.V004(type_result = "flask",language = self._language)
-            self._view4.generate_dataset(number_students = self.number_students, rand_names = self._students)
+            if not self._preprocessed_chart:
+                self._view4.generate_dataset(number_students = self.number_students, rand_names = self._students)
         elif view == "V005" and self._view5 == None:
             self._view5 = V005.V005(type_result = "flask",language = self._language)
-            self._view5.generate_dataset(number_students = self.number_students, rand_names = self._students)
+            if not self._preprocessed_chart:
+                self._view5.generate_dataset(number_students = self.number_students, rand_names = self._students)
         elif view == "V006" and self._view6 == None:
             self._view6 = V006.V006(type_result = "flask",language = self._language)
-            self._view6.generate_dataset(number_students = self.number_students, rand_names = self._students)
+            if not self._preprocessed_chart:
+                self._view6.generate_dataset(number_students = self.number_students, rand_names = self._students)
         elif view == "V007" and self._view7 == None:
             self._view7 = V007.V007(type_result = "flask",language = self._language)
-            self._view7.generate_dataset(number_students = self.number_students, rand_names = self._students)
+            if not self._preprocessed_chart:
+                self._view7.generate_dataset(number_students = self.number_students, rand_names = self._students)
         elif view == "V008" and self._view8 == None:
             self._view8 = V008.V008(type_result = "flask",language = self._language)
-            self._view8.generate_dataset(number_students = self.number_students, number_weeks=7, rand_names = self._students)
+            if not self._preprocessed_chart:
+                self._view8.generate_dataset(number_students = self.number_students, number_weeks=7, rand_names = self._students)
         elif view == "V009" and self._view9 == None:
             self._view9 = V009.V009(type_result = "flask",language = self._language)
-            self._view9.generate_dataset(number_actions = 100, video_size = 30, number_students = self.number_students, rand_names = self._students)
+            if not self._preprocessed_chart:
+                self._view9.generate_dataset(number_actions = 100, video_size = 30, number_students = self.number_students, rand_names = self._students)
         elif view == "V010" and self._view10 == None:
             self._view10 = V010.V010(type_result = "flask",language = self._language)
-            self._view10.generate_dataset(number_students = self.number_students, number_video=10, rand_names = self._students)
+            if not self._preprocessed_chart:
+                self._view10.generate_dataset(number_students = self.number_students, number_video=10, rand_names = self._students)
         elif view == "V011" and self._view11 == None:
             self._view11 = V011.V011(type_result = "flask",language = self._language)
-            self._view11.generate_dataset(number_students = self.number_students, rand_names = self._students)
+            if not self._preprocessed_chart:
+                self._view11.generate_dataset(number_students = self.number_students, rand_names = self._students)
 
     def title(self):
         lst_dash_charts = self._conn.select("user_dashboard_charts_active",(self._user_id, self._dashboard_id, self._dashboard_type))
@@ -225,27 +240,60 @@ class Dashboard:
             id = int(curr[1])            
             self.load_views(curr[0])
             if curr[0] == "V001":
-                charts.append(self._view1.get_chart(id)[focus_chart])
+                if self._preprocessed_chart:
+                    charts.append(self._view1.get_preprocessed_chart(id)[focus_chart])
+                else:
+                    charts.append(self._view1.get_chart(id)[focus_chart])
             elif curr[0] == "V002":
-                charts.append(self._view2.get_chart(id)[focus_chart])
+                if self._preprocessed_chart:
+                    charts.append(self._view2.get_preprocessed_chart(id)[focus_chart])
+                else:
+                    charts.append(self._view2.get_chart(id)[focus_chart])
             elif curr[0] == "V003":
-                charts.append(self._view3.get_chart(id)[focus_chart])
+                if self._preprocessed_chart:
+                    charts.append(self._view3.get_preprocessed_chart(id)[focus_chart])
+                else:
+                    charts.append(self._view3.get_chart(id)[focus_chart])
             elif curr[0] == "V004":
-                charts.append(self._view4.get_chart(id)[focus_chart])
+                if self._preprocessed_chart:
+                    charts.append(self._view4.get_preprocessed_chart(id)[focus_chart])
+                else:
+                    charts.append(self._view4.get_chart(id)[focus_chart])
             elif curr[0] == "V005":
-                charts.append(self._view5.get_chart(id)[focus_chart])
+                if self._preprocessed_chart:
+                    charts.append(self._view5.get_preprocessed_chart(id)[focus_chart])
+                else:
+                    charts.append(self._view5.get_chart(id)[focus_chart])
             elif curr[0] == "V006":
-                charts.append(self._view6.get_chart(id)[focus_chart])
+                if self._preprocessed_chart:
+                    charts.append(self._view6.get_preprocessed_chart(id)[focus_chart])
+                else:
+                    charts.append(self._view6.get_chart(id)[focus_chart])
             elif curr[0] == "V007":
-                charts.append(self._view7.get_chart(id)[focus_chart])
+                if self._preprocessed_chart:
+                    charts.append(self._view7.get_preprocessed_chart(id)[focus_chart])
+                else:
+                    charts.append(self._view7.get_chart(id)[focus_chart])
             elif curr[0] == "V008":
-                charts.append(self._view8.get_chart(id)[focus_chart])
+                if self._preprocessed_chart:
+                    charts.append(self._view8.get_preprocessed_chart(id)[focus_chart])
+                else:
+                    charts.append(self._view8.get_chart(id)[focus_chart])
             elif curr[0] == "V009":
-                charts.append(self._view9.get_chart(id)[focus_chart])
+                if self._preprocessed_chart:
+                    charts.append(self._view9.get_preprocessed_chart(id)[focus_chart])
+                else:
+                    charts.append(self._view9.get_chart(id)[focus_chart])
             elif curr[0] == "V010":
-                charts.append(self._view10.get_chart(id)[focus_chart])
+                if self._preprocessed_chart:
+                    charts.append(self._view10.get_preprocessed_chart(id)[focus_chart])
+                else:
+                    charts.append(self._view10.get_chart(id)[focus_chart])
             elif curr[0] == "V011":
-                charts.append(self._view11.get_chart(id)[focus_chart])
+                if self._preprocessed_chart:
+                    charts.append(self._view11.get_preprocessed_chart(id)[focus_chart])
+                else:
+                    charts.append(self._view11.get_chart(id)[focus_chart])
         
         # Estudantes que fizeram e não fizeram as tarefas # 1.1
         

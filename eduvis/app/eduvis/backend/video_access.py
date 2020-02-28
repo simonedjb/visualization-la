@@ -15,19 +15,23 @@ class Video_Access:
     _dashboard_type = None
     _conn = Connection_DB()
     _students = pd.DataFrame()
+    _preprocessed_chart = True
     _view4 = V004.V004(type_result = "flask",language = LANGUAGE)
 
-    def __init__(self,conn,user_id,dashboard_id,dashboard_type):
+    def __init__(self,conn,user_id,dashboard_id,dashboard_type,preprocessed_chart=True):
         self._conn = conn
         self._user_id = user_id
         self._dashboard_id = dashboard_id
         self._dashboard_type = dashboard_type
-        self.number_students = RANDOM_NUMBER_STUDENTS
-        names = pd.read_csv("app/eduvis/names.csv")        
-        self._students = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.number_students)]
-        self._students.sort()
+        self._preprocessed_chart = preprocessed_chart
+        
+        if not self._preprocessed_chart:
+            self.number_students = RANDOM_NUMBER_STUDENTS
+            names = pd.read_csv("app/eduvis/names.csv")        
+            self._students = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.number_students)]
+            self._students.sort()
 
-        self._view4.generate_dataset(number_students = self.number_students, rand_names = self._students)
+            self._view4.generate_dataset(number_students = self.number_students, rand_names = self._students)
     
     def title(self):
         res = None
@@ -48,7 +52,10 @@ class Video_Access:
             curr = lst_charts[i][0].split("@")            
             id = int(curr[1])
             # print(id)
-            charts.append(self._view4.get_chart(id)[focus_chart])
+            if self._preprocessed_chart:
+                charts.append(self._view4.get_preprocessed_chart(id)[focus_chart])
+            else:
+                charts.append(self._view4.get_chart(id)[focus_chart])
 
         # Tempo de permanência dos estudantes nos vídeos # 4.1
         # charts = [self._view4.graph_01()[focus_chart], #1
