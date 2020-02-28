@@ -643,7 +643,7 @@ function loadMenu(menuListInfo,amountSelectedVG) {
 
   var liDashboard = document.createElement("li");
   var liDashboardatt1 = document.createAttribute("class");
-  if( window.location.pathname.split("/")[2] == "dashboard" ){
+  if( window.location.pathname.split("/")[2] == "customizable_dashboard" ){
     liDashboardatt1.value = "active ripple bg-light2-grey hover-opt";
   }else{
     liDashboardatt1.value = "active ripple hover-opt";

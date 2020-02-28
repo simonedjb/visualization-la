@@ -9,7 +9,6 @@ from app.eduvis.constants import LANGUAGE
 from app.eduvis.constants import RANDOM_NUMBER_STUDENTS
 from app.eduvis.backend.connection_db import Connection_DB
 from visualizations import V001, V002, V003, V004, V005, V006, V007, V008, V009, V010, V011
-# from app.eduvis import V001
 
 class Dashboard:
     _user_id = None
@@ -508,51 +507,3 @@ class Dashboard:
         #          ]
 
         return charts
-        
-        
-        _ordained_views = [{"View":"V001","Label":"Tarefas",
-                        "Questions":[{"id":"1","Question":"Quais estudantes fizeram e não fizeram as tarefas?","Label":"Estudantes que fizeram e não fizeram as tarefas","Page":"prefv001_1"},
-                                     {"id":"2","Question":"Quais tarefas foram e não foram feitas pelos estudantes?","Label":"Tarefas feitas e não feitas pelos estudantes","Page":"prefv001_2"}]
-                       },
-                       {"View":"V008","Label":"Acesso dos estudantes no AVA",
-                        "Questions":[{"id":"3","Question":"Qual a quantidade de acesso dos estudantes por dia?","Label":"Quantidade de acesso dos estudantes por dia","Page":"prefv008_1"},
-                                     {"id":"4","Question":"Qual a quantidade de acesso dos estudantes por semana?","Label":"Quantidade de acesso dos estudantes por semana","Page":"prefv008_2"}]
-                       },
-                       {"View":"V002","Label":"Acesso dos estudantes aos materiais (ex: videos, ebooks, etc)",
-                        "Questions":[{"id":"5","Question":"Quais os estudantes que mais acessaram os materias?","Label":"Acesso dos estudantes aos materiais (ex: videos, ebooks, etc)","Page":"prefv002_1"},
-                                     {"id":"6","Question":"Quais os materiais mais acessados pelos estudantes?","Label":"Materiais mais acessados pelos estudantes (ex: videos, ebooks, etc)","Page":"prefv002_1"}] #Falta fazer quais os materiais mais acessados pelos estudantes
-                       },
-                       {"View":"V003","Label":"Interação dos estudantes no fórum (ex: postagens, acessos, etc)",
-                        "Questions":[{"id":"7","Question":"Qual o número de acessos, postagens e curtidas dos estudantes?","Label":"Número de acessos, postagens e curtidas dos estudantes","Page":"prefv003_1"}]
-                       },
-                       {"View":"V009","Label":"Interação dos estudantes nos vídeos (play, pause, seek backward, seek forward)",
-                        "Questions":[{"id":"8","Question":"Como os alunos interagem no player de vídeo (play, pause, seek backward, seek forward)?","Label":"Interação dos estudantes nos vídeos (play, pause, seek backward, seek forward)","Page":"prefv009_1"}]
-                       },
-                       {"View":"V004","Label":"Tempo de permanência dos estudantes nos vídeos",
-                        "Questions":[{"id":"9","Question":"Qual tempo de permanência dos estudantes nos vídeos?","Label":"Tempo de permanência dos estudantes nos vídeos","Page":"prefv004_1"}]
-                       },
-                       {"View":"V010","Label":"Entendimento dos vídeos pelos estudantes",
-                        "Questions":[{"id":"10","Question":"Quais vídeos os estudantes entenderam e não entenderam?","Label":"Vídeos que os estudantes entenderam e não entenderam","Page":"prefv010_1"}]
-                       },
-                       {"View":"V005","Label":"Correlação entre as notas e os dados de acesso/interação dos estudantes",
-                        "Questions":[{"id":"11","Question":"Qual a correlação entre as notas e os dados de acesso no AVA?","Label":"Correlação entre as notas e os dados de acesso no AVA","Page":"prefv005_1"},
-                                     {"id":"12","Question":"Qual a correlação entre as notas e os dados de acesso nos AVAs materiais do AVA?","Label":"Correlação entre as notas e os dados de acesso nos AVAs materiais do AVA","Page":"prefv005_1"},
-                                     {"id":"13","Question":"Qual a correlação entre as notas e a quantidade de tarefas feitas?","Label":"Correlação entre as notas e a quantidade de tarefas feitas","Page":"prefv005_1"},
-                                     {"id":"14","Question":"Qual a correlação entre as notas e os dados de acesso no fórum?","Label":"Correlação entre as notas e os dados de acesso no fórum","Page":"prefv005_1"},
-                                     {"id":"15","Question":"Qual a correlação entre as notas e a quantidade de postagens no fórum ?","Label":"Correlação entre as notas e a quantidade de postagens no fórum ","Page":"prefv005_1"},
-                                     {"id":"16","Question":"Qual a correlação entre as notas e a quantidade de postagens de respostas no fórum ?","Label":"Correlação entre as notas e a quantidade de postagens de respostas no fórum ","Page":"prefv005_1"},
-                                     {"id":"17","Question":"Qual a correlação entre as notas e a quantidade de tópicos adicionados no fórum?","Label":"Correlação entre as notas e a quantidade de tópicos adicionados no fórum","Page":"prefv005_1"}]
-                       },
-                       {"View":"V006","Label":"Correlação entre o perfil (idade, cidade de origem, etc.) e os logs de acesso/interação dos estudantes no fórum",
-                        "Questions":[{"id":"18","Question":"Qual a correlação entre a idade dos alunos e os dados de acesso no Fórum?","Label":"Correlação entre a idade dos alunos e os dados de acesso no Fórum","Page":"prefv006_1"},
-                                     {"id":"19","Question":"Qual a correlação entre a idade dos alunos e a quantidade de postagens no Fórum?","Label":"Correlação entre a idade dos alunos e a quantidade de postagens no Fórum","Page":"prefv006_1"},
-                                     {"id":"20","Question":"Qual a correlação entre a idade dos alunos e a quantidade de postagens de respostas no Fórum?","Label":"Correlação entre a idade dos alunos e a quantidade de postagens de respostas no Fórum","Page":"prefv006_1"},
-                                     {"id":"21","Question":"Qual a correlação entre a idade dos alunos e a quantidade de tópicos adicionados no fórum?","Label":"Correlação entre a idade dos alunos e a quantidade de tópicos adicionados no fórum","Page":"prefv006_1"}]
-                       },
-                       {"View":"V011","Label":"Padrão de navegação dos estudantes no AVA",
-                        "Questions":[{"id":"22","Question":"Qual o padrão de navegação dos estudantes no AVA?","Label":"Padrão de navegação dos estudantes no AVA","Page":"prefv011_1"}]
-                       },
-                       {"View":"V007","Label":"Predição das notas e dos estudantes desistentes",
-                        "Questions":[{"id":"23","Question":"Qual a previsão de notas e dos estudantes desistentes?","Label":"Predição das notas e dos estudantes desistentes","Page":"prefv007_1"}]
-                       }
-                      ]
