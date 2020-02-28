@@ -11,9 +11,11 @@ import plotly.plotly as py
 import plotly.tools as tls
 import plotly.graph_objs as go
 
+import os
 import pandas as pd
 import numpy as np
 
+import pickle
 import json
 
 from plotly.utils import PlotlyJSONEncoder
@@ -41,82 +43,85 @@ class V011:
         self._language = language
         self._type_result = type_result
 
-    def generate_dataset(self, number_students = 20, students_names = pd.DataFrame()):
+    def generate_dataset(self, number_students = 20, rand_names = []):
         self.NUMBER_STUDENTS = number_students
 
-        if len(students_names.columns.tolist()) == 0:
-            names = pd.read_csv("assets/names.csv")
+        if (self._language == "pt"):
+            self.DATASET = pd.DataFrame(columns=["Estudantes","Notas",
+        	                                        "Acesso ao AVA","Postagens no Fórum","Respostas no Fórum","Adição de Tópicos no Fórum","Acesso ao Fórum", "Cluster"])
         else:
-            names = students_names
-        rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
-        rand_names.sort()
+            self.DATASET = pd.DataFrame(columns=["Students","Grade",
+        	                                        "AVA Access","Forum Post","Forum Replies","Forum Add Thread","Forum Access", "Cluster"])
 
-
-        self.DATASET = pd.DataFrame(columns=["Students","Grade",
-        	                                 "AVA Access","Forum Post","Forum Replies","Forum Add Thread","Forum Access", "Cluster"])
+        if len(rand_names) == 0:
+            names = pd.read_csv("assets/names.csv")
+            rand_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,self.NUMBER_STUDENTS)]
+            rand_names.sort()
+        else:
+            self.NUMBER_STUDENTS = len(rand_names)
 
         for i in range(0,self.NUMBER_STUDENTS):
-            self.DATASET.loc[i,"Students"] = rand_names[i]
+            self.DATASET.loc[i,self.DATASET.columns[0]] = rand_names[i]
             random_value = random.choice([1,2,3,4,5,6])
             if random_value == 1:
-                self.DATASET.loc[i,"Grade"] = 0
-                self.DATASET.loc[i,"Cluster"] = 0
+                self.DATASET.loc[i,self.DATASET.columns[1]] = 0
+                self.DATASET.loc[i,self.DATASET.columns[len(self.DATASET.columns)-1]] = 0
 
-                self.DATASET.loc[i,"AVA Access"] = np.random.randint(5,26)
-                self.DATASET.loc[i,"Forum Post"] = np.random.randint(0,4)
-                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,4)
-                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,4)
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(0,7)
+                self.DATASET.loc[i,self.DATASET.columns[2]] = np.random.randint(5,26)
+                self.DATASET.loc[i,self.DATASET.columns[3]] = np.random.randint(0,4)
+                self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(0,4)
+                self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(0,4)
+                self.DATASET.loc[i,self.DATASET.columns[6]] =  self.DATASET.loc[i,self.DATASET.columns[3]] + self.DATASET.loc[i,self.DATASET.columns[4]] + self.DATASET.loc[i,self.DATASET.columns[5]] + np.random.randint(0,7)
 
             elif random_value == 2:
-                self.DATASET.loc[i,"Grade"] = int(random.triangular(0,30,80))
-                self.DATASET.loc[i,"Cluster"] = 0
+                self.DATASET.loc[i,self.DATASET.columns[1]] = int(random.triangular(0,30,80))
+                self.DATASET.loc[i,self.DATASET.columns[len(self.DATASET.columns)-1]] = 0
 
-                self.DATASET.loc[i,"AVA Access"] = np.random.randint(20,41)
-                self.DATASET.loc[i,"Forum Post"] = np.random.randint(0,8)
-                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,8)
-                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,4)
-                self.DATASET.loc[i,"Forum Access"] = self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(0,22)
+                self.DATASET.loc[i,self.DATASET.columns[2]] = np.random.randint(20,41)
+                self.DATASET.loc[i,self.DATASET.columns[3]] = np.random.randint(0,8)
+                self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(0,8)
+                self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(0,4)
+                self.DATASET.loc[i,self.DATASET.columns[6]] = self.DATASET.loc[i,self.DATASET.columns[3]] + self.DATASET.loc[i,self.DATASET.columns[4]] + self.DATASET.loc[i,self.DATASET.columns[5]] + np.random.randint(0,22)
 
             elif random_value == 3:
-                self.DATASET.loc[i,"Grade"] = int(random.triangular(50,65,80))
-                self.DATASET.loc[i,"Cluster"] = 1
+                self.DATASET.loc[i,self.DATASET.columns[1]] = int(random.triangular(50,65,80))
+                self.DATASET.loc[i,self.DATASET.columns[len(self.DATASET.columns)-1]] = 1
 
-                self.DATASET.loc[i,"AVA Access"] = np.random.randint(35,57)
-                self.DATASET.loc[i,"Forum Post"] = np.random.randint(1,12)
-                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(0,12)
-                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,8)
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(2,26)
+                self.DATASET.loc[i,self.DATASET.columns[2]] = np.random.randint(35,57)
+                self.DATASET.loc[i,self.DATASET.columns[3]] = np.random.randint(1,12)
+                self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(0,12)
+                self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(0,8)
+                self.DATASET.loc[i,self.DATASET.columns[6]] =  self.DATASET.loc[i,self.DATASET.columns[3]] + self.DATASET.loc[i,self.DATASET.columns[4]] + self.DATASET.loc[i,self.DATASET.columns[5]] + np.random.randint(2,26)
 
             elif random_value == 4:
-                self.DATASET.loc[i,"Grade"] = int(random.triangular(60,75,90))
-                self.DATASET.loc[i,"Cluster"] = 1
+                self.DATASET.loc[i,self.DATASET.columns[1]] = int(random.triangular(60,75,90))
+                self.DATASET.loc[i,self.DATASET.columns[len(self.DATASET.columns)-1]] = 1
 
-                self.DATASET.loc[i,"AVA Access"] = np.random.randint(50,71)
-                self.DATASET.loc[i,"Forum Post"] = np.random.randint(2,21)
-                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(2,21)
-                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(0,7)
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(4,31)
+                self.DATASET.loc[i,self.DATASET.columns[2]] = np.random.randint(50,71)
+                self.DATASET.loc[i,self.DATASET.columns[3]] = np.random.randint(2,21)
+                self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(2,21)
+                self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(0,7)
+                self.DATASET.loc[i,self.DATASET.columns[6]] =  self.DATASET.loc[i,self.DATASET.columns[3]] + self.DATASET.loc[i,self.DATASET.columns[4]] + self.DATASET.loc[i,self.DATASET.columns[5]] + np.random.randint(4,31)
 
             elif random_value == 5:
-                self.DATASET.loc[i,"Grade"] = int(random.triangular(70,85,100))
-                self.DATASET.loc[i,"Cluster"] = 2
+                self.DATASET.loc[i,self.DATASET.columns[1]] = int(random.triangular(70,85,100))
+                self.DATASET.loc[i,self.DATASET.columns[len(self.DATASET.columns)-1]] = 2
 
-                self.DATASET.loc[i,"AVA Access"] = np.random.randint(65,86)
-                self.DATASET.loc[i,"Forum Post"] = np.random.randint(5,36)
-                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(5,36)
-                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(1,11)
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(6,36)
+                self.DATASET.loc[i,self.DATASET.columns[2]] = np.random.randint(65,86)
+                self.DATASET.loc[i,self.DATASET.columns[3]] = np.random.randint(5,36)
+                self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(5,36)
+                self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(1,11)
+                self.DATASET.loc[i,self.DATASET.columns[6]] =  self.DATASET.loc[i,self.DATASET.columns[3]] + self.DATASET.loc[i,self.DATASET.columns[4]] + self.DATASET.loc[i,self.DATASET.columns[5]] + np.random.randint(6,36)
 
             elif random_value == 6:
-                self.DATASET.loc[i,"Grade"] = int(random.triangular(70,95,100))
-                self.DATASET.loc[i,"Cluster"] = 2
+                self.DATASET.loc[i,self.DATASET.columns[1]] = int(random.triangular(70,95,100))
+                self.DATASET.loc[i,self.DATASET.columns[len(self.DATASET.columns)-1]] = 2
 
-                self.DATASET.loc[i,"AVA Access"] = np.random.randint(80,101)
-                self.DATASET.loc[i,"Forum Post"] = np.random.randint(10,41)
-                self.DATASET.loc[i,"Forum Replies"] = np.random.randint(10,41)
-                self.DATASET.loc[i,"Forum Add Thread"] = np.random.randint(3,14)
-                self.DATASET.loc[i,"Forum Access"] =  self.DATASET.loc[i,"Forum Post"] + self.DATASET.loc[i,"Forum Replies"] + self.DATASET.loc[i,"Forum Add Thread"] + np.random.randint(10,41)
+                self.DATASET.loc[i,self.DATASET.columns[2]] = np.random.randint(80,101)
+                self.DATASET.loc[i,self.DATASET.columns[3]] = np.random.randint(10,41)
+                self.DATASET.loc[i,self.DATASET.columns[4]] = np.random.randint(10,41)
+                self.DATASET.loc[i,self.DATASET.columns[5]] = np.random.randint(3,14)
+                self.DATASET.loc[i,self.DATASET.columns[6]] =  self.DATASET.loc[i,self.DATASET.columns[3]] + self.DATASET.loc[i,self.DATASET.columns[4]] + self.DATASET.loc[i,self.DATASET.columns[5]] + np.random.randint(10,41)
 
     def graph_01(self):
         legend = {"title":"Relação de notas dos estudantes com acessos ao AVA por cluster navegação"}
@@ -164,8 +169,8 @@ class V011:
                         "xaxis":"AVA Access",
                         "yaxis":"Grade",
                     }
-        df = self.DATASET.sort_values(by=["Grade"])
-        Clusters = df.Cluster.unique()
+        df = self.DATASET.sort_values(by=self.DATASET.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(0,255,0)"]
         color[Clusters[0]] = "rgb(255,0,0)"
         color[Clusters[1]] = "rgb(0,0,255)"
@@ -174,16 +179,16 @@ class V011:
         for i in range(0, self.NUMBER_STUDENTS):
             trace.append(
                 Scatter(
-                    x=[df["AVA Access"][i]], #Access
-                    y=[df["Grade"][i]], #Grade
+                    x=[df[df.columns[2]][i]], #Access
+                    y=[df[df.columns[1]][i]], #Grade
                     mode='markers',
-                    name=df.Students[i], #each student name
-                    text = [str(df.Students[i])],
+                    name=df[df.columns[0]][i], #each student name
+                    text = [str(df[df.columns[0]][i])],
 
                     marker=dict(
                         size=12,
-                        symbol=self.DATASET.Cluster[i],
-                        color = color[df.Cluster[i]],
+                        symbol=self.DATASET[self.DATASET.columns[len(self.DATASET.columns)-1]][i],
+                        color = color[df[df.columns[len(df.columns)-1]][i]],
                         line=dict(
                             width=2
                         )
@@ -204,7 +209,7 @@ class V011:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self.DATASET["AVA Access"].max()+10],
+                range = [0, self.DATASET[self.DATASET.columns[2]].max()+10],
                 rangemode = "normal",
                 zeroline= False,
                 showline = True,
@@ -218,7 +223,7 @@ class V011:
                 ),
                 autorange = False,
                 fixedrange = False,
-                range = [0, self.DATASET["Grade"].max()+10],
+                range = [0, self.DATASET[self.DATASET.columns[1]].max()+10],
                 rangemode = "normal",
                 showline = True,
             )
@@ -249,8 +254,8 @@ class V011:
                         "xaxis":"",
                         "yaxis":"Grades",
                     }
-        df = self.DATASET.sort_values(by="Grade")
-        Clusters = df.Cluster.unique()
+        df = self.DATASET.sort_values(by=self.DATASET.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(198, 218, 32)","rgb(121,64,64)","rgb(0,0,204)"]
         color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(0,255,0)"]
         # print(Clusters)
@@ -258,9 +263,9 @@ class V011:
         for i in range(0,len(Clusters)):
             trace.append(
                 Box(
-                    y=df["Grade"].loc[df['Cluster']==Clusters[i]].values.tolist(), #Access
+                    y=df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(), #Access
                     name="Cluster "+str(i+1),
-                    text=df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -292,7 +297,7 @@ class V011:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-1, self.DATASET["Grade"].max()+10],
+                range = [-1, self.DATASET[self.DATASET.columns[1]].max()+10],
                 rangemode = "normal",
                 # showline = True,
                 zeroline = False,
@@ -326,8 +331,8 @@ class V011:
                     }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
-        df = self.DATASET.sort_values(by="Grade")
-        Clusters = df.Cluster.unique()
+        df = self.DATASET.sort_values(by=self.DATASET.columns[1])
+        Clusters = df[df.columns[len(df.columns)-1]].unique()
         color = ["rgb(255,0,0)","rgb(0,0,255)","rgb(0,255,0)"]
         color[Clusters[0]] = "rgb(255,0,0)"
         color[Clusters[1]] = "rgb(0,0,255)"
@@ -338,10 +343,10 @@ class V011:
             trace.append(
                 {
                     "type":'violin',
-                    "x":["Cluster "+str(i+1)]*len(df["Grade"].loc[df['Cluster']==Clusters[i]]),
-                    "y":df["Grade"].loc[df['Cluster']==Clusters[i]],
+                    "x":["Cluster "+str(i+1)]*len(df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
+                    "y":df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
                     "name":"Cluster "+str(i+1),
-                    "text":df["Students"].loc[df['Cluster']==Clusters[i]].values.tolist(),
+                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     "box":{
                         "visible":True
                         },
@@ -380,7 +385,7 @@ class V011:
                     color='rgb(180,180,180)',
                 ),
                 fixedrange = False,
-                range = [-15, self.DATASET["Grade"].max()+10],
+                range = [-15, self.DATASET[self.DATASET.columns[1]].max()+10],
                 rangemode = "normal",
                 zeroline = False,
             )
@@ -402,17 +407,21 @@ class V011:
 
     #Flow Chart
     def graph_05(self):
-        legend = {"title":"Fluxo de navegação dos estudantes por cluster"}
-        if (self._language == "en"):
+        if (self._language == "pt"):
+            legend = {"title":"Fluxo de navegação dos estudantes por cluster"}
+            materials_label = ['Vídeo 1','Vídeo 2','Vídeo 3','Atividade 1','Atividade 2','Atividade 3','Fórum','Prova']
+            mark_cluster = ["Início do Curso", "Fim do Curso"]
+        else:
             legend = {"title":"Students' navigation flow by cluster"}
+            materials_label = ['Video 1','Video 2','Video 3','Assignment 1','Assignment 2','Assignment 3','Forum','Final Test']
+            mark_cluster = ["Course Start", "Course End"]
 
         markerSize = 90
-        mark_cluster = ["Inicio do Curso", "Fim do Curso"]        
-
+        
         cluster = []
-        cluster.append(['Video 1','Video 2','Video 3','Final Test'])
-        cluster.append(['Video 1','Video 2','Video 3','Assignment 1','Assignment 2','Assignment 3','Final Test'])
-        cluster.append(['Video 1','Video 2','Video 3','Assignment 1','Assignment 2','Assignment 3','Forum','Final Test'])
+        cluster.append([materials_label[0],materials_label[1],materials_label[2],materials_label[7]])
+        cluster.append([materials_label[0],materials_label[1],materials_label[2],materials_label[3],materials_label[4],materials_label[5],materials_label[7]])
+        cluster.append([materials_label[0],materials_label[1],materials_label[2],materials_label[3],materials_label[4],materials_label[5],materials_label[6],materials_label[7]])
 
         x = []
         y = []        
@@ -496,10 +505,10 @@ class V011:
         
         #cluster1
         # cluster.append(['Video 1','Video 2','Video 3','Final Test'])
-        x0.append([x[0][cluster[0].index('Video 1')]-1, x[0][cluster[0].index('Video 1')], x[0][cluster[0].index('Video 2')], x[0][cluster[0].index('Video 3')],    x[0][cluster[0].index('Final Test')]])
-        x1.append([x[0][cluster[0].index('Video 1')]   ,x[0][cluster[0].index('Video 2')], x[0][cluster[0].index('Video 3')], x[0][cluster[0].index('Final Test')], x[0][cluster[0].index('Final Test')]+1])
-        y0.append([y[0][cluster[0].index('Video 1')]-1, y[0][cluster[0].index('Video 1')], y[0][cluster[0].index('Video 2')], y[0][cluster[0].index('Video 3')],    y[0][cluster[0].index('Final Test')]])
-        y1.append([y[0][cluster[0].index('Video 1')]  , y[0][cluster[0].index('Video 2')], y[0][cluster[0].index('Video 3')], y[0][cluster[0].index('Final Test')], y[0][cluster[0].index('Final Test')]+1])
+        x0.append([x[0][cluster[0].index(materials_label[0])]-1, x[0][cluster[0].index(materials_label[0])], x[0][cluster[0].index(materials_label[1])], x[0][cluster[0].index(materials_label[2])], x[0][cluster[0].index(materials_label[7])]])
+        x1.append([x[0][cluster[0].index(materials_label[0])]   ,x[0][cluster[0].index(materials_label[1])], x[0][cluster[0].index(materials_label[2])], x[0][cluster[0].index(materials_label[7])], x[0][cluster[0].index(materials_label[7])]+1])
+        y0.append([y[0][cluster[0].index(materials_label[0])]-1, y[0][cluster[0].index(materials_label[0])], y[0][cluster[0].index(materials_label[1])], y[0][cluster[0].index(materials_label[2])], y[0][cluster[0].index(materials_label[7])]])
+        y1.append([y[0][cluster[0].index(materials_label[0])]  , y[0][cluster[0].index(materials_label[1])], y[0][cluster[0].index(materials_label[2])], y[0][cluster[0].index(materials_label[7])], y[0][cluster[0].index(materials_label[7])]+1])
 
         width.append([10, 9, 6, 5, 5])
 
@@ -508,10 +517,10 @@ class V011:
 
         #cluster2
         # cluster.append(['Video 1','Video 2','Video 3','Assignment 1','Assignment 2','Assignment 3','Final Test'])
-        x0.append([x[1][cluster[1].index('Video 1')]-1, x[1][cluster[1].index('Video 1')], x[1][cluster[1].index('Video 1')],      x[1][cluster[1].index('Video 2')], x[1][cluster[1].index('Video 2')],      x[1][cluster[1].index('Video 3')], x[1][cluster[1].index('Assignment 1')], x[1][cluster[1].index('Assignment 2')], x[1][cluster[1].index('Assignment 3')], x[1][cluster[1].index('Video 3')],    x[1][cluster[1].index('Final Test')]])
-        x1.append([x[1][cluster[1].index('Video 1')],   x[1][cluster[1].index('Video 2')], x[1][cluster[1].index('Assignment 1')], x[1][cluster[1].index('Video 3')], x[1][cluster[1].index('Assignment 2')], x[1][cluster[1].index('Assignment 3')], x[1][cluster[1].index('Video 2')], x[1][cluster[1].index('Video 3')],      x[1][cluster[1].index('Final Test')],   x[1][cluster[1].index('Final Test')], x[1][cluster[1].index('Final Test')]+1])
-        y0.append([y[1][cluster[1].index('Video 1')]-1, y[1][cluster[1].index('Video 1')], y[1][cluster[1].index('Video 1')],      y[1][cluster[1].index('Video 2')], y[1][cluster[1].index('Video 2')],      y[1][cluster[1].index('Video 3')], y[1][cluster[1].index('Assignment 1')], y[1][cluster[1].index('Assignment 2')], y[1][cluster[1].index('Assignment 3')], y[1][cluster[1].index('Video 3')],    y[1][cluster[1].index('Final Test')]])
-        y1.append([y[1][cluster[1].index('Video 1')],   y[1][cluster[1].index('Video 2')], y[1][cluster[1].index('Assignment 1')], y[1][cluster[1].index('Video 3')], y[1][cluster[1].index('Assignment 2')], y[1][cluster[1].index('Assignment 3')], y[1][cluster[1].index('Video 2')], y[1][cluster[1].index('Video 3')],      y[1][cluster[1].index('Final Test')],   y[1][cluster[1].index('Final Test')], y[1][cluster[1].index('Final Test')]+1])
+        x0.append([x[1][cluster[1].index(materials_label[0])]-1, x[1][cluster[1].index(materials_label[0])], x[1][cluster[1].index(materials_label[0])], x[1][cluster[1].index(materials_label[1])], x[1][cluster[1].index(materials_label[1])], x[1][cluster[1].index(materials_label[2])], x[1][cluster[1].index(materials_label[3])], x[1][cluster[1].index(materials_label[4])], x[1][cluster[1].index(materials_label[5])], x[1][cluster[1].index(materials_label[2])], x[1][cluster[1].index(materials_label[7])]])
+        x1.append([x[1][cluster[1].index(materials_label[0])],   x[1][cluster[1].index(materials_label[1])], x[1][cluster[1].index(materials_label[3])], x[1][cluster[1].index(materials_label[2])], x[1][cluster[1].index(materials_label[4])], x[1][cluster[1].index(materials_label[5])], x[1][cluster[1].index(materials_label[1])], x[1][cluster[1].index(materials_label[2])], x[1][cluster[1].index(materials_label[7])], x[1][cluster[1].index(materials_label[7])], x[1][cluster[1].index(materials_label[7])]+1])
+        y0.append([y[1][cluster[1].index(materials_label[0])]-1, y[1][cluster[1].index(materials_label[0])], y[1][cluster[1].index(materials_label[0])], y[1][cluster[1].index(materials_label[1])], y[1][cluster[1].index(materials_label[1])], y[1][cluster[1].index(materials_label[2])], y[1][cluster[1].index(materials_label[3])], y[1][cluster[1].index(materials_label[4])], y[1][cluster[1].index(materials_label[5])], y[1][cluster[1].index(materials_label[2])], y[1][cluster[1].index(materials_label[7])]])
+        y1.append([y[1][cluster[1].index(materials_label[0])],   y[1][cluster[1].index(materials_label[1])], y[1][cluster[1].index(materials_label[3])], y[1][cluster[1].index(materials_label[2])], y[1][cluster[1].index(materials_label[4])], y[1][cluster[1].index(materials_label[5])], y[1][cluster[1].index(materials_label[1])], y[1][cluster[1].index(materials_label[2])], y[1][cluster[1].index(materials_label[7])], y[1][cluster[1].index(materials_label[7])], y[1][cluster[1].index(materials_label[7])]+1])
 
         width.append([9, 4, 8, 3, 7, 6, 5, 7, 6, 4, 10])
 
@@ -520,10 +529,10 @@ class V011:
 
         #cluster3
         # cluster.append(['Video 1','Video 2','Video 3','Assignment 1','Assignment 2','Assignment 3','Forum','Final Test'])
-        x0.append([x[2][cluster[2].index('Video 1')]-1, x[2][cluster[2].index('Video 1')]-1,    x[2][cluster[2].index('Video 1')], x[2][cluster[2].index('Video 1')],      x[2][cluster[2].index('Forum')],   x[2][cluster[2].index('Video 2')], x[2][cluster[2].index('Video 2')],      x[2][cluster[2].index('Video 3')],      x[2][cluster[2].index('Video 3')],    x[2][cluster[2].index('Assignment 1')], x[2][cluster[2].index('Assignment 1')], x[2][cluster[2].index('Assignment 2')], x[2][cluster[2].index('Assignment 2')], x[2][cluster[2].index('Assignment 3')], x[2][cluster[2].index('Assignment 3')], x[2][cluster[2].index('Final Test')]])
-        x1.append([x[2][cluster[2].index('Video 1')],   x[2][cluster[2].index('Assignment 1')], x[2][cluster[2].index('Forum')],   x[2][cluster[2].index('Assignment 1')], x[2][cluster[2].index('Video 2')], x[2][cluster[2].index('Video 3')], x[2][cluster[2].index('Assignment 2')], x[2][cluster[2].index('Assignment 3')], x[2][cluster[2].index('Final Test')], x[2][cluster[2].index('Video 1')],      x[2][cluster[2].index('Video 2')],      x[2][cluster[2].index('Video 2')],      x[2][cluster[2].index('Video 3')],      x[2][cluster[2].index('Video 3')],      x[2][cluster[2].index('Final Test')],   x[2][cluster[2].index('Final Test')]+1])
-        y0.append([y[2][cluster[2].index('Video 1')]-1, y[2][cluster[2].index('Video 1')]-1,    y[2][cluster[2].index('Video 1')], y[2][cluster[2].index('Video 1')],      y[2][cluster[2].index('Forum')],   y[2][cluster[2].index('Video 2')], y[2][cluster[2].index('Video 2')],      y[2][cluster[2].index('Video 3')],      y[2][cluster[2].index('Video 3')],    y[2][cluster[2].index('Assignment 1')], y[2][cluster[2].index('Assignment 1')], y[2][cluster[2].index('Assignment 2')], y[2][cluster[2].index('Assignment 2')], y[2][cluster[2].index('Assignment 3')], y[2][cluster[2].index('Assignment 3')], y[2][cluster[2].index('Final Test')]])
-        y1.append([y[2][cluster[2].index('Video 1')],   y[2][cluster[2].index('Assignment 1')], y[2][cluster[2].index('Forum')],   y[2][cluster[2].index('Assignment 1')], y[2][cluster[2].index('Video 2')], y[2][cluster[2].index('Video 3')], y[2][cluster[2].index('Assignment 2')], y[2][cluster[2].index('Assignment 3')], y[2][cluster[2].index('Final Test')], y[2][cluster[2].index('Video 1')],      y[2][cluster[2].index('Video 2')],      y[2][cluster[2].index('Video 2')],      y[2][cluster[2].index('Video 3')],      y[2][cluster[2].index('Video 3')],      y[2][cluster[2].index('Final Test')],   y[2][cluster[2].index('Final Test')]+1])
+        x0.append([x[2][cluster[2].index(materials_label[0])]-1, x[2][cluster[2].index(materials_label[0])]-1, x[2][cluster[2].index(materials_label[0])], x[2][cluster[2].index(materials_label[0])], x[2][cluster[2].index(materials_label[6])], x[2][cluster[2].index(materials_label[1])], x[2][cluster[2].index(materials_label[1])], x[2][cluster[2].index(materials_label[2])], x[2][cluster[2].index(materials_label[2])], x[2][cluster[2].index(materials_label[3])], x[2][cluster[2].index(materials_label[3])], x[2][cluster[2].index(materials_label[4])], x[2][cluster[2].index(materials_label[4])], x[2][cluster[2].index(materials_label[5])], x[2][cluster[2].index(materials_label[5])], x[2][cluster[2].index(materials_label[7])]])
+        x1.append([x[2][cluster[2].index(materials_label[0])],   x[2][cluster[2].index(materials_label[3])],   x[2][cluster[2].index(materials_label[6])], x[2][cluster[2].index(materials_label[3])], x[2][cluster[2].index(materials_label[1])], x[2][cluster[2].index(materials_label[2])], x[2][cluster[2].index(materials_label[4])], x[2][cluster[2].index(materials_label[5])], x[2][cluster[2].index(materials_label[7])], x[2][cluster[2].index(materials_label[0])], x[2][cluster[2].index(materials_label[1])], x[2][cluster[2].index(materials_label[1])], x[2][cluster[2].index(materials_label[2])], x[2][cluster[2].index(materials_label[2])], x[2][cluster[2].index(materials_label[7])], x[2][cluster[2].index(materials_label[7])]+1])
+        y0.append([y[2][cluster[2].index(materials_label[0])]-1, y[2][cluster[2].index(materials_label[0])]-1, y[2][cluster[2].index(materials_label[0])], y[2][cluster[2].index(materials_label[0])], y[2][cluster[2].index(materials_label[6])], y[2][cluster[2].index(materials_label[1])], y[2][cluster[2].index(materials_label[1])], y[2][cluster[2].index(materials_label[2])], y[2][cluster[2].index(materials_label[2])], y[2][cluster[2].index(materials_label[3])], y[2][cluster[2].index(materials_label[3])], y[2][cluster[2].index(materials_label[4])], y[2][cluster[2].index(materials_label[4])], y[2][cluster[2].index(materials_label[5])], y[2][cluster[2].index(materials_label[5])], y[2][cluster[2].index(materials_label[7])]])
+        y1.append([y[2][cluster[2].index(materials_label[0])],   y[2][cluster[2].index(materials_label[3])],   y[2][cluster[2].index(materials_label[6])], y[2][cluster[2].index(materials_label[3])], y[2][cluster[2].index(materials_label[1])], y[2][cluster[2].index(materials_label[2])], y[2][cluster[2].index(materials_label[4])], y[2][cluster[2].index(materials_label[5])], y[2][cluster[2].index(materials_label[7])], y[2][cluster[2].index(materials_label[0])], y[2][cluster[2].index(materials_label[1])], y[2][cluster[2].index(materials_label[1])], y[2][cluster[2].index(materials_label[2])], y[2][cluster[2].index(materials_label[2])], y[2][cluster[2].index(materials_label[7])], y[2][cluster[2].index(materials_label[7])]+1])
 
         width.append([9, 3, 2, 5, 2, 2, 5, 5, 2, 3, 5, 2, 5, 2, 5, 7])
 
@@ -622,3 +631,6 @@ class V011:
         self.graph_03() #Box
         self.graph_04() #Violin
         self.graph_05() #Flow Chart
+
+# instance = V011()
+# instance.generate_dataset(number_students = 20)
