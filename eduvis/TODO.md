@@ -1,4 +1,4 @@
-- Deixar os dados dummies dos gráficos já gerados em formato json sem precisar gerar a cada acesso.
+- Deixar os dados dummies dos gráficos já preprocessados sem precisar gerar a cada acesso.
 - Adicionar filtros nos gráficos.
 - Atualizar o número de gráficos selecionados ao excluir ou selecionar o gráfico
 - Adicionar um iframe de carregando.
