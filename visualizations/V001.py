@@ -53,7 +53,6 @@ class V001:
         else:
             self.NUMBER_STUDENTS = len(rand_names)
         
-
         self.DATASET = pd.DataFrame(columns=self._assign_name)
         for i in range(0,self.NUMBER_STUDENTS):
             self.DATASET.loc[i] = [np.random.randint(0,2) for n in range(len(self.DATASET.columns))]
@@ -103,15 +102,15 @@ class V001:
             legend = {"title":"Assigns completed by students"}
 
         df = self.DATASET
-
+        
         trace = [Table(
             header=dict(
-                values=list(df.columns),
+                values=list(df.columns)+["Total"],
                 fill = dict(color='#C2D4FF'),
                 align = 'center'
             ),
             cells=dict(
-                values=[df[i].tolist() for i in df.columns],
+                values=[df[i].tolist() for i in df.columns]+[self._students["Total_Done"].tolist()] ,
                 fill = dict(color='#F5F8FF'),
                 align = ['left','center']
             )
@@ -2111,6 +2110,7 @@ class V001:
             y = [-1]*len(df.columns[1:])
             z = [i + j for i, j in zip(x, y)]
             values = [i*(-1) for i in z]
+
             trace.append(
                 Scatter(
                     x=[df.iloc[i,0]]*len(df.columns), #student
@@ -4817,13 +4817,13 @@ class V001:
         self.graph_16()
         self.graph_17()
         self.graph_18()
-        self.graph_19() 
+        self.graph_19()
         self.graph_20()
         self.graph_21()
         self.graph_22() #Lollipop
         self.graph_23()
-        self.graph_24() 
-        self.graph_25() 
+        self.graph_24()
+        self.graph_25()
         self.graph_26() #Scatter
         self.graph_27()
         self.graph_28()
