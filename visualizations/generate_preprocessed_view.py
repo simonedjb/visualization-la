@@ -104,7 +104,7 @@ class PreprocessedView:
         instance = V008.V008()
         instance.generate_dataset(rand_names=self._student_names)
         
-        for i in range(1,12):
+        for i in range(1,14):
             instance.save_chart(i)
         
         print('V008 done!')
@@ -161,5 +161,5 @@ class PreprocessedView:
         self.generate_view_010(n_students)
         self.generate_view_011(n_students)
 
-# instance = PreprocessedView()
-# instance.generate_all_views(30)
+instance = PreprocessedView()
+instance.generate_all_views(30)

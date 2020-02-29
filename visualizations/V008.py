@@ -10,7 +10,7 @@ import pickle
 import json
 
 from plotly.utils import PlotlyJSONEncoder
-from plotly.graph_objs import Figure, Layout, Bar, Table, Heatmap, Scatter, Box, Violin
+from plotly.graph_objs import Figure, Layout, Bar, Table, Heatmap, Scatter, Box, Violin, Histogram
 from plotly.offline import init_notebook_mode, iplot
 
 from sklearn import metrics
@@ -46,10 +46,10 @@ class V008:
 
         if (self._language == "pt"):
             self.DATASET = pd.DataFrame(columns=["Estudantes","Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"])
-            week_label = 'Semana'
+            week_label = 'Semana '
         else:
             self.DATASET = pd.DataFrame(columns=["Students","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"])
-            week_label = 'Week'
+            week_label = 'Week '
 
         self._work_deadline = (int(self.NUMBER_WEEKS/2)+(self.NUMBER_WEEKS%2))*7
         self._test_day = self.NUMBER_WEEKS*7
@@ -162,9 +162,9 @@ class V008:
             return {"id":"V008@1","layout":json.dumps({"data": data, "layout": layout, "config": config}, cls=PlotlyJSONEncoder)}
 
     def graph_02(self):
-        legend = {"title":"Número de acessos dos estudantes por dia"}
+        legend = {"title":"Total de acessos dos estudantes por dia da semana"}
         if (self._language == "en"):
-            legend = {"title":"Number of students' access by day"}
+            legend = {"title":"Total of students' access by day week"}
         df = self._df_sum_day
 
         trace = [Table(
@@ -1199,7 +1199,7 @@ class V008:
         elif id == 12:
             return self.graph_12()
         elif id == 13:
-            return self.graph_13()
+            return self.graph_13()        
         else:
             print("V008@"+str(id)+" not found")
 
@@ -1250,7 +1250,7 @@ class V008:
         self.graph_10() #Violin
         self.graph_11()
         self.graph_12() #Line
-        self.graph_13()
+        self.graph_13()        
 
 # instance = V008()
 # instance.generate_dataset(number_students=35, number_weeks=7)

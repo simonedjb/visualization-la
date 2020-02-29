@@ -4853,7 +4853,7 @@ class V001:
         self.graph_52()
         self.graph_53()
         self.graph_54()
-        self.graph_55()
+        self.graph_55()        
 
 # instance = V001()
 # instance.generate_dataset(number_students = 20, number_assigns = 10)
