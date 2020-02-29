@@ -478,7 +478,14 @@ class V008:
                     exponentformat='e',
                     showexponent='all',
                     gridcolor='#bdbdbd',
-                )
+                ),
+                margin = dict(
+                    l=125,
+                    r=5,
+                    b=150,
+                    t=50,
+                    pad=4
+                ),
             )
 
         data = [trace]
@@ -577,6 +584,13 @@ class V008:
                     showexponent='all',
                     gridcolor='#bdbdbd',
                 ),
+                margin = dict(
+                    l=125,
+                    r=5,
+                    b=150,
+                    t=50,
+                    pad=4
+                ),
                 annotations=annotations
             )
 
@@ -596,14 +610,14 @@ class V008:
 
     # Box
     def graph_08(self):
-        legend = {"title":"Número de acessos dos estudantes por dia",
+        legend = {"title":"Variação de acessos dos estudantes por dia",
                     "xaxis":"",
                     "yaxis":"Acessos",
                     "columns":{1:"Dom", 2:"Seg", 3:"Ter", 4:"Qua", 5:"Qui", 6:"Sex", 0:"Sáb"},
                     "misc":{1:"dia", 2:"Trabalho", 3:"Prova"},
                 }
         if (self._language == "en"):
-            legend = {"title":"Number of students' access by day",
+            legend = {"title":"Variation of students' access by day",
                         "xaxis":"",
                         "yaxis":"Access",
                         "columns":{1:"Sun", 2:"Mon", 3:"Tue", 4:"Wed", 5:"Thu", 6:"Fri", 0:"Sat"},
@@ -644,7 +658,7 @@ class V008:
         layout = Layout(
             title=legend['title'],
             # hovermode = "closest",
-            showlegend = True,
+            showlegend = False,
             xaxis = dict(
                 title = legend["xaxis"],
                 titlefont=dict(
@@ -665,6 +679,13 @@ class V008:
                 rangemode = "normal",
                 # showline = True,                
                 zeroline = False,
+            ),
+            margin = dict(
+                l=40,
+                r=15,
+                b=150,
+                t=50,
+                pad=4
             )
         )
 
@@ -683,14 +704,14 @@ class V008:
             return {"id":"V008@8","layout":json.dumps({"data": data, "layout": layout, "config": config}, cls=PlotlyJSONEncoder)}
 
     def graph_09(self):
-        legend = {"title":"Número de acessos dos estudantes por semana",
+        legend = {"title":"Variação de acessos dos estudantes por semana",
                     "xaxis":"",
                     "yaxis":"Acessos",
                     "columns":'semana',
                     "misc":{1:"Trabalho", 2:"Prova"},
                 }
         if (self._language == "en"):
-            legend = {"title":"Number of students' access by week",
+            legend = {"title":"Variation of students' access by week",
                         "xaxis":"",
                         "yaxis":"Access",
                         "columns":"week",
@@ -732,7 +753,7 @@ class V008:
         layout = Layout(
             title=legend['title'],
             # hovermode = "closest",
-            showlegend = True,
+            showlegend = False,
             xaxis = dict(
                 title = legend["xaxis"],
                 titlefont=dict(
@@ -829,7 +850,7 @@ class V008:
         layout = Layout(
             title=legend['title'],
             hovermode = "closest",
-            showlegend = True,
+            showlegend = False,
             xaxis = dict(
                 title = legend["xaxis"],
                 titlefont=dict(
@@ -849,6 +870,13 @@ class V008:
                 range = [-15, max_value+10],
                 rangemode = "normal",
                 zeroline = False,
+            ),
+            margin = dict(
+                l=40,
+                r=15,
+                b=150,
+                t=50,
+                pad=4
             )
         )
 
@@ -924,7 +952,7 @@ class V008:
         layout = Layout(
             title=legend['title'],
             hovermode = "closest",
-            showlegend = True,
+            showlegend = False,
             xaxis = dict(
                 title = legend["xaxis"],
                 titlefont=dict(
@@ -961,6 +989,190 @@ class V008:
             config = {"displaylogo": False, "responsive": True, "displayModeBar": True, "modeBarButtonsToRemove": modeBarButtonsToRemove}
             return {"id":"V008@11","layout":json.dumps({"data": data, "layout": layout, "config": config}, cls=PlotlyJSONEncoder)}
 
+    # Line
+    def graph_12(self):
+        legend = {"title":"Média de acessos dos estudantes por dia",
+                    "xaxis":"",
+                    "yaxis":"Acessos",
+                    "columns":{1:"Dom", 2:"Seg", 3:"Ter", 4:"Qua", 5:"Qui", 6:"Sex", 0:"Sáb"},
+                    "misc":{1:"dia", 2:"Trabalho", 3:"Prova"},
+                }
+        if (self._language == "en"):
+            legend = {"title":"Mean of students' access by day",
+                        "xaxis":"",
+                        "yaxis":"Access",
+                        "columns":{1:"Sun", 2:"Mon", 3:"Tue", 4:"Wed", 5:"Thu", 6:"Fri", 0:"Sat"},
+                        "misc":{1:"day", 2:"Work", 3:"Test"},
+                    }
+
+        df = self._df_all_day
+        lst_mean_day = [round(self._df_all_day[i].mean(),2) for i in self._df_all_day.columns[1:].tolist()]
+        max_value = max(lst_mean_day)
+
+        lst = [legend["columns"][(int((i+1)%7))]+", "+legend["misc"][1]+" "+str(i+1) for i in range (0,len(df.columns[1:]))]
+        lst[self._work_deadline-1] = "<b>"+legend["columns"][(int(self._work_deadline%7))]+", "+legend["misc"][2]+"</b>"
+        lst[self._test_day-1] = "<b>"+legend["columns"][(int(self._test_day%7))]+", "+legend["misc"][3]+"</b>"
+        
+        color = []
+        for i in range(1,len(df.columns)):
+            color.append("rgb(0,0,255)")
+            if i == self._work_deadline-1 or i == self._test_day-2:
+                color.append("rgb(255,0,0)")
+
+        trace = []
+        trace.append(
+            Scatter(
+                x=[lst[i] for i in range(0,len(df.columns[1:]))], #Day
+                y=lst_mean_day, #Access
+                mode='lines+markers',
+                hoverinfo='text',
+                hovertext = ['<b>'+lst[i]+'</b><br>'+str(lst_mean_day[i])+' acesso(s)' for i in range(0,len(df.columns[1:]))],
+                marker=dict(
+                    size=8,                    
+                    color = color,
+                    line=dict(
+                        width=1
+                    )
+                )
+            )
+        )
+        
+        layout = Layout(
+            title=legend['title'],
+            # hovermode = "closest",
+            showlegend = False,
+            xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
+            yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                fixedrange = False,
+                range = [-1, max_value+5],
+                rangemode = "normal",
+                # showline = True,                
+                zeroline = False,
+            ),
+            margin = dict(
+                b=150
+            )
+        )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Line')
+        elif self._type_result == "dash":
+            return dcc.Graph(
+                id='V008@12',
+                figure=fig
+            )
+        elif self._type_result == "flask":
+            modeBarButtonsToRemove = ['toImage', 'sendDataToCloud', 'hoverCompareCartesian', 'lasso2d', 'hoverClosestCartesian', 'toggleHover', 'hoverClosest3d', 'hoverClosestGeo', 'hoverClosestGl2d', 'hoverClosestPie']
+            config = {"displaylogo": False, "responsive": True, "displayModeBar": True, "modeBarButtonsToRemove": modeBarButtonsToRemove}
+            return {"id":"V008@12","layout":json.dumps({"data": data, "layout": layout, "config": config}, cls=PlotlyJSONEncoder)}
+
+
+    def graph_13(self):
+        legend = {"title":"Média de acessos dos estudantes por semana",
+                    "xaxis":"",
+                    "yaxis":"Acessos",
+                    "columns":'semana',
+                    "misc":{1:"Trabalho", 2:"Prova"},
+                }
+        if (self._language == "en"):
+            legend = {"title":"Mean of students' access by week",
+                        "xaxis":"",
+                        "yaxis":"Access",
+                        "columns":"week",
+                        "misc":{1:"Work", 2:"Test"},
+                    }
+        
+        df = self._df_sum_week
+        lst_mean_weak = [round(self._df_sum_week[i].mean(),2) for i in self._df_sum_week.columns[1:].tolist()]
+        max_value = max(lst_mean_weak)
+
+        lst = [legend["columns"]+" "+str(i+1) for i in range (0,len(df.columns[1:]))]
+        lst[int(self._work_deadline/7)-1] = "<b>"+legend["columns"]+" "+str(int(self._work_deadline/7))+",<br>"+legend["misc"][1]+"</b>"
+        lst[int(self._test_day/7)-1] = "<b>"+legend["columns"]+" "+str(int(self._test_day/7))+",<br>"+legend["misc"][2]+"</b>"
+
+        color = []
+        for i in range(1,len(df.columns)):
+            color.append("rgb(0,0,255)")
+            if i == int(self._work_deadline/7)-1 or i == int(self._test_day/7)-2:
+                color.append("rgb(255,0,0)")
+
+        trace = []
+        trace.append(
+            Scatter(
+                x=[lst[i] for i in range(0,len(df.columns[1:]))], #Day
+                y=lst_mean_weak, #Access
+                mode='lines+markers',
+                hoverinfo='text',
+                hovertext = ['<b>'+lst[i]+'</b><br>'+str(lst_mean_weak[i])+' acesso(s)' for i in range(0,len(df.columns[1:]))],
+                marker=dict(
+                    size=8,                    
+                    color = color,
+                    line=dict(
+                        width=1
+                    )
+                )
+            )
+        )
+        
+        layout = Layout(
+            title=legend['title'],
+            # hovermode = "closest",
+            showlegend = False,
+            xaxis = dict(
+                title = legend["xaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+            ),
+            yaxis = dict(
+                title = legend["yaxis"],
+                titlefont=dict(
+                    # family='Arial, sans-serif',
+                    # size=18,
+                    color='rgb(180,180,180)',
+                ),
+                fixedrange = False,
+                range = [-1, max_value+5],
+                rangemode = "normal",
+                # showline = True,                
+                zeroline = False,
+            ),
+            # margin = dict(
+            #     b=150
+            # )
+        )
+
+        data = trace
+        fig = Figure(data=data, layout=layout)
+        if self._type_result == "jupyter-notebook":
+            iplot(fig, filename='Line')
+        elif self._type_result == "dash":
+            return dcc.Graph(
+                id='V008@13',
+                figure=fig
+            )
+        elif self._type_result == "flask":
+            modeBarButtonsToRemove = ['toImage', 'sendDataToCloud', 'hoverCompareCartesian', 'lasso2d', 'hoverClosestCartesian', 'toggleHover', 'hoverClosest3d', 'hoverClosestGeo', 'hoverClosestGl2d', 'hoverClosestPie']
+            config = {"displaylogo": False, "responsive": True, "displayModeBar": True, "modeBarButtonsToRemove": modeBarButtonsToRemove}
+            return {"id":"V008@13","layout":json.dumps({"data": data, "layout": layout, "config": config}, cls=PlotlyJSONEncoder)}
+    
     def get_chart(self,id):
         if id == 1:
             return self.graph_01()
@@ -983,7 +1195,11 @@ class V008:
         elif id == 10:
             return self.graph_10()
         elif id == 11:
-            return self.graph_11()        
+            return self.graph_11()
+        elif id == 12:
+            return self.graph_12()
+        elif id == 13:
+            return self.graph_13()
         else:
             print("V008@"+str(id)+" not found")
 
@@ -1032,7 +1248,9 @@ class V008:
         self.graph_08() #Box
         self.graph_09()
         self.graph_10() #Violin
-        self.graph_11()        
+        self.graph_11()
+        self.graph_12() #Line
+        self.graph_13()
 
 # instance = V008()
 # instance.generate_dataset(number_students=35, number_weeks=7)

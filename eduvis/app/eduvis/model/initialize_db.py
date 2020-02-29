@@ -214,6 +214,10 @@ lst_chart.append(('V002@16',))  # id 187
 lst_chart.append(('V002@17',))  # id 188
 lst_chart.append(('V002@18',))  # id 189
 
+### V008 ###
+lst_chart.append(('V008@12',))  # id 190
+lst_chart.append(('V008@13',))  # id 191
+
 ################################################################################################
 
 ### tb_topic ###
@@ -436,6 +440,9 @@ lst_topic_chart.append((183, 23)) # id 158 -> V011@5 - 11.1
 lst_topic_chart.append((184, 4)) # id 159 -> V002@13 - 2.2
 lst_topic_chart.append((186, 4)) # id 160 -> V002@15 - 2.2
 lst_topic_chart.append((188, 4)) # id 161 -> V002@17 - 2.2
+
+lst_topic_chart.append((190, 19)) # id 162 -> V008@12 - 8.1
+lst_topic_chart.append((191, 20)) # id 163 -> V008@13 - 8.1
 
 ################################################################################################
 
