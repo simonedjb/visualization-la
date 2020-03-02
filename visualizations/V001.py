@@ -137,17 +137,21 @@ class V001:
         legend = {"title":"Número de tarefas feitas por alunos",
                     "xaxis":"",
                     "yaxis":"Número de atividades",
+                    'hovertext':' tarefa(s) feita(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of assigns completed by students",
                         "xaxis":"",
                         "yaxis":"Number of assigns",
+                        'hovertext':' assign(s) completed'
                     }
 
         df = self._students.iloc[:,[0,1]]
         trace = [Bar(
             x=df.iloc[:,0].values,
-            y=df.iloc[:,1].values
+            y=df.iloc[:,1].values,
+            hovertext = ['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,1])+legend['hovertext'] for i in range(len(df.iloc[:,1].values))],
+            hoverinfo='text',
         )]
 
         data = trace
@@ -197,17 +201,21 @@ class V001:
         legend = {"title":"Número de tarefas feitas por alunos",
                     "xaxis":"",
                     "yaxis":"Número de atividades",
-                    }
+                    'hovertext':' tarefa(s) feita(s)'
+                }
         if (self._language == "en"):
             legend = {"title":"Number of assigns completed by students",
-                    "xaxis":"",
-                    "yaxis":"Number of assigns",
+                        "xaxis":"",
+                        "yaxis":"Number of assigns",
+                        'hovertext':' assign(s) completed'
                     }
                     
         df = self._students.sort_values(by=["Total_Done","Name"]).iloc[:,[0,1]]        
         trace = [Bar(
             x=df.iloc[:,0].values,
-            y=df.iloc[:,1].values
+            y=df.iloc[:,1].values,
+            hovertext = ['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,1])+legend['hovertext'] for i in range(len(df.iloc[:,1].values))],
+            hoverinfo='text',
         )]
         
         data = trace
@@ -257,17 +265,21 @@ class V001:
         legend = {"title":"Número de tarefas feitas por alunos",
                     "xaxis":"Número de atividades",
                     "yaxis":"",
+                    'hovertext':' tarefa(s) feita(s)'
                     }
         if (self._language == "en"):
             legend = {"title":"Number of assigns completed by students",
                     "xaxis":"Number of assigns",
                     "yaxis":"",
+                    'hovertext':' assign(s) completed'
                     }
         df = self._students.iloc[:,[0,1]]
         trace = [Bar(
             x=df.iloc[:,1].values,
             y=df.iloc[:,0].values,
-            orientation = 'h'
+            orientation = 'h',
+            hovertext = ['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,1])+legend['hovertext'] for i in range(len(df.iloc[:,1].values))],
+            hoverinfo='text',
         )]
 
         data = trace
@@ -319,17 +331,21 @@ class V001:
         legend = {"title":"Número de tarefas feitas por alunos",
                     "xaxis":"Número de atividades",
                     "yaxis":"",
+                    'hovertext':' tarefa(s) feita(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of assigns completed by students",
                         "xaxis":"Number of assigns",
                         "yaxis":"",
+                        'hovertext':' assign(s) completed'
                     }
         df = self._students.sort_values(by=["Total_Done","Name"]).iloc[:,[0,1]]
         trace = [Bar(
             x=df.iloc[:,1].values,
             y=df.iloc[:,0].values,
-            orientation = 'h'
+            orientation = 'h',
+            hovertext = ['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,1])+legend['hovertext'] for i in range(len(df.iloc[:,1].values))],
+            hoverinfo='text',
         )]        
 
         data = trace
@@ -382,17 +398,21 @@ class V001:
         legend = {"title":"Número de tarefas <b>não</b> feitas por alunos",
                     "xaxis":"",
                     "yaxis":"Número de atividades",
+                    'hovertext':' tarefa(s) <b>não</b> feita(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of assigns <b>not</b> completed by students",
                         "xaxis":"",
                         "yaxis":"Number of assigns",
+                        'hovertext':' assign(s) <b>not</b> completed'
                     }
 
         df = self._students.iloc[:,[0,2]]
         trace = [Bar(
             x=df.iloc[:,0].values,
             y=df.iloc[:,1].values,
+            hovertext = ['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,1])+legend['hovertext'] for i in range(len(df.iloc[:,1].values))],
+            hoverinfo='text',
             marker=dict(
                 color='rgb(255,126,24)',
             ),
@@ -445,17 +465,21 @@ class V001:
         legend = {"title":"Quantidade de tarefas <b>não</b> feitas por alunos",
                     "xaxis":"",
                     "yaxis":"Número de atividades",
+                    'hovertext':' tarefa(s) <b>não</b> feita(s)'
                     }
         if (self._language == "en"):
             legend = {"title":"Number of assigns <b>not</b> completed by students",
                     "xaxis":"",
                     "yaxis":"Number of assigns",
+                    'hovertext':' assign(s) <b>not</b> completed'
                     }
                     
         df = self._students.sort_values(by=["Total_Undone","Name"]).iloc[:,[0,2]]        
         trace = [Bar(
             x=df.iloc[:,0].values,
             y=df.iloc[:,1].values,
+            hovertext = ['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,1])+legend['hovertext'] for i in range(len(df.iloc[:,1].values))],
+            hoverinfo='text',
             marker=dict(
                 color='rgb(255,126,24)',
             ),
@@ -508,16 +532,20 @@ class V001:
         legend = {"title":"Número de tarefas <b>não</b> feitas por alunos",
                     "xaxis":"Número de atividades",
                     "yaxis":"",
+                    'hovertext':' tarefa(s) <b>não</b> feita(s)'
                     }
         if (self._language == "en"):
             legend = {"title":"Number of assigns <b>not</b> completed by students",
                     "xaxis":"Number of assigns",
                     "yaxis":"",
+                    'hovertext':' assign(s) <b>not</b> completed'
                     }
         df = self._students.iloc[:,[0,2]]
         trace = [Bar(
             x=df.iloc[:,1].values,
             y=df.iloc[:,0].values,
+            hovertext = ['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,1])+legend['hovertext'] for i in range(len(df.iloc[:,1].values))],
+            hoverinfo='text',
             orientation = 'h',
             marker=dict(
                 color='rgb(255,126,24)',
@@ -573,17 +601,21 @@ class V001:
         legend = {"title":"Quantidade de tarefas <b>não</b> feitas por alunos",
                     "xaxis":"Número de atividades",
                     "yaxis":"",
+                    'hovertext':' tarefa(s) <b>não</b> feita(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of assigns <b>not</b> completed by students",
                         "xaxis":"Number of assigns",
                         "yaxis":"",
+                        'hovertext':' assign(s) <b>not</b> completed'
                     }
         df = self._students.sort_values(by=["Total_Undone","Name"]).iloc[:,[0,2]]
         trace = [Bar(
             x=df.iloc[:,1].values,
             y=df.iloc[:,0].values,
             orientation = 'h',
+            hovertext = ['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,1])+legend['hovertext'] for i in range(len(df.iloc[:,1].values))],
+            hoverinfo='text',
             marker=dict(
                 color='rgb(255,126,24)',
             ),
@@ -641,6 +673,7 @@ class V001:
                     "yaxis":"",
                     "text_s":"atividades",
                     "text_p":"atividades",
+                    'hovertext':' tarefa(s) feita(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of assigns completed by students",
@@ -648,6 +681,7 @@ class V001:
                         "yaxis":"",
                         "text_s":"assign",
                         "text_p":"assigns",
+                        'hovertext':' assign(s) completed'
                     }
         df = self._students.iloc[:,[0,1]]
         trace = []
@@ -658,7 +692,8 @@ class V001:
                 width=[0.07]*self.NUMBER_STUDENTS,
                 orientation = 'h',
                 name="",
-                text="",
+                text="",                
+                hoverinfo='none',
                 marker=dict(
                         color = 'lightgray',                        
                     )
@@ -673,11 +708,12 @@ class V001:
             trace.append(
                 Scatter(
                     x=[i]*len(df.Name.loc[df["Total_Done"]==i]),
-                    # x=[3]*20, #student
                     y=df.Name.loc[df["Total_Done"]==i].values.tolist(),
                     mode='markers',
-                    name = "",                    
-                    text=text*len(df.Name.loc[df["Total_Done"]==i]),                    
+                    name = "",
+                    text=text*len(df.Name.loc[df["Total_Done"]==i]),
+                    hovertext = '<b>'+df.Name.loc[df["Total_Done"]==i]+'</b><br>'+str(i)+legend['hovertext'],
+                    hoverinfo='text',
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
@@ -746,6 +782,7 @@ class V001:
                     "yaxis":"",
                     "text_s":"atividades",
                     "text_p":"atividades",
+                    'hovertext':' tarefa(s) feita(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of assigns completed by students",
@@ -753,6 +790,7 @@ class V001:
                         "yaxis":"",
                         "text_s":"assign",
                         "text_p":"assigns",
+                        'hovertext':' assign(s) completed'
                     }
         df = self._students.sort_values(by=["Total_Done","Name"]).iloc[:,[0,1]]
         trace = []
@@ -764,6 +802,7 @@ class V001:
                 orientation = 'h',
                 name="",
                 text="",
+                hoverinfo='none',
                 marker=dict(
                         color = 'lightgray',                        
                     )
@@ -782,7 +821,9 @@ class V001:
                     y=df.Name.loc[df["Total_Done"]==i].values.tolist(),
                     mode='markers',
                     name = "",                    
-                    text=text*len(df.Name.loc[df["Total_Done"]==i]),                    
+                    text=text*len(df.Name.loc[df["Total_Done"]==i]),
+                    hovertext = '<b>'+df.Name.loc[df["Total_Done"]==i]+'</b><br>'+str(i)+legend['hovertext'],
+                    hoverinfo='text',
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
@@ -845,13 +886,13 @@ class V001:
             config = {"displaylogo": False, "responsive": True, "displayModeBar": True, "modeBarButtonsToRemove": modeBarButtonsToRemove}
             return {"id":"V001@11","layout":json.dumps({"data": data, "layout": layout, "config": config}, cls=PlotlyJSONEncoder)}
         
-
     def graph_12(self):
         legend = {"title":"Número de tarefas <b>não</b> feitas por alunos",
                     "xaxis":"Número de atividades",
                     "yaxis":"",
                     "text_s":"atividades",
                     "text_p":"atividades",
+                    'hovertext':' tarefas(s) <b>não</b> feita(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of assigns <b>not</b> completed by students",
@@ -859,6 +900,7 @@ class V001:
                         "yaxis":"",
                         "text_s":"assign",
                         "text_p":"assigns",
+                        'hovertext':' assign(s) <b>not</b> completed'
                     }
         df = self._students.iloc[:,[0,2]]
         trace = []
@@ -870,6 +912,7 @@ class V001:
                 orientation = 'h',
                 name="",
                 text="",
+                hoverinfo='none',
                 marker=dict(
                         color = 'lightgray',                        
                     )
@@ -888,7 +931,9 @@ class V001:
                     y=df.Name.loc[df["Total_Undone"]==i].values.tolist(),
                     mode='markers',
                     name = "",                    
-                    text=text*len(df.Name.loc[df["Total_Undone"]==i]),                    
+                    text=text*len(df.Name.loc[df["Total_Undone"]==i]),
+                    hovertext = '<b>'+df.Name.loc[df["Total_Undone"]==i]+'</b><br>'+str(i)+legend['hovertext'],
+                    hoverinfo='text',
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
@@ -957,6 +1002,7 @@ class V001:
                     "yaxis":"",
                     "text_s":"atividades",
                     "text_p":"atividades",
+                    'hovertext':' tarefas(s) <b>não</b> feita(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of assigns <b>not</b> completed by students",
@@ -964,6 +1010,7 @@ class V001:
                         "yaxis":"",
                         "text_s":"assign",
                         "text_p":"assigns",
+                        'hovertext':' assign(s) <b>not</b> completed'
                     }
         df = self._students.sort_values(by=["Total_Undone","Name"]).iloc[:,[0,2]]
         trace = []
@@ -975,6 +1022,7 @@ class V001:
                 orientation = 'h',
                 name="",
                 text="",
+                hoverinfo='none',
                 marker=dict(
                         color = 'lightgray',                        
                     )
@@ -993,7 +1041,9 @@ class V001:
                     y=df.Name.loc[df["Total_Undone"]==i].values.tolist(),
                     mode='markers',
                     name = "",                    
-                    text=text*len(df.Name.loc[df["Total_Undone"]==i]),                    
+                    text=text*len(df.Name.loc[df["Total_Undone"]==i]),
+                    hovertext = '<b>'+df.Name.loc[df["Total_Undone"]==i]+'</b><br>'+str(i)+legend['hovertext'],
+                    hoverinfo='text',
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
@@ -1061,16 +1111,20 @@ class V001:
         legend = {"title":"Quantidade de estudantes que fizeram as tarefas",
                     "xaxis":"",
                     "yaxis":"Número de estudantes",
+                    'hovertext':' estudante(s) fez/fizeram'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students that completed the assigns",
                         "xaxis":"",
                         "yaxis":"Number of students",
+                        'hovertext':' student(s) completed'
                     }
         df = self._assigns.iloc[:,[0,1]]
         trace = [Bar(
             x=df.iloc[:,0].values,
-            y=df.iloc[:,1].values
+            y=df.iloc[:,1].values,
+            hovertext = ['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,1])+legend['hovertext'] for i in range(len(df.iloc[:,1].values))],
+            hoverinfo='text',
         )]
         
         data = trace
@@ -1120,16 +1174,20 @@ class V001:
         legend = {"title":"Quantidade de alunos que fizeram as tarefas",
                     "xaxis":"",
                     "yaxis":"Número de estudantes",
+                    'hovertext':' estudante(s) fez/fizeram'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students that completed the assigns",
                         "xaxis":"",
                         "yaxis":"Number of students",
+                        'hovertext':' student(s) completed'
                     }
         df = self._assigns.sort_values(by=["Total_Done","Name"]).iloc[:,[0,1]]
         trace = [Bar(
             x=df.iloc[:,0].values,
-            y=df.iloc[:,1].values
+            y=df.iloc[:,1].values,
+            hovertext = ['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,1])+legend['hovertext'] for i in range(len(df.iloc[:,1].values))],
+            hoverinfo='text',
         )]
         
         data = trace
@@ -1179,17 +1237,21 @@ class V001:
         legend = {"title":"Quantidade de estudantes que fizeram as tarefas",
                     "xaxis":"Número de estudantes",
                     "yaxis":"",
+                    'hovertext':' estudante(s) fez/fizeram'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students that completed the assigns",
                         "xaxis":"Number of students",
                         "yaxis":"",
+                        'hovertext':' student(s) completed'
                     }
         df = self._assigns.iloc[:,[0,1]]
         trace = [Bar(
             x=df.iloc[:,1].values,
             y=df.iloc[:,0].values,
-            orientation = 'h'
+            orientation = 'h',
+            hovertext = ['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,1])+legend['hovertext'] for i in range(len(df.iloc[:,1].values))],
+            hoverinfo='text',
         )]
         
         data = trace
@@ -1241,17 +1303,21 @@ class V001:
         legend = {"title":"Quantidade de estudantes que fizeram as tarefas",
                     "xaxis":"Número de estudantes",
                     "yaxis":"",
+                    'hovertext':' estudante(s) fez/fizeram'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students that completed the assigns",
                         "xaxis":"Number of students",
                         "yaxis":"",
+                        'hovertext':' student(s) completed'
                     }
         df = self._assigns.sort_values(by=["Total_Done","Name"]).iloc[:,[0,1]]
         trace = [Bar(
             x=df.iloc[:,1].values,
             y=df.iloc[:,0].values,
-            orientation = 'h'
+            orientation = 'h',
+            hovertext = ['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,1])+legend['hovertext'] for i in range(len(df.iloc[:,1].values))],
+            hoverinfo='text',
         )]
         
         data = trace
@@ -1303,16 +1369,20 @@ class V001:
         legend = {"title":"Quantidade de estudantes <b>não</b> que fizeram as tarefas",
                     "xaxis":"",
                     "yaxis":"Número de estudantes",
+                    'hovertext':' estudante(s) <b>não</b> fez/fizeram'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who <b>not</b> completed the assigns",
                         "xaxis":"",
                         "yaxis":"Number of students",
+                        'hovertext':' student(s) <b>not</b> completed'
                     }
         df = self._assigns.iloc[:,[0,2]]
         trace = [Bar(
             x=df.iloc[:,0].values,
             y=df.iloc[:,1].values,
+            hovertext = ['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,1])+legend['hovertext'] for i in range(len(df.iloc[:,1].values))],
+            hoverinfo='text',
             marker=dict(
                 color='rgb(255,126,24)',
             ),
@@ -1365,16 +1435,20 @@ class V001:
         legend = {"title":"Quantidade de alunos que <b>não</b> fizeram as tarefas",
                     "xaxis":"",
                     "yaxis":"Número de estudantes",
+                    'hovertext':' estudante(s) <b>não</b> fez/fizeram'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who <b>não</b> completed the assigns",
                         "xaxis":"",
                         "yaxis":"Number of students",
+                        'hovertext':' student(s) <b>not</b> completed'
                     }
         df = self._assigns.sort_values(by=["Total_Undone","Name"]).iloc[:,[0,2]]
         trace = [Bar(
             x=df.iloc[:,0].values,
             y=df.iloc[:,1].values,
+            hovertext = ['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,1])+legend['hovertext'] for i in range(len(df.iloc[:,1].values))],
+            hoverinfo='text',
             marker=dict(
                 color='rgb(255,126,24)',
             ),
@@ -1427,17 +1501,21 @@ class V001:
         legend = {"title":"Quantidade de estudantes que <b>não</b> fizeram as tarefas",
                     "xaxis":"Número de estudantes",
                     "yaxis":"",
+                    'hovertext':' estudante(s) <b>não</b> fez/fizeram'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who <b>not</b> completed the assigns",
                         "xaxis":"Number of students",
                         "yaxis":"",
+                        'hovertext':' student(s) <b>not</b> completed'
                     }
         df = self._assigns.iloc[:,[0,2]]
         trace = [Bar(
             x=df.iloc[:,1].values,
             y=df.iloc[:,0].values,
             orientation = 'h',
+            hovertext = ['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,1])+legend['hovertext'] for i in range(len(df.iloc[:,1].values))],
+            hoverinfo='text',
             marker=dict(
                 color='rgb(255,126,24)',
             ),
@@ -1492,17 +1570,21 @@ class V001:
         legend = {"title":"Quantidade de estudantes que <b>não</b> fizeram as tarefas",
                     "xaxis":"Número de estudantes",
                     "yaxis":"",
+                    'hovertext':' estudante(s) <b>não</b> fez/fizeram'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who <b>not</b> completed the assigns",
                         "xaxis":"Number of students",
                         "yaxis":"",
+                        'hovertext':' student(s) <b>not</b> completed'
                     }
         df = self._assigns.sort_values(by=["Total_Undone","Name"]).iloc[:,[0,2]]
         trace = [Bar(
             x=df.iloc[:,1].values,
-            y=df.iloc[:,0].values,
+            y=df.iloc[:,0].values,            
             orientation = 'h',
+            hovertext = ['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,1])+legend['hovertext'] for i in range(len(df.iloc[:,1].values))],
+            hoverinfo='text',
             marker=dict(
                 color='rgb(255,126,24)',
             ),
@@ -1560,6 +1642,7 @@ class V001:
                     "yaxis":"",
                     "text_s":"estudante",
                     "text_p":"estudantes",
+                    'hovertext':' estudante(s) fez/fizeram'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who completed the assigns",
@@ -1567,6 +1650,7 @@ class V001:
                         "yaxis":"",
                         "text_s":"student",
                         "text_p":"students",
+                        'hovertext':' student(s) completed'
                     }
         df = self._assigns.iloc[:,[0,1]]
 
@@ -1579,6 +1663,7 @@ class V001:
                 orientation = 'h',
                 name="",
                 text="",
+                hoverinfo='none',
                 marker=dict(
                         color = 'lightgray',
                         # line=dict(
@@ -1598,6 +1683,8 @@ class V001:
                 Scatter(
                     x=[i]*len(df.Name.loc[df["Total_Done"]==i]),
                     y=df.Name.loc[df["Total_Done"]==i].values.tolist(),
+                    hovertext = '<b>'+df.Name.loc[df["Total_Done"]==i]+'</b><br>'+str(i)+legend['hovertext'],
+                    hoverinfo='text',
                     mode='markers',
                     name = "",                    
                     text=text*len(df.Name.loc[df["Total_Done"]==i]),                    
@@ -1669,6 +1756,7 @@ class V001:
                     "yaxis":"",
                     "text_s":"estudante",
                     "text_p":"estudantes",
+                    'hovertext':' estudante(s) fez/fizeram'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who completed the assigns",
@@ -1676,6 +1764,7 @@ class V001:
                         "yaxis":"",
                         "text_s":"student",
                         "text_p":"students",
+                        'hovertext':' student(s) completed'
                     }
         df = self._assigns.sort_values(by=["Total_Done","Name"]).iloc[:,[0,1]]
 
@@ -1688,6 +1777,7 @@ class V001:
                 orientation = 'h',
                 name="",
                 text="",
+                hoverinfo='none',
                 marker=dict(
                         color = 'lightgray',
                         # line=dict(
@@ -1707,6 +1797,8 @@ class V001:
                 Scatter(
                     x=[i]*len(df.Name.loc[df["Total_Done"]==i]),
                     y=df.Name.loc[df["Total_Done"]==i].values.tolist(),
+                    hovertext = '<b>'+df.Name.loc[df["Total_Done"]==i]+'</b><br>'+str(i)+legend['hovertext'],
+                    hoverinfo='text',
                     mode='markers',
                     name = "",                    
                     text=text*len(df.Name.loc[df["Total_Done"]==i]),                    
@@ -1778,6 +1870,7 @@ class V001:
                     "yaxis":"",
                     "text_s":"estudante",
                     "text_p":"estudantes",
+                    'hovertext':' estudante(s) <b>não</b> fez/fizeram'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who <b>not</b> completed the assigns",
@@ -1785,6 +1878,7 @@ class V001:
                         "yaxis":"",
                         "text_s":"student",
                         "text_p":"students",
+                        'hovertext':' student(s) <b>not</b> completed'
                     }
         df = self._assigns.iloc[:,[0,2]]
         
@@ -1793,6 +1887,7 @@ class V001:
             Bar(
                 x=df.iloc[:,1].values,
                 y=df.iloc[:,0].values,
+                hoverinfo='none',
                 width=[0.04]*len(df.iloc[:,1].values),
                 orientation = 'h',
                 name="",
@@ -1816,6 +1911,8 @@ class V001:
                 Scatter(
                     x=[i]*len(df.Name.loc[df["Total_Undone"]==i]),
                     y=df.Name.loc[df["Total_Undone"]==i].values.tolist(),
+                    hovertext = '<b>'+df.Name.loc[df["Total_Undone"]==i]+'</b><br>'+str(i)+legend['hovertext'],
+                    hoverinfo='text',
                     mode='markers',
                     name = "",                    
                     text=text*len(df.Name.loc[df["Total_Undone"]==i]),                    
@@ -1887,6 +1984,7 @@ class V001:
                     "yaxis":"",
                     "text_s":"estudante",
                     "text_p":"estudantes",
+                    'hovertext':' estudante(s) <b>não</b> fez/fizeram'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who <b>not</b> completed the assigns",
@@ -1894,6 +1992,7 @@ class V001:
                         "yaxis":"",
                         "text_s":"student",
                         "text_p":"students",
+                        'hovertext':' student(s) <b>not</b> completed'
                     }
         df = self._assigns.sort_values(by=["Total_Undone","Name"]).iloc[:,[0,2]]
 
@@ -1902,6 +2001,7 @@ class V001:
             Bar(
                 x=df.iloc[:,1].values,
                 y=df.iloc[:,0].values,
+                hoverinfo='none',
                 width=[0.04]*len(df.iloc[:,1].values),
                 orientation = 'h',
                 name="",
@@ -1925,6 +2025,8 @@ class V001:
                 Scatter(
                     x=[i]*len(df.Name.loc[df["Total_Undone"]==i]),
                     y=df.Name.loc[df["Total_Undone"]==i].values.tolist(),
+                    hovertext = '<b>'+df.Name.loc[df["Total_Undone"]==i]+'</b><br>'+str(i)+legend['hovertext'],
+                    hoverinfo='text',
                     mode='markers',
                     name = "",                    
                     text=text*len(df.Name.loc[df["Total_Undone"]==i]),                    
@@ -1998,11 +2100,13 @@ class V001:
         legend = {"title":"Atividades feitas por estudante",
                     "xaxis":"",
                     "yaxis":"",
+                    'hovertext':' fez '
                 }
         if (self._language == "en"):
             legend = {"title":"Assigns completed by students",
                         "xaxis":"",
                         "yaxis":"",
+                        'hovertext':' completed '
                     }
         df = self.DATASET
 
@@ -2019,6 +2123,8 @@ class V001:
                     # name=df.iloc[i,0], #each student name
                     name=df.iloc[i,0], #student name
                     # text = df.iloc[i,1:].values.tolist(),
+                    hovertext = ['<b>'+df.iloc[i,0]+'</b>'+legend['hovertext']+df.columns[j+1] if df.iloc[i,j+1] > 0 else '' for j in range(len(df.columns[1:]))],
+                    hoverinfo='text',
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
@@ -2093,11 +2199,13 @@ class V001:
         legend = {"title":"Atividades <b>não</b> feitas por estudante",
                     "xaxis":"",
                     "yaxis":"",
+                    'hovertext':' <b>não</b> fez '
                 }
         if (self._language == "en"):
             legend = {"title":"Assigns <b>not</b> completed by students",
                         "xaxis":"",
                         "yaxis":"",
+                        'hovertext':' <b>not</b> completed '
                     }
         df = self.DATASET
 
@@ -2116,6 +2224,8 @@ class V001:
                     x=[df.iloc[i,0]]*len(df.columns), #student
                     y=df.columns[1:], #assigns
                     mode='markers',
+                    hovertext = ['<b>'+df.iloc[i,0]+'</b>'+legend['hovertext']+df.columns[j+1] if df.iloc[i,j+1] == 0 else '' for j in range(len(df.columns[1:]))],
+                    hoverinfo='text',
                     # name=df.iloc[i,0], #each student name
                     name=df.iloc[i,0], #student name
                     # text = df.iloc[i,1:].values.tolist(),
@@ -2193,11 +2303,15 @@ class V001:
         legend = {"title":"Atividades feitas e <b>não</b> feitas por estudante",
                     "xaxis":"",
                     "yaxis":"",
+                    'hovertext_done':' fez ',
+                    'hovertext_undone':' <b>não</b> fez '
                 }
         if (self._language == "en"):
             legend = {"title":"Assigns completed and <b>not</b> completed by students",
                         "xaxis":"",
                         "yaxis":"",
+                        'hovertext_done':' completed ',
+                        'hovertext_undone':' <b>not</b> completed '
                     }
         df = self.DATASET
 
@@ -2210,6 +2324,8 @@ class V001:
                 Scatter(
                     x=[df.iloc[i,0]]*len(df.columns), #student
                     y=df.columns[1:], #assigns
+                    hovertext = ['<b>'+df.iloc[i,0]+'</b>'+legend['hovertext_done']+df.columns[j+1] if df.iloc[i,j+1] > 0 else '' for j in range(len(df.columns[1:]))],
+                    hoverinfo='text',
                     mode='markers',
                     # name=df.iloc[i,0], #each student name
                     name=df.iloc[i,0], #student name
@@ -2237,6 +2353,8 @@ class V001:
                 Scatter(
                     x=[df.iloc[i,0]]*len(df.columns), #student
                     y=df.columns[1:], #assigns
+                    hovertext = ['<b>'+df.iloc[i,0]+'</b>'+legend['hovertext_undone']+df.columns[j+1] if df.iloc[i,j+1] == 0 else '' for j in range(len(df.columns[1:]))],
+                    hoverinfo='text',
                     mode='markers',
                     # name=df.iloc[i,0], #each student name
                     name=df.iloc[i,0], #student name
@@ -2315,34 +2433,40 @@ class V001:
         legend = {"title":"Número de atividades feitas e <b>não</b> feitas por estudante",
                     "xaxis":"",
                     "yaxis":"",
-                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"},
+                    'hovertext_done':' fez ',
+                    'hovertext_undone':' <b>não</b> fez '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of assigns completed and <b>not</b> completed student",
                         "xaxis":"",
                         "yaxis":"",
-                        "columns":{1:"Completed", 2:"Not completed"}
+                        "columns":{1:"Completed", 2:"Not completed"},
+                        'hovertext_done':' completed ',
+                        'hovertext_undone':' <b>not</b> completed '
                     }
         df = self._students.iloc[:,0:3]
         sizeref = 0.05
         
         trace = []
-        for i in range(0, len(df)):                    
+        for i in range(0, len(df)):
             trace.append(
                 Scatter(
                     x=[df.iloc[i,0]]*len(df.columns),
                     y=[legend["columns"][i] for i in range (1,2)],
                     mode='markers',                    
-                    name=df.iloc[i,0], #videos
-                    text = df.iloc[i,1:].values.tolist(),
+                    name=df.iloc[i,0],
+                    text = df.iloc[i,1].tolist(),
+                    hovertext = '<b>'+df.iloc[i,0]+'</b>'+legend['hovertext_done']+str(df.iloc[i,1]),
+                    hoverinfo='text',
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
                         sizeref=sizeref,
-                        size=df.iloc[i,1:].values.tolist(),
+                        size=df.iloc[i,1]*3,
                         color = 'rgb(0,0,255)',
                         line=dict(
-                            width=2
+                            width=0
                         )
                     )
                 )
@@ -2353,15 +2477,17 @@ class V001:
                     y=[legend["columns"][i] for i in range (2,3)],
                     mode='markers',                    
                     name=df.iloc[i,0],
-                    text = df.iloc[i,2:].values.tolist(),
+                    text = df.iloc[i,2].tolist(),
+                    hovertext = '<b>'+df.iloc[i,0]+'</b>'+legend['hovertext_undone']+str(df.iloc[i,2]),
+                    hoverinfo='text',
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
                         sizeref=sizeref,
-                        size=df.iloc[i,2:].values.tolist(),
+                        size=df.iloc[i,2]*3,
                         color='rgb(255,126,24)',
                         line=dict(
-                            width=2
+                            width=0
                         )
                     )
                 )
@@ -2426,13 +2552,17 @@ class V001:
         legend = {"title":"Número de estudantes que fizeram e <b>não</b> fizeram as atividades",
                     "xaxis":"",
                     "yaxis":"",
-                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"},
+                    'hovertext_done':' estudante(s) fez/fizeram ',
+                    'hovertext_undone':' estudante(s) <b>não</b> fez/fizeram '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who completed and <b>not</b> completed the assigns",
                         "xaxis":"",
                         "yaxis":"",
-                        "columns":{1:"Completed", 2:"Not completed"}
+                        "columns":{1:"Completed", 2:"Not completed"},
+                        'hovertext_done':' student(s) completed ',
+                        'hovertext_undone':' student(s) <b>not</b> completed '
                     }
         df = self._assigns.iloc[:,0:3]
         sizeref = 0.05
@@ -2444,16 +2574,17 @@ class V001:
                     x=[df.iloc[i,0]]*len(df.columns),
                     y=[legend["columns"][i] for i in range (1,2)],
                     mode='markers',                    
-                    name=df.iloc[i,0], #videos
-                    text = df.iloc[i,1:].values.tolist(),
+                    name=df.iloc[i,0],
+                    hovertext = str(df.iloc[i,1])+legend['hovertext_done']+'<b>'+df.iloc[i,0]+'</b>',
+                    hoverinfo='text',
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
                         sizeref=sizeref,
-                        size=df.iloc[i,1:].values.tolist(),
+                        size=df.iloc[i,1]*2,
                         color = 'rgb(0,0,255)',
                         line=dict(
-                            width=2
+                            width=0
                         )
                     )
                 )
@@ -2464,15 +2595,16 @@ class V001:
                     y=[legend["columns"][i] for i in range (2,3)],
                     mode='markers',                    
                     name=df.iloc[i,0],
-                    text = df.iloc[i,2:].values.tolist(),
+                    hovertext = str(df.iloc[i,2])+legend['hovertext_undone']+'<b>'+df.iloc[i,0]+'</b>',
+                    hoverinfo='text',
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
                         sizeref=sizeref,
-                        size=df.iloc[i,2:].values.tolist(),
+                        size=df.iloc[i,2]*2,
                         color='rgb(255,126,24)',
                         line=dict(
-                            width=2
+                            width=0
                         )
                     )
                 )
@@ -2535,21 +2667,31 @@ class V001:
         legend = {"title":"Atividades feitas por estudante",
                     "xaxis":"",
                     "yaxis":"",
+                    'hovertext_done':' fez ',
+                    'hovertext_undone':' <b>não</b> fez '
                 }
         if (self._language == "en"):
             legend = {"title":"Assigns completed by students",
                         "xaxis":"",
                         "yaxis":"",
+                        'hovertext_done':' completed ',
+                        'hovertext_undone':' <b>not</b> completed '
                     }
         df = self.DATASET
         z = []
+        hovervalue=[]
         for i in range (1, len(df.columns)):
-            z.append(df.iloc[:,i].values.tolist())
+            values = df.iloc[:,i].values.tolist()
+            z.append(values)
+            hovervalue.append([df.iloc[j,0]+legend['hovertext_undone']+df.columns[i] if values[j]==0 else df.iloc[j,0]+legend['hovertext_done']+df.columns[i] for j in range(len(values))])
+            
 
         trace = Heatmap(z=z,
                         y=df.columns[1:], #Assigns
                         x=df.iloc[:,0], #Students
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         showscale = False
                     )
         
@@ -2602,27 +2744,33 @@ class V001:
         legend = {"title":"Atividades <b>não</b> feitas por estudante",
                     "xaxis":"",
                     "yaxis":"",
+                    'hovertext_done':' fez ',
+                    'hovertext_undone':' <b>não</b> fez '
                 }
         if (self._language == "en"):
             legend = {"title":"Assigns <b>not</b> completed by students",
                         "xaxis":"",
                         "yaxis":"",
+                        'hovertext_done':' completed ',
+                        'hovertext_undone':' <b>not</b> completed '
                     }
         df = self.DATASET
         z = []
+        hovervalue=[]        
         for i in range (1, len(df.columns)):
             x = df.iloc[:,i].values.tolist()
             y = [-1]*len(x)
             f = [a + b for a, b in zip(x, y)]
             values = [a*(-1) for a in f]
             z.append(values)
-        # for i in range (1, len(df.columns)):
-        #     z.append(df.iloc[:,i].values.tolist())
+            hovervalue.append([df.iloc[j,0]+legend['hovertext_done']+df.columns[i] if values[j]==0 else df.iloc[j,0]+legend['hovertext_undone']+df.columns[i] for j in range(len(values))])
 
         trace = Heatmap(z=z,
                         y=df.columns[1:], #Assigns
                         x=df.iloc[:,0], #Students
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(255,126,24)']],
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         showscale = False
                     )
         
@@ -2675,21 +2823,30 @@ class V001:
         legend = {"title":"Atividades feitas e <b>não</b> feitas por estudante",
                     "xaxis":"",
                     "yaxis":"",
+                    'hovertext_done':' fez ',
+                    'hovertext_undone':' <b>não</b> fez '
                 }
         if (self._language == "en"):
             legend = {"title":"Assigns completed and <b>not</b> completed by students",
                         "xaxis":"",
                         "yaxis":"",
+                        'hovertext_done':' completed ',
+                        'hovertext_undone':' <b>not</b> completed '
                     }
         df = self.DATASET
         z = []
+        hovervalue=[]
         for i in range (1, len(df.columns)):
-            z.append(df.iloc[:,i].values.tolist())
+            values = df.iloc[:,i].values.tolist()
+            z.append(values)
+            hovervalue.append([df.iloc[j,0]+legend['hovertext_undone']+df.columns[i] if values[j]==0 else df.iloc[j,0]+legend['hovertext_done']+df.columns[i] for j in range(len(values))])
 
         trace = Heatmap(z=z,
                         y=df.columns[1:], #Assigns
                         x=df.iloc[:,0], #Students
                         colorscale=[[0, 'rgb(255,126,24)'], [1, 'rgb(0,0,255)']],
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         showscale = False
                     )
         
@@ -2742,24 +2899,34 @@ class V001:
         legend = {"title":"Número de atividades feitas e <b>não</b> feitas por estudante",
                     "xaxis":"",
                     "yaxis":"",
-                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"},
+                    'hovertext_done':' fez ',
+                    'hovertext_undone':' <b>não</b> fez '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of assigns completed and <b>not</b> completed student",
                         "xaxis":"",
                         "yaxis":"",
-                        "columns":{1:"Completed", 2:"Not completed"}
+                        "columns":{1:"Completed", 2:"Not completed"},
+                        'hovertext_done':' completed ',
+                        'hovertext_undone':' <b>not</b> completed '
                     }
         df = self._students.iloc[:,0:3]
         z = []
+        hovervalue=[]
         for i in range (1, len(df.columns)):
-            z.append(df.iloc[:,i].values.tolist())
+            values = df.iloc[:,i].values.tolist()
+            z.append(values)
+            hovervalue.append([df.iloc[j,0]+legend['hovertext_done']+str(values[j]) if i==1 else df.iloc[j,0]+legend['hovertext_undone']+str(values[j]) for j in range(len(values))])
+        
         
         trace = []
         trace.append(Heatmap(z=z,
                         y=[legend["columns"][i] for i in range (1,len(df.columns))],
                         x=df.iloc[:,0], #Students
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         showscale = True
                     ))
 
@@ -2791,6 +2958,9 @@ class V001:
                     exponentformat='e',
                     showexponent='all',
                     gridcolor='#bdbdbd',                    
+                ),
+                margin = dict(
+                    b=150,
                 )
             )
 
@@ -2812,20 +2982,27 @@ class V001:
         legend = {"title":"Número de atividades feitas e <b>não</b> feitas por estudante",
                     "xaxis":"",
                     "yaxis":"",
-                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"},
+                    'hovertext_done':' fez ',
+                    'hovertext_undone':' <b>não</b> fez '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of assigns completed and <b>not</b> completed student",
                         "xaxis":"",
                         "yaxis":"",
-                        "columns":{1:"Completed", 2:"Not completed"}
+                        "columns":{1:"Completed", 2:"Not completed"},
+                        'hovertext_done':' completed ',
+                        'hovertext_undone':' <b>not</b> completed '
                     }
         df = self._students.iloc[:,0:3]
         z = []
+        hovervalue=[]
         max_value = 0
         for i in range (1, len(df.columns)):
-            z.append(df.iloc[:,i].values.tolist())
-            max_local = max(df.iloc[:,i].values.tolist())
+            values = df.iloc[:,i].values.tolist()
+            z.append(values)
+            hovervalue.append([df.iloc[j,0]+legend['hovertext_done']+str(values[j]) if i==1 else df.iloc[j,0]+legend['hovertext_undone']+str(values[j]) for j in range(len(values))])
+            max_local = max(values)
             max_value = max(max_local,max_value)
         
         trace = []
@@ -2833,6 +3010,8 @@ class V001:
                         y=[legend["columns"][i] for i in range (1,len(df.columns))],
                         x=df.iloc[:,0], #Students
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         showscale = True
                     ))
 
@@ -2884,6 +3063,9 @@ class V001:
                     exponentformat='e',
                     showexponent='all',
                     gridcolor='#bdbdbd',                    
+                ),
+                margin = dict(
+                    b=150,
                 ),
                 annotations = annotations
             )
@@ -2906,23 +3088,32 @@ class V001:
         legend = {"title":"Número de estudantes que fizeram e <b>não</b> fizeram as atividades",
                     "xaxis":"",
                     "yaxis":"",
-                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"},
+                    'hovertext_done':' estudante(s) fez/fizeram ',
+                    'hovertext_undone':' estudante(s) <b>não</b> fez/fizeram '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who completed and <b>not</b> completed the assigns",
                         "xaxis":"",
                         "yaxis":"",
-                        "columns":{1:"Completed", 2:"Not completed"}
+                        "columns":{1:"Completed", 2:"Not completed"},
+                        'hovertext_done':' student(s) completed ',
+                        'hovertext_undone':' student(s) <b>not</b> completed '
                     }
         df = self._assigns.iloc[:,0:3]
+        hovervalue=[]
         z = []
         for i in range (1, len(df.columns)):
-            z.append(df.iloc[:,i].values.tolist())
-        
+            values = df.iloc[:,i].values.tolist()
+            z.append(values)
+            hovervalue.append([str(values[j])+legend['hovertext_done']+df.iloc[j,0] if i==1 else str(values[j])+legend['hovertext_undone']+df.iloc[j,0] for j in range(len(values))])
+
         trace = []
         trace.append(Heatmap(z=z,
                         y=[legend["columns"][i] for i in range (1,len(df.columns))],
                         x=df.iloc[:,0], #Students
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
                         showscale = True
                     ))
@@ -2955,6 +3146,9 @@ class V001:
                     exponentformat='e',
                     showexponent='all',
                     gridcolor='#bdbdbd',                    
+                ),
+                margin = dict(
+                    b=150,
                 )
             )
 
@@ -2976,19 +3170,26 @@ class V001:
         legend = {"title":"Número de estudantes que fizeram e <b>não</b> fizeram as atividades",
                     "xaxis":"",
                     "yaxis":"",
-                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"},
+                    'hovertext_done':' estudante(s) fez/fizeram ',
+                    'hovertext_undone':' estudante(s) <b>não</b> fez/fizeram '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who completed and <b>not</b> completed the assigns",
                         "xaxis":"",
                         "yaxis":"",
-                        "columns":{1:"Completed", 2:"Not completed"}
+                        "columns":{1:"Completed", 2:"Not completed"},
+                        'hovertext_done':' student(s) completed ',
+                        'hovertext_undone':' student(s) <b>not</b> completed '
                     }
         df = self._assigns.iloc[:,0:3]
         z = []
+        hovervalue=[]
         max_value = 0
         for i in range (1, len(df.columns)):
-            z.append(df.iloc[:,i].values.tolist())
+            values = df.iloc[:,i].values.tolist()
+            z.append(values)
+            hovervalue.append([str(values[j])+legend['hovertext_done']+df.iloc[j,0] if i==1 else str(values[j])+legend['hovertext_undone']+df.iloc[j,0] for j in range(len(values))])
             max_local = max(df.iloc[:,i].values.tolist())
             max_value = max(max_local,max_value)
         
@@ -2996,6 +3197,8 @@ class V001:
         trace.append(Heatmap(z=z,
                         y=[legend["columns"][i] for i in range (1,len(df.columns))],
                         x=df.iloc[:,0], #Students
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
                         showscale = True
                     ))
@@ -3048,6 +3251,9 @@ class V001:
                     exponentformat='e',
                     showexponent='all',
                     gridcolor='#bdbdbd',                    
+                ),
+                margin = dict(
+                    b=150,
                 ),
                 annotations = annotations
             )
@@ -3071,13 +3277,17 @@ class V001:
         legend = {"title":"Número de atividades feitas e <b>não</b> feitas por aluno",
                     "xaxis":"",
                     "yaxis":"Número de atividades",
-                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"},
+                    'hovertext_done':' tarefa(s) feita(s)',
+                    'hovertext_undone':' tarefa(s) <b>não</b> feita(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of assigns completed and <b>not</b> completed by students",
                         "xaxis":"",
                         "yaxis":"Number of assigns",
-                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                        "columns":{1:"Completed", 2:"Not<br>completed"},
+                        'hovertext_done':' assign(s) completed',
+                        'hovertext_undone':' assign(s) <b>not</b> completed'
                     }
         
         df = self._students
@@ -3087,6 +3297,8 @@ class V001:
             trace.append(Bar(
                     x=df.Name.values,
                     y=df.iloc[:,i].values,
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_done'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_undone'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     # name=df.columns[i]
                     name=legend['columns'][i]
             ))            
@@ -3138,13 +3350,17 @@ class V001:
         legend = {"title":"Número de atividades feitas e <b>não</b> feitas por aluno",
                     "xaxis":"",
                     "yaxis":"Número de atividades",
-                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"},
+                    'hovertext_done':' tarefa(s) feita(s)',
+                    'hovertext_undone':' tarefa(s) <b>não</b> feita(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of assigns completed and <b>not</b> completed by students",
                         "xaxis":"",
                         "yaxis":"Number of assigns",
-                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                        "columns":{1:"Completed", 2:"Not<br>completed"},
+                        'hovertext_done':' assign(s) completed',
+                        'hovertext_undone':' assign(s) <b>not</b> completed'
                     }
         
         df = self._students.sort_values(by=["Total_Done","Name"])
@@ -3154,6 +3370,8 @@ class V001:
             trace.append(Bar(
                     x=df.Name.values,
                     y=df.iloc[:,i].values,
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_done'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_undone'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     # name=df.columns[i]
                     name=legend['columns'][i]
             ))            
@@ -3205,13 +3423,17 @@ class V001:
         legend = {"title":"Número de atividades feitas e <b>não</b> feitas por aluno",
                     "xaxis":"",
                     "yaxis":"Número de atividades",
-                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"},
+                    'hovertext_done':' tarefa(s) feita(s)',
+                    'hovertext_undone':' tarefa(s) <b>não</b> feita(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of assigns completed and <b>not</b> completed by students",
                         "xaxis":"",
                         "yaxis":"Number of assigns",
-                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                        "columns":{1:"Completed", 2:"Not<br>completed"},
+                        'hovertext_done':' assign(s) completed',
+                        'hovertext_undone':' assign(s) <b>not</b> completed'
                     }
         
         df = self._students.sort_values(by=["Total_Undone","Name"])
@@ -3221,6 +3443,8 @@ class V001:
             trace.append(Bar(
                     x=df.Name.values,
                     y=df.iloc[:,i].values,
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_done'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_undone'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     # name=df.columns[i]
                     name=legend['columns'][i]
             ))            
@@ -3272,13 +3496,17 @@ class V001:
         legend = {"title":"Número de alunos que fizeram e <b>não</b> fizeram as atividades",
                     "xaxis":"",
                     "yaxis":"Número de estudantes",
-                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"}
+                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"},
+                    'hovertext_done':' estudante(s) fez/fizeram',
+                    'hovertext_undone':' estudante(s) <b>não</b> fez/fizeram'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who completed and <b>not</b> completed the assigns",
                         "xaxis":"",
                         "yaxis":"Number of students",
-                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                        "columns":{1:"Completed", 2:"Not<br>completed"},
+                        'hovertext_done':' student(s) completed',
+                        'hovertext_undone':' student(s) <b>not</b> completed'
                     }
         
         df = self._assigns
@@ -3288,6 +3516,8 @@ class V001:
             trace.append(Bar(
                     x=df.Name.values,
                     y=df.iloc[:,i].values,
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_done'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_undone'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     # name=df.columns[i]
                     name=legend['columns'][i]
             ))            
@@ -3339,13 +3569,17 @@ class V001:
         legend = {"title":"Número de alunos que fizeram e <b>não</b> fizeram as atividades",
                     "xaxis":"",
                     "yaxis":"Número de estudantes",
-                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"}
+                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"},
+                    'hovertext_done':' estudante(s) fez/fizeram',
+                    'hovertext_undone':' estudante(s) <b>não</b> fez/fizeram'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who completed and <b>not</b> completed the assigns",
                         "xaxis":"",
                         "yaxis":"Number of students",
-                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                        "columns":{1:"Completed", 2:"Not<br>completed"},
+                        'hovertext_done':' student(s) completed',
+                        'hovertext_undone':' student(s) <b>not</b> completed'
                     }
         
         df = self._assigns.sort_values(by=["Total_Done","Name"])
@@ -3355,6 +3589,8 @@ class V001:
             trace.append(Bar(
                     x=df.Name.values,
                     y=df.iloc[:,i].values,
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_done'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_undone'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     # name=df.columns[i]
                     name=legend['columns'][i]
             ))            
@@ -3406,13 +3642,17 @@ class V001:
         legend = {"title":"Número de alunos que fizeram e <b>não</b> fizeram as atividades",
                     "xaxis":"",
                     "yaxis":"Número de estudantes",
-                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"}
+                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"},
+                    'hovertext_done':' estudante(s) fez/fizeram',
+                    'hovertext_undone':' estudante(s) <b>não</b> fez/fizeram'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who completed and <b>not</b> completed the assigns",
                         "xaxis":"",
                         "yaxis":"Number of students",
-                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                        "columns":{1:"Completed", 2:"Not<br>completed"},
+                        'hovertext_done':' student(s) completed',
+                        'hovertext_undone':' student(s) <b>not</b> completed'
                     }
         
         df = self._assigns.sort_values(by=["Total_Undone","Name"])
@@ -3422,6 +3662,8 @@ class V001:
             trace.append(Bar(
                     x=df.Name.values,
                     y=df.iloc[:,i].values,
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_done'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_undone'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     # name=df.columns[i]
                     name=legend['columns'][i]
             ))            
@@ -3474,13 +3716,17 @@ class V001:
         legend = {"title":"Número de atividades feitas e <b>não</b> feitas por aluno",
                     "xaxis":"",
                     "yaxis":"Número de atividades",
-                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"},
+                    'hovertext_done':' tarefa(s) feita(s)',
+                    'hovertext_undone':' tarefa(s) <b>não</b> feita(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of assigns completed and <b>not</b> completed by students",
                         "xaxis":"",
                         "yaxis":"Number of assigns",
-                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                        "columns":{1:"Completed", 2:"Not<br>completed"},
+                        'hovertext_done':' assign(s) completed',
+                        'hovertext_undone':' assign(s) <b>not</b> completed'
                     }
 
         df = self._students
@@ -3489,6 +3735,8 @@ class V001:
             trace.append(Bar(
                     x=df.Name.values,
                     y=df.iloc[:,i].values,
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_done'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_undone'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     # name=df.columns[i]
                     name=legend['columns'][i]
             ))
@@ -3541,13 +3789,17 @@ class V001:
         legend = {"title":"Número de atividades feitas e <b>não</b> feitas por aluno",
                     "xaxis":"",
                     "yaxis":"Número de atividades",
-                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"},
+                    'hovertext_done':' tarefa(s) feita(s)',
+                    'hovertext_undone':' tarefa(s) <b>não</b> feita(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of assigns completed and <b>not</b> completed by students",
                         "xaxis":"",
                         "yaxis":"Number of assigns",
-                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                        "columns":{1:"Completed", 2:"Not<br>completed"},
+                        'hovertext_done':' assign(s) completed',
+                        'hovertext_undone':' assign(s) <b>not</b> completed'
                     }
 
         df = self._students.sort_values(by=["Total_Done","Name"])
@@ -3556,6 +3808,8 @@ class V001:
             trace.append(Bar(
                     x=df.Name.values,
                     y=df.iloc[:,i].values,
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_done'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_undone'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     # name=df.columns[i]
                     name=legend['columns'][i]
             ))
@@ -3608,13 +3862,17 @@ class V001:
         legend = {"title":"Número de atividades feitas e <b>não</b> feitas por aluno",
                     "xaxis":"",
                     "yaxis":"Número de atividades",
-                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"},
+                    'hovertext_done':' tarefa(s) feita(s)',
+                    'hovertext_undone':' tarefa(s) <b>não</b> feita(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of assigns completed and <b>not</b> completed by students",
                         "xaxis":"",
                         "yaxis":"Number of assigns",
-                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                        "columns":{1:"Completed", 2:"Not<br>completed"},
+                        'hovertext_done':' assign(s) completed',
+                        'hovertext_undone':' assign(s) <b>not</b> completed'
                     }
 
         df = self._students.sort_values(by=["Total_Undone","Name"])
@@ -3623,6 +3881,8 @@ class V001:
             trace.append(Bar(
                     x=df.Name.values,
                     y=df.iloc[:,i].values,
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_done'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_undone'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     # name=df.columns[i]
                     name=legend['columns'][i]
             ))
@@ -3675,13 +3935,17 @@ class V001:
         legend = {"title":"Número de atividades feitas e <b>não</b> feitas por aluno",
                     "xaxis":"Número de atividades",
                     "yaxis":"",
-                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"},
+                    'hovertext_done':' tarefa(s) feita(s)',
+                    'hovertext_undone':' tarefa(s) <b>não</b> feita(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of assigns completed and <b>not</b> completed by students",
                         "xaxis":"Number of assigns",
                         "yaxis":"",
-                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                        "columns":{1:"Completed", 2:"Not<br>completed"},
+                        'hovertext_done':' assign(s) completed',
+                        'hovertext_undone':' assign(s) <b>not</b> completed'
                     }
 
         df = self._students
@@ -3690,7 +3954,8 @@ class V001:
             trace.append(Bar(                    
                     x=df.iloc[:,i].values,
                     y=df.Name.values,
-                    # name=df.columns[i],
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_done'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_undone'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     name=legend['columns'][i],
                     orientation = 'h'
             ))
@@ -3743,13 +4008,17 @@ class V001:
         legend = {"title":"Número de atividades feitas e <b>não</b> feitas por aluno",
                     "xaxis":"Número de atividades",
                     "yaxis":"",
-                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"},
+                    'hovertext_done':' tarefa(s) feita(s)',
+                    'hovertext_undone':' tarefa(s) <b>não</b> feita(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of assigns completed and <b>not</b> completed by students",
                         "xaxis":"Number of assigns",
                         "yaxis":"",
-                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                        "columns":{1:"Completed", 2:"Not<br>completed"},
+                        'hovertext_done':' assign(s) completed',
+                        'hovertext_undone':' assign(s) <b>not</b> completed'
                     }
 
         df = self._students.sort_values(by=["Total_Done","Name"])
@@ -3758,7 +4027,8 @@ class V001:
             trace.append(Bar(                    
                     x=df.iloc[:,i].values,
                     y=df.Name.values,
-                    # name=df.columns[i],
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_done'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_undone'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     name=legend['columns'][i],
                     orientation = 'h'
             ))
@@ -3811,13 +4081,17 @@ class V001:
         legend = {"title":"Número de atividades feitas e <b>não</b> feitas por aluno",
                     "xaxis":"Número de atividades",
                     "yaxis":"",
-                    "columns":{1:"Feitas", 2:"Não<br>feitas"}
+                    "columns":{1:"Feitas", 2:"Não<br>feitas"},
+                    'hovertext_done':' tarefa(s) feita(s)',
+                    'hovertext_undone':' tarefa(s) <b>não</b> feita(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of assigns completed and <b>not</b> completed by students",
                         "xaxis":"Number of assigns",
                         "yaxis":"",
-                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                        "columns":{1:"Completed", 2:"Not<br>completed"},
+                        'hovertext_done':' assign(s) completed',
+                        'hovertext_undone':' assign(s) <b>not</b> completed'
                     }
 
         df = self._students.sort_values(by=["Total_Undone","Name"])
@@ -3826,7 +4100,8 @@ class V001:
             trace.append(Bar(                    
                     x=df.iloc[:,i].values,
                     y=df.Name.values,
-                    # name=df.columns[i],
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_done'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_undone'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     name=legend['columns'][i],
                     orientation = 'h'
             ))
@@ -3879,13 +4154,17 @@ class V001:
         legend = {"title":"Número de alunos que fizeram e <b>não</b> fizeram as atividades",
                     "xaxis":"",
                     "yaxis":"Número de estudantes",
-                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"}
+                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"},
+                    'hovertext_done':' estudante(s) fez/fizeram',
+                    'hovertext_undone':' estudante(s) <b>não</b> fez/fizeram'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who completed and <b>not</b> completed the assigns",
                         "xaxis":"",
                         "yaxis":"Number of students",
-                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                        "columns":{1:"Completed", 2:"Not<br>completed"},
+                        'hovertext_done':' student(s) completed',
+                        'hovertext_undone':' student(s) <b>not</b> completed'
                     }
         
         df = self._assigns
@@ -3894,7 +4173,8 @@ class V001:
             trace.append(Bar(
                     x=df.Name.values,
                     y=df.iloc[:,i].values,
-                    # name=df.columns[i]
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_done'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_undone'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     name=legend['columns'][i]
             ))
 
@@ -3946,13 +4226,17 @@ class V001:
         legend = {"title":"Número de alunos que fizeram e <b>não</b> fizeram as atividades",
                     "xaxis":"",
                     "yaxis":"Número de estudantes",
-                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"}
+                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"},
+                    'hovertext_done':' estudante(s) fez/fizeram',
+                    'hovertext_undone':' estudante(s) <b>não</b> fez/fizeram'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who completed and <b>not</b> completed the assigns",
                         "xaxis":"",
                         "yaxis":"Number of students",
-                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                        "columns":{1:"Completed", 2:"Not<br>completed"},
+                        'hovertext_done':' student(s) completed',
+                        'hovertext_undone':' student(s) <b>not</b> completed'
                     }
         
         df = self._assigns.sort_values(by=["Total_Done","Name"])
@@ -3961,7 +4245,8 @@ class V001:
             trace.append(Bar(
                     x=df.Name.values,
                     y=df.iloc[:,i].values,
-                    # name=df.columns[i]
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_done'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_undone'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     name=legend['columns'][i]
             ))
 
@@ -4013,13 +4298,17 @@ class V001:
         legend = {"title":"Número de alunos que fizeram e <b>não</b> fizeram as atividades",
                     "xaxis":"",
                     "yaxis":"Número de estudantes",
-                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"}
+                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"},
+                    'hovertext_done':' estudante(s) fez/fizeram',
+                    'hovertext_undone':' estudante(s) <b>não</b> fez/fizeram'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who completed and <b>not</b> completed the assigns",
                         "xaxis":"",
                         "yaxis":"Number of students",
-                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                        "columns":{1:"Completed", 2:"Not<br>completed"},
+                        'hovertext_done':' student(s) completed',
+                        'hovertext_undone':' student(s) <b>not</b> completed'
                     }
         
         df = self._assigns.sort_values(by=["Total_Undone","Name"])
@@ -4028,7 +4317,8 @@ class V001:
             trace.append(Bar(
                     x=df.Name.values,
                     y=df.iloc[:,i].values,
-                    # name=df.columns[i]
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_done'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_undone'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     name=legend['columns'][i]
             ))
 
@@ -4080,13 +4370,17 @@ class V001:
         legend = {"title":"Número de alunos que fizeram e <b>não</b> fizeram as atividades",
                     "xaxis":"Número de estudantes",
                     "yaxis":"",
-                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"}
+                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"},
+                    'hovertext_done':' estudante(s) fez/fizeram',
+                    'hovertext_undone':' estudante(s) <b>não</b> fez/fizeram'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who completed and <b>not</b> completed the assigns",
                         "xaxis":"Number of students",
                         "yaxis":"",
-                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                        "columns":{1:"Completed", 2:"Not<br>completed"},
+                        'hovertext_done':' student(s) completed',
+                        'hovertext_undone':' student(s) <b>not</b> completed'
                     }
         
         df = self._assigns
@@ -4095,7 +4389,8 @@ class V001:
             trace.append(Bar(                    
                     x=df.iloc[:,i].values,
                     y=df.Name.values,
-                    # name=df.columns[i],
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_done'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_undone'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     name=legend['columns'][i],
                     orientation = 'h'
             ))
@@ -4148,13 +4443,17 @@ class V001:
         legend = {"title":"Número de alunos que fizeram e <b>não</b> fizeram as atividades",
                     "xaxis":"Número de estudantes",
                     "yaxis":"",
-                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"}
+                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"},
+                    'hovertext_done':' estudante(s) fez/fizeram',
+                    'hovertext_undone':' estudante(s) <b>não</b> fez/fizeram'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who completed and <b>not</b> completed the assigns",
                         "xaxis":"Number of students",
                         "yaxis":"",
-                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                        "columns":{1:"Completed", 2:"Not<br>completed"},
+                        'hovertext_done':' student(s) completed',
+                        'hovertext_undone':' student(s) <b>not</b> completed'
                     }
         
         df = self._assigns.sort_values(by=["Total_Done","Name"])
@@ -4163,7 +4462,8 @@ class V001:
             trace.append(Bar(                    
                     x=df.iloc[:,i].values,
                     y=df.Name.values,
-                    # name=df.columns[i],
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_done'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_undone'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     name=legend['columns'][i],
                     orientation = 'h'
             ))
@@ -4216,13 +4516,17 @@ class V001:
         legend = {"title":"Número de alunos que fizeram e <b>não</b> fizeram as atividades",
                     "xaxis":"Número de estudantes",
                     "yaxis":"",
-                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"}
+                    "columns":{1:"Fizeram", 2:"Não<br>fizeram"},
+                    'hovertext_done':' estudante(s) fez/fizeram',
+                    'hovertext_undone':' estudante(s) <b>não</b> fez/fizeram'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who completed and <b>not</b> completed the assigns",
                         "xaxis":"Number of students",
                         "yaxis":"",
-                        "columns":{1:"Completed", 2:"Not<br>completed"}
+                        "columns":{1:"Completed", 2:"Not<br>completed"},
+                        'hovertext_done':' student(s) completed',
+                        'hovertext_undone':' student(s) <b>not</b> completed'
                     }
         
         df = self._assigns.sort_values(by=["Total_Undone","Name"])
@@ -4231,7 +4535,8 @@ class V001:
             trace.append(Bar(                    
                     x=df.iloc[:,i].values,
                     y=df.Name.values,
-                    # name=df.columns[i],
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_done'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_undone'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     name=legend['columns'][i],
                     orientation = 'h'
             ))

@@ -1,5 +1,5 @@
 - BUG - Session não está funcionando
-- Adicionar filtros nos gráficos.
 - Melhorar legendas e hovertexts
+- Adicionar filtros nos gráficos.
 - Atualizar o número de gráficos selecionados ao excluir ou selecionar o gráfico
 - Adicionar um iframe de carregando.
