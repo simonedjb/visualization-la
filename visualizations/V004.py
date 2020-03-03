@@ -165,33 +165,35 @@ class V004:
         legend = {"title":"Tempo de acesso aos vídeos por estudante",
                     "xaxis":"",
                     "yaxis":"",
+                    'hovertext':' segundos de tempo de acesso no ',
+                    'hovertext_total':' segundos de tempo total de acesso nos videos'
                 }
         if (self._language == "en"):
             legend = {"title":"Length of access to videos grouped by student",
                         "xaxis":"",
                         "yaxis":"",
+                        'hovertext':' seconds of access length on ',
+                        'hovertext_total':' seconds of total access length on the vides',
                     }
         # https://plot.ly/python/bubble-charts/
         # https://plot.ly/python/reference/#layout-xaxis
         # https://plot.ly/python/axes/#subcategory-axes
         df = self._df_sum
-        max_value = 0        
-        sum_value = 0
-        
+        max_value = 0
+        sum_value = 0        
         for i in range(1,len(df.columns)-1): #Iterate all columns, except Total
             max_local = max(df.iloc[1:,i].values.tolist())
             max_value = max(max_local,max_value)
                 
-        # sizeref = max_value/(max_value**3)
-        sizeref=4.5*max_value/(max_value)        
-        # print (max_value)
-        # print(sizeref)
+        sizeref=4.5*max_value/(max_value)*2
         trace = []
         for i in range(0, self.NUMBER_STUDENTS):
             trace.append(
                 Scatter(
                     x=[df.iloc[i,0]]*len(df.columns[1:]), #student
                     y=df.columns[1:], #videos
+                    hovertext=['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,j])+legend['hovertext']+df.columns[j] if j<len(df.columns)-1 else '<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,j])+legend['hovertext_total'] for j in range(1,len(df.columns))],
+                    hoverinfo='text',
                     mode='markers',
                     name=df.iloc[i,0], #each student name                    
                     # orientation = "h",
@@ -201,7 +203,6 @@ class V004:
                         symbol='circle',
                         sizemode='area',
                         sizeref=sizeref,
-                        # size=df.iloc[:,i].values.tolist(),
                         size=df.iloc[i,1:].values.tolist(),
                         color="rgb(0,0,255)",
                         line=dict(
@@ -268,21 +269,30 @@ class V004:
         legend = {"title":"Tempo de acesso aos vídeos por estudante",
                     "xaxis":"",
                     "yaxis":"",
+                    'hovertext':' segundos de tempo de acesso no ',
+                    'hovertext_total':' segundos de tempo total de acesso nos videos'
                 }
         if (self._language == "en"):
             legend = {"title":"Length of access to videos grouped by student",
                         "xaxis":"",
                         "yaxis":"",
+                        'hovertext':' seconds of access length on ',
+                        'hovertext_total':' seconds of total access length on the vides'
                     }
         df = self._df_sum
         
         z = []
+        hovervalue=[]
         for i in range (1, len(df.columns)):
-            z.append(df.iloc[:,i].values.tolist())
+            values = df.iloc[:,i].values.tolist()
+            z.append(values)
+            hovervalue.append(['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext']+df.columns[i] if i<len(df.columns)-1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_total'] for j in range(len(values))])
 
         trace = Heatmap(z=z,
                         y=df.columns[1:], #Videos
                         x=df.iloc[:,0], #Students
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
                         showscale = True
                     )
@@ -315,6 +325,9 @@ class V004:
                     exponentformat='e',
                     showexponent='all',
                     gridcolor='#bdbdbd',                    
+                ),
+                margin = dict(
+                    b=150,
                 )
             )
 
@@ -336,24 +349,33 @@ class V004:
         legend = {"title":"Tempo de acesso aos vídeos por estudante",
                     "xaxis":"",
                     "yaxis":"",
+                    'hovertext':' segundos de tempo de acesso no ',
+                    'hovertext_total':' segundos de tempo total de acesso nos videos'
                 }
         if (self._language == "en"):
             legend = {"title":"Length of access to videos grouped by student",
                         "xaxis":"",
                         "yaxis":"",
+                        'hovertext':' seconds of access length on ',
+                        'hovertext_total':' seconds of total access length on the vides'
                     }
         df = self._df_sum
         
         z = []
+        hovervalue=[]
         max_value = 0
         for i in range (1, len(df.columns)):
-            z.append(df.iloc[:,i].values.tolist())
-            max_local = max(df.iloc[:,i].values.tolist())
+            values = df.iloc[:,i].values.tolist()
+            z.append(values)
+            hovervalue.append(['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext']+df.columns[i] if i<len(df.columns)-1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_total'] for j in range(len(values))])
+            max_local = max(values)
             max_value = max(max_local,max_value)
 
         trace = Heatmap(z=z,
                         y=df.columns[1:], #Videos
                         x=df.iloc[:,0], #Students
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
                         showscale = True
                     )
@@ -407,6 +429,9 @@ class V004:
                     showexponent='all',
                     gridcolor='#bdbdbd',                    
                 ),
+                margin = dict(
+                    b=150,
+                ),
                 annotations = annotations
             )
 
@@ -428,21 +453,28 @@ class V004:
         legend = {"title":"Tempo de acesso aos vídeos por estudante",
                     "xaxis":"",
                     "yaxis":"",
+                    'hovertext':' segundos de tempo de acesso no ',
                 }
         if (self._language == "en"):
             legend = {"title":"Length of access to videos grouped by student",
                         "xaxis":"",
                         "yaxis":"",
+                        'hovertext':' seconds of access length on ',
                     }
         df = self._df_sum.iloc[:,:len(self._df_sum.columns)-1]
         
         z = []
+        hovervalue=[]
         for i in range (1, len(df.columns)):
-            z.append(df.iloc[:,i].values.tolist())
+            values = df.iloc[:,i].values.tolist()
+            z.append(values)
+            hovervalue.append(['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext']+df.columns[i] for j in range(len(values))])
 
         trace = Heatmap(z=z,
                         y=df.columns[1:], #Videos
                         x=df.iloc[:,0], #Students
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
                         showscale = True
                     )
@@ -496,24 +528,31 @@ class V004:
         legend = {"title":"Tempo de acesso aos vídeos por estudante",
                     "xaxis":"",
                     "yaxis":"",
+                    'hovertext':' segundos de tempo de acesso no ',
                 }
         if (self._language == "en"):
             legend = {"title":"Length of access to videos grouped by student",
                         "xaxis":"",
                         "yaxis":"",
+                        'hovertext':' seconds of access length on ',
                     }
         df = self._df_sum.iloc[:,:len(self._df_sum.columns)-1]
         
         z = []
-        max_value = 0
+        hovervalue=[]
+        max_value = 0        
         for i in range (1, len(df.columns)):
-            z.append(df.iloc[:,i].values.tolist())
-            max_local = max(df.iloc[:,i].values.tolist())
+            values = df.iloc[:,i].values.tolist()
+            z.append(values)
+            hovervalue.append(['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext']+df.columns[i] for j in range(len(values))])
+            max_local = max(values)
             max_value = max(max_local,max_value)
 
         trace = Heatmap(z=z,
                         y=df.columns[1:], #Videos
                         x=df.iloc[:,0], #Students
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
                         showscale = True
                     )
@@ -589,11 +628,13 @@ class V004:
         legend = {"title":"Tempo de acesso aos vídeos por estudante",
                     "xaxis":"",
                     "yaxis":"Tempo de acesso em segundos",
+                    'hovertext':' segundos de tempo de acesso no ',
                 }
         if (self._language == "en"):
             legend = {"title":"Length of access to videos grouped by student",
                         "xaxis":"",
                         "yaxis":"Length of access in seconds",
+                        'hovertext':' seconds of access length on ',
                     }
         df = self._df_sum
         trace = []
@@ -601,8 +642,9 @@ class V004:
             trace.append(Bar(
                     x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
-                    name=df.columns[i]
-                    # name=df.iloc[i,0], #each student name
+                    name=df.columns[i],
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext']+str(df.columns[i]) for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
             ))
 
         data = trace
@@ -653,11 +695,13 @@ class V004:
         legend = {"title":"Tempo de acesso aos vídeos por estudante",
                     "xaxis":"",
                     "yaxis":"Tempo de acesso em segundos",
+                    'hovertext':' segundos de tempo de acesso no ',
                 }
         if (self._language == "en"):
             legend = {"title":"Length of access to videos grouped by student",
                         "xaxis":"",
                         "yaxis":"Length of access in seconds",
+                        'hovertext':' seconds of access length on ',
                     }
         df = self._df_sum
         trace = []
@@ -665,8 +709,9 @@ class V004:
             trace.append(Bar(
                     x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
-                    name=df.columns[i]
-                    # name=df.iloc[i,0], #each student name
+                    name=df.columns[i],
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext']+str(df.columns[i]) for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
             ))
 
         data = trace
@@ -717,11 +762,13 @@ class V004:
         legend = {"title":"Tempo de acesso aos vídeos por estudante",
                     "xaxis":"",
                     "yaxis":"Tempo de acesso em segundos",
+                    'hovertext':' segundos de tempo de acesso no ',
                 }
         if (self._language == "en"):
             legend = {"title":"Length of access to videos grouped by student",
                         "xaxis":"",
                         "yaxis":"Length of access in seconds",
+                        'hovertext':' seconds of access length on ',
                     }        
         df = self._df_sum.sort_values(by=[self._df_sum.columns[len(self._df_sum.columns)-1],self._df_sum.columns[0]])
         trace = []
@@ -729,8 +776,9 @@ class V004:
             trace.append(Bar(
                     x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
-                    name=df.columns[i]
-                    # name=df.iloc[i,0], #each student name
+                    name=df.columns[i],
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext']+str(df.columns[i]) for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
             ))
 
         data = trace
@@ -781,11 +829,13 @@ class V004:
         legend = {"title":"Tempo de acesso aos vídeos por estudante",
                     "xaxis":"Tempo de acesso em segundos",
                     "yaxis":"",
+                    'hovertext':' segundos de tempo de acesso no ',
                 }
         if (self._language == "en"):
             legend = {"title":"Length of access to videos grouped by student",
                         "xaxis":"Length of access in seconds",
                         "yaxis":"",
+                        'hovertext':' seconds of access length on ',
                     }
         df = self._df_sum
         trace = []
@@ -794,6 +844,8 @@ class V004:
                     x=df.iloc[:,i].values,
                     y=df[df.columns[0]].values,
                     name=df.columns[i],
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext']+str(df.columns[i]) for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     orientation = 'h'
                     # name=df.iloc[i,0], #each student name
             ))
@@ -846,11 +898,13 @@ class V004:
         legend = {"title":"Tempo de acesso aos vídeos por estudante",
                     "xaxis":"Tempo de acesso em segundos",
                     "yaxis":"",
+                    'hovertext':' segundos de tempo de acesso no ',
                 }
         if (self._language == "en"):
             legend = {"title":"Length of access to videos grouped by student",
                         "xaxis":"Length of access in seconds",
                         "yaxis":"",
+                        'hovertext':' seconds of access length on ',
                     }
         df = self._df_sum.sort_values(by=[self._df_sum.columns[len(self._df_sum.columns)-1],self._df_sum.columns[0]])
         trace = []
@@ -859,6 +913,8 @@ class V004:
                     x=df.iloc[:,i].values,
                     y=df[df.columns[0]].values,
                     name=df.columns[i],
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext']+str(df.columns[i]) for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     orientation = 'h'
                     # name=df.iloc[i,0], #each student name
             ))
