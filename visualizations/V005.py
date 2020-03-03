@@ -37,16 +37,16 @@ class V005:
         
         if (self._language == "pt"):
             self.DATASET = pd.DataFrame(columns=["Estudantes","Notas","Acesso ao AVA",
-                                                "Acesso ao Fórum","Postagens no Fórum","Respostas no Fórum","Adição de Tópicos no Fórum", 
+                                                "Acesso ao Fórum","Postagens no Fórum","Réplicas no Fórum","Adição de Tópicos no Fórum", 
                                                 "Atividade 1","Atividade 2","Atividade 3","Atividade 4","Vídeo 1","Vídeo 2", 
                                                 "Quiz 1","Quiz 2","Pdf 1","Pdf 2","Ebook 1","Ebook 2",])
-            self._df_sum = pd.DataFrame(columns=["Estudantes","Notas","Total de Atividades","Total de Materiais"])
+            self._df_sum = pd.DataFrame(columns=["Estudantes","Notas","Atividades Concluidas","Acessos de Materiais"])
         else:
             self.DATASET = pd.DataFrame(columns=["Students","Grade","AVA Access",
                                                 "Forum Access","Forum Post","Forum Replies","Forum Add Thread", 
                                                 "Assign 1","Assign 2","Assign 3","Assign 4","Video 1","Video 2", 
                                                 "Quiz 1","Quiz 2","Pdf 1","Pdf 2","Ebook 1","Ebook 2",])
-            self._df_sum = pd.DataFrame(columns=["Students","Grade","AssignTotal","MaterialTotal"])
+            self._df_sum = pd.DataFrame(columns=["Students","Grade","Completed Assigns","Material Access"])
         
         
         if len(rand_names) == 0:
@@ -264,11 +264,13 @@ class V005:
         legend = {"title":"Relação entre as notas dos estudantes e seus acessos no AVA",
                     "xaxis":"Acessos no AVA",
                     "yaxis":"Notas",
+                    'hovertext':'Nota'
                 }
         if (self._language == "en"):
             legend = {"title":"Relation between either students' grades and their access in the VLE",
                         "xaxis":"Access in the VLE",
                         "yaxis":"Grades",
+                        'hovertext':'Grade'
                     }
         
         df = self._df_sum.sort_values(by=[self._df_sum.columns[len(self._df_sum.columns)-1]])
@@ -286,6 +288,8 @@ class V005:
                 Scatter(
                     x=[df[df.columns[4]][i]], #Access
                     y=[df[df.columns[1]][i]], #Grade
+                    hovertext = '<b>'+df[df.columns[0]][i]+'</b><br>'+legend['xaxis']+": "+str(df[df.columns[4]][i])+'<br>'+legend['hovertext']+": "+str(df[df.columns[1]][i])+'<br>Cluster: '+str(df[df.columns[len(df.columns)-1]][i]+1),
+                    hoverinfo='text',
                     mode='markers',
                     name=df[df.columns[0]][i], #each student name                    
                     text = [str(df[df.columns[0]][i])],
@@ -354,11 +358,13 @@ class V005:
         legend = {"title":"Relação entre as notas dos estudantes e seus acessos nos materiais",
                     "xaxis":"Acessos nos materiais",
                     "yaxis":"Notas",
+                    'hovertext':'Nota'
                 }
         if (self._language == "en"):
             legend = {"title":"Relation between either students' grades and their access in the materials",
                         "xaxis":"Access in the materials",
                         "yaxis":"Grades",
+                        'hovertext':'Grade'
                     }
         df = self._df_sum.sort_values(by=self._df_sum.columns[1])
         Clusters = df[df.columns[len(df.columns)-1]].unique()
@@ -374,6 +380,8 @@ class V005:
                 Scatter(
                     x=[self._df_sum[self._df_sum.columns[3]][i]], #Material Access
                     y=[self.DATASET[self.DATASET.columns[1]][i]], #Grade
+                    hovertext = '<b>'+df[df.columns[0]][i]+'</b><br>'+legend['xaxis']+": "+str(df[df.columns[3]][i])+'<br>'+legend['hovertext']+": "+str(df[df.columns[1]][i])+'<br>Cluster: '+str(df[df.columns[len(df.columns)-1]][i]+1),
+                    hoverinfo='text',
                     mode='markers',
                     name=self.DATASET[self.DATASET.columns[0]][i], #each student name
                     text = [str(self.DATASET[self.DATASET.columns[0]][i])],
@@ -440,11 +448,13 @@ class V005:
         legend = {"title":"Relação entre as notas dos estudantes e as atividades concluídas por eles",
                     "xaxis":"Atividades concluídas",
                     "yaxis":"Notas",
+                    'hovertext':'Nota'
                 }
         if (self._language == "en"):
             legend = {"title":"Relation between either students' grades and the activities completed by them",
                         "xaxis":"Activities completed",
                         "yaxis":"Grades",
+                        'hovertext':'Grade'
                     }
         df = self._df_sum.sort_values(by=self._df_sum.columns[1])
         Clusters = df[df.columns[len(df.columns)-1]].unique()
@@ -460,6 +470,8 @@ class V005:
                 Scatter(
                     x=[self._df_sum[self._df_sum.columns[2]][i]], #AssignAnswered
                     y=[self.DATASET[self.DATASET.columns[1]][i]], #Grade
+                    hovertext = '<b>'+df[df.columns[0]][i]+'</b><br>'+legend['xaxis']+": "+str(df[df.columns[2]][i])+'<br>'+legend['hovertext']+": "+str(df[df.columns[1]][i])+'<br>Cluster: '+str(df[df.columns[len(df.columns)-1]][i]+1),
+                    hoverinfo='text',
                     mode='markers',
                     name=self.DATASET[self.DATASET.columns[0]][i], #each student name                    
                     text = [str(self.DATASET[self.DATASET.columns[0]][i])],                    
@@ -526,11 +538,13 @@ class V005:
         legend = {"title":"Relação entre as notas dos estudantes e seus acessos no fórum",
                     "xaxis":"Acessos no fórum",
                     "yaxis":"Notas",
+                    'hovertext':'Nota'
                 }
         if (self._language == "en"):
             legend = {"title":"Relation between either students' grades and their access in the forum",
                         "xaxis":"Access in the forum",
                         "yaxis":"Grades",
+                        'hovertext':'Grade'
                     }
         df = self._df_sum.sort_values(by=self._df_sum.columns[1])
         Clusters = df[df.columns[len(df.columns)-1]].unique()
@@ -544,8 +558,10 @@ class V005:
         for i in range(0, self.NUMBER_STUDENTS):
             trace.append(
                 Scatter(
-                    x=[self.DATASET[self.DATASET.columns[3]][i]], #Acesso ao fórum
+                    x=[self.DATASET[self.DATASET.columns[5]][i]], #Acesso ao fórum
                     y=[self.DATASET[self.DATASET.columns[1]][i]], #Grade
+                    hovertext = '<b>'+df[df.columns[0]][i]+'</b><br>'+legend['xaxis']+": "+str(df[df.columns[5]][i])+'<br>'+legend['hovertext']+": "+str(df[df.columns[1]][i])+'<br>Cluster: '+str(df[df.columns[len(df.columns)-1]][i]+1),
+                    hoverinfo='text',
                     mode='markers',
                     name=self.DATASET[self.DATASET.columns[0]][i], #each student name                    
                     text = [str(self.DATASET[self.DATASET.columns[0]][i])],                    
@@ -612,11 +628,13 @@ class V005:
         legend = {"title":"Relação entre as notas dos estudantes e suas postagens no fórum",
                     "xaxis":"Postagens no fórum",
                     "yaxis":"Notas",
+                    'hovertext':'Nota'
                 }
         if (self._language == "en"):
             legend = {"title":"Relation between either students' grades and their posts in the forum",
                         "xaxis":"Posts in the forum",
                         "yaxis":"Grades",
+                        'hovertext':'Grade'
                     }
         df = self._df_sum.sort_values(by=self._df_sum.columns[1])
         Clusters = df[df.columns[len(df.columns)-1]].unique()
@@ -630,8 +648,10 @@ class V005:
         for i in range(0, self.NUMBER_STUDENTS):
             trace.append(
                 Scatter(
-                    x=[self.DATASET[self.DATASET.columns[4]][i]], #Postagem no fórum
+                    x=[self.DATASET[self.DATASET.columns[6]][i]], #Postagem no fórum
                     y=[self.DATASET[self.DATASET.columns[1]][i]], #Grade
+                    hovertext = '<b>'+df[df.columns[0]][i]+'</b><br>'+legend['xaxis']+": "+str(df[df.columns[6]][i])+'<br>'+legend['hovertext']+": "+str(df[df.columns[1]][i])+'<br>Cluster: '+str(df[df.columns[len(df.columns)-1]][i]+1),
+                    hoverinfo='text',
                     mode='markers',
                     name=self.DATASET[self.DATASET.columns[0]][i], #each student name                    
                     text = [str(self.DATASET[self.DATASET.columns[0]][i])],                    
@@ -698,11 +718,13 @@ class V005:
         legend = {"title":"Relação entre as notas dos estudantes e suas réplicas no fórum",
                     "xaxis":"Réplicas no fórum",
                     "yaxis":"Notas",
+                    'hovertext':'Nota'
                 }
         if (self._language == "en"):
             legend = {"title":"Relation between either students' grades and their replies in the forum",
                         "xaxis":"Replies in the forum",
                         "yaxis":"Grades",
+                        'hovertext':'Grade'
                     }
         df = self._df_sum.sort_values(by=self._df_sum.columns[1])
         Clusters = df[df.columns[len(df.columns)-1]].unique()
@@ -716,8 +738,10 @@ class V005:
         for i in range(0, self.NUMBER_STUDENTS):
             trace.append(
                 Scatter(
-                    x=[self.DATASET[self.DATASET.columns[5]][i]], #Replies
+                    x=[self.DATASET[self.DATASET.columns[7]][i]], #Replies
                     y=[self.DATASET[self.DATASET.columns[1]][i]], #Grade
+                    hovertext = '<b>'+df[df.columns[0]][i]+'</b><br>'+legend['xaxis']+": "+str(df[df.columns[7]][i])+'<br>'+legend['hovertext']+": "+str(df[df.columns[1]][i])+'<br>Cluster: '+str(df[df.columns[len(df.columns)-1]][i]+1),
+                    hoverinfo='text',
                     mode='markers',
                     name=self.DATASET[self.DATASET.columns[0]][i], #each student name                    
                     text = [str(self.DATASET[self.DATASET.columns[0]][i])],                    
@@ -784,11 +808,13 @@ class V005:
         legend = {"title":"Relação entre as notas dos estudantes e seus tópicos adicionados no fórum",
                     "xaxis":"Tópicos no fórum",
                     "yaxis":"Notas",
+                    'hovertext':'Nota'
                 }
         if (self._language == "en"):
             legend = {"title":"Relation between either students' grades and their threads added in the forum",
                         "xaxis":"Threads in the forum",
                         "yaxis":"Grades",
+                        'hovertext':'Grade'
                     }
         df = self._df_sum.sort_values(by=self._df_sum.columns[1])
         Clusters = df[df.columns[len(df.columns)-1]].unique()
@@ -802,8 +828,10 @@ class V005:
         for i in range(0, self.NUMBER_STUDENTS):
             trace.append(
                 Scatter(
-                    x=[self.DATASET[self.DATASET.columns[6]][i]], #Init threads in forum
+                    x=[self.DATASET[self.DATASET.columns[8]][i]], #Init threads in forum
                     y=[self.DATASET[self.DATASET.columns[1]][i]], #Grade
+                    hovertext = '<b>'+df[df.columns[0]][i]+'</b><br>'+legend['xaxis']+": "+str(df[df.columns[8]][i])+'<br>'+legend['hovertext']+": "+str(df[df.columns[1]][i])+'<br>Cluster: '+str(df[df.columns[len(df.columns)-1]][i]+1),
+                    hoverinfo='text',
                     mode='markers',
                     name=self.DATASET[self.DATASET.columns[0]][i], #each student name                    
                     text = [str(self.DATASET[self.DATASET.columns[0]][i])],                    
@@ -871,11 +899,13 @@ class V005:
         legend = {"title":"Variação de notas dos estudantes por cluster",
                     "xaxis":"",
                     "yaxis":"Notas",
+                    'hovertext':'Nota'
                 }
         if (self._language == "en"):
             legend = {"title":"Students' grades variation by cluster",
                         "xaxis":"",
                         "yaxis":"Grades",
+                        'hovertext':'Grade'
                     }
         df = self._df_sum.sort_values(by=self._df_sum.columns[1])
         Clusters = df[df.columns[len(df.columns)-1]].unique()
@@ -883,11 +913,13 @@ class V005:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_grades = df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist() #Grades
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 Box(
-                    y=df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(), #Grades
-                    name="Cluster "+str(i+1),
-                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    y=lst_grades, #Grades
+                    name="Cluster "+str(i+1),                    
+                    text=['<b>'+lst_names[j]+'</b><br>'+legend['hovertext']+": "+str(lst_grades[j])+'<br>Cluster '+str(i+1) for j in range(len(lst_names))],
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -956,11 +988,13 @@ class V005:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_access = df[df.columns[4]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist() #Access
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 Box(
-                    y=df[df.columns[4]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(), #Access
+                    y=lst_access, #Access
                     name="Cluster "+str(i+1),
-                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    text=['<b>'+lst_names[j]+'</b><br>'+legend['yaxis']+": "+str(lst_access[j])+'<br>Cluster '+str(i+1) for j in range(len(lst_names))],
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -1029,11 +1063,13 @@ class V005:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_access = df[df.columns[3]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist() #Access
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 Box(
-                    y=df[df.columns[3]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(), #Access
+                    y=lst_access, #Access
                     name="Cluster "+str(i+1),
-                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    text=['<b>'+lst_names[j]+'</b><br>'+legend['yaxis']+": "+str(lst_access[j])+'<br>Cluster '+str(i+1) for j in range(len(lst_names))],
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -1102,11 +1138,13 @@ class V005:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_assigns = df[df.columns[2]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist() #Assigns
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 Box(
-                    y=df[df.columns[2]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    y=lst_assigns,
                     name="Cluster "+str(i+1),
-                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    text=['<b>'+lst_names[j]+'</b><br>'+legend['yaxis']+": "+str(lst_assigns[j])+'<br>Cluster '+str(i+1) for j in range(len(lst_names))],
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -1175,11 +1213,13 @@ class V005:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_access = df[df.columns[5]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist() #Access
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 Box(
-                    y=df[df.columns[5]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    y=lst_access,
                     name="Cluster "+str(i+1),
-                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    text=['<b>'+lst_names[j]+'</b><br>'+legend['yaxis']+": "+str(lst_access[j])+'<br>Cluster '+str(i+1) for j in range(len(lst_names))],
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -1248,11 +1288,13 @@ class V005:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_posts = df[df.columns[6]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist() #Posts
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 Box(
-                    y=df[df.columns[6]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    y=lst_posts,
                     name="Cluster "+str(i+1),
-                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    text=['<b>'+lst_names[j]+'</b><br>'+legend['yaxis']+": "+str(lst_posts[j])+'<br>Cluster '+str(i+1) for j in range(len(lst_names))],
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -1321,11 +1363,13 @@ class V005:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_replies = df[df.columns[7]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist() #Replies
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 Box(
-                    y=df[df.columns[7]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    y=lst_replies,
                     name="Cluster "+str(i+1),
-                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    text=['<b>'+lst_names[j]+'</b><br>'+legend['yaxis']+": "+str(lst_replies[j])+'<br>Cluster '+str(i+1) for j in range(len(lst_names))],
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -1394,11 +1438,13 @@ class V005:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_threads = df[df.columns[8]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist() #threads
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 Box(
-                    y=df[df.columns[8]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    y=lst_threads,
                     name="Cluster "+str(i+1),
-                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    text=['<b>'+lst_names[j]+'</b><br>'+legend['yaxis']+": "+str(lst_threads[j])+'<br>Cluster '+str(i+1) for j in range(len(lst_names))],
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],                        
@@ -1456,11 +1502,13 @@ class V005:
         legend = {"title":"Variação de notas dos estudantes por cluster",
                     "xaxis":"",
                     "yaxis":"Notas",
+                    'hovertext':"Nota"
                 }
         if (self._language == "en"):
             legend = {"title":"Students' grades variation by cluster",
                         "xaxis":"",
                         "yaxis":"Grades",
+                        'hovertext':"Grade"
                     }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
@@ -1470,13 +1518,15 @@ class V005:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_grades = df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist() #grades
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 {
                     "type":'violin',
                     "x":["Cluster "+str(i+1)]*len(df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
-                    "y":df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
+                    "y":lst_grades,
                     "name":"Cluster "+str(i+1),
-                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    'text':['<b>'+lst_names[j]+'</b><br>'+legend['hovertext']+": "+str(lst_grades[j])+'<br>Cluster '+str(i+1) for j in range(len(lst_names))],
                     "box":{
                         "visible":True
                         },
@@ -1553,13 +1603,15 @@ class V005:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_access = df[df.columns[4]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist() #access
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 {
                     "type":'violin',
                     "x":["Cluster "+str(i+1)]*len(df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
                     "y":df[df.columns[4]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
                     "name":"Cluster "+str(i+1),
-                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    'text':['<b>'+lst_names[j]+'</b><br>'+legend['yaxis']+": "+str(lst_access[j])+'<br>Cluster '+str(i+1) for j in range(len(lst_names))],
                     "box":{
                         "visible":True
                         },
@@ -1637,13 +1689,15 @@ class V005:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_access = df[df.columns[3]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist() #access
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 {
                     "type":'violin',
                     "x":["Cluster "+str(i+1)]*len(df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
-                    "y":df[df.columns[3]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
+                    "y":lst_access,
                     "name":"Cluster "+str(i+1),
-                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    'text':['<b>'+lst_names[j]+'</b><br>'+legend['yaxis']+": "+str(lst_access[j])+'<br>Cluster '+str(i+1) for j in range(len(lst_names))],
                     "box":{
                         "visible":True
                         },
@@ -1720,13 +1774,15 @@ class V005:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_access = df[df.columns[2]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist() #access
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 {
                     "type":'violin',
                     "x":["Cluster "+str(i+1)]*len(df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
-                    "y":df[df.columns[2]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
+                    "y":lst_access,
                     "name":"Cluster "+str(i+1),
-                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    'text':['<b>'+lst_names[j]+'</b><br>'+legend['yaxis']+": "+str(lst_access[j])+'<br>Cluster '+str(i+1) for j in range(len(lst_names))],
                     "box":{
                         "visible":True
                         },
@@ -1803,13 +1859,15 @@ class V005:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_access = df[df.columns[5]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist() #access
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 {
                     "type":'violin',
                     "x":["Cluster "+str(i+1)]*len(df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
-                    "y":df[df.columns[5]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
+                    "y":lst_access,
                     "name":"Cluster "+str(i+1),
-                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    'text':['<b>'+lst_names[j]+'</b><br>'+legend['yaxis']+": "+str(lst_access[j])+'<br>Cluster '+str(i+1) for j in range(len(lst_names))],
                     "box":{
                         "visible":True
                         },
@@ -1886,13 +1944,15 @@ class V005:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_access = df[df.columns[6]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist() #access
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 {
                     "type":'violin',
                     "x":["Cluster "+str(i+1)]*len(df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
-                    "y":df[df.columns[6]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
+                    "y":lst_access,
                     "name":"Cluster "+str(i+1),
-                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    'text':['<b>'+lst_names[j]+'</b><br>'+legend['yaxis']+": "+str(lst_access[j])+'<br>Cluster '+str(i+1) for j in range(len(lst_names))],
                     "box":{
                         "visible":True
                         },
@@ -1969,13 +2029,15 @@ class V005:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_access = df[df.columns[7]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist() #access
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 {
                     "type":'violin',
                     "x":["Cluster "+str(i+1)]*len(df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
-                    "y":df[df.columns[7]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
+                    "y":lst_access,
                     "name":"Cluster "+str(i+1),
-                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    'text':['<b>'+lst_names[j]+'</b><br>'+legend['yaxis']+": "+str(lst_access[j])+'<br>Cluster '+str(i+1) for j in range(len(lst_names))],
                     "box":{
                         "visible":True
                         },
@@ -2052,13 +2114,15 @@ class V005:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_access = df[df.columns[8]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist() #access
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 {
                     "type":'violin',
                     "x":["Cluster "+str(i+1)]*len(df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
-                    "y":df[df.columns[8]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
+                    "y":lst_access,
                     "name":"Cluster "+str(i+1),
-                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    'text':['<b>'+lst_names[j]+'</b><br>'+legend['yaxis']+": "+str(lst_access[j])+'<br>Cluster '+str(i+1) for j in range(len(lst_names))],
                     "box":{
                         "visible":True
                         },
