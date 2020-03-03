@@ -35,7 +35,7 @@ class V006:
         self.NUMBER_STUDENTS = number_students
 
         if (self._language == "pt"):
-            self.DATASET = pd.DataFrame(columns=["Estudantes","Idade","Acesso ao Fórum","Postagens no Fórum","Respostas no Fórum","Adição de Tópicos no Fórum","Cluster"])
+            self.DATASET = pd.DataFrame(columns=["Estudantes","Idade","Acesso ao Fórum","Postagens no Fórum","Réplicas no Fórum","Adição de Tópicos no Fórum","Cluster"])
         else: 
             self.DATASET = pd.DataFrame(columns=["Students","Age","Forum Access","Forum Post","Forum Replies","Forum Add Thread","Cluster"])
 
@@ -159,6 +159,8 @@ class V006:
                     y=[self.DATASET[self.DATASET.columns[1]][i]], #Age
                     mode='markers',
                     name=self.DATASET[self.DATASET.columns[0]][i], #each student name
+                    hovertext = '<b>'+self.DATASET[self.DATASET.columns[0]][i]+'</b><br>'+legend['xaxis']+": "+str(self.DATASET[self.DATASET.columns[2]][i])+'<br>'+legend['yaxis']+": "+str(self.DATASET[self.DATASET.columns[1]][i]),
+                    hoverinfo='text',
                     text = [str(self.DATASET[self.DATASET.columns[0]][i])],
                     marker=dict(
                         size=12,
@@ -236,7 +238,9 @@ class V006:
                     x=[self.DATASET[self.DATASET.columns[3]][i]], #Posts
                     y=[self.DATASET[self.DATASET.columns[1]][i]], #Age
                     mode='markers',
-                    name=self.DATASET[self.DATASET.columns[0]][i], #each student name                    
+                    name=self.DATASET[self.DATASET.columns[0]][i], #each student name
+                    hovertext = '<b>'+self.DATASET[self.DATASET.columns[0]][i]+'</b><br>'+legend['xaxis']+": "+str(self.DATASET[self.DATASET.columns[3]][i])+'<br>'+legend['yaxis']+": "+str(self.DATASET[self.DATASET.columns[1]][i]),
+                    hoverinfo='text',
                     text = [str(self.DATASET[self.DATASET.columns[0]][i])],                    
                     marker=dict(
                         size=12,                        
@@ -314,7 +318,9 @@ class V006:
                     x=[self.DATASET[self.DATASET.columns[4]][i]], #Replies
                     y=[self.DATASET[self.DATASET.columns[1]][i]], #Age
                     mode='markers',
-                    name=self.DATASET[self.DATASET.columns[0]][i], #each student name                    
+                    name=self.DATASET[self.DATASET.columns[0]][i], #each student name
+                    hovertext = '<b>'+self.DATASET[self.DATASET.columns[0]][i]+'</b><br>'+legend['xaxis']+": "+str(self.DATASET[self.DATASET.columns[4]][i])+'<br>'+legend['yaxis']+": "+str(self.DATASET[self.DATASET.columns[1]][i]),
+                    hoverinfo='text',
                     text = [str(self.DATASET[self.DATASET.columns[0]][i])],                    
                     marker=dict(
                         size=12,                        
@@ -392,7 +398,9 @@ class V006:
                     x=[self.DATASET[self.DATASET.columns[5]][i]], #Init threads in forum
                     y=[self.DATASET[self.DATASET.columns[1]][i]], #Age
                     mode='markers',
-                    name=self.DATASET[self.DATASET.columns[0]][i], #each student name                    
+                    name=self.DATASET[self.DATASET.columns[0]][i], #each student name
+                    hovertext = '<b>'+self.DATASET[self.DATASET.columns[0]][i]+'</b><br>'+legend['xaxis']+": "+str(self.DATASET[self.DATASET.columns[5]][i])+'<br>'+legend['yaxis']+": "+str(self.DATASET[self.DATASET.columns[1]][i]),
+                    hoverinfo='text',
                     text = [str(self.DATASET[self.DATASET.columns[0]][i])],                    
                     marker=dict(
                         size=12,                        
@@ -458,12 +466,14 @@ class V006:
                     "xaxis":"",
                     "yaxis":"Acessos no fórum",
                     "age":{1:"até 25 anos", 2:"26 à 30 anos", 3:"31 à 40 anos", 4: "41 à 50 anos", 5: "51 à 60 anos", 6: "mais de 60 anos"},
+                    'hovertext':'Idade'
                 }
         if (self._language == "en"):
             legend = {"title":"Variation of students' access in the forum by age",
                         "xaxis":"",
                         "yaxis":"Access in the forum",
                         "age":{1:"until 25 years", 2:"26 to 30 years", 3:"31 to 40 years", 4: "41 to 50 years", 5: "51 to 60 years", 6: "over 60 years"},
+                        'hovertext':'Age'
                     }
         df = self.DATASET.sort_values(by=self.DATASET.columns[1])
         Clusters = df[df.columns[len(df.columns)-1]].unique()
@@ -471,11 +481,15 @@ class V006:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_feat = df[df.columns[2]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
+            lst_age = df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 Box(
-                    y=df[df.columns[2]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    y=lst_feat,
+                    # y=df[df.columns[2]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     name=legend['age'][i+1],
-                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    text=['<b>'+lst_names[j]+'</b><br>'+legend['yaxis']+": "+str(lst_feat[j])+'<br>'+legend['hovertext']+': '+str(lst_age[j]) for j in range(len(lst_names))],
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -533,12 +547,14 @@ class V006:
                     "xaxis":"",
                     "yaxis":"Postagens no fórum",
                     "age":{1:"até 25 anos", 2:"26 à 30 anos", 3:"31 à 40 anos", 4: "41 à 50 anos", 5: "51 à 60 anos", 6: "mais de 60 anos"},
+                    'hovertext':'Idade'
                 }
         if (self._language == "en"):
             legend = {"title":"Variation of students' posts in the forum by age",
                         "xaxis":"",
                         "yaxis":"Posts in the forum",
                         "age":{1:"until 25 years", 2:"26 to 30 years", 3:"31 to 40 years", 4: "41 to 50 years", 5: "51 to 60 years", 6: "over 60 years"},
+                        'hovertext':'Age'
                     }
         df = self.DATASET.sort_values(by=self.DATASET.columns[1])
         Clusters = df[df.columns[len(df.columns)-1]].unique()
@@ -546,11 +562,16 @@ class V006:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_feat = df[df.columns[3]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
+            lst_age = df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 Box(
-                    y=df[df.columns[3]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    y=lst_feat,
+                    # y=df[df.columns[3]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     name=legend['age'][i+1],
-                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    text=['<b>'+lst_names[j]+'</b><br>'+legend['yaxis']+": "+str(lst_feat[j])+'<br>'+legend['hovertext']+': '+str(lst_age[j]) for j in range(len(lst_names))],
+                    # text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -608,12 +629,14 @@ class V006:
                     "xaxis":"",
                     "yaxis":"Réplicas no fórum",
                     "age":{1:"até 25 anos", 2:"26 à 30 anos", 3:"31 à 40 anos", 4: "41 à 50 anos", 5: "51 à 60 anos", 6: "mais de 60 anos"},
+                    'hovertext':'Idade'
                 }
         if (self._language == "en"):
             legend = {"title":"Variation of students' replies in the forum by age",
                         "xaxis":"",
                         "yaxis":"Replies in the forum",
                         "age":{1:"until 25 years", 2:"26 to 30 years", 3:"31 to 40 years", 4: "41 to 50 years", 5: "51 to 60 years", 6: "over 60 years"},
+                        'hovertext':'Age'
                     }
         df = self.DATASET.sort_values(by=self.DATASET.columns[1])
         Clusters = df[df.columns[len(df.columns)-1]].unique()
@@ -621,11 +644,16 @@ class V006:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_feat = df[df.columns[4]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
+            lst_age = df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 Box(
-                    y=df[df.columns[4]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    y=lst_feat,
+                    # y=df[df.columns[4]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     name=legend['age'][i+1],
-                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    text=['<b>'+lst_names[j]+'</b><br>'+legend['yaxis']+": "+str(lst_feat[j])+'<br>'+legend['hovertext']+': '+str(lst_age[j]) for j in range(len(lst_names))],
+                    # text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -683,12 +711,14 @@ class V006:
                     "xaxis":"",
                     "yaxis":"Tópicos no fórum",
                     "age":{1:"até 25 anos", 2:"26 à 30 anos", 3:"31 à 40 anos", 4: "41 à 50 anos", 5: "51 à 60 anos", 6: "mais de 60 anos"},
+                    'hovertext':'Idade'
                 }
         if (self._language == "en"):
             legend = {"title":"Variation of students' threads added in the forum by age",
                         "xaxis":"",
                         "yaxis":"Threads in the forum",
                         "age":{1:"until 25 years", 2:"26 to 30 years", 3:"31 to 40 years", 4: "41 to 50 years", 5: "51 to 60 years", 6: "over 60 years"},
+                        'hovertext':'Age'
                     }
         df = self.DATASET.sort_values(by=self.DATASET.columns[1])
         Clusters = df[df.columns[len(df.columns)-1]].unique()
@@ -696,11 +726,16 @@ class V006:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_feat = df[df.columns[5]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
+            lst_age = df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 Box(
-                    y=df[df.columns[5]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    y=lst_feat,
+                    # y=df[df.columns[5]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     name=legend['age'][i+1],
-                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    text=['<b>'+lst_names[j]+'</b><br>'+legend['yaxis']+": "+str(lst_feat[j])+'<br>'+legend['hovertext']+': '+str(lst_age[j]) for j in range(len(lst_names))],
+                    # text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -759,12 +794,14 @@ class V006:
                     "xaxis":"",
                     "yaxis":"Acessos no fórum",
                     "age":{1:"até 25 anos", 2:"26 à 30 anos", 3:"31 à 40 anos", 4: "41 à 50 anos", 5: "51 à 60 anos", 6: "mais de 60 anos"},
+                    'hovertext':'Idade'
                 }
         if (self._language == "en"):
             legend = {"title":"Variation of students' access in the forum by age",
                         "xaxis":"",
                         "yaxis":"Access in the forum",
                         "age":{1:"until 25 years", 2:"26 to 30 years", 3:"31 to 40 years", 4: "41 to 50 years", 5: "51 to 60 years", 6: "over 60 years"},
+                        'hovertext':'Age'
                     }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
@@ -774,13 +811,16 @@ class V006:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_feat = df[df.columns[2]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
+            lst_age = df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 {
                     "type":'violin',
                     "x":[legend['age'][i+1]]*len(df.loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
-                    "y":df[df.columns[2]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
-                    "name":legend['age'][i+1],
-                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    "y":lst_feat,
+                    "name":legend['age'][i+1],                    
+                    'text':['<b>'+lst_names[j]+'</b><br>'+legend['yaxis']+": "+str(lst_feat[j])+'<br>'+legend['hovertext']+': '+str(lst_age[j]) for j in range(len(lst_names))],
                     "box":{
                         "visible":True
                         },
@@ -844,12 +884,14 @@ class V006:
                     "xaxis":"",
                     "yaxis":"Postagens no fórum",
                     "age":{1:"até 25 anos", 2:"26 à 30 anos", 3:"31 à 40 anos", 4: "41 à 50 anos", 5: "51 à 60 anos", 6: "mais de 60 anos"},
+                    'hovertext':'Idade'
                 }
         if (self._language == "en"):
             legend = {"title":"Variation of students' posts in the forum by age",
                         "xaxis":"",
                         "yaxis":"Posts in the forum",
                         "age":{1:"until 25 years", 2:"26 to 30 years", 3:"31 to 40 years", 4: "41 to 50 years", 5: "51 to 60 years", 6: "over 60 years"},
+                        'hovertext':'Age'
                     }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
@@ -859,13 +901,18 @@ class V006:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_feat = df[df.columns[3]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
+            lst_age = df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 {
                     "type":'violin',
                     "x":[legend['age'][i+1]]*len(df.loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
-                    "y":df[df.columns[3]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
+                    # "y":df[df.columns[3]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
+                    "y":lst_feat,
                     "name":legend['age'][i+1],
-                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    # "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    'text':['<b>'+lst_names[j]+'</b><br>'+legend['yaxis']+": "+str(lst_feat[j])+'<br>'+legend['hovertext']+': '+str(lst_age[j]) for j in range(len(lst_names))],
                     "box":{
                         "visible":True
                         },
@@ -929,12 +976,14 @@ class V006:
                     "xaxis":"",
                     "yaxis":"Réplicas no fórum",
                     "age":{1:"até 25 anos", 2:"26 à 30 anos", 3:"31 à 40 anos", 4: "41 à 50 anos", 5: "51 à 60 anos", 6: "mais de 60 anos"},
+                    'hovertext':'Idade'
                 }
         if (self._language == "en"):
             legend = {"title":"Variation of students' replies in the forum by age",
                         "xaxis":"",
                         "yaxis":"Replies in the forum",
                         "age":{1:"until 25 years", 2:"26 to 30 years", 3:"31 to 40 years", 4: "41 to 50 years", 5: "51 to 60 years", 6: "over 60 years"},
+                        'hovertext':'Age'
                     }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
@@ -944,13 +993,18 @@ class V006:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_feat = df[df.columns[4]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
+            lst_age = df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 {
                     "type":'violin',
                     "x":[legend['age'][i+1]]*len(df.loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
-                    "y":df[df.columns[4]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
+                    # "y":df[df.columns[4]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
+                    "y":lst_feat,
                     "name":legend['age'][i+1],
-                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    # "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    'text':['<b>'+lst_names[j]+'</b><br>'+legend['yaxis']+": "+str(lst_feat[j])+'<br>'+legend['hovertext']+': '+str(lst_age[j]) for j in range(len(lst_names))],
                     "box":{
                         "visible":True
                         },
@@ -1014,12 +1068,14 @@ class V006:
                     "xaxis":"",
                     "yaxis":"Tópicos no fórum",
                     "age":{1:"até 25 anos", 2:"26 à 30 anos", 3:"31 à 40 anos", 4: "41 à 50 anos", 5: "51 à 60 anos", 6: "mais de 60 anos"},
+                    'hovertext':'Idade'
                 }
         if (self._language == "en"):
             legend = {"title":"Variation of students' threads added in the forum by age",
                         "xaxis":"",
                         "yaxis":"Threads in the forum",
                         "age":{1:"until 25 years", 2:"26 to 30 years", 3:"31 to 40 years", 4: "41 to 50 years", 5: "51 to 60 years", 6: "over 60 years"},
+                        'hovertext':'Age'
                     }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
@@ -1029,13 +1085,18 @@ class V006:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_feat = df[df.columns[5]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
+            lst_age = df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 {
                     "type":'violin',
                     "x":[legend['age'][i+1]]*len(df.loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
-                    "y":df[df.columns[5]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
+                    # "y":df[df.columns[5]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
+                    "y":lst_feat,
                     "name":legend['age'][i+1],
-                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    # "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    'text':['<b>'+lst_names[j]+'</b><br>'+legend['yaxis']+": "+str(lst_feat[j])+'<br>'+legend['hovertext']+': '+str(lst_age[j]) for j in range(len(lst_names))],
                     "box":{
                         "visible":True
                         },
