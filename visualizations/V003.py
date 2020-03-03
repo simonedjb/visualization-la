@@ -98,13 +98,15 @@ class V003:
         legend = {"title":"Número de acessos, postagens e curtidas agrupados por estudante",
                     "xaxis":"",
                     "yaxis":"Número de acessos, postagens e curtidas",
-                    "columns":{1:"Curtidas", 2:"Postagens", 3:"Acessos"}
+                    "columns":{1:"Curtidas", 2:"Postagens", 3:"Acessos"},
+                    'hovertext':{1:' curtida(s)',2:' postagem(s)',3:' acesso(s)'}
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access, posts and likes grouped by student",
                         "xaxis":"",
                         "yaxis":"Number of access, posts and likes",
-                        "columns":{1:"Likes", 2:"Posts", 3:"Access"}
+                        "columns":{1:"Likes", 2:"Posts", 3:"Access"},
+                        'hovertext':{1:' like(s)',2:' post(s)',3:' access'}
                     }
         
         df = self.DATASET.iloc[:,0:len(self.DATASET.columns[1:])]
@@ -113,7 +115,8 @@ class V003:
             trace.append(Bar(
                     x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
-                    # name=df.columns[i]
+                    hovertext=['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext'][i] for j in range(len(df))],
+                    hoverinfo='text',
                     name=legend['columns'][i]
             ))
 
@@ -164,13 +167,15 @@ class V003:
         legend = {"title":"Número de acessos, postagens e curtidas agrupados por estudante",
                     "xaxis":"",
                     "yaxis":"Número de acessos, postagens e curtidas",
-                    "columns":{1:"Curtidas", 2:"Postagens", 3:"Acessos"}
+                    "columns":{1:"Curtidas", 2:"Postagens", 3:"Acessos"},
+                    'hovertext':{1:' curtida(s)',2:' postagem(s)',3:' acesso(s)'}
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access, posts and likes grouped by student",
                         "xaxis":"",
                         "yaxis":"Number of access, posts and likes",
-                        "columns":{1:"Likes", 2:"Posts", 3:"Access"}
+                        "columns":{1:"Likes", 2:"Posts", 3:"Access"},
+                        'hovertext':{1:' like(s)',2:' post(s)',3:' access'}
                     }
         
         df = self.DATASET.sort_values(by=[self.DATASET.columns[3],self.DATASET.columns[0]]).iloc[:,0:len(self.DATASET.columns[1:])]
@@ -179,7 +184,8 @@ class V003:
             trace.append(Bar(
                     x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
-                    # name=df.columns[i]
+                    hovertext=['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext'][i] for j in range(len(df))],
+                    hoverinfo='text',
                     name=legend['columns'][i]
             ))
 
@@ -231,13 +237,15 @@ class V003:
         legend = {"title":"Número de acessos, postagens e curtidas agrupados por estudante",
                     "xaxis":"",
                     "yaxis":"Número de acessos, postagens e curtidas",
-                    "columns":{1:"Curtidas", 2:"Postagens", 3:"Acessos"}
+                    "columns":{1:"Curtidas", 2:"Postagens", 3:"Acessos"},
+                    'hovertext':{1:' curtida(s)',2:' postagem(s)',3:' acesso(s)'}
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access, posts and likes grouped by student",
                         "xaxis":"",
                         "yaxis":"Number of access, posts and likes",
-                        "columns":{1:"Likes", 2:"Posts", 3:"Access"}
+                        "columns":{1:"Likes", 2:"Posts", 3:"Access"},
+                        'hovertext':{1:' like(s)',2:' post(s)',3:' access'}
                     }
         df = self.DATASET.iloc[:,0:len(self.DATASET.columns[1:])]
         trace = []
@@ -245,7 +253,8 @@ class V003:
             trace.append(Bar(
                     x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
-                    # name=df.columns[i]
+                    hovertext=['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext'][i] for j in range(len(df))],
+                    hoverinfo='text',
                     name=legend['columns'][i]
             ))
 
@@ -297,20 +306,24 @@ class V003:
         legend = {"title":"Número de acessos, postagens e curtidas agrupados por estudante",
                     "xaxis":"",
                     "yaxis":"Número de acessos, postagens e curtidas",
-                    "columns":{1:"Curtidas", 2:"Postagens", 3:"Acessos"}
+                    "columns":{1:"Curtidas", 2:"Postagens", 3:"Acessos"},
+                    'hovertext':{1:' curtida(s)',2:' postagem(s)',3:' acesso(s)'}
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access, posts and likes grouped by student",
                         "xaxis":"",
                         "yaxis":"Number of access, posts and likes",
-                        "columns":{1:"Likes", 2:"Posts", 3:"Access"}
+                        "columns":{1:"Likes", 2:"Posts", 3:"Access"},
+                        'hovertext':{1:' like(s)',2:' post(s)',3:' access'}
                     }
         df = self.DATASET.sort_values(by=["Total",self.DATASET.columns[0]]).iloc[:,0:len(self.DATASET.columns[1:])]        
         trace = []
         for i in range(1,len(df.columns)):         
             trace.append(Bar(
                     x=df[df.columns[0]].values,
-                    y=df.iloc[:,i].values,                    
+                    y=df.iloc[:,i].values,
+                    hovertext=['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext'][i] for j in range(len(df))],
+                    hoverinfo='text',
                     name=legend['columns'][i]
             ))
 
@@ -362,13 +375,15 @@ class V003:
         legend = {"title":"Número de acessos, postagens e curtidas agrupados por estudante",
                     "xaxis":"Número de acessos, postagens e curtidas",
                     "yaxis":"",
-                    "columns":{1:"Curtidas", 2:"Postagens", 3:"Acessos"}
+                    "columns":{1:"Curtidas", 2:"Postagens", 3:"Acessos"},
+                    'hovertext':{1:' curtida(s)',2:' postagem(s)',3:' acesso(s)'}
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access, posts and likes grouped by student",
                         "xaxis":"Number of access, posts and likes",
                         "yaxis":"",
-                        "columns":{1:"Likes", 2:"Posts", 3:"Access"}
+                        "columns":{1:"Likes", 2:"Posts", 3:"Access"},
+                        'hovertext':{1:' like(s)',2:' post(s)',3:' access'}
                     }
         df = self.DATASET
         trace = []
@@ -376,7 +391,8 @@ class V003:
             trace.append(Bar(                    
                     x=df.iloc[:,i].values,
                     y=df[df.columns[0]].values,
-                    # name=df.columns[i],
+                    hovertext=['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext'][i] for j in range(len(df))],
+                    hoverinfo='text',
                     name=legend['columns'][i],
                     orientation = 'h'
             ))
@@ -429,13 +445,15 @@ class V003:
         legend = {"title":"Número de acessos, postagens e curtidas agrupados por estudante",
                     "xaxis":"Número de acessos, postagens e curtidas",
                     "yaxis":"",
-                    "columns":{1:"Curtidas", 2:"Postagens", 3:"Acessos"}
+                    "columns":{1:"Curtidas", 2:"Postagens", 3:"Acessos"},
+                    'hovertext':{1:' curtida(s)',2:' postagem(s)',3:' acesso(s)'}
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access, posts and likes grouped by student",
                         "xaxis":"Number of access, posts and likes",
                         "yaxis":"",
-                        "columns":{1:"Likes", 2:"Posts", 3:"Access"}
+                        "columns":{1:"Likes", 2:"Posts", 3:"Access"},
+                        'hovertext':{1:' like(s)',2:' post(s)',3:' access'}
                     }
         df = self.DATASET.sort_values(by=["Total",self.DATASET.columns[0]])
         trace = []
@@ -443,7 +461,8 @@ class V003:
             trace.append(Bar(                    
                     x=df.iloc[:,i].values,
                     y=df[df.columns[0]].values,
-                    # name=df.columns[i],
+                    hovertext=['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext'][i] for j in range(len(df))],
+                    hoverinfo='text',
                     name=legend['columns'][i],
                     orientation = 'h'
             ))
@@ -497,13 +516,15 @@ class V003:
         legend = {"title":"Número de acessos, postagens e curtidas agrupados por estudante",
                     "xaxis":"",
                     "yaxis":"",
-                    "columns":{1:"Curtidas", 2:"Postagens", 3:"Acessos"}
+                    "columns":{1:"Curtidas", 2:"Postagens", 3:"Acessos"},
+                    'hovertext':{1:' curtida(s)',2:' postagem(s)',3:' acesso(s)'}
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access, posts and likes grouped by student",
                         "xaxis":"",
                         "yaxis":"",
-                        "columns":{1:"Likes", 2:"Posts", 3:"Access"}
+                        "columns":{1:"Likes", 2:"Posts", 3:"Access"},
+                        'hovertext':{1:' like(s)',2:' post(s)',3:' access'}
                     }
         # https://plot.ly/python/bubble-charts/
         # https://plot.ly/python/reference/#layout-xaxis
@@ -514,7 +535,7 @@ class V003:
             if max(df.iloc[:,1:len(df.columns)].values[i]) > max_value:
                 max_value = max(df.iloc[:,1:len(df.columns)].values[i])
         
-        sizeref = 0.07
+        sizeref = 0.2
 
         trace = []        
         
@@ -522,18 +543,17 @@ class V003:
             trace.append(
                 Scatter(
                     x=[df.iloc[i,0]]*(len(df.columns[1:])), #student
-                    # y=df.columns[1:len(df.columns)-1], #materials
-                    y=[legend["columns"][i] for i in range (1,4)],
+                    y=[legend["columns"][k] for k in range (1,4)],
+                    hovertext=['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,j])+legend['hovertext'][j] for j in range(1,len(df.columns)-1)],
+                    hoverinfo='text',
                     mode='markers',
-                    # name=df.iloc[i,0], #each student name
-                    name=df.iloc[i,0], #student name
-                    # orientation = "h",
-                    text = df.iloc[i,1:len(df.columns)].values.tolist(),
+                    # name=df.iloc[i,0], #student name
+                    # text = df.iloc[i,1:len(df.columns)].values.tolist(),
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
                         sizeref=sizeref,
-                        size=df.iloc[i,1:len(df.columns)].values.tolist(),
+                        size=df.iloc[i,1:len(df.columns)-1].values.tolist(),
                         color = 'rgb(0,0,255)',
                         line=dict(
                             width=2
@@ -599,23 +619,29 @@ class V003:
         legend = {"title":"Número de acessos, postagens e curtidas agrupados por estudante",
                     "xaxis":"",
                     "yaxis":"",
-                    "columns":{1:"Curtidas", 2:"Postagens", 3:"Acessos"}
+                    "columns":{1:"Curtidas", 2:"Postagens", 3:"Acessos"},
+                    'hovertext':{1:' curtida(s)',2:' postagem(s)',3:' acesso(s)'}
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access, posts and likes grouped by student",
                         "xaxis":"",
                         "yaxis":"",
-                        "columns":{1:"Likes", 2:"Posts", 3:"Access"}
+                        "columns":{1:"Likes", 2:"Posts", 3:"Access"},
+                        'hovertext':{1:' like(s)',2:' post(s)',3:' access'}
                     }
         df = self.DATASET.sort_values(by=[self.DATASET.columns[0]])
         z = []
+        hovervalue=[]
         for i in range (1, len(df.columns)-1):
-            z.append(df.iloc[:,i].values.tolist())
+            values = df.iloc[:,i].values.tolist()
+            z.append(values)
+            hovervalue.append(['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext'][i] for j in range(len(values))])
         
         trace = Heatmap(z=z,
                         y=[legend["columns"][i] for i in range (1,4)],
-                        # y=df.columns[1:len(df.columns)-1], #Assigns
                         x=df.iloc[:,0], #Students
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
                         showscale = True
                     )
@@ -648,6 +674,9 @@ class V003:
                     exponentformat='e',
                     showexponent='all',
                     gridcolor='#bdbdbd',
+                ),
+                margin = dict(
+                    b=150,
                 )
             )
 
@@ -669,27 +698,33 @@ class V003:
         legend = {"title":"Número de acessos, postagens e curtidas agrupados por estudante",
                     "xaxis":"",
                     "yaxis":"",
-                    "columns":{1:"Curtidas", 2:"Postagens", 3:"Acessos"}
+                    "columns":{1:"Curtidas", 2:"Postagens", 3:"Acessos"},
+                    'hovertext':{1:' curtida(s)',2:' postagem(s)',3:' acesso(s)'}
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access, posts and likes grouped by student",
                         "xaxis":"",
                         "yaxis":"",
-                        "columns":{1:"Likes", 2:"Posts", 3:"Access"}
+                        "columns":{1:"Likes", 2:"Posts", 3:"Access"},
+                        'hovertext':{1:' like(s)',2:' post(s)',3:' access'}
                     }
         df = self.DATASET.sort_values(by=[self.DATASET.columns[0]])
         z = []
+        hovervalue=[]
         max_value = 0
 
         for i in range (1, len(df.columns)-1):
-            z.append(df.iloc[:,i].values.tolist())
-            max_local = max(df.iloc[:,i].values.tolist())
-            max_value = max(max_local,max_value)    
+            values = df.iloc[:,i].values.tolist()
+            z.append(values)
+            hovervalue.append(['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext'][i] for j in range(len(values))])
+            max_local = max(values)
+            max_value = max(max_local,max_value)
         
         trace = Heatmap(z=z,
                         y=[legend["columns"][i] for i in range (1,4)],
-                        # y=df.columns[1:len(df.columns)-1], #Assigns
                         x=df.iloc[:,0], #Students
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
                         showscale = True
                     )
@@ -743,6 +778,9 @@ class V003:
                     exponentformat='e',
                     showexponent='all',
                     gridcolor='#bdbdbd',
+                ),
+                margin = dict(
+                    b=150,
                 ),
                 annotations = annotations
             )
