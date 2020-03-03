@@ -108,11 +108,13 @@ class V002:
         legend = {"title":"Número de acessos nos materiais agrupados por estudante",
                     "xaxis":"",
                     "yaxis":"Número de acessos",
+                    'hovertext':' acessos em '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access in the materials grouped by student",
                         "xaxis":"",
                         "yaxis":"Number of access",
+                        'hovertext':' access on '
                     }
         df = self.DATASET.sort_values(by=[self.DATASET.columns[0]])
         trace = []
@@ -120,7 +122,9 @@ class V002:
             trace.append(Bar(
                     x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
-                    name=df.columns[i]
+                    name=df.columns[i],
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext']+str(df.columns[i]) for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
             ))
 
         data = trace
@@ -171,11 +175,13 @@ class V002:
         legend = {"title":"Número de acessos nos materiais agrupados por estudante",
                     "xaxis":"",
                     "yaxis":"Número de acessos",
+                    'hovertext':' acessos em '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access in the materials grouped by student",
                         "xaxis":"",
                         "yaxis":"Number of access",
+                        'hovertext':' access on '
                     }
         df = self.DATASET.sort_values(by=[self.DATASET.columns[0]])
         trace = []
@@ -183,6 +189,8 @@ class V002:
             trace.append(Bar(
                     x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext']+str(df.columns[i]) for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     name=df.columns[i]
             ))
 
@@ -234,11 +242,13 @@ class V002:
         legend = {"title":"Número de acessos nos materiais agrupados por estudante e ordenados pelo total de acesso",
                     "xaxis":"",
                     "yaxis":"Número de acessos",
+                    'hovertext':' acessos em '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access in the materials grouped by student sorted by total access",
                         "xaxis":"",
                         "yaxis":"Number of access",
+                        'hovertext':' access on '
                     }
         df = self.DATASET.sort_values(by=[self.DATASET.columns[len(self.DATASET.columns)-1],self.DATASET.columns[0]])
         
@@ -247,6 +257,8 @@ class V002:
             trace.append(Bar(
                     x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext']+str(df.columns[i]) for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     name=df.columns[i]
             ))
 
@@ -298,11 +310,13 @@ class V002:
         legend = {"title":"Número de acessos nos materiais agrupados por estudante",
                     "xaxis":"Número de acessos",
                     "yaxis":"",
+                    'hovertext':' acessos em '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access in the materials grouped by student",
                         "xaxis":"Number of access",
                         "yaxis":"",
+                        'hovertext':' access on '
                     }
         df = self.DATASET.sort_values(by=[self.DATASET.columns[0]])
         trace = []
@@ -310,6 +324,8 @@ class V002:
             trace.append(Bar(
                     x=df.iloc[:,i].values,
                     y=df[df.columns[0]].values,
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext']+str(df.columns[i]) for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     name=df.columns[i],
                     orientation = 'h'
             ))
@@ -362,11 +378,13 @@ class V002:
         legend = {"title":"Número de acessos nos materiais agrupados por estudante e ordenados pelo total de acesso",
                     "xaxis":"Número de acessos",
                     "yaxis":"",
+                    'hovertext':' acessos em '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access in the materials grouped by student sorted by total access",
                         "xaxis":"Number of access",
                         "yaxis":"",
+                        'hovertext':' access on '
                     }
         df = self.DATASET.sort_values(by=[self.DATASET.columns[len(self.DATASET.columns)-1],self.DATASET.columns[0]])
         trace = []
@@ -375,6 +393,8 @@ class V002:
                     x=df.iloc[:,i].values,
                     y=df[df.columns[0]].values,
                     name=df.columns[i],
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext']+str(df.columns[i]) for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     orientation = 'h'
             ))
 
@@ -427,21 +447,28 @@ class V002:
         legend = {"title":"Número de acessos nos materiais por estudante",
                     "xaxis":"",
                     "yaxis":"",
+                    'hovertext':' acessos em '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access in the materials by student",
                         "xaxis":"",
                         "yaxis":"",
+                        'hovertext':' access on '
                     }
         df = self.DATASET.sort_values(by=[self.DATASET.columns[0]])
         z = []
+        hovervalue=[]
         for i in range (1, len(df.columns)-1):
-            z.append(df.iloc[:,i].values.tolist())
-        
+            values = df.iloc[:,i].values.tolist()
+            z.append(values)
+            hovervalue.append(['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext']+df.columns[i] for j in range(len(values))])
+
         trace = Heatmap(z=z,
                         y=df.columns[1:len(df.columns)-1], #Assigns
                         x=df.iloc[:,0], #Students
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         showscale = True
                     )
         
@@ -474,6 +501,9 @@ class V002:
                     exponentformat='e',
                     showexponent='all',
                     gridcolor='#bdbdbd',
+                ),
+                margin = dict(
+                    b=150,
                 )
             )
 
@@ -495,25 +525,31 @@ class V002:
         legend = {"title":"Número de acessos nos materiais por estudante",
                     "xaxis":"",
                     "yaxis":"",
+                    'hovertext':' acessos em '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access in the materials by student",
                         "xaxis":"",
                         "yaxis":"",
+                        'hovertext':' access on '
                     }
         df = self.DATASET.sort_values(by=[self.DATASET.columns[0]])
         z = []
         max_value = 0
-        
+        hovervalue=[]
         for i in range (1, len(df.columns)-1):
-            z.append(df.iloc[:,i].values.tolist())
-            max_local = max(df.iloc[:,i].values.tolist())
+            values = df.iloc[:,i].values.tolist()
+            z.append(values)
+            hovervalue.append(['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext']+df.columns[i] for j in range(len(values))])
+            max_local = max(values)
             max_value = max(max_local,max_value)
         
         trace = Heatmap(z=z,
                         y=df.columns[1:len(df.columns)-1],
                         x=df.iloc[:,0], #Students
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         showscale = True
                     )
 
@@ -566,6 +602,9 @@ class V002:
                     showexponent='all',
                     gridcolor='#bdbdbd',                    
                 ),
+                margin = dict(
+                    b=150,
+                ),
                 annotations = annotations
             )
 
@@ -587,20 +626,29 @@ class V002:
         legend = {"title":"Número de acessos nos materiais por estudante",
                     "xaxis":"",
                     "yaxis":"",
+                    'hovertext':' acessos em ',
+                    'hovertext_total':' total de acessos '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access in the materials by student",
                         "xaxis":"",
                         "yaxis":"",
+                        'hovertext':' access on ',
+                        'hovertext_total':' total of access '
                     }
         df = self.DATASET.sort_values(by=[self.DATASET.columns[0]])
         z = []
+        hovervalue=[]
         for i in range (1, len(df.columns)):
-            z.append(df.iloc[:,i].values.tolist())
+            values = df.iloc[:,i].values.tolist()
+            z.append(values)            
+            hovervalue.append(['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext']+df.columns[i] if i < len(df.columns)-1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_total'] for j in range(len(values))])
         
         trace = Heatmap(z=z,
                         y=df.columns[1:len(df.columns)], #Assigns
                         x=df.iloc[:,0], #Students
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
                         showscale = True
                     )
@@ -634,6 +682,9 @@ class V002:
                     exponentformat='e',
                     showexponent='all',
                     gridcolor='#bdbdbd',
+                ),
+                margin = dict(
+                    b=150,
                 )
             )
 
@@ -655,24 +706,32 @@ class V002:
         legend = {"title":"Número de acessos nos materiais por estudante",
                     "xaxis":"",
                     "yaxis":"",
+                    'hovertext':' acessos em ',
+                    'hovertext_total':' total de acessos '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access in the materials by student",
                         "xaxis":"",
                         "yaxis":"",
+                        'hovertext':' access on ',
+                        'hovertext_total':' total of access '
                     }
         df = self.DATASET.sort_values(by=[self.DATASET.columns[0]])
         z = []
-        max_value = 0
-        
+        hovervalue=[]
+        max_value = 0        
         for i in range (1, len(df.columns)):
-            z.append(df.iloc[:,i].values.tolist())
-            max_local = max(df.iloc[:,i].values.tolist())
+            values = df.iloc[:,i].values.tolist()
+            z.append(values)            
+            hovervalue.append(['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext']+df.columns[i] if i < len(df.columns)-1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_total'] for j in range(len(values))])
+            max_local = max(values)
             max_value = max(max_local,max_value)
         
         trace = Heatmap(z=z,
                         y=df.columns[1:len(df.columns)],
                         x=df.iloc[:,0], #Students
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
                         showscale = True
                     )
@@ -726,6 +785,9 @@ class V002:
                     showexponent='all',
                     gridcolor='#bdbdbd',                    
                 ),
+                margin = dict(
+                    b=150,
+                ),
                 annotations = annotations
             )
 
@@ -748,37 +810,38 @@ class V002:
         legend = {"title":"Número de acessos nos materiais por estudante",
                     "xaxis":"",
                     "yaxis":"",
+                    'hovertext':' acessos em '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access in the materials grouped by student",
                         "xaxis":"",
                         "yaxis":"",
+                        'hovertext':' access on '
                     }
         # https://plot.ly/python/bubble-charts/
         # https://plot.ly/python/reference/#layout-xaxis
         # https://plot.ly/python/axes/#subcategory-axes
-        df = self.DATASET.sort_values(by=[self.DATASET.columns[0]])        
+        df = self.DATASET.sort_values(by=[self.DATASET.columns[0]])
         
         sizeref = 0.05
         # print (sizeref)
 
         trace = []
-        # for i in range(1, len(df.columns)):
         for i in range(0, len(df)):                    
             trace.append(
                 Scatter(
                     x=[df.iloc[i,0]]*(len(df.columns)-2), #student
                     y=df.columns[1:len(df.columns)-1], #materials
                     mode='markers',
-                    # name=df.iloc[i,0], #each student name
+                    hovertext=['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,j])+legend['hovertext']+df.columns[j] for j in range(1,len(df.columns)-1)],
+                    hoverinfo='text',
                     name=df.iloc[i,0], #student name
-                    # orientation = "h",
                     text = df.iloc[i,1:len(df.columns)-1].values.tolist(),
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
                         sizeref=sizeref,
-                        size=df.iloc[i,1:len(df.columns)-1].values.tolist(),
+                        size=[j/2 for j in df.iloc[i,1:len(df.columns)-1].values.tolist()],
                         color = 'rgb(0,0,255)',
                         line=dict(
                             width=2
@@ -822,7 +885,10 @@ class V002:
                 rangemode = "normal",
                 showline = True,                
                 type = "category"
-            )
+            ),
+            margin = dict(
+                b=150,
+            ),
         )
 
         data = trace
@@ -843,11 +909,13 @@ class V002:
         legend = {"title":"Número de acessos nos materiais por estudante",
                     "xaxis":"",
                     "yaxis":"",
+                    'hovertext':' acessos em '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access in the materials grouped by student",
                         "xaxis":"",
                         "yaxis":"",
+                        'hovertext':' access on '
                     }
         # https://plot.ly/python/bubble-charts/
         # https://plot.ly/python/reference/#layout-xaxis
@@ -857,22 +925,21 @@ class V002:
         sizeref = 0.3
         
         trace = []
-        # for i in range(1, len(df.columns)):
         for i in range(0, len(df)):                    
             trace.append(
                 Scatter(
                     x=[df.iloc[i,0]]*(len(df.columns[1:])), #student
                     y=df.columns[1:len(df.columns)], #materials
                     mode='markers',
-                    # name=df.iloc[i,0], #each student name
+                    hovertext=['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,j])+legend['hovertext']+df.columns[j] for j in range(1,len(df.columns))],
+                    hoverinfo='text',
                     name=df.iloc[i,0], #student name
-                    # orientation = "h",
                     text = df.iloc[i,1:len(df.columns)].values.tolist(),
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
                         sizeref=sizeref,
-                        size=df.iloc[i,1:len(df.columns)].values.tolist(),
+                        size=[j/2 for j in df.iloc[i,1:len(df.columns)].values.tolist()],
                         color = 'rgb(0,0,255)',
                         line=dict(
                             width=2
@@ -916,7 +983,10 @@ class V002:
                 rangemode = "normal",
                 showline = True,                
                 type = "category"
-            )
+            ),
+            margin = dict(
+                b=150,
+            ),
         )
 
         data = trace
@@ -938,17 +1008,21 @@ class V002:
         legend = {"title":"Número de acessos por material",
                     "xaxis":"",
                     "yaxis":"Número de acessos",
+                    'hovertext':' acessos'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access by material",
                         "xaxis":"",
                         "yaxis":"Number of access",
+                        'hovertext':' access'
                     }
 
         trace = []
         trace.append(Bar(
             x=self._df_sum_access.iloc[:,0].values,
-            y=self._df_sum_access.iloc[:,1].values
+            y=self._df_sum_access.iloc[:,1].values,
+            hovertext=['<b>'+self._df_sum_access.iloc[j,0]+'</b><br>'+str(self._df_sum_access.iloc[j,1])+legend['hovertext'] for j in range(len(self._df_sum_access))],
+            hoverinfo='text',
         ))
 
         data = trace
@@ -998,11 +1072,13 @@ class V002:
         legend = {"title":"Número de acessos por material",
                     "xaxis":"",
                     "yaxis":"Número de acessos",
+                    'hovertext':' acessos'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access by material",
                         "xaxis":"",
                         "yaxis":"Number of access",
+                        'hovertext':' access'
                     }
 
         df = self._df_sum_access.sort_values(by=[self._df_sum_access.columns[1]])
@@ -1010,7 +1086,9 @@ class V002:
         trace = []
         trace.append(Bar(
             x=df.iloc[:,0].values,
-            y=df.iloc[:,1].values
+            y=df.iloc[:,1].values,
+            hovertext=['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,1])+legend['hovertext'] for j in range(len(df))],
+            hoverinfo='text',
         ))
 
         data = trace
@@ -1060,17 +1138,21 @@ class V002:
         legend = {"title":"Número de acessos por material",
                     "xaxis":"Número de acessos",
                     "yaxis":"",
+                    'hovertext':' acessos'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access by material",
                         "xaxis":"Number of access",
                         "yaxis":"",
+                        'hovertext':' access'
                     }
 
         trace = []
         trace.append(Bar(
             x=self._df_sum_access.iloc[:,1].values,
             y=self._df_sum_access.iloc[:,0].values,
+            hovertext=['<b>'+self._df_sum_access.iloc[j,0]+'</b><br>'+str(self._df_sum_access.iloc[j,1])+legend['hovertext'] for j in range(len(self._df_sum_access))],
+            hoverinfo='text',
             orientation = 'h'
         ))
 
@@ -1121,11 +1203,13 @@ class V002:
         legend = {"title":"Número de acessos por material",
                     "xaxis":"Número de acessos",
                     "yaxis":"",
+                    'hovertext':' acessos'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access by material",
                         "xaxis":"Number of access",
                         "yaxis":"",
+                        'hovertext':' access'
                     }
         
         df = self._df_sum_access.sort_values(by=[self._df_sum_access.columns[1]])
@@ -1134,6 +1218,8 @@ class V002:
         trace.append(Bar(
             x=df.iloc[:,1].values,
             y=df.iloc[:,0].values,
+            hovertext=['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,1])+legend['hovertext'] for j in range(len(df))],
+            hoverinfo='text',
             orientation = 'h'
         ))
 
@@ -1184,17 +1270,20 @@ class V002:
         legend = {"title":"Número de acessos por material",
                     "xaxis":"Número de acessos",
                     "yaxis":"",
+                    'hovertext':' acessos'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access by material",
                         "xaxis":"Number of access",
                         "yaxis":"",
+                        'hovertext':' access'
                     }
 
         trace = []
         trace.append(Bar(
             x=self._df_sum_access.iloc[:,1].values,
             y=self._df_sum_access.iloc[:,0].values,
+            hoverinfo='none',
             orientation = 'h',
             width=[0.04]*len(self._df_sum_access.iloc[:,1].values),
             name="",
@@ -1210,8 +1299,8 @@ class V002:
                 y=self._df_sum_access.iloc[:,0].values,
                 mode='markers',
                 name = "",
+                hovertext=['<b>'+self._df_sum_access.iloc[j,0]+'</b><br>'+str(self._df_sum_access.iloc[j,1])+legend['hovertext'] for j in range(len(self._df_sum_access))],
                 hoverinfo='text',
-                hovertext=[str(self._df_sum_access.iloc[i,1]) for i in range(len(self._df_sum_access))],                
                 marker=dict(
                     symbol='circle',
                     sizemode='area',
@@ -1278,11 +1367,13 @@ class V002:
         legend = {"title":"Número de acessos por material",
                     "xaxis":"Número de acessos",
                     "yaxis":"",
+                    'hovertext':' acessos'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access by material",
                         "xaxis":"Number of access",
                         "yaxis":"",
+                        'hovertext':' access'
                     }
 
         df = self._df_sum_access.sort_values(by=[self._df_sum_access.columns[1]])
@@ -1291,6 +1382,7 @@ class V002:
         trace.append(Bar(
             x=df.iloc[:,1].values,
             y=df.iloc[:,0].values,
+            hoverinfo='none',
             orientation = 'h',
             width=[0.04]*len(df.iloc[:,1].values),
             name="",
@@ -1306,8 +1398,8 @@ class V002:
                 y=df.iloc[:,0].values,
                 mode='markers',
                 name = "",
+                hovertext=['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,1])+legend['hovertext'] for j in range(len(df))],
                 hoverinfo='text',
-                hovertext=[str(df.iloc[i,1]) for i in range(len(df))],                
                 marker=dict(
                     symbol='circle',
                     sizemode='area',
