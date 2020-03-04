@@ -158,16 +158,18 @@ class V011:
             config = {"displaylogo": False, "responsive": True, "displayModeBar": True, "modeBarButtonsToRemove": modeBarButtonsToRemove}
             return {"id":"V011@1","layout":json.dumps({"data": data, "layout": layout, "config": config}, cls=PlotlyJSONEncoder)}
 
-
+    #Scatter
     def graph_02(self):
         legend = {"title":"Relação de notas dos estudantes com acessos ao AVA por cluster navegação",
                     "xaxis":"Acesso ao AVA",
                     "yaxis":"Notas",
+                    'hovertext':'Nota'
                 }
         if (self._language == "en"):
             legend = {"title":"Relation of student grades with AVA access by navigate cluster",
                         "xaxis":"AVA Access",
                         "yaxis":"Grade",
+                        'hovertext':'Grade'
                     }
         df = self.DATASET.sort_values(by=self.DATASET.columns[1])
         Clusters = df[df.columns[len(df.columns)-1]].unique()
@@ -181,10 +183,11 @@ class V011:
                 Scatter(
                     x=[df[df.columns[2]][i]], #Access
                     y=[df[df.columns[1]][i]], #Grade
+                    hovertext = '<b>'+df[df.columns[0]][i]+'</b><br>'+legend['xaxis']+": "+str(df[df.columns[2]][i])+'<br>'+legend['hovertext']+": "+str(df[df.columns[1]][i])+'<br>Cluster: '+str(df[df.columns[len(df.columns)-1]][i]+1),
+                    hoverinfo='text',
                     mode='markers',
                     name=df[df.columns[0]][i], #each student name
                     text = [str(df[df.columns[0]][i])],
-
                     marker=dict(
                         size=12,
                         symbol=self.DATASET[self.DATASET.columns[len(self.DATASET.columns)-1]][i],
@@ -248,11 +251,13 @@ class V011:
         legend = {"title":"Variação de notas dos estudantes por cluster de navegação",
                     "xaxis":"",
                     "yaxis":"Notas",
+                    'hovertext':'Nota'
                 }
         if (self._language == "en"):
             legend = {"title":"Student grades variation by navigate cluster",
                         "xaxis":"",
                         "yaxis":"Grades",
+                        'hovertext':'Grade'
                     }
         df = self.DATASET.sort_values(by=self.DATASET.columns[1])
         Clusters = df[df.columns[len(df.columns)-1]].unique()
@@ -261,11 +266,15 @@ class V011:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_grades = df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist() #Grades
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 Box(
-                    y=df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(), #Access
+                    y=lst_grades,
+                    # y=df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(), #Access
                     name="Cluster "+str(i+1),
-                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    # text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    text=['<b>'+lst_names[j]+'</b><br>'+legend['hovertext']+": "+str(lst_grades[j])+'<br>Cluster '+str(i+1) for j in range(len(lst_names))],
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -323,11 +332,13 @@ class V011:
         legend = {"title":"Variação de notas dos estudantes por cluster de navegação",
                     "xaxis":"",
                     "yaxis":"Notas",
+                    'hovertext':'Nota'
                 }
         if (self._language == "en"):
             legend = {"title":"Student grades variation by navigate cluster",
                         "xaxis":"",
                         "yaxis":"Grades",
+                        'hovertext':'Grade'
                     }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
@@ -340,13 +351,16 @@ class V011:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_grades = df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist() #grades
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 {
                     "type":'violin',
                     "x":["Cluster "+str(i+1)]*len(df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
                     "y":df[df.columns[1]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
                     "name":"Cluster "+str(i+1),
-                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    # "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    'text':['<b>'+lst_names[j]+'</b><br>'+legend['hovertext']+": "+str(lst_grades[j])+'<br>Cluster '+str(i+1) for j in range(len(lst_names))],
                     "box":{
                         "visible":True
                         },
