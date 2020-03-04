@@ -31,7 +31,6 @@ class V007:
     COUNTDATA = pd.DataFrame()
     DATASET = pd.DataFrame()
 
-
     _language = "pt"
     _type_result="jupyter-notebook"
     _preprocessed_folder = os.path.join('Preprocessed')
@@ -172,11 +171,13 @@ class V007:
         legend = {"title":"Previsão das notas relacionado com o número de acessos no AVA",
                     "xaxis":"Acesso ao AVA",
                     "yaxis":"Previsão das Notas",
+                    'hovertext':'Nota Prevista'
                 }
         if (self._language == "en"):
             legend = {"title":"Predicted grades related with the number of VLE access",
                         "xaxis":"AVA Access",
                         "yaxis":"Predicted Grades",
+                        'hovertext':'Predicted Grade'
                     }
         
         df = self.DATASET.sort_values(by=[self.DATASET.columns[3]])
@@ -196,6 +197,8 @@ class V007:
                 Scatter(
                     x=[df[df.columns[4]][i]], #Access
                     y=[df[df.columns[3]][i]], #Grade
+                    hovertext = '<b>'+df[df.columns[0]][i]+'</b><br>'+legend['xaxis']+": "+str(df[df.columns[4]][i])+'<br>'+legend['hovertext']+": "+str(df[df.columns[3]][i])+'<br>Cluster: '+str(df[df.columns[len(df.columns)-1]][i]+1),
+                    hoverinfo='text',
                     mode='markers',
                     name=df[df.columns[0]][i], #each student name
                     text = [str(df[df.columns[0]][i])],
@@ -263,13 +266,15 @@ class V007:
         legend = {"title":"Variação da previsão de notas dos estudantes por cluster",
                     "xaxis":"",
                     "yaxis":"Previsão das Notas",
-                    "cluster":["Desistentes",'Notas entre 0 e 60','Notas entre 61 e 70', 'Notas entre 71 e 80', 'Notas entre 81 e 90', 'Notas entre 91 e 100']
+                    "cluster":["Desistentes",'Notas entre 0 e 60','Notas entre 61 e 70', 'Notas entre 71 e 80', 'Notas entre 81 e 90', 'Notas entre 91 e 100'],
+                    'hovertext':'Nota Prevista'
                 }
         if (self._language == "en"):
             legend = {"title":"Student predicted grades variation by cluster",
                         "xaxis":"",
                         "yaxis":"Predicted Grades",
-                        "cluster":["Dropout",'Grades between 0 and 60','Grades between 61 and 70', 'Grades between 71 and 80', 'Grades between 81 and 90', 'Grades between 91 and 100']
+                        "cluster":["Dropout",'Grades between 0 and 60','Grades between 61 and 70', 'Grades between 71 and 80', 'Grades between 81 and 90', 'Grades between 91 and 100'],
+                        'hovertext':'Predicted Grade'
                     }
         
         df = self.DATASET.sort_values(by=[self.DATASET.columns[3]])
@@ -278,11 +283,15 @@ class V007:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_grades = df[df.columns[3]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist() #Grades
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 Box(
-                    y=df[df.columns[3]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(), #Access
+                    y=lst_grades,
+                    # y=df[df.columns[3]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(), #Access
                     name=legend["cluster"][i],
-                    text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    # text=df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    text=['<b>'+lst_names[j]+'</b><br>'+legend['hovertext']+": "+str(lst_grades[j])+'<br>Cluster '+str(i+1) for j in range(len(lst_names))],
                     boxpoints = 'all',
                     marker=dict(
                         color = color[i],
@@ -340,13 +349,15 @@ class V007:
         legend = {"title":"Variação da previsão de notas dos estudantes por cluster",
                     "xaxis":"",
                     "yaxis":"Previsão das Notas",
-                    "cluster":["Desistentes",'Notas entre 0 e 60','Notas entre 61 e 70', 'Notas entre 71 e 80', 'Notas entre 81 e 90', 'Notas entre 91 e 100']
+                    "cluster":["Desistentes",'Notas entre 0 e 60','Notas entre 61 e 70', 'Notas entre 71 e 80', 'Notas entre 81 e 90', 'Notas entre 91 e 100'],
+                    'hovertext':'Nota Prevista'
                 }
         if (self._language == "en"):
             legend = {"title":"Student predicted grades variation by cluster",
                         "xaxis":"",
                         "yaxis":"Predicted Grades",
-                        "cluster":["Dropout",'Grades between 0 and 60','Grades between 61 and 70', 'Grades between 71 and 80', 'Grades between 81 and 90', 'Grades between 91 and 100']
+                        "cluster":["Dropout",'Grades between 0 and 60','Grades between 61 and 70', 'Grades between 71 and 80', 'Grades between 81 and 90', 'Grades between 91 and 100'],
+                        'hovertext':'Predicted Grade'
                     }
         # https://plot.ly/python/violin/#reference
         # https://plot.ly/python/reference/#violin
@@ -362,13 +373,16 @@ class V007:
         # print(Clusters)
         trace = []
         for i in range(0,len(Clusters)):
+            lst_grades = df[df.columns[3]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist() #grades
+            lst_names = df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist()
             trace.append(
                 {
                     "type":'violin',
                     "x":["Cluster "+str(i+1)]*len(df[df.columns[3]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]]),
                     "y":df[df.columns[3]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]],
                     "name":legend["cluster"][i],
-                    "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    # "text":df[df.columns[0]].loc[df[df.columns[len(df.columns)-1]]==Clusters[i]].values.tolist(),
+                    'text':['<b>'+lst_names[j]+'</b><br>'+legend['hovertext']+": "+str(lst_grades[j])+'<br>Cluster '+str(i+1) for j in range(len(lst_names))],
                     "box":{
                         "visible":True
                         },
