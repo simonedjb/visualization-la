@@ -164,17 +164,21 @@ class V010:
         legend = {"title":"Número de estudantes que entenderam os vídeos",
                     "xaxis":"",
                     "yaxis":"Número de estudantes",
+                    'hovertext':' estudantes entenderam'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who understood the video",
                         "xaxis":"",
                         "yaxis":"Number of students",
+                        'hovertext':' students understood'
                     }
 
         df = self._df_sum_feedback
         trace = [Bar(
             x=df[df.columns[0]].values,
             y=df[df.columns[1]].values,
+            hovertext = ['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,1])+legend['hovertext'] for i in range(len(df.iloc[:,1].values))],
+            hoverinfo='text',
         )]
 
         data = trace
@@ -224,17 +228,21 @@ class V010:
         legend = {"title":"Número de estudantes que entenderam os vídeos",
                     "xaxis":"",
                     "yaxis":"Número de estudantes",
+                    'hovertext':' estudantes entenderam'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who understood the video",
                         "xaxis":"",
                         "yaxis":"Number of students",
+                        'hovertext':' students understood'
                     }
 
         df = self._df_sum_feedback.sort_values(by=[self._df_sum_feedback.columns[1],self._df_sum_feedback.columns[0]])
         trace = [Bar(
             x=df[df.columns[0]].values,
             y=df[df.columns[1]].values,
+            hovertext = ['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,1])+legend['hovertext'] for i in range(len(df.iloc[:,1].values))],
+            hoverinfo='text',
         )]
 
         data = trace
@@ -284,17 +292,21 @@ class V010:
         legend = {"title":"Número de estudantes que <b>não</b> entenderam os vídeos",
                     "xaxis":"",
                     "yaxis":"Número de estudantes",
+                    'hovertext':' estudantes <b>não</b> entenderam'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who do <b>not</b> understood the video",
                         "xaxis":"",
                         "yaxis":"Number of students",
+                    'hovertext':' students do <b>not</b> understood'
                     }
 
         df = self._df_sum_feedback
         trace = [Bar(
             x=df[df.columns[0]].values,
             y=df[df.columns[2]].values,
+            hovertext = ['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,2])+legend['hovertext'] for i in range(len(df.iloc[:,1].values))],
+            hoverinfo='text',
             marker=dict(
                 color='rgb(255,126,24)',                
             ),
@@ -347,17 +359,21 @@ class V010:
         legend = {"title":"Número de estudantes que <b>não</b> entenderam os vídeos",
                     "xaxis":"",
                     "yaxis":"Número de estudantes",
+                    'hovertext':' estudantes <b>não</b> entenderam'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who do <b>not</b> understood the video",
                         "xaxis":"",
                         "yaxis":"Number of students",
+                        'hovertext':' students do <b>not</b> understood'
                     }
 
         df = self._df_sum_feedback.sort_values(by=[self._df_sum_feedback.columns[2],self._df_sum_feedback.columns[0]])
         trace = [Bar(
             x=df[df.columns[0]].values,
             y=df[df.columns[2]].values,
+            hovertext = ['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,2])+legend['hovertext'] for i in range(len(df.iloc[:,1].values))],
+            hoverinfo='text',
             marker=dict(
                 color='rgb(255,126,24)',                
             ),
@@ -410,17 +426,21 @@ class V010:
         legend = {"title":"Número de estudantes que entenderam os vídeos",
                     "xaxis":"Número de estudantes",
                     "yaxis":"",
+                    'hovertext':' estudantes entenderam'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who understood the video",
                         "xaxis":"Number of students",
                         "yaxis":"",
+                        'hovertext':' students understood'
                     }
 
         df = self._df_sum_feedback
         trace = [Bar(
             x=df[df.columns[1]].values,
             y=df[df.columns[0]].values,
+            hovertext = ['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,1])+legend['hovertext'] for i in range(len(df.iloc[:,1].values))],
+            hoverinfo='text',
             orientation='h'
         )]
 
@@ -471,17 +491,21 @@ class V010:
         legend = {"title":"Número de estudantes que entenderam os vídeos",
                     "xaxis":"Número de estudantes",
                     "yaxis":"",
+                    'hovertext':' estudantes entenderam'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who understood the video",
                         "xaxis":"Number of students",
                         "yaxis":"",
+                        'hovertext':' students understood'
                     }
 
         df = self._df_sum_feedback.sort_values(by=[self._df_sum_feedback.columns[1],self._df_sum_feedback.columns[0]])
         trace = [Bar(
             x=df[df.columns[1]].values,
             y=df[df.columns[0]].values,
+            hovertext = ['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,1])+legend['hovertext'] for i in range(len(df.iloc[:,1].values))],
+            hoverinfo='text',
             orientation='h'
         )]
 
@@ -532,17 +556,21 @@ class V010:
         legend = {"title":"Número de estudantes que <b>não</b> entenderam os vídeos",
                     "xaxis":"Número de estudantes",
                     "yaxis":"",
+                    'hovertext':' estudantes <b>não</b> entenderam'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who do not understood the video",
                         "xaxis":"Number of students",
                         "yaxis":"",
+                        'hovertext':' students do <b>not</b> understood'
                     }
 
         df = self._df_sum_feedback
         trace = [Bar(
             x=df[df.columns[2]].values,
             y=df[df.columns[0]].values,
+            hovertext = ['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,2])+legend['hovertext'] for i in range(len(df.iloc[:,1].values))],
+            hoverinfo='text',
             orientation='h',
             marker=dict(
                 color='rgb(255,126,24)',                
@@ -596,17 +624,21 @@ class V010:
         legend = {"title":"Número de estudantes que <b>não</b> entenderam os vídeos",
                     "xaxis":"Número de estudantes",
                     "yaxis":"",
+                    'hovertext':' estudantes <b>não</b> entenderam'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who do <b>not</b> understood the video",
                         "xaxis":"Number of students",
                         "yaxis":"",
+                        'hovertext':' students do <b>not</b> understood'
                     }
 
         df = self._df_sum_feedback.sort_values(by=[self._df_sum_feedback.columns[2],self._df_sum_feedback.columns[0]])
         trace = [Bar(
             x=df[df.columns[2]].values,
             y=df[df.columns[0]].values,
+            hovertext = ['<b>'+df.iloc[i,0]+'</b><br>'+str(df.iloc[i,2])+legend['hovertext'] for i in range(len(df.iloc[:,1].values))],
+            hoverinfo='text',
             orientation='h',
             marker=dict(
                 color='rgb(255,126,24)',
@@ -663,6 +695,7 @@ class V010:
                     "yaxis":"",
                     "text_s":"estudante",
                     "text_p":"estudantes",
+                    'hovertext':' estudantes entenderam'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who understood the video",
@@ -670,6 +703,7 @@ class V010:
                         "yaxis":"",
                         "text_s":"student",
                         "text_p":"students",
+                        'hovertext':' students understood'
                     }
         df = self._df_sum_feedback
         
@@ -682,6 +716,7 @@ class V010:
                 orientation = 'h',
                 name="",
                 text="",
+                hoverinfo='none',
                 marker=dict(
                         color = 'lightgray',                        
                     )
@@ -698,8 +733,10 @@ class V010:
                     x=[i]*len(df[df.columns[0]]),
                     y=df[df.columns[0]].loc[df[df.columns[1]]==i].values.tolist(),
                     mode='markers',
-                    name = "",                 
-                    text=text*len(df[df.columns[0]].loc[df[df.columns[1]]==i]),                    
+                    name = "",
+                    text=text*len(df[df.columns[0]].loc[df[df.columns[1]]==i]),
+                    hovertext = '<b>'+df[df.columns[0]].loc[df[df.columns[1]]==i]+'</b><br>'+str(i)+legend['hovertext'],
+                    hoverinfo='text',
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
@@ -769,6 +806,7 @@ class V010:
                     "yaxis":"",
                     "text_s":"estudante",
                     "text_p":"estudantes",
+                    'hovertext':' estudantes entenderam'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who understood the video",
@@ -776,6 +814,7 @@ class V010:
                         "yaxis":"",
                         "text_s":"student",
                         "text_p":"students",
+                        'hovertext':' students understood'
                     }
         df = self._df_sum_feedback.sort_values(by=[self._df_sum_feedback.columns[1],self._df_sum_feedback.columns[0]])
         
@@ -788,6 +827,7 @@ class V010:
                 orientation = 'h',
                 name="",
                 text="",
+                hoverinfo='none',
                 marker=dict(
                         color = 'lightgray',                        
                     )
@@ -806,6 +846,8 @@ class V010:
                     mode='markers',
                     name = "",                 
                     text=text*len(df[df.columns[0]].loc[df[df.columns[1]]==i]),                    
+                    hovertext = '<b>'+df[df.columns[0]].loc[df[df.columns[1]]==i]+'</b><br>'+str(i)+legend['hovertext'],
+                    hoverinfo='text',
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
@@ -875,6 +917,7 @@ class V010:
                     "yaxis":"",
                     "text_s":"estudante",
                     "text_p":"estudantes",
+                    'hovertext':' estudantes <b>não</b> entenderam'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who do <b>not</b> understood the video",
@@ -882,6 +925,7 @@ class V010:
                         "yaxis":"",
                         "text_s":"student",
                         "text_p":"students",
+                        'hovertext':' students do <b>not</b> understood'
                     }
         df = self._df_sum_feedback
         
@@ -894,6 +938,7 @@ class V010:
                 orientation = 'h',
                 name="",
                 text="",
+                hoverinfo='none',
                 marker=dict(
                         color = 'lightgray',                        
                     )
@@ -912,6 +957,8 @@ class V010:
                     mode='markers',
                     name = "",                 
                     text=text*len(df[df.columns[0]].loc[df[df.columns[2]]==i]),                    
+                    hovertext = '<b>'+df[df.columns[0]].loc[df[df.columns[2]]==i]+'</b><br>'+str(i)+legend['hovertext'],
+                    hoverinfo='text',
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
@@ -981,6 +1028,7 @@ class V010:
                     "yaxis":"",
                     "text_s":"estudante",
                     "text_p":"estudantes",
+                    'hovertext':' estudantes <b>não</b> entenderam'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who do <b>not</b> understood the video",
@@ -988,6 +1036,7 @@ class V010:
                         "yaxis":"",
                         "text_s":"student",
                         "text_p":"students",
+                        'hovertext':' students do <b>not</b> understood'
                     }
         df = self._df_sum_feedback.sort_values(by=[self._df_sum_feedback.columns[2],self._df_sum_feedback.columns[0]])
         
@@ -1000,6 +1049,7 @@ class V010:
                 orientation = 'h',
                 name="",
                 text="",
+                hoverinfo='none',
                 marker=dict(
                         color = 'lightgray',                        
                     )
@@ -1018,6 +1068,8 @@ class V010:
                     mode='markers',
                     name = "",                 
                     text=text*len(df[df.columns[0]].loc[df[df.columns[2]]==i]),                    
+                    hovertext = '<b>'+df[df.columns[0]].loc[df[df.columns[2]]==i]+'</b><br>'+str(i)+legend['hovertext'],
+                    hoverinfo='text',
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
@@ -1089,11 +1141,13 @@ class V010:
         legend = {"title":"Vídeos entendidos por estudante",
                     "xaxis":"",
                     "yaxis":"",
+                    'hovertext':' entendeu '
                 }
         if (self._language == "en"):
             legend = {"title":"Understood videos by students",
                         "xaxis":"",
                         "yaxis":"",
+                        'hovertext':' understood '
                     }
         df = self.DATASET
 
@@ -1109,6 +1163,8 @@ class V010:
                     # name=df.iloc[i,0], #each student name
                     name=df.iloc[i,0], #student name
                     # text = df.iloc[i,1:].values.tolist(),
+                    hovertext = ['<b>'+df.iloc[i,0]+'</b>'+legend['hovertext']+df.columns[j+1] if df.iloc[i,j+1] > 0 else '' for j in range(len(df.columns[1:]))],
+                    hoverinfo='text',
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
@@ -1159,6 +1215,9 @@ class V010:
                 rangemode = "normal",
                 showline = True,                
                 type = "category"
+            ),
+            margin = dict(
+                b=150,
             )
         )
 
@@ -1183,11 +1242,13 @@ class V010:
         legend = {"title":"Vídeos <b>não</b> entendidos por estudante",
                     "xaxis":"",
                     "yaxis":"",
+                    'hovertext':' <b>não</b> entendeu '
                 }
         if (self._language == "en"):
             legend = {"title":"Misunderstood videos by students",
                         "xaxis":"",
                         "yaxis":"",
+                        'hovertext':' do <b>not</b> understood '
                     }
         df = self.DATASET
 
@@ -1206,6 +1267,8 @@ class V010:
                     mode='markers',
                     name=df.iloc[i,0], #student name
                     # text = df.iloc[i,1:].values.tolist(),
+                    hovertext = ['<b>'+df.iloc[i,0]+'</b>'+legend['hovertext']+df.columns[j+1] if df.iloc[i,j+1] == 0 else '' for j in range(len(df.columns[1:]))],
+                    hoverinfo='text',
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
@@ -1256,6 +1319,9 @@ class V010:
                 rangemode = "normal",
                 showline = True,                
                 type = "category"
+            ),
+            margin = dict(
+                b=150,
             )
         )
 
@@ -1280,11 +1346,15 @@ class V010:
         legend = {"title":"Vídeos entendidos e <b>não</b> entendidos por estudante",
                     "xaxis":"",
                     "yaxis":"",
+                    'hovertext_done':' entendeu ',
+                    'hovertext_undone':' <b>não</b> entendeu '
                 }
         if (self._language == "en"):
             legend = {"title":"Understood and misunderstood videos by students",
                         "xaxis":"",
                         "yaxis":"",
+                        'hovertext_done':' understood ',
+                        'hovertext_undone':' do <b>not</b> understood '
                     }
         df = self.DATASET
 
@@ -1296,6 +1366,8 @@ class V010:
                 Scatter(
                     x=[df.iloc[i,0]]*len(df.columns), #student
                     y=df.columns[1:], #assigns
+                    hovertext = ['<b>'+df.iloc[i,0]+'</b>'+legend['hovertext_done']+df.columns[j+1] if df.iloc[i,j+1] > 0 else '' for j in range(len(df.columns[1:]))],
+                    hoverinfo='text',
                     mode='markers',
                     # name=df.iloc[i,0], #each student name
                     name=df.iloc[i,0], #student name
@@ -1322,6 +1394,8 @@ class V010:
                 Scatter(
                     x=[df.iloc[i,0]]*len(df.columns), #student
                     y=df.columns[1:], #assigns
+                    hovertext = ['<b>'+df.iloc[i,0]+'</b>'+legend['hovertext_undone']+df.columns[j+1] if df.iloc[i,j+1] == 0 else '' for j in range(len(df.columns[1:]))],
+                    hoverinfo='text',
                     mode='markers',
                     name=df.iloc[i,0], #student name
                     # text = df.iloc[i,1:].values.tolist(),
@@ -1375,6 +1449,9 @@ class V010:
                 rangemode = "normal",
                 showline = True,                
                 type = "category"
+            ),
+            margin = dict(
+                b=150,
             )
         )
 
@@ -1399,13 +1476,17 @@ class V010:
         legend = {"title":"Número de estudantes que entenderam e <b>não</b> entenderam os vídeos",
                     "xaxis":"",
                     "yaxis":"",
-                    "columns":{1:"Entendidos", 2:"Não<br>entendidos"}
+                    "columns":{1:"Entendidos", 2:"Não<br>entendidos"},
+                    'hovertext_done':' estudante(s) entendeu/entenderam o ',
+                    'hovertext_undone':' estudante(s) <b>não</b> entendeu/entenderam o '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who understood and do <b>not</b> the videos",
                         "xaxis":"",
                         "yaxis":"",
-                        "columns":{1:"Understood", 2:"Misunderstood"}
+                        "columns":{1:"Understood", 2:"Misunderstood"},
+                        'hovertext_done':' student(s) understood ',
+                        'hovertext_undone':' student(s) do <b>not</b> understood '
                     }
         df = self._df_sum_feedback.iloc[:,0:3]
         sizeref = 0.03
@@ -1420,6 +1501,8 @@ class V010:
                     mode='markers',                    
                     name=df.iloc[i,0], #videos
                     text = df.iloc[i,1:].values.tolist(),
+                    hovertext = str(df.iloc[i,1])+legend['hovertext_done']+'<b>'+df.iloc[i,0]+'</b>',
+                    hoverinfo='text',
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
@@ -1440,6 +1523,8 @@ class V010:
                     mode='markers',                    
                     name=df.iloc[i,0], #videos
                     text = df.iloc[i,2:].values.tolist(),
+                    hovertext = str(df.iloc[i,2])+legend['hovertext_undone']+'<b>'+df.iloc[i,0]+'</b>',
+                    hoverinfo='text',
                     marker=dict(
                         symbol='circle',
                         sizemode='area',
@@ -1511,21 +1596,30 @@ class V010:
         legend = {"title":"Vídeos entendidos por estudante",
                     "xaxis":"",
                     "yaxis":"",
+                    'hovertext_understood':' entendeu o ',
+                    'hovertext_misunderstood':' <b>não</b> entendeu o '
                 }
         if (self._language == "en"):
             legend = {"title":"Understood videos by students",
                         "xaxis":"",
                         "yaxis":"",
+                        'hovertext_understood':' understood ',
+                        'hovertext_misunderstood':' do <b>not</b> understood '
                     }
         df = self.DATASET
         z = []
+        hovervalue=[]
         for i in range (1, len(df.columns)):
-            z.append(df.iloc[:,i].values.tolist())
+            values = df.iloc[:,i].values.tolist()
+            z.append(values)
+            hovervalue.append([df.iloc[j,0]+legend['hovertext_misunderstood']+df.columns[i] if values[j]==0 else df.iloc[j,0]+legend['hovertext_understood']+df.columns[i] for j in range(len(values))])
 
         trace = Heatmap(z=z,
                         y=df.columns[1:], #Videos
                         x=df.iloc[:,0], #Students
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         showscale = False
                     )
         
@@ -1557,6 +1651,9 @@ class V010:
                     exponentformat='e',
                     showexponent='all',
                     gridcolor='#bdbdbd',                    
+                ),
+                margin = dict(
+                    b=150,
                 )
             )
 
@@ -1578,27 +1675,34 @@ class V010:
         legend = {"title":"Vídeos <b>não</b> entendidos por estudante",
                     "xaxis":"",
                     "yaxis":"",
+                    'hovertext_understood':' entendeu o ',
+                    'hovertext_misunderstood':' <b>não</b> entendeu o '
                 }
         if (self._language == "en"):
             legend = {"title":"Misunderstood videos by students",
                         "xaxis":"",
                         "yaxis":"",
+                        'hovertext_understood':' understood ',
+                        'hovertext_misunderstood':' do <b>not</b> understood '
                     }
         df = self.DATASET
         z = []
+        hovervalue=[]
         for i in range (1, len(df.columns)):
             x = df.iloc[:,i].values.tolist()
             y = [-1]*len(x)
-            f = [a + b for a, b in zip(x, y)]
-            values = [a*(-1) for a in f]
+            f = [a + b for a, b in zip(x, y)]   
+            values = [a*(-1) for a in f]         
             z.append(values)
+            hovervalue.append([df.iloc[j,0]+legend['hovertext_understood']+df.columns[i] if values[j]==0 else df.iloc[j,0]+legend['hovertext_misunderstood']+df.columns[i] for j in range(len(values))])
 
         trace = Heatmap(z=z,
                         y=df.columns[1:], #Videos
                         x=df.iloc[:,0], #Students
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(255,126,24)']],
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         showscale = False,
-
                     )
         
         layout = Layout(
@@ -1629,6 +1733,9 @@ class V010:
                     exponentformat='e',
                     showexponent='all',
                     gridcolor='#bdbdbd',                    
+                ),
+                margin = dict(
+                    b=150,
                 )
             )
 
@@ -1650,21 +1757,30 @@ class V010:
         legend = {"title":"Vídeos entendidos e <b>não</b> entendidos por estudante",
                     "xaxis":"",
                     "yaxis":"",
+                    'hovertext_understood':' entendeu o ',
+                    'hovertext_misunderstood':' <b>não</b> entendeu o '
                 }
         if (self._language == "en"):
             legend = {"title":"Understood and misunderstood videos by students",
                         "xaxis":"",
                         "yaxis":"",
+                        'hovertext_understood':' understood ',
+                        'hovertext_misunderstood':' do <b>not</b> understood '
                     }
         df = self.DATASET
         z = []
+        hovervalue=[]
         for i in range (1, len(df.columns)):
-            z.append(df.iloc[:,i].values.tolist())
+            values = df.iloc[:,i].values.tolist()
+            z.append(values)
+            hovervalue.append([df.iloc[j,0]+legend['hovertext_misunderstood']+df.columns[i] if values[j]==0 else df.iloc[j,0]+legend['hovertext_understood']+df.columns[i] for j in range(len(values))])
 
         trace = Heatmap(z=z,
                         y=df.columns[1:], #Videos
                         x=df.iloc[:,0], #Students
                         colorscale=[[0, 'rgb(255,126,24)'], [1, 'rgb(0,0,255)']],
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         showscale = False
                     )
         
@@ -1696,6 +1812,9 @@ class V010:
                     exponentformat='e',
                     showexponent='all',
                     gridcolor='#bdbdbd',                    
+                ),
+                margin = dict(
+                    b=150,
                 )
             )
 
@@ -1717,24 +1836,33 @@ class V010:
         legend = {"title":"Número de estudantes que entenderam e <b>não</b> os vídeos",
                     "xaxis":"",
                     "yaxis":"",
-                    "columns":{1:"Entendederam", 2:"Não<br>entenderam"}
+                    "columns":{1:"Entendederam", 2:"Não<br>entenderam"},
+                    'hovertext_understood':' estudantes entenderam o ',
+                    'hovertext_misunderstood':' estudantes <b>não</b> entenderam o '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who understood and do <b>not</b> understood the videos",
                         "xaxis":"",
                         "yaxis":"",
-                        "columns":{1:"Understood", 2:"Misunderstood"}
+                        "columns":{1:"Understood", 2:"Misunderstood"},
+                        'hovertext_understood':' students understood ',
+                        'hovertext_misunderstood':' students do <b>not</b> understood '
                     }
         df = self._df_sum_feedback.iloc[:,0:3]
         z = []
+        hovervalue=[]
         for i in range (1, len(df.columns)):
-            z.append(df.iloc[:,i].values.tolist())
+            values = df.iloc[:,i].values.tolist()
+            z.append(values)
+            hovervalue.append([str(values[j])+legend['hovertext_understood']+df.iloc[j,0] if i==1 else str(values[j])+legend['hovertext_misunderstood']+df.iloc[j,0] for j in range(len(values))])
         
         trace = []
         trace.append(Heatmap(z=z,
                         y=[legend["columns"][i] for i in range (1,len(df.columns))],
                         x=df.iloc[:,0], #Students
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         showscale = True
                     ))
 
@@ -1766,6 +1894,10 @@ class V010:
                     exponentformat='e',
                     showexponent='all',
                     gridcolor='#bdbdbd',                    
+                ),
+                margin = dict(
+                    l=125,
+                    b=150,
                 )
             )
 
@@ -1787,20 +1919,27 @@ class V010:
         legend = {"title":"Número de estudantes que entenderam e <b>não</b> os vídeos",
                     "xaxis":"",
                     "yaxis":"",
-                    "columns":{1:"Entendederam", 2:"Não<br>entenderam"}
+                    "columns":{1:"Entendederam", 2:"Não<br>entenderam"},
+                    'hovertext_understood':' estudantes entenderam o ',
+                    'hovertext_misunderstood':' estudantes <b>não</b> entenderam o '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who understood and do <b>not</b> understood the videos",
                         "xaxis":"",
                         "yaxis":"",
-                        "columns":{1:"Understood", 2:"Misunderstood"}
+                        "columns":{1:"Understood", 2:"Misunderstood"},
+                        'hovertext_understood':' students understood ',
+                        'hovertext_misunderstood':' students do <b>not</b> understood '
                     }
         df = self._df_sum_feedback.iloc[:,0:3]
         z = []
+        hovervalue=[]
         max_value = 0
         for i in range (1, len(df.columns)):
-            z.append(df.iloc[:,i].values.tolist())
-            max_local = max(df.iloc[:,i].values.tolist())
+            values = df.iloc[:,i].values.tolist()
+            z.append(values)
+            hovervalue.append([str(values[j])+legend['hovertext_understood']+df.iloc[j,0] if i==1 else str(values[j])+legend['hovertext_misunderstood']+df.iloc[j,0] for j in range(len(values))])            
+            max_local = max(values)
             max_value = max(max_local,max_value)
         
         trace = []
@@ -1808,6 +1947,8 @@ class V010:
                         y=[legend["columns"][i] for i in range (1,len(df.columns))],
                         x=df.iloc[:,0], #Students
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         showscale = True
                     ))
 
@@ -1860,6 +2001,10 @@ class V010:
                     showexponent='all',
                     gridcolor='#bdbdbd',                    
                 ),
+                margin = dict(
+                    l=125,
+                    b=150,
+                ),
                 annotations = annotations
             )
 
@@ -1882,13 +2027,17 @@ class V010:
         legend = {"title":"Número de estudantes que entenderam e <b>não</b> entenderam os vídeos",
                     "xaxis":"",
                     "yaxis":"",
-                    "columns":{1:"Entendidos", 2:"Não<br>entendidos"}
+                    "columns":{1:"Entendidos", 2:"Não<br>entendidos"},
+                    'hovertext_understood':' estudantes entenderam',
+                    'hovertext_misunderstood':' estudantes <b>não</b> entenderam'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who understood and misunderstood the videos",
                         "xaxis":"",
                         "yaxis":"",
-                        "columns":{1:"Understood", 2:"Misunderstood"}
+                        "columns":{1:"Understood", 2:"Misunderstood"},
+                        'hovertext_understood':' students understood ',
+                        'hovertext_misunderstood':' students do <b>not</b> understood '
                     }
         
         df = self._df_sum_feedback
@@ -1898,8 +2047,9 @@ class V010:
             trace.append(Bar(
                     x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
-                    # name=df.columns[i]
-                    name=legend['columns'][i]
+                    name=legend['columns'][i],
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_understood'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_misunderstood'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
             ))            
 
         data = trace
@@ -1949,13 +2099,17 @@ class V010:
         legend = {"title":"Número de estudantes que entenderam e <b>não</b> entenderam os vídeos",
                     "xaxis":"",
                     "yaxis":"",
-                    "columns":{1:"Entendidos", 2:"Não<br>entendidos"}
+                    "columns":{1:"Entendidos", 2:"Não<br>entendidos"},
+                    'hovertext_understood':' estudantes entenderam',
+                    'hovertext_misunderstood':' estudantes <b>não</b> entenderam'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who understood and misunderstood the videos",
                         "xaxis":"",
                         "yaxis":"",
-                        "columns":{1:"Understood", 2:"Misunderstood"}
+                        "columns":{1:"Understood", 2:"Misunderstood"},
+                        'hovertext_understood':' students understood ',
+                        'hovertext_misunderstood':' students do <b>not</b> understood '
                     }
         
         df = self._df_sum_feedback.sort_values(by=[self._df_sum_feedback.columns[1],self._df_sum_feedback.columns[0]])
@@ -1965,7 +2119,8 @@ class V010:
             trace.append(Bar(
                     x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
-                    # name=df.columns[i]
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_understood'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_misunderstood'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     name=legend['columns'][i]
             ))            
 
@@ -2016,13 +2171,17 @@ class V010:
         legend = {"title":"Número de estudantes que entenderam e <b>não</b> entenderam os vídeos",
                     "xaxis":"",
                     "yaxis":"",
-                    "columns":{1:"Entendidos", 2:"Não<br>entendidos"}
+                    "columns":{1:"Entendidos", 2:"Não<br>entendidos"},
+                    'hovertext_understood':' estudantes entenderam',
+                    'hovertext_misunderstood':' estudantes <b>não</b> entenderam'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who understood and misunderstood the videos",
                         "xaxis":"",
                         "yaxis":"",
-                        "columns":{1:"Understood", 2:"Misunderstood"}
+                        "columns":{1:"Understood", 2:"Misunderstood"},
+                        'hovertext_understood':' students understood ',
+                        'hovertext_misunderstood':' students do <b>not</b> understood '
                     }
         
         df = self._df_sum_feedback.sort_values(by=[self._df_sum_feedback.columns[2],self._df_sum_feedback.columns[0]])
@@ -2032,7 +2191,8 @@ class V010:
             trace.append(Bar(
                     x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
-                    # name=df.columns[i]
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_understood'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_misunderstood'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     name=legend['columns'][i]
             ))            
 
@@ -2084,13 +2244,17 @@ class V010:
         legend = {"title":"Número de estudantes que entenderam e <b>não</b> entenderam os vídeos",
                     "xaxis":"",
                     "yaxis":"",
-                    "columns":{1:"Entendidos", 2:"Não<br>entendidos"}
+                    "columns":{1:"Entendidos", 2:"Não<br>entendidos"},
+                    'hovertext_understood':' estudantes entenderam',
+                    'hovertext_misunderstood':' estudantes <b>não</b> entenderam'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who understood and misunderstood the videos",
                         "xaxis":"",
                         "yaxis":"",
-                        "columns":{1:"Understood", 2:"Misunderstood"}
+                        "columns":{1:"Understood", 2:"Misunderstood"},
+                        'hovertext_understood':' students understood ',
+                        'hovertext_misunderstood':' students do <b>not</b> understood '
                     }
 
         df = self._df_sum_feedback
@@ -2099,7 +2263,8 @@ class V010:
             trace.append(Bar(
                     x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
-                    # name=df.columns[i]
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_understood'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_misunderstood'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     name=legend['columns'][i]
             ))
 
@@ -2151,13 +2316,17 @@ class V010:
         legend = {"title":"Número de estudantes que entenderam e <b>não</b> entenderam os vídeos",
                     "xaxis":"",
                     "yaxis":"",
-                    "columns":{1:"Entendidos", 2:"Não<br>entendidos"}
+                    "columns":{1:"Entendidos", 2:"Não<br>entendidos"},
+                    'hovertext_understood':' estudantes entenderam',
+                    'hovertext_misunderstood':' estudantes <b>não</b> entenderam'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who understood and misunderstood the videos",
                         "xaxis":"",
                         "yaxis":"",
-                        "columns":{1:"Understood", 2:"Misunderstood"}
+                        "columns":{1:"Understood", 2:"Misunderstood"},
+                        'hovertext_understood':' students understood ',
+                        'hovertext_misunderstood':' students do <b>not</b> understood '
                     }
 
         df = self._df_sum_feedback.sort_values(by=[self._df_sum_feedback.columns[1],self._df_sum_feedback.columns[0]])
@@ -2166,7 +2335,8 @@ class V010:
             trace.append(Bar(
                     x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
-                    # name=df.columns[i]
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_understood'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_misunderstood'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     name=legend['columns'][i]
             ))
 
@@ -2218,13 +2388,17 @@ class V010:
         legend = {"title":"Número de estudantes que entenderam e <b>não</b> entenderam os vídeos",
                     "xaxis":"",
                     "yaxis":"",
-                    "columns":{1:"Entendidos", 2:"Não<br>entendidos"}
+                    "columns":{1:"Entendidos", 2:"Não<br>entendidos"},
+                    'hovertext_understood':' estudantes entenderam',
+                    'hovertext_misunderstood':' estudantes <b>não</b> entenderam'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who understood and misunderstood the videos",
                         "xaxis":"",
                         "yaxis":"",
-                        "columns":{1:"Understood", 2:"Misunderstood"}
+                        "columns":{1:"Understood", 2:"Misunderstood"},
+                        'hovertext_understood':' students understood ',
+                        'hovertext_misunderstood':' students do <b>not</b> understood '
                     }
 
         df = self._df_sum_feedback.sort_values(by=[self._df_sum_feedback.columns[2],self._df_sum_feedback.columns[0]])
@@ -2233,7 +2407,8 @@ class V010:
             trace.append(Bar(
                     x=df[df.columns[0]].values,
                     y=df.iloc[:,i].values,
-                    # name=df.columns[i]
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_understood'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_misunderstood'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',                    
                     name=legend['columns'][i]
             ))
 
@@ -2285,13 +2460,17 @@ class V010:
         legend = {"title":"Número de estudantes que entenderam e <b>não</b> entenderam os vídeos",
                     "xaxis":"",
                     "yaxis":"",
-                    "columns":{1:"Entendidos", 2:"Não<br>entendidos"}
+                    "columns":{1:"Entendidos", 2:"Não<br>entendidos"},
+                    'hovertext_understood':' estudantes entenderam',
+                    'hovertext_misunderstood':' estudantes <b>não</b> entenderam'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who understood and misunderstood the videos",
                         "xaxis":"",
                         "yaxis":"",
-                        "columns":{1:"Understood", 2:"Misunderstood"}
+                        "columns":{1:"Understood", 2:"Misunderstood"},
+                        'hovertext_understood':' students understood ',
+                        'hovertext_misunderstood':' students do <b>not</b> understood '
                     }
 
         df = self._df_sum_feedback
@@ -2300,7 +2479,8 @@ class V010:
             trace.append(Bar(                    
                     x=df.iloc[:,i].values,
                     y=df[df.columns[0]].values,
-                    # name=df.columns[i],
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_understood'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_misunderstood'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     name=legend['columns'][i],
                     orientation = 'h'
             ))
@@ -2353,13 +2533,17 @@ class V010:
         legend = {"title":"Número de estudantes que entenderam e <b>não</b> entenderam os vídeos",
                     "xaxis":"",
                     "yaxis":"",
-                    "columns":{1:"Entendidos", 2:"Não<br>entendidos"}
+                    "columns":{1:"Entendidos", 2:"Não<br>entendidos"},
+                    'hovertext_understood':' estudantes entenderam',
+                    'hovertext_misunderstood':' estudantes <b>não</b> entenderam'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who understood and misunderstood the videos",
                         "xaxis":"",
                         "yaxis":"",
-                        "columns":{1:"Understood", 2:"Misunderstood"}
+                        "columns":{1:"Understood", 2:"Misunderstood"},
+                        'hovertext_understood':' students understood ',
+                        'hovertext_misunderstood':' students do <b>not</b> understood '
                     }
 
         df = self._df_sum_feedback.sort_values(by=[self._df_sum_feedback.columns[1],self._df_sum_feedback.columns[0]])
@@ -2368,7 +2552,8 @@ class V010:
             trace.append(Bar(                    
                     x=df.iloc[:,i].values,
                     y=df[df.columns[0]].values,
-                    # name=df.columns[i],
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_understood'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_misunderstood'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     name=legend['columns'][i],
                     orientation = 'h'
             ))
@@ -2421,13 +2606,17 @@ class V010:
         legend = {"title":"Número de estudantes que entenderam e <b>não</b> entenderam os vídeos",
                     "xaxis":"",
                     "yaxis":"",
-                    "columns":{1:"Entendidos", 2:"Não<br>entendidos"}
+                    "columns":{1:"Entendidos", 2:"Não<br>entendidos"},
+                    'hovertext_understood':' estudantes entenderam',
+                    'hovertext_misunderstood':' estudantes <b>não</b> entenderam'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students who understood and misunderstood the videos",
                         "xaxis":"",
                         "yaxis":"",
-                        "columns":{1:"Understood", 2:"Misunderstood"}
+                        "columns":{1:"Understood", 2:"Misunderstood"},
+                        'hovertext_understood':' students understood ',
+                        'hovertext_misunderstood':' students do <b>not</b> understood '
                     }
 
         df = self._df_sum_feedback.sort_values(by=[self._df_sum_feedback.columns[2],self._df_sum_feedback.columns[0]])
@@ -2436,7 +2625,8 @@ class V010:
             trace.append(Bar(                    
                     x=df.iloc[:,i].values,
                     y=df[df.columns[0]].values,
-                    # name=df.columns[i],
+                    hovertext = ['<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_understood'] if i==1 else '<b>'+df.iloc[j,0]+'</b><br>'+str(df.iloc[j,i])+legend['hovertext_misunderstood'] for j in range(len(df.iloc[:,i].values.tolist()))],
+                    hoverinfo='text',
                     name=legend['columns'][i],
                     orientation = 'h'
             ))
@@ -2620,8 +2810,7 @@ class V010:
         self.graph_30()
         self.graph_31()
         self.graph_32()
-        
-
+  
 # instance = V010()
 # instance.generate_dataset(number_students=35, number_video=10)
 # instance.print_all_graphs("pt")
