@@ -296,6 +296,7 @@ class V009:
             config = {"displaylogo": False, "responsive": True, "displayModeBar": True, "modeBarButtonsToRemove": modeBarButtonsToRemove}
             return {"id":"V009@3","layout":json.dumps({"data": data, "layout": layout, "config": config}, cls=PlotlyJSONEncoder)}
 
+    #Area Chart
     def graph_04(self):
         legend = {"title":"Número de interações por tempo do vídeo",
                     "xaxis":"Tempo do vídeo em segundos",
@@ -379,6 +380,7 @@ class V009:
             config = {"displaylogo": False, "responsive": True, "displayModeBar": True, "modeBarButtonsToRemove": modeBarButtonsToRemove}
             return {"id":"V009@4","layout":json.dumps({"data": data, "layout": layout, "config": config}, cls=PlotlyJSONEncoder)}
     
+    #Arc Diagram
     def graph_05(self):
         legend = {"title":"Interações de seek forward e seek backward por tempo de vídeo"}
         label_from = 'Origem'
