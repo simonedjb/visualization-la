@@ -175,7 +175,7 @@ class V002:
         legend = {"title":"Número de acessos nos materiais agrupados por estudante",
                     "xaxis":"",
                     "yaxis":"Número de acessos",
-                    'hovertext':' acessos em '
+                    'hovertext':' acesso(s) em '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access in the materials grouped by student",
@@ -242,7 +242,7 @@ class V002:
         legend = {"title":"Número de acessos nos materiais agrupados por estudante e ordenados pelo total de acesso",
                     "xaxis":"",
                     "yaxis":"Número de acessos",
-                    'hovertext':' acessos em '
+                    'hovertext':' acesso(s) em '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access in the materials grouped by student sorted by total access",
@@ -310,7 +310,7 @@ class V002:
         legend = {"title":"Número de acessos nos materiais agrupados por estudante",
                     "xaxis":"Número de acessos",
                     "yaxis":"",
-                    'hovertext':' acessos em '
+                    'hovertext':' acesso(s) em '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access in the materials grouped by student",
@@ -378,7 +378,7 @@ class V002:
         legend = {"title":"Número de acessos nos materiais agrupados por estudante e ordenados pelo total de acesso",
                     "xaxis":"Número de acessos",
                     "yaxis":"",
-                    'hovertext':' acessos em '
+                    'hovertext':' acesso(s) em '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access in the materials grouped by student sorted by total access",
@@ -447,7 +447,7 @@ class V002:
         legend = {"title":"Número de acessos nos materiais por estudante",
                     "xaxis":"",
                     "yaxis":"",
-                    'hovertext':' acessos em '
+                    'hovertext':' acesso(s) em '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access in the materials by student",
@@ -525,7 +525,7 @@ class V002:
         legend = {"title":"Número de acessos nos materiais por estudante",
                     "xaxis":"",
                     "yaxis":"",
-                    'hovertext':' acessos em '
+                    'hovertext':' acesso(s) em '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access in the materials by student",
@@ -626,7 +626,7 @@ class V002:
         legend = {"title":"Número de acessos nos materiais por estudante",
                     "xaxis":"",
                     "yaxis":"",
-                    'hovertext':' acessos em ',
+                    'hovertext':' acesso(s) em ',
                     'hovertext_total':' total de acessos '
                 }
         if (self._language == "en"):
@@ -810,7 +810,7 @@ class V002:
         legend = {"title":"Número de acessos nos materiais por estudante",
                     "xaxis":"",
                     "yaxis":"",
-                    'hovertext':' acessos em '
+                    'hovertext':' acesso(s) em '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access in the materials grouped by student",
@@ -909,7 +909,7 @@ class V002:
         legend = {"title":"Número de acessos nos materiais por estudante",
                     "xaxis":"",
                     "yaxis":"",
-                    'hovertext':' acessos em '
+                    'hovertext':' acesso(s) em '
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access in the materials grouped by student",
@@ -1008,7 +1008,7 @@ class V002:
         legend = {"title":"Número de acessos por material",
                     "xaxis":"",
                     "yaxis":"Número de acessos",
-                    'hovertext':' acessos'
+                    'hovertext':' acesso(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access by material",
@@ -1072,7 +1072,7 @@ class V002:
         legend = {"title":"Número de acessos por material",
                     "xaxis":"",
                     "yaxis":"Número de acessos",
-                    'hovertext':' acessos'
+                    'hovertext':' acesso(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access by material",
@@ -1138,7 +1138,7 @@ class V002:
         legend = {"title":"Número de acessos por material",
                     "xaxis":"Número de acessos",
                     "yaxis":"",
-                    'hovertext':' acessos'
+                    'hovertext':' acesso(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access by material",
@@ -1203,7 +1203,7 @@ class V002:
         legend = {"title":"Número de acessos por material",
                     "xaxis":"Número de acessos",
                     "yaxis":"",
-                    'hovertext':' acessos'
+                    'hovertext':' acesso(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access by material",
@@ -1270,7 +1270,7 @@ class V002:
         legend = {"title":"Número de acessos por material",
                     "xaxis":"Número de acessos",
                     "yaxis":"",
-                    'hovertext':' acessos'
+                    'hovertext':' acesso(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access by material",
@@ -1367,7 +1367,7 @@ class V002:
         legend = {"title":"Número de acessos por material",
                     "xaxis":"Número de acessos",
                     "yaxis":"",
-                    'hovertext':' acessos'
+                    'hovertext':' acesso(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of access by material",
