@@ -2684,7 +2684,6 @@ class V001:
             values = df.iloc[:,i].values.tolist()
             z.append(values)
             hovervalue.append([df.iloc[j,0]+legend['hovertext_undone']+df.columns[i] if values[j]==0 else df.iloc[j,0]+legend['hovertext_done']+df.columns[i] for j in range(len(values))])
-            
 
         trace = Heatmap(z=z,
                         y=df.columns[1:], #Assigns
@@ -2723,6 +2722,9 @@ class V001:
                     exponentformat='e',
                     showexponent='all',
                     gridcolor='#bdbdbd',                    
+                ),
+                margin = dict(
+                    b=150,
                 )
             )
 
@@ -2802,6 +2804,9 @@ class V001:
                     exponentformat='e',
                     showexponent='all',
                     gridcolor='#bdbdbd',                    
+                ),
+                margin = dict(
+                    b=150,
                 )
             )
 
@@ -2878,6 +2883,9 @@ class V001:
                     exponentformat='e',
                     showexponent='all',
                     gridcolor='#bdbdbd',                    
+                ),
+                margin = dict(
+                    b=150,
                 )
             )
 
