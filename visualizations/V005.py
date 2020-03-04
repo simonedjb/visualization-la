@@ -918,7 +918,7 @@ class V005:
             trace.append(
                 Box(
                     y=lst_grades, #Grades
-                    name="Cluster "+str(i+1),                    
+                    name="Cluster "+str(i+1),
                     text=['<b>'+lst_names[j]+'</b><br>'+legend['hovertext']+": "+str(lst_grades[j])+'<br>Cluster '+str(i+1) for j in range(len(lst_names))],
                     boxpoints = 'all',
                     marker=dict(
