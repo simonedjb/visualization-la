@@ -238,6 +238,7 @@ class V008:
                     "yaxis":"",
                     "columns":{1:"Dom", 2:"Seg", 3:"Ter", 4:"Qua", 5:"Qui", 6:"Sex", 0:"Sáb"},
                     "misc":{1:"dia", 2:"Trabalho", 3:"Prova"},
+                    'hovertext':' acesso(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students' access by day",
@@ -245,20 +246,27 @@ class V008:
                         "yaxis":"",
                         "columns":{1:"Sun", 2:"Mon", 3:"Tue", 4:"Wed", 5:"Thu", 6:"Fri", 0:"Sat"},
                         "misc":{1:"day", 2:"Work", 3:"Test"},
+                        'hovertext':' access'
                     }
         df = self._df_all_day
         z = []
-        for i in range (1, len(df.columns)):
-            z.append(df.iloc[:,i].values.tolist())        
-        
+        hovervalue=[]
+
         lst = [legend["columns"][(int((i+1)%7))]+", "+legend["misc"][1]+" "+str(i+1) for i in range (0,len(df.columns[1:]))]
         lst[self._work_deadline-1] = "<b>"+legend["columns"][(int(self._work_deadline%7))]+", "+legend["misc"][2]+"</b>"
         lst[self._test_day-1] = "<b>"+legend["columns"][(int(self._test_day%7))]+", "+legend["misc"][3]+"</b>"
+
+        for i in range (1, len(df.columns)):
+            values = df.iloc[:,i].values.tolist()
+            z.append(values)
+            hovervalue.append(['<b>'+df.iloc[j,0]+'</b><br>'+str(lst[i-1])+": "+str(df.iloc[j,i])+legend['hovertext'] for j in range(len(values))])
         
         trace = Heatmap(z=z, #Access
                         y=lst, #Days
                         x=df.iloc[:,0], #Students
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         showscale = True
                     )
         
@@ -320,6 +328,7 @@ class V008:
                     "yaxis":"",
                     "columns":{1:"Dom", 2:"Seg", 3:"Ter", 4:"Qua", 5:"Qui", 6:"Sex", 0:"Sáb"},
                     "misc":{1:"dia", 2:"Trabalho", 3:"Prova"},
+                    'hovertext':' acesso(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students' access by day",
@@ -327,23 +336,31 @@ class V008:
                         "yaxis":"",
                         "columns":{1:"Sun", 2:"Mon", 3:"Tue", 4:"Wed", 5:"Thu", 6:"Fri", 0:"Sat"},
                         "misc":{1:"day", 2:"Work", 3:"Test"},
+                        'hovertext':' access'
                     }
         df = self._df_all_day
         z = []
+        hovervalue=[]
         max_value = 0
-        for i in range (1, len(df.columns)):
-            z.append(df.iloc[:,i].values.tolist())
-            max_local = max(df.iloc[:,i].values.tolist())
-            max_value = max(max_local,max_value)
-        
+
         lst = [legend["columns"][(int((i+1)%7))]+", "+legend["misc"][1]+" "+str(i+1) for i in range (0,len(df.columns[1:]))]
         lst[self._work_deadline-1] = "<b>"+legend["columns"][(int(self._work_deadline%7))]+", "+legend["misc"][2]+"</b>"
         lst[self._test_day-1] = "<b>"+legend["columns"][(int(self._test_day%7))]+", "+legend["misc"][3]+"</b>"
+
+        for i in range (1, len(df.columns)):
+            values = df.iloc[:,i].values.tolist()
+            z.append(values)
+            hovervalue.append(['<b>'+df.iloc[j,0]+'</b><br>'+str(lst[i-1])+": "+str(df.iloc[j,i])+legend['hovertext'] for j in range(len(values))])
+            max_local = max(values)
+            max_value = max(max_local,max_value)
+        
 
         trace = Heatmap(z=z, #Access
                         y=lst, #Days
                         x=df.iloc[:,0], #Students
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         showscale = True
                     )
         
@@ -426,6 +443,7 @@ class V008:
                     "yaxis":"",
                     "columns":'semana',
                     "misc":{1:"Trabalho", 2:"Prova"},
+                    'hovertext':' acesso(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students' access by week",
@@ -433,20 +451,28 @@ class V008:
                         "yaxis":"",
                         "columns":"week",
                         "misc":{1:"Work", 2:"Test"},
+                        'hovertext':' access'
                     }
         df = self._df_sum_week
         z = []
-        for i in range (1, len(df.columns)):
-            z.append(df.iloc[:,i].values.tolist())        
-        
+        hovervalue=[]
+
         lst = [legend["columns"]+" "+str(i+1) for i in range (0,len(df.columns[1:]))]
         lst[int(self._work_deadline/7)-1] = "<b>"+legend["columns"]+" "+str(int(self._work_deadline/7))+",<br>"+legend["misc"][1]+"</b>"
         lst[int(self._test_day/7)-1] = "<b>"+legend["columns"]+" "+str(int(self._test_day/7))+",<br>"+legend["misc"][2]+"</b>"
+
+        for i in range (1, len(df.columns)):
+            values = df.iloc[:,i].values.tolist()
+            z.append(values)
+            hovervalue.append(['<b>'+df.iloc[j,0]+'</b><br>'+str(lst[i-1])+": "+str(df.iloc[j,i])+legend['hovertext'] for j in range(len(values))])
+        
         
         trace = Heatmap(z=z, #Access
                         y=lst, #Weeks
                         x=df.iloc[:,0], #Students
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         showscale = True
                     )
         
@@ -508,6 +534,7 @@ class V008:
                     "yaxis":"",
                     "columns":'semana',
                     "misc":{1:"Trabalho", 2:"Prova"},
+                    'hovertext':' acesso(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students' access by week",
@@ -515,23 +542,31 @@ class V008:
                         "yaxis":"",
                         "columns":"week",
                         "misc":{1:"Work", 2:"Test"},
+                        'hovertext':' access'
                     }
         df = self._df_sum_week
         z = []
+        hovervalue=[]
         max_value = 0
-        for i in range (1, len(df.columns)):
-            z.append(df.iloc[:,i].values.tolist())
-            max_local = max(df.iloc[:,i].values.tolist())
-            max_value = max(max_local,max_value)
         
         lst = [legend["columns"]+" "+str(i+1) for i in range (0,len(df.columns[1:]))]
         lst[int(self._work_deadline/7)-1] = "<b>"+legend["columns"]+" "+str(int(self._work_deadline/7))+",<br>"+legend["misc"][1]+"</b>"
         lst[int(self._test_day/7)-1] = "<b>"+legend["columns"]+" "+str(int(self._test_day/7))+",<br>"+legend["misc"][2]+"</b>"
         
+        for i in range (1, len(df.columns)):
+            values = df.iloc[:,i].values.tolist()
+            z.append(values)
+            hovervalue.append(['<b>'+df.iloc[j,0]+'</b><br>'+str(lst[i-1])+": "+str(df.iloc[j,i])+legend['hovertext'] for j in range(len(values))])
+            max_local = max(values)
+            max_value = max(max_local,max_value)
+        
+        
         trace = Heatmap(z=z, #Access
                         y=lst, #Weeks
                         x=df.iloc[:,0], #Students
                         colorscale=[[0, 'rgb(255,255,255)'], [1, 'rgb(0,0,255)']],
+                        hovertext = hovervalue,
+                        hoverinfo='text',
                         showscale = True
                     )
         
@@ -615,6 +650,7 @@ class V008:
                     "yaxis":"Acessos",
                     "columns":{1:"Dom", 2:"Seg", 3:"Ter", 4:"Qua", 5:"Qui", 6:"Sex", 0:"Sáb"},
                     "misc":{1:"dia", 2:"Trabalho", 3:"Prova"},
+                    'hovertext':' acesso(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Variation of students' access by day",
@@ -622,28 +658,33 @@ class V008:
                         "yaxis":"Access",
                         "columns":{1:"Sun", 2:"Mon", 3:"Tue", 4:"Wed", 5:"Thu", 6:"Fri", 0:"Sat"},
                         "misc":{1:"day", 2:"Work", 3:"Test"},
+                        'hovertext':' access'
                     }
         df = self._df_all_day
         max_value = 0
-        for i in range (1, len(df.columns)):            
-            max_local = max(df.iloc[:,i].values.tolist())
-            max_value = max(max_local,max_value)
 
         lst = [legend["columns"][(int((i+1)%7))]+", "+legend["misc"][1]+" "+str(i+1) for i in range (0,len(df.columns[1:]))]
         lst[self._work_deadline-1] = "<b>"+legend["columns"][(int(self._work_deadline%7))]+", "+legend["misc"][2]+"</b>"
         lst[self._test_day-1] = "<b>"+legend["columns"][(int(self._test_day%7))]+", "+legend["misc"][3]+"</b>"
+        
+        for i in range (1, len(df.columns)):
+            max_local = max(df.iloc[:,i].values.tolist())
+            max_value = max(max_local,max_value)
                 
         trace = []
+        lst_names = df[df.columns[0]].values.tolist()
         for i in range(1,len(df.columns)):
             color = "rgb(0,0,255)"
             if i == self._work_deadline or i == self._test_day:
                 color = "rgb(255,0,0)"
             
+            lst_feat = df.iloc[:,i].values.tolist() #Access
             trace.append(
                 Box(
-                    y=df.iloc[:,i].values.tolist(), #Access
+                    y=lst_feat, #Access
                     name=lst[i-1],
-                    text=df[df.columns[0]].values.tolist(),
+                    # text=lst_names,
+                    text=['<b>'+lst_names[j]+'</b><br>'+str(lst[i-1])+": "+str(lst_feat[j])+legend['hovertext'] for j in range(len(lst_names))],
                     boxpoints = 'all',
                     marker=dict(
                         color = color,
@@ -709,6 +750,7 @@ class V008:
                     "yaxis":"Acessos",
                     "columns":'semana',
                     "misc":{1:"Trabalho", 2:"Prova"},
+                    'hovertext':' acesso(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Variation of students' access by week",
@@ -716,29 +758,33 @@ class V008:
                         "yaxis":"Access",
                         "columns":"week",
                         "misc":{1:"Work", 2:"Test"},
+                        'hovertext':' access'
                     }
         df = self._df_sum_week
-        
         max_value = 0
-        for i in range (1, len(df.columns)):            
-            max_local = max(df.iloc[:,i].values.tolist())
-            max_value = max(max_local,max_value)
 
         lst = [legend["columns"]+" "+str(i+1) for i in range (0,len(df.columns[1:]))]
         lst[int(self._work_deadline/7)-1] = "<b>"+legend["columns"]+" "+str(int(self._work_deadline/7))+",<br>"+legend["misc"][1]+"</b>"
         lst[int(self._test_day/7)-1] = "<b>"+legend["columns"]+" "+str(int(self._test_day/7))+",<br>"+legend["misc"][2]+"</b>"
-                
+
+        for i in range (1, len(df.columns)):            
+            max_local = max(df.iloc[:,i].values.tolist())
+            max_value = max(max_local,max_value)
+        
         trace = []
+        lst_names = df[df.columns[0]].values.tolist()
         for i in range(1,len(df.columns)):
             color = "rgb(0,0,255)"            
             if i == int(self._work_deadline/7) or i == int(self._test_day/7):
                 color = "rgb(255,0,0)"
 
+            lst_feat = df.iloc[:,i].values.tolist() #Access
             trace.append(
                 Box(
-                    y=df.iloc[:,i].values.tolist(), #Access                    
+                    y=lst_feat, #Access                    
                     name=lst[i-1],
-                    text=df[df.columns[0]].values.tolist(),
+                    # text=lst_names,
+                    text=['<b>'+lst_names[j]+'</b><br>'+str(lst[i-1])+": "+str(lst_feat[j])+legend['hovertext'] for j in range(len(lst_names))],
                     boxpoints = 'all',
                     marker=dict(
                         color = color,
@@ -798,6 +844,7 @@ class V008:
                     "yaxis":"Acessos",
                     "columns":{1:"Dom", 2:"Seg", 3:"Ter", 4:"Qua", 5:"Qui", 6:"Sex", 0:"Sáb"},
                     "misc":{1:"dia", 2:"Trabalho", 3:"Prova"},
+                    'hovertext':' acesso(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students' access by day",
@@ -805,30 +852,37 @@ class V008:
                         "yaxis":"Access",
                         "columns":{1:"Sun", 2:"Mon", 3:"Tue", 4:"Wed", 5:"Thu", 6:"Fri", 0:"Sat"},
                         "misc":{1:"day", 2:"Work", 3:"Test"},
+                        'hovertext':' access'
                     }
         
         df = self._df_all_day
         max_value = 0
-        for i in range (1, len(df.columns)):            
-            max_local = max(df.iloc[:,i].values.tolist())
-            max_value = max(max_local,max_value)
 
         lst = [legend["columns"][(int((i+1)%7))]+", "+legend["misc"][1]+" "+str(i+1) for i in range (0,len(df.columns[1:]))]
         lst[self._work_deadline-1] = "<b>"+legend["columns"][(int(self._work_deadline%7))]+", "+legend["misc"][2]+"</b>"
         lst[self._test_day-1] = "<b>"+legend["columns"][(int(self._test_day%7))]+", "+legend["misc"][3]+"</b>"
-                
+
+        for i in range (1, len(df.columns)):            
+            max_local = max(df.iloc[:,i].values.tolist())
+            max_value = max(max_local,max_value)
+        
         trace = []
+        lst_names = df[df.columns[0]].values.tolist()
         for i in range(1,len(df.columns)):
             color = "rgb(0,0,255)"
             if i == self._work_deadline or i == self._test_day:
                 color = "rgb(255,0,0)"
+
+            lst_feat = df.iloc[:,i].values.tolist() #Access
             trace.append(
                 {
                     "type":'violin',
                     "x":[lst[i-1]]*len(df),
-                    "y":df.iloc[:,i].values.tolist(), #Access
+                    # "y":df.iloc[:,i].values.tolist(), #Access
+                    "y":lst_feat,
                     "name":lst[i-1],
-                    "text":df[df.columns[0]].values.tolist(),
+                    # "text":df[df.columns[0]].values.tolist(),
+                    'text':['<b>'+lst_names[j]+'</b><br>'+str(lst[i-1])+": "+str(lst_feat[j])+legend['hovertext'] for j in range(len(lst_names))],
                     "box":{
                         "visible":True
                         },
@@ -900,6 +954,7 @@ class V008:
                     "yaxis":"Acessos",
                     "columns":'semana',
                     "misc":{1:"Trabalho", 2:"Prova"},
+                    'hovertext':' acesso(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Number of students' access by week",
@@ -907,30 +962,37 @@ class V008:
                         "yaxis":"Access",
                         "columns":"week",
                         "misc":{1:"Work", 2:"Test"},
+                        'hovertext':' access'
                     }
         
         df = self._df_sum_week
         max_value = 0
-        for i in range (1, len(df.columns)):            
-            max_local = max(df.iloc[:,i].values.tolist())
-            max_value = max(max_local,max_value)
-
+        
         lst = [legend["columns"]+" "+str(i+1) for i in range (0,len(df.columns[1:]))]
         lst[int(self._work_deadline/7)-1] = "<b>"+legend["columns"]+" "+str(int(self._work_deadline/7))+",<br>"+legend["misc"][1]+"</b>"
         lst[int(self._test_day/7)-1] = "<b>"+legend["columns"]+" "+str(int(self._test_day/7))+",<br>"+legend["misc"][2]+"</b>"
+        
+        for i in range (1, len(df.columns)):
+            max_local = max(df.iloc[:,i].values.tolist())
+            max_value = max(max_local,max_value)
                 
         trace = []
+        lst_names = df[df.columns[0]].values.tolist()
         for i in range(1,len(df.columns)):
             color = "rgb(0,0,255)"            
             if i == int(self._work_deadline/7) or i == int(self._test_day/7):
                 color = "rgb(255,0,0)"
+            
+            lst_feat = df.iloc[:,i].values.tolist() #Access
             trace.append(
                 {
                     "type":'violin',
                     "x":[lst[i-1]]*len(df),
-                    "y":df.iloc[:,i].values.tolist(), #Access
+                    # "y":df.iloc[:,i].values.tolist(), #Access
+                    "y":lst_feat, #Access
                     "name":lst[i-1],
-                    "text":df[df.columns[0]].values.tolist(),
+                    # "text":df[df.columns[0]].values.tolist(),
+                    'text':['<b>'+lst_names[j]+'</b><br>'+str(lst[i-1])+": "+str(lst_feat[j])+legend['hovertext'] for j in range(len(lst_names))],
                     "box":{
                         "visible":True
                         },
@@ -996,6 +1058,7 @@ class V008:
                     "yaxis":"Acessos",
                     "columns":{1:"Dom", 2:"Seg", 3:"Ter", 4:"Qua", 5:"Qui", 6:"Sex", 0:"Sáb"},
                     "misc":{1:"dia", 2:"Trabalho", 3:"Prova"},
+                    'hovertext':' acesso(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Mean of students' access by day",
@@ -1003,6 +1066,7 @@ class V008:
                         "yaxis":"Access",
                         "columns":{1:"Sun", 2:"Mon", 3:"Tue", 4:"Wed", 5:"Thu", 6:"Fri", 0:"Sat"},
                         "misc":{1:"day", 2:"Work", 3:"Test"},
+                        'hovertext':' access'
                     }
 
         df = self._df_all_day
@@ -1026,7 +1090,7 @@ class V008:
                 y=lst_mean_day, #Access
                 mode='lines+markers',
                 hoverinfo='text',
-                hovertext = ['<b>'+lst[i]+'</b><br>'+str(lst_mean_day[i])+' acesso(s)' for i in range(0,len(df.columns[1:]))],
+                hovertext = ['<b>'+lst[i]+'</b><br>'+str(lst_mean_day[i])+legend['hovertext'] for i in range(0,len(df.columns[1:]))],
                 marker=dict(
                     size=8,                    
                     color = color,
@@ -1081,13 +1145,13 @@ class V008:
             config = {"displaylogo": False, "responsive": True, "displayModeBar": True, "modeBarButtonsToRemove": modeBarButtonsToRemove}
             return {"id":"V008@12","layout":json.dumps({"data": data, "layout": layout, "config": config}, cls=PlotlyJSONEncoder)}
 
-
     def graph_13(self):
         legend = {"title":"Média de acessos dos estudantes por semana",
                     "xaxis":"",
                     "yaxis":"Acessos",
                     "columns":'semana',
                     "misc":{1:"Trabalho", 2:"Prova"},
+                    'hovertext':' acesso(s)'
                 }
         if (self._language == "en"):
             legend = {"title":"Mean of students' access by week",
@@ -1095,6 +1159,7 @@ class V008:
                         "yaxis":"Access",
                         "columns":"week",
                         "misc":{1:"Work", 2:"Test"},
+                        'hovertext':' access'
                     }
         
         df = self._df_sum_week
@@ -1118,7 +1183,7 @@ class V008:
                 y=lst_mean_weak, #Access
                 mode='lines+markers',
                 hoverinfo='text',
-                hovertext = ['<b>'+lst[i]+'</b><br>'+str(lst_mean_weak[i])+' acesso(s)' for i in range(0,len(df.columns[1:]))],
+                hovertext = ['<b>'+lst[i]+'</b><br>'+str(lst_mean_weak[i])+legend['hovertext'] for i in range(0,len(df.columns[1:]))],
                 marker=dict(
                     size=8,                    
                     color = color,
