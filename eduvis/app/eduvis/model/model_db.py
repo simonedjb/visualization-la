@@ -196,7 +196,7 @@ qry_update["dashboard_charts_active"] = """UPDATE tb_dashboard_topic_chart
                                             WHERE cl_id = ?"""
 
 qry_update["dashboard_charts_order"] = """UPDATE tb_dashboard_topic_chart
-                                            SET cl_order = ?,
+                                            SET cl_order = ?
                                             WHERE cl_id = ?"""
 
 qry_update["tb_evaluate"] = """UPDATE tb_evaluate

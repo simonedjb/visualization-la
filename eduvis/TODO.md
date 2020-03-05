@@ -1,4 +1,3 @@
-- BUG - Session não está funcionando
 - Adicionar filtros nos gráficos.
-- Atualizar o número de gráficos selecionados ao excluir ou selecionar o gráfico
+- BUG - Atualizar o número de gráficos selecionados ao excluir ou selecionar o gráfico. Ele só atualiza quando a pagina é carregada.
 - Adicionar um iframe de carregando.
