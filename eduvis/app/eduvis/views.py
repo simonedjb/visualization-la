@@ -48,28 +48,51 @@ _user_id = None
 def load_user_info():
     global _user_id
     print("----------------load_user_info()----------------")
-    if session.get('user_eduvis') == True:
-        print("----------------True----------------")
-        if (session['user_eduvis'] == ""):
-            print("----------------_user_id = DEFAULT_USER_ID----------------")
-            _user_id = DEFAULT_USER_ID
-            print(_user_id)
-        else:
-            print("----------------_user_id = session[user_eduvis]----------------")
-            _user_id = session['user_eduvis']
-            print(_user_id)
+    # session['user_eduvis'] = 'Sessão Works'
+    # print(session['user_eduvis'])
     
+    if session['user_eduvis'] != "":
+        print("----------------_user_id = session[user_eduvis]----------------")
+        _user_id = session['user_eduvis']
+        print(_user_id)
     else:
-        print("----------------False----------------")
         print("----------------_user_id = DEFAULT_USER_ID----------------")
-        print("----------------session[user_eduvis] = \'\'----------------")
-        _user_id = DEFAULT_USER_ID
         session['user_eduvis'] = ""
+        _user_id = DEFAULT_USER_ID
+        print(_user_id)
     
     # print("--------------------------------------------------")
     # print("load_user_info()")
     # print(_user_id)
     # print("--------------------------------------------------")
+
+# def load_user_info():
+#     global _user_id
+#     # session['user_eduvis'] = 'Sessão Works'
+#     print("----------------load_user_info()----------------")
+#     print(session['user_eduvis'])
+#     if session.get('user_eduvis') == True:
+#         print("----------------True----------------")
+#         if (session['user_eduvis'] == ""):
+#             print("----------------_user_id = DEFAULT_USER_ID----------------")
+#             _user_id = DEFAULT_USER_ID
+#             print(_user_id)
+#         else:
+#             print("----------------_user_id = session[user_eduvis]----------------")
+#             _user_id = session['user_eduvis']
+#             print(_user_id)
+    
+#     else:
+#         print("----------------False----------------")
+#         print("----------------_user_id = DEFAULT_USER_ID----------------")
+#         print("----------------session[user_eduvis] = \'\'----------------")
+#         _user_id = DEFAULT_USER_ID
+#         session['user_eduvis'] = ""
+    
+#     # print("--------------------------------------------------")
+#     # print("load_user_info()")
+#     # print(_user_id)
+#     # print("--------------------------------------------------")
 
 def left_menu_info_UNASUS():
     lst_left_menu_info = []
@@ -152,6 +175,7 @@ def aboutyou_save():
                 'avaxp':request.form['avaxp']}
         print(data)
         
+        print("----------------Set Session----------------")
         if '' in list(data.values()):
             return render_template('eduvis/frontend/interview/aboutyou.html', data=data)
         else:
@@ -159,12 +183,17 @@ def aboutyou_save():
             if session['user_eduvis'] == "":
                 user_id = user.record_about_user(data)
                 session['user_eduvis'] = user_id
+                print("----------------user_id----------------")
+                print(user_id)
+                print("----------------Session----------------")
+                print(session['user_eduvis'])
             else:
                 user_id = session['user_eduvis']
                 user.record_about_user(data, user_id)
             
             if int(data['avaxp'])==0:
                 return redirect('/eduvis/interview/data/')
+        print("----------------End Set Session----------------")
     else:
         pass
 
