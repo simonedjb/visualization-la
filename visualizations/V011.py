@@ -422,36 +422,79 @@ class V011:
     #Flow Chart
     def graph_05(self):
         if (self._language == "pt"):
-            legend = {"title":"Fluxo de navegação dos estudantes por cluster"}
+            legend = {"title":"Fluxo de navegação dos estudantes por cluster", 'hovertext':' estudante(s)'}
             materials_label = ['Vídeo 1','Vídeo 2','Vídeo 3','Atividade 1','Atividade 2','Atividade 3','Fórum','Prova']
             mark_cluster = ["Início do Curso", "Fim do Curso"]
         else:
-            legend = {"title":"Students' navigation flow by cluster"}
+            legend = {"title":"Students' navigation flow by cluster", 'hovertext':' student(s)'}
             materials_label = ['Video 1','Video 2','Video 3','Assignment 1','Assignment 2','Assignment 3','Forum','Final Test']
             mark_cluster = ["Course Start", "Course End"]
 
         markerSize = 90
         
+        df=self.DATASET
+        lst_cluster=list(set(df[df.columns[len(df.columns)-1]].unique()))
+
+
         cluster = []
         cluster.append([materials_label[0],materials_label[1],materials_label[2],materials_label[7]])
         cluster.append([materials_label[0],materials_label[1],materials_label[2],materials_label[3],materials_label[4],materials_label[5],materials_label[7]])
-        cluster.append([materials_label[0],materials_label[1],materials_label[2],materials_label[3],materials_label[4],materials_label[5],materials_label[6],materials_label[7]])
+        cluster.append([materials_label[0],materials_label[1],materials_label[2],materials_label[3],materials_label[4],materials_label[5],materials_label[6],materials_label[7]])        
 
         x = []
-        y = []        
+        y = []
+        xEdgeLegend = []
+        yEdgeLegend = []
+        zEdgeLegend = []
+
         x.append([1,2,3,4]) #cluster1
-        y.append([120,120,120,120,120]) #cluster1        
+        y.append([120, 120, 120, 120, 120]) #cluster1
 
         x.append([1, 2, 3, 1.5, 2.5, 3.5, 4]) #cluster2
-        y.append([80, 100, 100, 60, 60, 60, 80]) #cluster2        
+        y.append([80, 100, 100, 60, 60, 60, 80]) #cluster2
 
         x.append([1, 2, 3, 1.5, 2.5, 3.5, 1.5, 4]) #cluster3
         y.append([20, 20, 20, 0, 0, 0, 40, 20]) #cluster3
+
+        xEdgeLegend.append([0.5,1.5,2.5,3.5,4.5]) #cluster1
+        yEdgeLegend.append([120,120,120,120,120]) #cluster1
+
+        xEdgeLegend.append([0.5,1.5,1.2,1.7,2.2,2.5,2.7,3.2,3.5,3.8,4.5]) #cluster2
+        yEdgeLegend.append([80,90,70,80,80,100,80,80,90,70,80]) #cluster2
+
+        xEdgeLegend.append([0.5,0.6,2.5,3.5,4.5,1.2,1.7,  1.1,1.4,1.8,2.2,2.4,2.8,3.2,3.4,3.8]) #cluster3
+        yEdgeLegend.append([20,7,20,20,20,30,30,10,10,10,10,10,10,10,10,10]) #cluster3
+        
+        amount_each_cluster = len(df.loc[df[df.columns[len(df.columns)-1]]==lst_cluster[0]])        
+        zEdgeLegend.append([amount_each_cluster,amount_each_cluster-1,amount_each_cluster-2,amount_each_cluster-3,amount_each_cluster-3]) #cluster1
+        
+        amount_each_cluster = len(df.loc[df[df.columns[len(df.columns)-1]]==lst_cluster[1]])
+        zEdgeLegend.append([amount_each_cluster,2,amount_each_cluster-2,amount_each_cluster-2,amount_each_cluster-2,2,amount_each_cluster-2,amount_each_cluster-2,2,amount_each_cluster-2,amount_each_cluster]) #cluster2
+        
+        amount_each_cluster = len(df.loc[df[df.columns[len(df.columns)-1]]==lst_cluster[2]])
+        # zEdgeLegend.append([amount_each_cluster-2,2,3,4,amount_each_cluster,6,7,8,9,10,11,12,13,14,15,16]) #cluster3
+        zEdgeLegend.append([amount_each_cluster-2,2,1,1,amount_each_cluster,1,1,8,amount_each_cluster-1,amount_each_cluster-1,1,amount_each_cluster-1,amount_each_cluster-1,1,amount_each_cluster-1,amount_each_cluster-1]) #cluster3
 
         color = ["rgba(255,0,0,1)","rgba(0,0,255,1)","rgba(0,255,0,1)"]
         text_color = ["rgb(255,255,255)","rgb(255,255,255)","rgb(0,0,0)"]
 
         trace = []
+        for i in range(0,len(xEdgeLegend)):
+
+            trace.append(
+                    Scatter(
+                        x=xEdgeLegend[i],
+                        y=yEdgeLegend[i],
+                        mode='markers',
+                        textposition='middle center',
+                        # hovertext=["<b>"+str(amount_each_cluster+zEdgeLegend[i][e])+legend['hovertext']+"</b>" for e in range(0,len(xEdgeLegend[i]))],
+                        hovertext=["<b>"+str(zEdgeLegend[i][e])+legend['hovertext']+"</b>" for e in range(0,len(xEdgeLegend[i]))],
+                        hoverinfo='text',
+                        hoverlabel=dict(bgcolor=color[i]),                        
+                        showlegend = False,
+                        marker=dict(size=[30]*len(x[i]), color = "rgba(255,255,255,1)", symbol='circle-open', line=dict(width=3))
+                    )
+                )
         for i in range(0,len(cluster)):
             trace.append(
                     Scatter(
@@ -536,7 +579,7 @@ class V011:
         y0.append([y[1][cluster[1].index(materials_label[0])]-1, y[1][cluster[1].index(materials_label[0])], y[1][cluster[1].index(materials_label[0])], y[1][cluster[1].index(materials_label[1])], y[1][cluster[1].index(materials_label[1])], y[1][cluster[1].index(materials_label[2])], y[1][cluster[1].index(materials_label[3])], y[1][cluster[1].index(materials_label[4])], y[1][cluster[1].index(materials_label[5])], y[1][cluster[1].index(materials_label[2])], y[1][cluster[1].index(materials_label[7])]])
         y1.append([y[1][cluster[1].index(materials_label[0])],   y[1][cluster[1].index(materials_label[1])], y[1][cluster[1].index(materials_label[3])], y[1][cluster[1].index(materials_label[2])], y[1][cluster[1].index(materials_label[4])], y[1][cluster[1].index(materials_label[5])], y[1][cluster[1].index(materials_label[1])], y[1][cluster[1].index(materials_label[2])], y[1][cluster[1].index(materials_label[7])], y[1][cluster[1].index(materials_label[7])], y[1][cluster[1].index(materials_label[7])]+1])
 
-        width.append([9, 4, 8, 3, 7, 6, 5, 7, 6, 4, 10])
+        width.append([10, 4, 8, 3, 7, 6, 8, 7, 6, 4, 10])
 
         xshift.append([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
         yshift.append([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
@@ -548,7 +591,7 @@ class V011:
         y0.append([y[2][cluster[2].index(materials_label[0])]-1, y[2][cluster[2].index(materials_label[0])]-1, y[2][cluster[2].index(materials_label[0])], y[2][cluster[2].index(materials_label[0])], y[2][cluster[2].index(materials_label[6])], y[2][cluster[2].index(materials_label[1])], y[2][cluster[2].index(materials_label[1])], y[2][cluster[2].index(materials_label[2])], y[2][cluster[2].index(materials_label[2])], y[2][cluster[2].index(materials_label[3])], y[2][cluster[2].index(materials_label[3])], y[2][cluster[2].index(materials_label[4])], y[2][cluster[2].index(materials_label[4])], y[2][cluster[2].index(materials_label[5])], y[2][cluster[2].index(materials_label[5])], y[2][cluster[2].index(materials_label[7])]])
         y1.append([y[2][cluster[2].index(materials_label[0])],   y[2][cluster[2].index(materials_label[3])],   y[2][cluster[2].index(materials_label[6])], y[2][cluster[2].index(materials_label[3])], y[2][cluster[2].index(materials_label[1])], y[2][cluster[2].index(materials_label[2])], y[2][cluster[2].index(materials_label[4])], y[2][cluster[2].index(materials_label[5])], y[2][cluster[2].index(materials_label[7])], y[2][cluster[2].index(materials_label[0])], y[2][cluster[2].index(materials_label[1])], y[2][cluster[2].index(materials_label[1])], y[2][cluster[2].index(materials_label[2])], y[2][cluster[2].index(materials_label[2])], y[2][cluster[2].index(materials_label[7])], y[2][cluster[2].index(materials_label[7])]+1])
 
-        width.append([9, 3, 2, 5, 2, 2, 5, 5, 2, 3, 5, 2, 5, 2, 5, 7])
+        width.append([7, 3, 2, 9, 2, 2, 9, 9, 2, 3, 9, 2, 9, 2, 9, 11])
 
         xshift.append([0, -10, 0, 15, 0, 0, 15, 15, 0, -10, 0, -10, 0, -10, 0, 0])
         yshift.append([0, -15, 0, 10, 0, 0, 10, 10, 0, -10, 0, -10, 0, -10, 0, 0])
@@ -562,7 +605,7 @@ class V011:
                             xshift = xshift[i][j], yshift = yshift[i][j],
                             startstandoff=markerSize/1.8,standoff=markerSize/1.8,
                             arrowcolor=color[i],arrowwidth=width[i][j],arrowsize=1,
-                            showarrow=True, arrowhead=3,)
+                            showarrow=True, arrowhead=3)
                 )
 
         layout=Layout(
