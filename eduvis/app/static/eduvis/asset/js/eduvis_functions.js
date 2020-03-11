@@ -469,7 +469,7 @@ function buildingEvaluationDashboard(title,chartPlotlyId,chartId) {
   spanEvaluation.setAttributeNode(spanEvaluationatt1);
 
   var labelEvaluation = document.createElement("label");
-  var textEvaluation = document.createTextNode("Diga duas informações que você consegue extrair com esse gráfico?");
+  var textEvaluation = document.createTextNode("Diga dois fatos que você consegue extrair com esse gráfico?");
 
   titleNodeBold.appendChild(textTitleNode);
   titleNode.appendChild(titleNodeBold);

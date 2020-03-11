@@ -50,7 +50,7 @@ def load_user_info():
     print("----------------load_user_info()----------------")
     # session['user_eduvis'] = 'Sessão Works'
     # print(session['user_eduvis'])
-    
+    # session['user_eduvis'] = ""
     if session['user_eduvis'] != "":
         print("----------------_user_id = session[user_eduvis]----------------")
         _user_id = session['user_eduvis']
