@@ -468,14 +468,101 @@ function buildingEvaluationDashboard(title,chartPlotlyId,chartId) {
   spanEvaluationatt1.value = "bar";
   spanEvaluation.setAttributeNode(spanEvaluationatt1);
 
+  var divImportance = document.createElement("div");
+  var divImportanceatt1 = document.createAttribute("class");
+  var divImportanceatt2 = document.createAttribute("id");
+  var divImportanceatt3 = document.createAttribute("style");
+  // divImportanceatt1.value = "col-md-12 bg-light2-grey";
+  divImportanceatt1.value = "col-md-12 bg-white";
+  divImportanceatt2.value = chartId+"#"+"Radio";
+  divImportanceatt3.value = 'color: #0a6ebd;';
+  divImportance.setAttributeNode(divImportanceatt1);
+  divImportance.setAttributeNode(divImportanceatt2);
+  divImportance.setAttributeNode(divImportanceatt3);
+
+  var divImportanceSubTopic = document.createElement("div");
+  var divImportanceSubTopicatt1 = document.createAttribute("class");
+  var divImportanceSubTopicatt2 = document.createAttribute("style");
+  divImportanceSubTopicatt1.value = "col-md-3 form-group form-animate-text";
+  divImportanceSubTopicatt2.value = "margin-top:20px !important; font-size: 18px;margin-bottom: 15px;";
+  divImportanceSubTopic.setAttributeNode(divImportanceSubTopicatt1);
+  divImportanceSubTopic.setAttributeNode(divImportanceSubTopicatt2);
+
+  var textEvaluationImportance = document.createTextNode("O quão importante é esse gráfico:");
+  divImportanceSubTopic.appendChild(textEvaluationImportance);
+
+  lst_radio_opt = ["Irrelevante","","","Neutro","","","Essencial"];
+  lst_option = []
+  for(z=0; z<lst_radio_opt.length; z++){
+    var divOption = document.createElement("div");
+    var divOptionatt1 = document.createAttribute("class");
+    var divOptionatt2 = document.createAttribute("style");
+    divOptionatt1.value = "col-md-1 form-animate-radio";
+    divOptionatt2.value = "margin-top: 20px; display:inline-block; text-align:center;";
+    divOption.setAttributeNode(divOptionatt1);
+    divOption.setAttributeNode(divOptionatt2);
+
+    var labelRadio = document.createElement("label");
+    var labelRadioatt1 = document.createAttribute("class");
+    var labelRadioatt2 = document.createAttribute("style");
+    labelRadioatt1.value = "radio";
+    labelRadioatt2.value = "font-size: 16px; padding: 0px; margin-bottom: 0px;";
+    labelRadio.setAttributeNode(labelRadioatt1);
+    labelRadio.setAttributeNode(labelRadioatt2);
+
+    var inputRadio = document.createElement("input");
+    var inputRadioatt1 = document.createAttribute("type");
+    var inputRadioatt2 = document.createAttribute("name");
+    var inputRadioatt3 = document.createAttribute("value");
+    var inputRadioatt4 = document.createAttribute("id");
+    inputRadioatt1.value = "radio";
+    inputRadioatt2.value = chartId+"#"+"Radio";
+    inputRadioatt3.value = (z+1).toString();
+    inputRadioatt4.value = chartId+"#"+"Radio"+"#"+(z+1).toString();
+    inputRadio.setAttributeNode(inputRadioatt1);
+    inputRadio.setAttributeNode(inputRadioatt2);
+    inputRadio.setAttributeNode(inputRadioatt3);
+    inputRadio.setAttributeNode(inputRadioatt4);
+
+    var spanRadioOuter = document.createElement("span");
+    var spanRadioOuteratt1 = document.createAttribute("class");
+    spanRadioOuteratt1.value = "outer";
+    spanRadioOuter.setAttributeNode(spanRadioOuteratt1);
+
+    var spanRadioInner = document.createElement("span");
+    var spanRadioInneratt1 = document.createAttribute("class");
+    spanRadioInneratt1.value = "inner";
+    spanRadioInner.setAttributeNode(spanRadioInneratt1);
+
+    var labelRadioText = document.createElement("label");
+    var labelRadioTextatt1 = document.createAttribute("style");
+    labelRadioTextatt1.value = "font-size: 16px;display:block;";
+    labelRadioText.setAttributeNode(labelRadioTextatt1);
+
+    var titleRadio = document.createTextNode(lst_radio_opt[z]);
+
+    spanRadioOuter.appendChild(spanRadioInner);
+    labelRadio.appendChild(inputRadio);
+    labelRadio.appendChild(spanRadioOuter);
+    labelRadioText.appendChild(titleRadio);
+    divOption.appendChild(labelRadio);
+    divOption.appendChild(labelRadioText);
+    lst_option.push(divOption);
+  }
+
   var labelEvaluation = document.createElement("label");
   var textEvaluation = document.createTextNode("Diga dois fatos que você consegue extrair com esse gráfico?");
 
   titleNodeBold.appendChild(textTitleNode);
   titleNode.appendChild(titleNodeBold);
-  colNode3.appendChild(titleNode);              
+  colNode3.appendChild(titleNode);
   panelHeading.appendChild(colNode3);  
   panelBody.appendChild(chartNode);
+  divImportanceSubTopic.appendChild(textEvaluationImportance);
+  divImportance.appendChild(divImportanceSubTopic);
+  for(z=0; z<lst_option.length; z++){    
+    divImportance.appendChild(lst_option[z]);
+  }
   labelEvaluation.appendChild(textEvaluation);
   divEvaluationInput.appendChild(inputEvaluation);
   divEvaluationInput.appendChild(spanEvaluation);
@@ -483,12 +570,12 @@ function buildingEvaluationDashboard(title,chartPlotlyId,chartId) {
   divEvaluation.appendChild(divEvaluationInput);
   panel1.appendChild(panelHeading);
   panel1.appendChild(panelBody);
+  panel1.appendChild(divImportance);
   panel1.appendChild(divEvaluation);
   colNode2.appendChild(panel1);  
   colNode1.appendChild(colNode2);
 
   document.getElementById("submitForm").insertBefore(colNode1,submit_btn);
-  // #Falta botar um submit e o formulario.
 }
 
 function loadMenu(menuListInfo,amountSelectedVG) {

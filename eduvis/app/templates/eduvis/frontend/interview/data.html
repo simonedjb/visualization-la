@@ -94,7 +94,7 @@
                 var divOptionatt1 = document.createAttribute("class");
                 var divOptionatt2 = document.createAttribute("style");
                 divOptionatt1.value = "col-md-1 form-animate-radio";
-                divOptionatt2.value = "margin-top: 20px;";
+                divOptionatt2.value = "margin-top: 20px; display:inline-block; text-align:center;";
                 divOption.setAttributeNode(divOptionatt1);
                 divOption.setAttributeNode(divOptionatt2);
     
@@ -102,7 +102,7 @@
                 var labelRadioatt1 = document.createAttribute("class");
                 var labelRadioatt2 = document.createAttribute("style");
                 labelRadioatt1.value = "radio";
-                labelRadioatt2.value = "font-size: 16px";
+                labelRadioatt2.value = "font-size: 16px; padding: 0px; margin-bottom: 0px;";
                 labelRadio.setAttributeNode(labelRadioatt1);
                 labelRadio.setAttributeNode(labelRadioatt2);
     
@@ -130,13 +130,19 @@
                 spanRadioInneratt1.value = "inner";
                 spanRadioInner.setAttributeNode(spanRadioInneratt1);
     
+                var labelRadioText = document.createElement("label");
+                var labelRadioTextatt1 = document.createAttribute("style");
+                labelRadioTextatt1.value = "font-size: 16px;display:block;";
+                labelRadioText.setAttributeNode(labelRadioTextatt1);
+                
                 var titleRadio = document.createTextNode(lst_radio_opt[z]);
-
+                
                 spanRadioOuter.appendChild(spanRadioInner);
                 labelRadio.appendChild(inputRadio);
                 labelRadio.appendChild(spanRadioOuter);
-                labelRadio.appendChild(titleRadio);
+                labelRadioText.appendChild(titleRadio);
                 divOption.appendChild(labelRadio);
+                divOption.appendChild(labelRadioText);
                 div.appendChild(divOption);
             }
 

@@ -48,8 +48,13 @@
             header3att2.value = "color: #2196F3";
             header3.setAttributeNode(header3att1);
             header3.setAttributeNode(header3att2);
-
-            var title = document.createTextNode("Sobre cada visualização do dashboard apresentado:");
+            
+            var dashType = '{{ dashboardType }}';
+            if ( dashType == 'static') {
+                var title = document.createTextNode("Sobre cada visualização do dashboard estático:");
+            } else {
+                var title = document.createTextNode("Sobre cada visualização do dashboard customizado:");
+            }
 
             header3.appendChild(title);
             divCol.appendChild(header3);
