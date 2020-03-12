@@ -46,8 +46,10 @@ _conn = Connection_DB()
 _user_id = None
 
 def load_user_info():
-    rule = request.url_rule    
-    if (rule == "/eduvis/invite/"):
+    rule = request.url_rule
+    print("Pagina:"+str(rule))
+    if (str(rule) == "/eduvis/invite/" or str(rule) == "/eduvis/"):
+        print('Reset session')
         session['user_eduvis'] = ""
 
     global _user_id
@@ -309,10 +311,21 @@ def evaluation_static_dashboard_save():
         topics = dashboard.topic()
         charts = dashboard.charts("id")
 
+        keys = []
+        form = request.form
+        for key in form.keys():
+            keys.append(key)
+
         data = {}
         for i in range(0,len(charts)):
             name = "T"+str(topics[i])+"@"+str(charts[i])
             data[name] = request.form[name]
+            
+            name = "T"+str(topics[i])+"@"+str(charts[i])+"#Radio"
+            if name in keys:
+                data[name] = request.form[name]
+            else:
+                data[name] = ''
         print(data)
 
         if '' in list(data.values()):
@@ -340,10 +353,21 @@ def evaluation_customizable_dashboard_save():
         topics = dashboard.topic()
         charts = dashboard.charts("id")
 
+        keys = []
+        form = request.form
+        for key in form.keys():
+            keys.append(key)
+
         data = {}
         for i in range(0,len(charts)):
             name = "T"+str(topics[i])+"@"+str(charts[i])
             data[name] = request.form[name]
+
+            name = "T"+str(topics[i])+"@"+str(charts[i])+"#Radio"
+            if name in keys:
+                data[name] = request.form[name]
+            else:
+                data[name] = ''
         print(data)
 
         if '' in list(data.values()):

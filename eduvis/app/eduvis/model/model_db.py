@@ -6,7 +6,7 @@ qry_insert["tb_evaluate"] = """INSERT INTO tb_evaluate (cl_user_id, cl_topic_id,
 qry_insert["tb_dashboard"] = """INSERT INTO tb_dashboard (cl_user_id, cl_name, cl_type, cl_language, cl_record_date) VALUES (?,?,?,?,?);"""
 qry_insert["tb_chart"] = """INSERT INTO tb_chart (cl_chart_value) VALUES (?);"""
 qry_insert["tb_topic_chart"] = """INSERT INTO tb_topic_chart (cl_chart_id, cl_topic_id) VALUES (?,?);"""
-qry_insert["tb_dashboard_topic_chart"] = """INSERT INTO tb_dashboard_topic_chart (cl_dashboard_id, cl_topic_chart_id, cl_order, cl_feedback, cl_active) VALUES (?,?,?,?,?);"""
+qry_insert["tb_dashboard_topic_chart"] = """INSERT INTO tb_dashboard_topic_chart (cl_dashboard_id, cl_topic_chart_id, cl_order, cl_feedback, cl_value, cl_active) VALUES (?,?,?,?,?,?);"""
 qry_insert["tb_question_dashboard"] = """INSERT INTO tb_question_dashboard (cl_dashboard_id, cl_feedback, cl_important, cl_not_important) VALUES (?,?,?,?);"""
 
 ## SELECT PARAM
@@ -172,7 +172,7 @@ qry_select["last_user_dashboard_charts_active_by_topic_chart"] = """SELECT c.cl_
 # qry_update["dashboard_charts_active"] -> SET(active) WHERE(dashboard_topic_chart id)
 # qry_update["dashboard_charts_order"] -> SET(order) WHERE(dashboard_topic_chart id)
 # qry_update["tb_evaluate"] -> SET(value) WHERE(user id, topic id)
-# qry_update["dashboard_feedback"] -> SET(feedback) WHERE(user id, dashboard type, topic id, label chart)
+# qry_update["dashboard_feedback"] -> SET(feedback, evaluation) WHERE(user id, dashboard type, topic id, label chart)
 
 qry_update = {}
 qry_update["tb_user"] = """UPDATE tb_user
@@ -204,7 +204,7 @@ qry_update["tb_evaluate"] = """UPDATE tb_evaluate
                                 WHERE cl_user_id = ? and cl_topic_id = ?"""
 
 qry_update["dashboard_feedback"] = """UPDATE tb_dashboard_topic_chart
-                                        SET cl_feedback = ?
+                                        SET cl_feedback = ?, cl_value = ?
                                         WHERE cl_id = (SELECT a.cl_id
                                                         FROM tb_dashboard_topic_chart a 
                                                                 inner join tb_topic_chart b on a.cl_topic_chart_id = b.cl_id

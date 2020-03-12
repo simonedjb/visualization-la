@@ -826,8 +826,6 @@ function highlightFieldEmpty(data) {
 
 }
 
-
-
 function addDashboard(chart_id) {
   function transferComplete(evt) {
     console.log("The transfer is complete.");

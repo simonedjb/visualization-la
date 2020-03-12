@@ -1,4 +1,3 @@
-- Nas telas de evaluation_static_dashboard e evaluation_customizable_dashboard adicionar um likert em cada gráfico do quanto ele acha aquele gráfico importante.
 - Nas tela evaluation_customizable_dashboard perguntar por que ele removeu o gráfico (quando ele remove o gráfico do dashboard default).
 - Adicionar uma página de avaliação do dashboard que utiliza o TAM no final da pesquisa.
 - Adicionar filtros nos gráficos.

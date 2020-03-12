@@ -71,6 +71,7 @@ CREATE TABLE `tb_dashboard_topic_chart`(
 	`cl_topic_chart_id` INTEGER NOT NULL,
 	`cl_order` INTEGER NOT NULL,
 	`cl_feedback` longtext NULL,
+	`cl_value` varchar(3) NOT NULL,
 	`cl_active` tinyint(1) NOT NULL DEFAULT '1',
 	FOREIGN KEY (`cl_dashboard_id`) REFERENCES `tb_dashboard` (`cl_id`),
 	FOREIGN KEY (`cl_topic_chart_id`) REFERENCES `tb_topic_chart` (`cl_id`)

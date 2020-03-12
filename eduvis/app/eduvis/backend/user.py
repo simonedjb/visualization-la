@@ -50,19 +50,19 @@ class User:
         random.shuffle(order_list)
 
         lst_dashboard_topic_chart = []
-        lst_dashboard_topic_chart.append((dash_id, 15, order_list[0], "", 1))
-        lst_dashboard_topic_chart.append((dash_id, 27, order_list[1], "", 1))
-        lst_dashboard_topic_chart.append((dash_id, 30, order_list[2], "", 1))
-        lst_dashboard_topic_chart.append((dash_id, 40, order_list[3], "", 1))
-        lst_dashboard_topic_chart.append((dash_id, 42, order_list[4], "", 1))
-        lst_dashboard_topic_chart.append((dash_id, 55, order_list[5], "", 1))
-        lst_dashboard_topic_chart.append((dash_id, 64, order_list[6], "", 1))
-        lst_dashboard_topic_chart.append((dash_id, 70, order_list[7], "", 1))
-        lst_dashboard_topic_chart.append((dash_id, 76, order_list[8], "", 1))
-        lst_dashboard_topic_chart.append((dash_id, 88, order_list[9], "", 1))
-        lst_dashboard_topic_chart.append((dash_id, 117, order_list[10], "", 1))
-        lst_dashboard_topic_chart.append((dash_id, 126, order_list[11], "", 1))
-        lst_dashboard_topic_chart.append((dash_id, 154, order_list[12], "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 15, order_list[0], "", "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 27, order_list[1], "", "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 30, order_list[2], "", "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 40, order_list[3], "", "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 42, order_list[4], "", "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 55, order_list[5], "", "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 64, order_list[6], "", "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 70, order_list[7], "", "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 76, order_list[8], "", "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 88, order_list[9], "", "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 117, order_list[10], "", "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 126, order_list[11], "", "", 1))
+        lst_dashboard_topic_chart.append((dash_id, 154, order_list[12], "", "", 1))
         self._conn.insert_many("tb_dashboard_topic_chart",lst_dashboard_topic_chart)
         
 
@@ -106,10 +106,14 @@ class User:
         keys = list(data.keys())
         lst_feedbacks = []
         for key in keys:
+            if '#Radio' in key:
+                continue
+
             topic = int(key.split("@")[0].replace('T',''))
             chart = key.split("@")[1]+'@'+key.split("@")[2]
             feedback = data[key]
-            lst_feedbacks.append((feedback, id, type_dash, topic, chart))
+            evaluation = data[key+"#Radio"]
+            lst_feedbacks.append((feedback,evaluation, id, type_dash, topic, chart))
 
         self._conn.update_many("dashboard_feedback",lst_feedbacks)
         

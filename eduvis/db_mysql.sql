@@ -96,6 +96,7 @@ CREATE TABLE `tb_dashboard_topic_chart`(
 	`cl_topic_chart_id` bigint(11) NOT NULL COMMENT 'chave estrangeira da tb_topic_chart',
 	`cl_order` bigint(11) NOT NULL  COMMENT 'indica a posição que o chart aparece no dashboard',
 	`cl_feedback` longtext NULL COMMENT 'duas informações que você consegue extrair com esse gráfico',
+	`cl_value` varchar(3) NOT NULL COMMENT 'valor da avaliação do usuário na escala likert (1 à 7)',
 	`cl_active` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'indica se aquele topico e chart estão ativos no dashboard',
 	PRIMARY KEY (`cl_id`),
 	KEY `fk_dashboard_id` (`cl_dashboard_id`),
