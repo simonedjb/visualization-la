@@ -18,6 +18,7 @@ qry_insert["tb_question_dashboard"] = """INSERT INTO tb_question_dashboard (cl_d
 # qry_select["chart"] -> (chart value)
 # qry_select["user_dashboard_charts"] -> (user id, dashboard id, dashboard type, topic id, chart id)
 # qry_select["user_dashboard_charts_active"] -> (user id, dashboard id, dashboard type)
+# qry_select["user_dashboard_charts_inactive"] -> (user id, dashboard id, dashboard type)
 # qry_select["user_dashboard_charts_active_by_topic"] -> (user id, dashboard id, dashboard type, topic id)
 # qry_select["user_dashboard_charts_active_by_topic_chart"] -> (user id, dashboard id, dashboard type, topic id, chart id)
 # qry_select["prev_user_dashboard_charts_active_by_topic_chart"] -> (user id, dashboard id, dashboard type, order)
@@ -75,7 +76,7 @@ qry_select["user_dashboard_charts"] = """SELECT c.cl_id, b.cl_user_id, a.cl_name
                                             ORDER BY c.cl_order;"""
 
 ## Select user charts and topics active from dashboard;
-qry_select["user_dashboard_charts_active"] = """SELECT b.cl_user_id, a.cl_name, b.cl_name, c.cl_order, f.cl_label, f.cl_id, e.cl_chart_value
+qry_select["user_dashboard_charts_active"] = """SELECT b.cl_user_id, a.cl_name, b.cl_name, c.cl_order, f.cl_label, f.cl_id, e.cl_chart_value, c.cl_topic_chart_id
                                                     FROM tb_user a 
                                                             inner join tb_dashboard b on a.cl_id = b.cl_user_id 
                                                             inner join tb_dashboard_topic_chart c on b.cl_id = c.cl_dashboard_id 
@@ -83,6 +84,17 @@ qry_select["user_dashboard_charts_active"] = """SELECT b.cl_user_id, a.cl_name, 
                                                             inner join tb_chart e on d.cl_chart_id = e.cl_id 
                                                             inner join tb_topic f on d.cl_topic_id = f.cl_id 
                                                     WHERE b.cl_user_id = ? and c.cl_dashboard_id = ? and b.cl_type = ? and c.cl_active = 1
+                                                    ORDER BY c.cl_order;"""
+
+## Select user charts and topics inactive from dashboard;
+qry_select["user_dashboard_charts_inactive"] = """SELECT b.cl_user_id, a.cl_name, b.cl_name, c.cl_order, f.cl_label, f.cl_id, e.cl_chart_value, c.cl_topic_chart_id
+                                                    FROM tb_user a 
+                                                            inner join tb_dashboard b on a.cl_id = b.cl_user_id 
+                                                            inner join tb_dashboard_topic_chart c on b.cl_id = c.cl_dashboard_id 
+                                                            inner join tb_topic_chart d on c.cl_topic_chart_id = d.cl_id 
+                                                            inner join tb_chart e on d.cl_chart_id = e.cl_id 
+                                                            inner join tb_topic f on d.cl_topic_id = f.cl_id 
+                                                    WHERE b.cl_user_id = ? and c.cl_dashboard_id = ? and b.cl_type = ? and c.cl_active = 0
                                                     ORDER BY c.cl_order;"""
 
 ## Select max order from dashboard;

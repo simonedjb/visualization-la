@@ -376,6 +376,41 @@ def evaluation_customizable_dashboard_save():
             user.record_evaluation_dashboard(CUSTOMIZABLE_DASHBOARD_TYPE, data, _user_id)
     else:
         pass
+    
+    if(dashboard.has_inactive_default_charts()):
+        return redirect('/eduvis/modification_customizable_dashboard/')
+    else:
+        return redirect('/eduvis/thankyou/')
+
+@mod.route('/modification_customizable_dashboard/')
+def modification_customizable_dashboard():
+    user = User(_conn)
+    dashboard = Dashboard(_conn, _user_id, user.get_customizable_dashboard_id(_user_id), CUSTOMIZABLE_DASHBOARD_TYPE)
+    return render_template('eduvis/frontend/dashboard/modification.html', userName=user.get_name(_user_id), dashboardType='customizable', charts_topic=dashboard.topic(True), charts_id=dashboard.charts("id",True), charts_layout=dashboard.charts("layout",True), titleCharts=dashboard.title(True), post_action="/eduvis/modification_customizable_dashboard/save/", data={})
+
+@mod.route('/modification_customizable_dashboard/save/', methods=['POST'])
+def modification_customizable_dashboard_save():
+    if request.method == 'POST':
+        print("--------------------------------post_modification_customizable_dashboard--------------------------------")
+
+        user = User(_conn)
+        dashboard = Dashboard(_conn, _user_id, user.get_customizable_dashboard_id(_user_id), CUSTOMIZABLE_DASHBOARD_TYPE)
+        topics = dashboard.topic(True)
+        charts = dashboard.charts("id",True)
+
+        data = {}
+        for i in range(0,len(charts)):
+            name = "T"+str(topics[i])+"@"+str(charts[i])
+            data[name] = request.form[name]
+
+        print(data)
+
+        if '' in list(data.values()):
+            return render_template('eduvis/frontend/dashboard/modification.html', userName=user.get_name(_user_id), dashboardType='customizable', charts_topic=dashboard.topic(True), charts_id=dashboard.charts("id",True), charts_layout=dashboard.charts("layout",True), titleCharts=dashboard.title(True), post_action="/eduvis/modification_customizable_dashboard/save/", data=data)
+        else:
+            user.record_evaluation_dashboard(CUSTOMIZABLE_DASHBOARD_TYPE, data, _user_id, evaluation=False)            
+    else:
+        pass
 
     return redirect('/eduvis/thankyou/')
 

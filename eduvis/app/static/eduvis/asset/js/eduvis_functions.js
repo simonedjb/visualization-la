@@ -578,6 +578,118 @@ function buildingEvaluationDashboard(title,chartPlotlyId,chartId) {
   document.getElementById("submitForm").insertBefore(colNode1,submit_btn);
 }
 
+function buildingModificationDashboard(title,chartPlotlyId,chartId) {
+  var submit_btn = document.getElementById("submitForm").firstElementChild;
+
+  var colNode1 = document.createElement("div");
+  var colNode1att1 = document.createAttribute("class");
+  var colNode1att2 = document.createAttribute("style");
+  colNode1att1.value = "col-md-12";
+  colNode1att2.value = "padding:5px;";
+  colNode1.setAttributeNode(colNode1att1);
+  colNode1.setAttributeNode(colNode1att2);
+
+  var colNode2 = document.createElement("div");
+  var colNode2att1 = document.createAttribute("class");
+  colNode2att1.value = "col-md-12";
+  colNode2.setAttributeNode(colNode2att1);
+  
+  var panel1 = document.createElement("div");
+  var panel1att1 = document.createAttribute("class");
+  panel1att1.value = "panel";
+  panel1.setAttributeNode(panel1att1);
+
+  var panelHeading = document.createElement("div");
+  var panelHeadingatt1 = document.createAttribute("class");
+  var panelHeadingatt2 = document.createAttribute("style");
+  panelHeadingatt1.value = "panel-heading bg-white border-none";
+  panelHeadingatt2.value = "padding:50px;";
+  panelHeading.setAttributeNode(panelHeadingatt1);
+  panelHeading.setAttributeNode(panelHeadingatt2);
+  
+  var colNode3 = document.createElement("div");
+  var colNode3att1 = document.createAttribute("class");
+  colNode3att1.value = "col-md-12 col-sm-12 col-sm-12 text-left";
+  colNode3.setAttributeNode(colNode3att1);
+
+  var titleNode = document.createElement("h4");
+  var titleNodeBold = document.createElement("b");
+  var textTitleNode = document.createTextNode(title);
+  
+  var panelBody = document.createElement("div");
+  var panelBodyatt1 = document.createAttribute("class");
+  var panelBodyatt2 = document.createAttribute("style");
+  panelBodyatt1.value = "panel-body";
+  panelBodyatt2.value = "padding-bottom:0px;";
+  panelBody.setAttributeNode(panelBodyatt1);
+  panelBody.setAttributeNode(panelBodyatt2);
+  var chartNode = document.createElement("div");
+  var chartNodeatt1 = document.createAttribute("id");
+  chartNodeatt1.value = chartPlotlyId;
+  chartNode.setAttributeNode(chartNodeatt1);
+
+  var divEvaluation = document.createElement("div");
+  var divEvaluationatt1 = document.createAttribute("class");
+  var divEvaluationatt2 = document.createAttribute("style");
+  divEvaluationatt1.value = "col-md-12 bg-white"
+  divEvaluationatt2.value = ""
+  divEvaluation.setAttributeNode(divEvaluationatt1);
+  divEvaluation.setAttributeNode(divEvaluationatt2);
+
+  var divEvaluationInput = document.createElement("div");
+  var divEvaluationInputatt1 = document.createAttribute("class");
+  var divEvaluationInputatt2 = document.createAttribute("style");
+  divEvaluationInputatt1.value = "form-group form-animate-text";
+  divEvaluationInputatt2.value = "margin-top:40px !important;"
+  divEvaluationInput.setAttributeNode(divEvaluationInputatt1);
+  divEvaluationInput.setAttributeNode(divEvaluationInputatt2);
+  
+  var inputEvaluation = document.createElement("input");
+  var inputEvaluationatt1 = document.createAttribute("type");
+  var inputEvaluationatt2 = document.createAttribute("class");
+  var inputEvaluationatt3 = document.createAttribute("id");
+  var inputEvaluationatt4 = document.createAttribute("name");
+  var inputEvaluationatt5 = document.createAttribute("required");
+  var inputEvaluationatt6 = document.createAttribute("aria-required");
+  inputEvaluationatt1.value = "text";
+  inputEvaluationatt2.value = "form-text";
+  inputEvaluationatt3.value = chartId;
+  inputEvaluationatt4.value = chartId;  
+  inputEvaluationatt6.value = "true";
+  inputEvaluation.setAttributeNode(inputEvaluationatt1);
+  inputEvaluation.setAttributeNode(inputEvaluationatt2);
+  inputEvaluation.setAttributeNode(inputEvaluationatt3);
+  inputEvaluation.setAttributeNode(inputEvaluationatt4);
+  inputEvaluation.setAttributeNode(inputEvaluationatt5);
+  inputEvaluation.setAttributeNode(inputEvaluationatt6);
+
+  var spanEvaluation = document.createElement("span");
+  var spanEvaluationatt1 = document.createAttribute("class");
+  spanEvaluationatt1.value = "bar";
+  spanEvaluation.setAttributeNode(spanEvaluationatt1);
+
+  var labelEvaluation = document.createElement("label");
+  var textEvaluation = document.createTextNode("Por que você removeu esse gráfico?");
+
+  titleNodeBold.appendChild(textTitleNode);
+  titleNode.appendChild(titleNodeBold);
+  colNode3.appendChild(titleNode);
+  panelHeading.appendChild(colNode3);  
+  panelBody.appendChild(chartNode);
+  labelEvaluation.appendChild(textEvaluation);
+  divEvaluationInput.appendChild(inputEvaluation);
+  divEvaluationInput.appendChild(spanEvaluation);
+  divEvaluationInput.appendChild(labelEvaluation);
+  divEvaluation.appendChild(divEvaluationInput);
+  panel1.appendChild(panelHeading);
+  panel1.appendChild(panelBody);
+  panel1.appendChild(divEvaluation);
+  colNode2.appendChild(panel1);  
+  colNode1.appendChild(colNode2);
+
+  document.getElementById("submitForm").insertBefore(colNode1,submit_btn);
+}
+
 function loadMenu(menuListInfo,amountSelectedVG) {
   
   // {"id":"materials", 

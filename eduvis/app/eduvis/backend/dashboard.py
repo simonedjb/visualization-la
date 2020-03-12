@@ -29,6 +29,7 @@ class Dashboard:
     _view9 = None
     _view10 = None
     _view11 = None
+    lst_default_topic_chart_id = [15,27,30,40,42,55,64,70,76,88,117,126,154]
 
     def __init__(self,conn,user_id,dashboard_id,dashboard_type,preprocessed_chart=True):
         self._conn = conn
@@ -67,7 +68,7 @@ class Dashboard:
             print("topic_chart_id: "+str(topic_chart_id))
             res_db = self._conn.select("max_order_user_dashboard_charts",(self._user_id, self._dashboard_id, self._dashboard_type))
             curr_max_order = res_db[0][0]
-            self._conn.insert("tb_dashboard_topic_chart",(self._dashboard_id, topic_chart_id, curr_max_order+1, "", value_active))
+            self._conn.insert("tb_dashboard_topic_chart",(self._dashboard_id, topic_chart_id, curr_max_order+1, "", "", value_active))
             
         elif len(res_db) != 0: # "update"
             if value_active != res_db[0][8]:
@@ -187,22 +188,47 @@ class Dashboard:
             if not self._preprocessed_chart:
                 self._view11.generate_dataset(number_students = self.number_students, rand_names = self._students)
 
-    def title(self):
-        lst_dash_charts = self._conn.select("user_dashboard_charts_active",(self._user_id, self._dashboard_id, self._dashboard_type))
+    def has_inactive_default_charts(self):
+        lst_dash_charts = self._conn.select("user_dashboard_charts_inactive",(self._user_id, self._dashboard_id, self._dashboard_type))
 
-        lst_title = []
         for i in range(0, len(lst_dash_charts)):
-            lst_title.append(lst_dash_charts[i][4])
+                if lst_dash_charts[i][7] in self.lst_default_topic_chart_id:
+                    return True
+
+        return False
+
+    def title(self,default_charts_inactive=False):
+        lst_title = []
+        if default_charts_inactive:
+            lst_dash_charts = self._conn.select("user_dashboard_charts_inactive",(self._user_id, self._dashboard_id, self._dashboard_type))
+
+            for i in range(0, len(lst_dash_charts)):
+                if lst_dash_charts[i][7] in self.lst_default_topic_chart_id:
+                    lst_title.append(lst_dash_charts[i][4])
+
+        else:
+            lst_dash_charts = self._conn.select("user_dashboard_charts_active",(self._user_id, self._dashboard_id, self._dashboard_type))
+
+            for i in range(0, len(lst_dash_charts)):
+                lst_title.append(lst_dash_charts[i][4])
 
         print(lst_title)
         return lst_title
 
-    def topic(self):
-        lst_dash_charts = self._conn.select("user_dashboard_charts_active",(self._user_id, self._dashboard_id, self._dashboard_type))
-
+    def topic(self,default_charts_inactive=False):
         lst_topic = []
-        for i in range(0, len(lst_dash_charts)):
-            lst_topic.append(lst_dash_charts[i][5])
+        if default_charts_inactive:
+            lst_dash_charts = self._conn.select("user_dashboard_charts_inactive",(self._user_id, self._dashboard_id, self._dashboard_type))
+
+            for i in range(0, len(lst_dash_charts)):
+                if lst_dash_charts[i][7] in self.lst_default_topic_chart_id:
+                    lst_topic.append(lst_dash_charts[i][5])
+
+        else:
+            lst_dash_charts = self._conn.select("user_dashboard_charts_active",(self._user_id, self._dashboard_id, self._dashboard_type))
+
+            for i in range(0, len(lst_dash_charts)):
+                lst_topic.append(lst_dash_charts[i][5])
 
         print(lst_topic)
         return lst_topic
@@ -220,14 +246,19 @@ class Dashboard:
 
         return lst_topic
 
-
-    def charts(self,focus_chart): # focus_chart ["id","layout"]
-        # print((self._user_id, self._dashboard_id, self._dashboard_type))
-        lst_dash_charts = self._conn.select("user_dashboard_charts_active",(self._user_id, self._dashboard_id, self._dashboard_type))
-        
+    def charts(self,focus_chart,default_charts_inactive=False): # focus_chart ["id","layout"]
         lst_charts = []
-        for i in range(0, len(lst_dash_charts)):
-            lst_charts.append(lst_dash_charts[i][6])
+        if default_charts_inactive:
+            lst_dash_charts = self._conn.select("user_dashboard_charts_inactive",(self._user_id, self._dashboard_id, self._dashboard_type))
+
+            for i in range(0, len(lst_dash_charts)):
+                if lst_dash_charts[i][7] in self.lst_default_topic_chart_id:
+                    lst_charts.append(lst_dash_charts[i][6])
+        else:
+            lst_dash_charts = self._conn.select("user_dashboard_charts_active",(self._user_id, self._dashboard_id, self._dashboard_type))
+        
+            for i in range(0, len(lst_dash_charts)):
+                lst_charts.append(lst_dash_charts[i][6])
 
         print(lst_charts)
         # print(len(lst_charts))
