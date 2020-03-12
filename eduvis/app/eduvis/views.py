@@ -383,6 +383,7 @@ def evaluation_customizable_dashboard_save():
 def static_dashboard():
     user = User(_conn)
     dashboard = Dashboard(_conn, _user_id, user.get_static_dashboard_id(_user_id), STATIC_DASHBOARD_TYPE)
+    session['type_dashboard'] = STATIC_DASHBOARD_TYPE
     return render_template('eduvis/frontend/dashboard/dashboard.html', userName=user.get_name(_user_id), charts_topic=dashboard.topic(), charts_id=dashboard.charts("id"), charts_layout=dashboard.charts("layout"), titleCharts=dashboard.title(), enableLeftMenu=STATIC_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
     # return render_template('eduvis/frontend/dashboard/dashboard.html')
 
@@ -390,6 +391,7 @@ def static_dashboard():
 def customizable_dashboard():
     user = User(_conn)
     dashboard = Dashboard(_conn, _user_id, user.get_customizable_dashboard_id(_user_id), CUSTOMIZABLE_DASHBOARD_TYPE)
+    session['type_dashboard'] = CUSTOMIZABLE_DASHBOARD_TYPE
     return render_template('eduvis/frontend/dashboard/dashboard.html', userName=user.get_name(_user_id), charts_topic=dashboard.topic(), charts_id=dashboard.charts("id"), charts_layout=dashboard.charts("layout"), titleCharts=dashboard.title(), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
     # return render_template('eduvis/frontend/dashboard/dashboard.html')
 
@@ -431,10 +433,17 @@ def set_order():
     
     print("Set Order")
     print(raw_data)
-
+    
     user = User(_conn)
-    dashboard = Dashboard(_conn, _user_id, user.get_customizable_dashboard_id(_user_id), CUSTOMIZABLE_DASHBOARD_TYPE)
-    dashboard.set_order(raw_data)
+
+    if (session['type_dashboard'] == STATIC_DASHBOARD_TYPE):
+        print('static_dashboard')
+        dashboard = Dashboard(_conn, _user_id, user.get_static_dashboard_id(_user_id), STATIC_DASHBOARD_TYPE)
+        dashboard.set_order(raw_data)
+    elif (session['type_dashboard'] == CUSTOMIZABLE_DASHBOARD_TYPE):
+        print('customizable_dashboard')
+        dashboard = Dashboard(_conn, _user_id, user.get_customizable_dashboard_id(_user_id), CUSTOMIZABLE_DASHBOARD_TYPE)
+        dashboard.set_order(raw_data)
 
     resp = Response(json.dumps('OK'), mimetype='application/json')
     resp.status_code = 200
