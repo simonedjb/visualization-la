@@ -20,6 +20,7 @@ from app.eduvis.constants import DEFAULT_CUSTOMIZABLE_DASHBOARD_ID
 from app.eduvis.constants import STATIC_DASHBOARD_TYPE
 from app.eduvis.constants import CUSTOMIZABLE_DASHBOARD_TYPE
 from app.eduvis.constants import LST_VIEW_INFORMATION
+from app.eduvis.constants import LST_EVALUATION_TAM
 
 # from app import db
 from app.eduvis.backend.dashboard import Dashboard
@@ -380,7 +381,7 @@ def evaluation_customizable_dashboard_save():
     if(dashboard.has_inactive_default_charts()):
         return redirect('/eduvis/modification_customizable_dashboard/')
     else:
-        return redirect('/eduvis/thankyou/')
+        return redirect('/eduvis/interview/evaluation/')
 
 @mod.route('/modification_customizable_dashboard/')
 def modification_customizable_dashboard():
@@ -409,6 +410,44 @@ def modification_customizable_dashboard_save():
             return render_template('eduvis/frontend/dashboard/modification.html', userName=user.get_name(_user_id), dashboardType='customizable', charts_topic=dashboard.topic(True), charts_id=dashboard.charts("id",True), charts_layout=dashboard.charts("layout",True), titleCharts=dashboard.title(True), post_action="/eduvis/modification_customizable_dashboard/save/", data=data)
         else:
             user.record_evaluation_dashboard(CUSTOMIZABLE_DASHBOARD_TYPE, data, _user_id, evaluation=False)            
+    else:
+        pass
+
+    return redirect('/eduvis/interview/evaluation/')
+
+@mod.route('/interview/evaluation/')
+def evaluation_dashboard():
+    user = User(_conn)
+    return render_template('eduvis/frontend/interview/tam.html', userName=user.get_name(_user_id), questions=LST_EVALUATION_TAM, data={})
+
+@mod.route('/interview/evaluation/save/', methods=['POST'])
+def evaluation_dashboard_save():
+    if request.method == 'POST':
+        print("--------------------------------post_evaluation_dashboard--------------------------------")
+
+        user = User(_conn)
+        
+        keys = []
+        form = request.form
+        print('form')
+        print(form)
+        for key in form.keys():
+            keys.append(key)
+        
+        data = {}
+        ids = list(LST_EVALUATION_TAM.keys())
+        for i in range(0,len(ids)):
+            name = str(ids[i])
+            if name in keys:
+                data[name] = request.form[name]
+            else:
+                data[name] = ''
+        print(data)
+        
+        if '' in list(data.values()):
+            return render_template('eduvis/frontend/interview/tam.html', userName=user.get_name(_user_id), questions=LST_EVALUATION_TAM, data=data)
+        else:
+            user.record_evaluation_tam(_user_id,CUSTOMIZABLE_DASHBOARD_TYPE, data)
     else:
         pass
 

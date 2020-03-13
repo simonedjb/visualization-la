@@ -690,6 +690,116 @@ function buildingModificationDashboard(title,chartPlotlyId,chartId) {
   document.getElementById("submitForm").insertBefore(colNode1,submit_btn);
 }
 
+function buildingTamEvaluation(questionList) {
+  var submit_btn = document.getElementById("submitForm").firstElementChild;
+  lst_radio_opt = ["Discordo","","","Neutro","","","Concordo"];
+
+  var divRoot = document.createElement("div");
+  var divRootatt1 = document.createAttribute("class");
+  var divRootatt2 = document.createAttribute("style");
+  divRootatt1.value = "col-md-12 bg-white border-none";
+  divRootatt2.value = "padding:20px;";
+  divRoot.setAttributeNode(divRootatt1);
+  divRoot.setAttributeNode(divRootatt2);
+
+  var divTAM = document.createElement("div");
+  var divTAMatt1 = document.createAttribute("class");
+  var divTAMatt2 = document.createAttribute("style");
+  divTAMatt1.value = "form-group form-animate-text";
+  divTAMatt2.value = "margin-top:20px !important;font-size: 16px;margin-bottom: 15px;";
+  divTAM.setAttributeNode(divTAMatt1);
+  divTAM.setAttributeNode(divTAMatt2);
+
+  divRoot.appendChild(divTAM);
+
+  for(var key in questionList) {
+      var div = document.createElement("div");
+      var divatt1 = document.createAttribute("class");
+      var divatt2 = document.createAttribute("id");
+      divatt1.value = "col-md-12";
+      if(key%2==0){
+          divatt1.value = "col-md-12 bg-light2-grey";
+      }
+      divatt2.value = key.toString();
+      div.setAttributeNode(divatt1);
+      div.setAttributeNode(divatt2);
+
+      var divSubTopic = document.createElement("div");
+      var divSubTopicatt1 = document.createAttribute("class");
+      var divSubTopicatt2 = document.createAttribute("style");
+      divSubTopicatt1.value = "col-md-5 form-group form-animate-text";
+      divSubTopicatt2.value = "margin-top:20px !important; font-size: 18px;margin-bottom: 15px;";
+      divSubTopic.setAttributeNode(divSubTopicatt1);
+      divSubTopic.setAttributeNode(divSubTopicatt2);
+
+      var titleSubTopic = document.createTextNode(questionList[key]); // <-- Question
+      divSubTopic.appendChild(titleSubTopic);
+
+      div.appendChild(divSubTopic);
+      for(z=0; z<lst_radio_opt.length; z++){
+          var divOption = document.createElement("div");
+          var divOptionatt1 = document.createAttribute("class");
+          var divOptionatt2 = document.createAttribute("style");
+          divOptionatt1.value = "col-md-1 form-animate-radio";
+          divOptionatt2.value = "margin-top: 20px; display:inline-block; text-align:center;";
+          divOption.setAttributeNode(divOptionatt1);
+          divOption.setAttributeNode(divOptionatt2);
+
+          var labelRadio = document.createElement("label");
+          var labelRadioatt1 = document.createAttribute("class");
+          var labelRadioatt2 = document.createAttribute("style");
+          labelRadioatt1.value = "radio";
+          labelRadioatt2.value = "font-size: 16px; padding: 0px; margin-bottom: 0px;";
+          labelRadio.setAttributeNode(labelRadioatt1);
+          labelRadio.setAttributeNode(labelRadioatt2);
+
+          var inputRadio = document.createElement("input");
+          var inputRadioatt1 = document.createAttribute("type");
+          var inputRadioatt2 = document.createAttribute("name");
+          var inputRadioatt3 = document.createAttribute("value");
+          var inputRadioatt4 = document.createAttribute("id");
+          inputRadioatt1.value = "radio";
+          inputRadioatt2.value = key.toString(); // <-- Id
+          inputRadioatt3.value = (z+1).toString();
+          inputRadioatt4.value = key.toString()+"#"+(z+1).toString(); // <-- Id
+          inputRadio.setAttributeNode(inputRadioatt1);
+          inputRadio.setAttributeNode(inputRadioatt2);
+          inputRadio.setAttributeNode(inputRadioatt3);
+          inputRadio.setAttributeNode(inputRadioatt4);
+
+          var spanRadioOuter = document.createElement("span");
+          var spanRadioOuteratt1 = document.createAttribute("class");
+          spanRadioOuteratt1.value = "outer";
+          spanRadioOuter.setAttributeNode(spanRadioOuteratt1);
+
+          var spanRadioInner = document.createElement("span");
+          var spanRadioInneratt1 = document.createAttribute("class");
+          spanRadioInneratt1.value = "inner";
+          spanRadioInner.setAttributeNode(spanRadioInneratt1);
+
+          var labelRadioText = document.createElement("label");
+          var labelRadioTextatt1 = document.createAttribute("style");
+          labelRadioTextatt1.value = "font-size: 16px;display:block;";
+          labelRadioText.setAttributeNode(labelRadioTextatt1);
+          
+          var titleRadio = document.createTextNode(lst_radio_opt[z]);
+          
+          spanRadioOuter.appendChild(spanRadioInner);
+          labelRadio.appendChild(inputRadio);
+          labelRadio.appendChild(spanRadioOuter);
+          labelRadioText.appendChild(titleRadio);
+          divOption.appendChild(labelRadio);
+          divOption.appendChild(labelRadioText);
+          div.appendChild(divOption);
+      }
+      divRoot.appendChild(div);
+
+  }
+  document.getElementById("submitForm").insertBefore(divRoot,submit_btn);
+  
+  
+}
+
 function loadMenu(menuListInfo,amountSelectedVG) {
   
   // {"id":"materials", 

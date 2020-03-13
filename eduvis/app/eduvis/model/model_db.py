@@ -7,7 +7,8 @@ qry_insert["tb_dashboard"] = """INSERT INTO tb_dashboard (cl_user_id, cl_name, c
 qry_insert["tb_chart"] = """INSERT INTO tb_chart (cl_chart_value) VALUES (?);"""
 qry_insert["tb_topic_chart"] = """INSERT INTO tb_topic_chart (cl_chart_id, cl_topic_id) VALUES (?,?);"""
 qry_insert["tb_dashboard_topic_chart"] = """INSERT INTO tb_dashboard_topic_chart (cl_dashboard_id, cl_topic_chart_id, cl_order, cl_feedback, cl_value, cl_active) VALUES (?,?,?,?,?,?);"""
-qry_insert["tb_question_dashboard"] = """INSERT INTO tb_question_dashboard (cl_dashboard_id, cl_feedback, cl_important, cl_not_important) VALUES (?,?,?,?);"""
+qry_insert["tb_question_dashboard"] = """INSERT INTO tb_question_dashboard (cl_dashboard_id, cl_question, cl_feedback) VALUES (?,?,?);"""
+
 
 ## SELECT PARAM
 # qry_select["user"] -> (user id)

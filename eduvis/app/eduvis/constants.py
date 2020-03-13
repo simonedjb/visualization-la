@@ -51,3 +51,18 @@ for i in range(len(LST_VIEW_INFORMATION)): #Get all subtopics
 
     for j in range(len(lst_question)):
         SUB_TOPIC.append({"id":lst_question[j]["id"],"label_pt":lst_question[j]["Sub_topic"]})
+
+LST_EVALUATION_TAM = {}
+# Utilidade
+LST_EVALUATION_TAM[1] = "ele permite configurar rapidamente um dashboard"
+LST_EVALUATION_TAM[2] = "ele pode melhorar o desempenho do meu trabalho"
+LST_EVALUATION_TAM[3] = "ele pode aumentar a minha produtividade"
+LST_EVALUATION_TAM[4] = "ele pode aumentar a eficiência no meu trabalho"
+LST_EVALUATION_TAM[5] = "ele poderia tornar mais fácil o trabalho"
+LST_EVALUATION_TAM[6] = "em geral, ele pode ser vantajoso no meu trabalho"
+# Facilidade de Uso
+LST_EVALUATION_TAM[7] = "ele é fácil de aprender"
+LST_EVALUATION_TAM[8] = "ele é simples e entendível"
+LST_EVALUATION_TAM[9] = "ele é fácil de utilizar"
+# Intenção de Uso
+LST_EVALUATION_TAM[10] = "assumindo que o ele estará disponível no meu trabalho, eu o utilizaria regularmente no futuro"

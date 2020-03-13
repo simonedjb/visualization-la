@@ -6,6 +6,7 @@ import random
 from datetime import datetime
 from app.eduvis.constants import LST_VIEW_INFORMATION
 from app.eduvis.constants import SUB_TOPIC
+from app.eduvis.constants import LST_EVALUATION_TAM
 from app.eduvis.backend.connection_db import Connection_DB
 
 class User:    
@@ -31,8 +32,8 @@ class User:
         if name == 'default':
             name = "Dashboard Default Customizável"
 
-        res_db = self._conn.select("dashboard_name",(int(user_id),name))        
-        dash_id = res_db[0][0]        
+        res_db = self._conn.select("dashboard_name",(int(user_id),name))
+        dash_id = res_db[0][0]
         return dash_id
 
     def initalize_dashboard(self,user_id,type_dash,language):
@@ -119,4 +120,17 @@ class User:
             lst_feedbacks.append((feedback,evaluation, id, type_dash, topic, chart))
 
         self._conn.update_many("dashboard_feedback",lst_feedbacks)
+    
+    def record_evaluation_tam(self,user_id,type_dash,data):
+        res_db = self._conn.select("dashboard_type",(int(user_id),type_dash))
+        dash_id = res_db[0][0]
+
+        lst_question_dashboard = []
+        ids = list(data.keys())
         
+        for i in ids:
+            question = LST_EVALUATION_TAM[int(i)]
+            feedback = data[i]
+            lst_question_dashboard.append((dash_id,question,feedback))
+
+        self._conn.insert_many("tb_question_dashboard",lst_question_dashboard)

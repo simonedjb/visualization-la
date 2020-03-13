@@ -108,9 +108,8 @@ CREATE TABLE `tb_dashboard_topic_chart`(
 CREATE TABLE `tb_question_dashboard`(
 	`cl_id` bigint(11) NOT NULL AUTO_INCREMENT,
 	`cl_dashboard_id` bigint(11) NOT NULL  COMMENT 'chave estrangeira da tb_dashboard',
+	`cl_question` longtext NULL COMMENT 'questões sobre o dashboard',
 	`cl_feedback` longtext NULL COMMENT 'fatos extraídos com o dashboard',
-	`cl_important` longtext NULL COMMENT 'porque ele considera importante os tópicos que ele avaliou como 6 e 7',
-	`cl_not_important` longtext NULL COMMENT 'porque ele não considera importante os tópicos que ele avaliou como 1 e 2',
 	PRIMARY KEY (`cl_id`),
 	KEY `fk_dashboard_id` (`cl_dashboard_id`),
 	CONSTRAINT `tb_question_dashboard_fk_dashboard_id` FOREIGN KEY (`cl_dashboard_id`) REFERENCES `tb_dashboard` (`cl_id`)

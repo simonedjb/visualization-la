@@ -80,8 +80,7 @@ CREATE TABLE `tb_dashboard_topic_chart`(
 CREATE TABLE `tb_question_dashboard`(
 	`cl_id` INTEGER PRIMARY KEY AUTOINCREMENT,
 	`cl_dashboard_id` INTEGER NOT NULL,
+	`cl_question` longtext NULL,
 	`cl_feedback` longtext NULL,
-	`cl_important` longtext NULL,
-	`cl_not_important` longtext NULL,
 	FOREIGN KEY (`cl_dashboard_id`) REFERENCES `tb_dashboard` (`cl_id`)
 );
