@@ -342,7 +342,13 @@ def evaluation_static_dashboard_save():
 def evaluation_customizable_dashboard():
     user = User(_conn)
     dashboard = Dashboard(_conn, _user_id, user.get_customizable_dashboard_id(_user_id), CUSTOMIZABLE_DASHBOARD_TYPE)
-    return render_template('eduvis/frontend/dashboard/evaluate.html', userName=user.get_name(_user_id), dashboardType='customizable', charts_topic=dashboard.topic(), charts_id=dashboard.charts("id"), charts_layout=dashboard.charts("layout"), titleCharts=dashboard.title(), post_action="/eduvis/evaluation_customizable_dashboard/save/", data={})
+
+    if (dashboard.has_active_without_default_charts()):
+        return render_template('eduvis/frontend/dashboard/evaluate.html', userName=user.get_name(_user_id), dashboardType='customizable', charts_topic=dashboard.topic(without_default_charts=True), charts_id=dashboard.charts("id",without_default_charts=True), charts_layout=dashboard.charts("layout",without_default_charts=True), titleCharts=dashboard.title(without_default_charts=True), post_action="/eduvis/evaluation_customizable_dashboard/save/", data={})
+    elif (dashboard.has_inactive_default_charts()):
+        return redirect('/eduvis/modification_customizable_dashboard/')
+    else:
+        return redirect('/eduvis/interview/evaluation/')
 
 @mod.route('/evaluation_customizable_dashboard/save/', methods=['POST'])
 def evaluation_customizable_dashboard_save():
@@ -351,8 +357,8 @@ def evaluation_customizable_dashboard_save():
 
         user = User(_conn)
         dashboard = Dashboard(_conn, _user_id, user.get_customizable_dashboard_id(_user_id), CUSTOMIZABLE_DASHBOARD_TYPE)
-        topics = dashboard.topic()
-        charts = dashboard.charts("id")
+        topics = dashboard.topic(without_default_charts=True)
+        charts = dashboard.charts("id",without_default_charts=True)
 
         keys = []
         form = request.form
@@ -372,7 +378,7 @@ def evaluation_customizable_dashboard_save():
         print(data)
 
         if '' in list(data.values()):
-            return render_template('eduvis/frontend/dashboard/evaluate.html', userName=user.get_name(_user_id), dashboardType='customizable', charts_topic=dashboard.topic(), charts_id=dashboard.charts("id"), charts_layout=dashboard.charts("layout"), titleCharts=dashboard.title(), post_action="/eduvis/evaluation_customizable_dashboard/save/", data=data)
+            return render_template('eduvis/frontend/dashboard/evaluate.html', userName=user.get_name(_user_id), dashboardType='customizable', charts_topic=dashboard.topic(without_default_charts=True), charts_id=dashboard.charts("id",without_default_charts=True), charts_layout=dashboard.charts("layout",without_default_charts=True), titleCharts=dashboard.title(without_default_charts=True), post_action="/eduvis/evaluation_customizable_dashboard/save/", data=data)
         else:
             user.record_evaluation_dashboard(CUSTOMIZABLE_DASHBOARD_TYPE, data, _user_id)
     else:
@@ -387,7 +393,7 @@ def evaluation_customizable_dashboard_save():
 def modification_customizable_dashboard():
     user = User(_conn)
     dashboard = Dashboard(_conn, _user_id, user.get_customizable_dashboard_id(_user_id), CUSTOMIZABLE_DASHBOARD_TYPE)
-    return render_template('eduvis/frontend/dashboard/modification.html', userName=user.get_name(_user_id), dashboardType='customizable', charts_topic=dashboard.topic(True), charts_id=dashboard.charts("id",True), charts_layout=dashboard.charts("layout",True), titleCharts=dashboard.title(True), post_action="/eduvis/modification_customizable_dashboard/save/", data={})
+    return render_template('eduvis/frontend/dashboard/modification.html', userName=user.get_name(_user_id), dashboardType='customizable', charts_topic=dashboard.topic(default_charts_inactive=True), charts_id=dashboard.charts("id",default_charts_inactive=True), charts_layout=dashboard.charts("layout",default_charts_inactive=True), titleCharts=dashboard.title(default_charts_inactive=True), post_action="/eduvis/modification_customizable_dashboard/save/", data={})
 
 @mod.route('/modification_customizable_dashboard/save/', methods=['POST'])
 def modification_customizable_dashboard_save():
@@ -396,8 +402,8 @@ def modification_customizable_dashboard_save():
 
         user = User(_conn)
         dashboard = Dashboard(_conn, _user_id, user.get_customizable_dashboard_id(_user_id), CUSTOMIZABLE_DASHBOARD_TYPE)
-        topics = dashboard.topic(True)
-        charts = dashboard.charts("id",True)
+        topics = dashboard.topic(default_charts_inactive=True)
+        charts = dashboard.charts("id",default_charts_inactive=True)
 
         data = {}
         for i in range(0,len(charts)):
@@ -407,7 +413,7 @@ def modification_customizable_dashboard_save():
         print(data)
 
         if '' in list(data.values()):
-            return render_template('eduvis/frontend/dashboard/modification.html', userName=user.get_name(_user_id), dashboardType='customizable', charts_topic=dashboard.topic(True), charts_id=dashboard.charts("id",True), charts_layout=dashboard.charts("layout",True), titleCharts=dashboard.title(True), post_action="/eduvis/modification_customizable_dashboard/save/", data=data)
+            return render_template('eduvis/frontend/dashboard/modification.html', userName=user.get_name(_user_id), dashboardType='customizable', charts_topic=dashboard.topic(default_charts_inactive=True), charts_id=dashboard.charts("id",default_charts_inactive=True), charts_layout=dashboard.charts("layout",default_charts_inactive=True), titleCharts=dashboard.title(default_charts_inactive=True), post_action="/eduvis/modification_customizable_dashboard/save/", data=data)
         else:
             user.record_evaluation_dashboard(CUSTOMIZABLE_DASHBOARD_TYPE, data, _user_id, evaluation=False)            
     else:
@@ -459,7 +465,6 @@ def static_dashboard():
     dashboard = Dashboard(_conn, _user_id, user.get_static_dashboard_id(_user_id), STATIC_DASHBOARD_TYPE)
     session['type_dashboard'] = STATIC_DASHBOARD_TYPE
     return render_template('eduvis/frontend/dashboard/dashboard.html', userName=user.get_name(_user_id), charts_topic=dashboard.topic(), charts_id=dashboard.charts("id"), charts_layout=dashboard.charts("layout"), titleCharts=dashboard.title(), enableLeftMenu=STATIC_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
-    # return render_template('eduvis/frontend/dashboard/dashboard.html')
 
 @mod.route('/customizable_dashboard/')
 def customizable_dashboard():
@@ -467,7 +472,6 @@ def customizable_dashboard():
     dashboard = Dashboard(_conn, _user_id, user.get_customizable_dashboard_id(_user_id), CUSTOMIZABLE_DASHBOARD_TYPE)
     session['type_dashboard'] = CUSTOMIZABLE_DASHBOARD_TYPE
     return render_template('eduvis/frontend/dashboard/dashboard.html', userName=user.get_name(_user_id), charts_topic=dashboard.topic(), charts_id=dashboard.charts("id"), charts_layout=dashboard.charts("layout"), titleCharts=dashboard.title(), enableLeftMenu=CUSTOMIZABLE_DASHBOARD_TYPE, leftMenuInfo=left_menu_info(), amountSelectedVG=dashboard.amount_by_view())
-    # return render_template('eduvis/frontend/dashboard/dashboard.html')
 
 @mod.route('/thankyou/')
 def thankyou():

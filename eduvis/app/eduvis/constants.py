@@ -52,6 +52,8 @@ for i in range(len(LST_VIEW_INFORMATION)): #Get all subtopics
     for j in range(len(lst_question)):
         SUB_TOPIC.append({"id":lst_question[j]["id"],"label_pt":lst_question[j]["Sub_topic"]})
 
+LST_DEFAULT_TOPIC_CHART_ID = [15,27,30,40,42,55,64,70,76,88,117,126,154]
+
 LST_EVALUATION_TAM = {}
 # Utilidade
 LST_EVALUATION_TAM[1] = "ele permite configurar rapidamente um dashboard"

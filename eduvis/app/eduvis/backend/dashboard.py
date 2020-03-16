@@ -7,6 +7,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath("visualizations"
 
 from app.eduvis.constants import LANGUAGE
 from app.eduvis.constants import RANDOM_NUMBER_STUDENTS
+from app.eduvis.constants import LST_DEFAULT_TOPIC_CHART_ID
 from app.eduvis.backend.connection_db import Connection_DB
 from visualizations import V001, V002, V003, V004, V005, V006, V007, V008, V009, V010, V011
 
@@ -188,46 +189,63 @@ class Dashboard:
             if not self._preprocessed_chart:
                 self._view11.generate_dataset(number_students = self.number_students, rand_names = self._students)
 
-    def has_inactive_default_charts(self):
-        lst_dash_charts = self._conn.select("user_dashboard_charts_inactive",(self._user_id, self._dashboard_id, self._dashboard_type))
+    def has_active_without_default_charts(self):
+        lst_dash_charts = self._conn.select("user_dashboard_charts_active",(self._user_id, self._dashboard_id, self._dashboard_type))
 
         for i in range(0, len(lst_dash_charts)):
-                if lst_dash_charts[i][7] in self.lst_default_topic_chart_id:
+                if lst_dash_charts[i][7] in LST_DEFAULT_TOPIC_CHART_ID:
+                    continue
+                else:
                     return True
 
         return False
 
-    def title(self,default_charts_inactive=False):
+    def has_inactive_default_charts(self):
+        lst_dash_charts = self._conn.select("user_dashboard_charts_inactive",(self._user_id, self._dashboard_id, self._dashboard_type))
+
+        for i in range(0, len(lst_dash_charts)):
+                if lst_dash_charts[i][7] in LST_DEFAULT_TOPIC_CHART_ID:
+                    return True
+
+        return False
+
+    def title(self,default_charts_inactive=False,without_default_charts=False):
         lst_title = []
         if default_charts_inactive:
             lst_dash_charts = self._conn.select("user_dashboard_charts_inactive",(self._user_id, self._dashboard_id, self._dashboard_type))
 
             for i in range(0, len(lst_dash_charts)):
-                if lst_dash_charts[i][7] in self.lst_default_topic_chart_id:
+                if lst_dash_charts[i][7] in LST_DEFAULT_TOPIC_CHART_ID:
                     lst_title.append(lst_dash_charts[i][4])
 
         else:
             lst_dash_charts = self._conn.select("user_dashboard_charts_active",(self._user_id, self._dashboard_id, self._dashboard_type))
 
             for i in range(0, len(lst_dash_charts)):
+                if without_default_charts:
+                    if lst_dash_charts[i][7] in LST_DEFAULT_TOPIC_CHART_ID:
+                        continue
                 lst_title.append(lst_dash_charts[i][4])
 
         print(lst_title)
         return lst_title
 
-    def topic(self,default_charts_inactive=False):
+    def topic(self,default_charts_inactive=False,without_default_charts=False):
         lst_topic = []
         if default_charts_inactive:
             lst_dash_charts = self._conn.select("user_dashboard_charts_inactive",(self._user_id, self._dashboard_id, self._dashboard_type))
 
             for i in range(0, len(lst_dash_charts)):
-                if lst_dash_charts[i][7] in self.lst_default_topic_chart_id:
+                if lst_dash_charts[i][7] in LST_DEFAULT_TOPIC_CHART_ID:
                     lst_topic.append(lst_dash_charts[i][5])
 
         else:
             lst_dash_charts = self._conn.select("user_dashboard_charts_active",(self._user_id, self._dashboard_id, self._dashboard_type))
 
             for i in range(0, len(lst_dash_charts)):
+                if without_default_charts:
+                    if lst_dash_charts[i][7] in LST_DEFAULT_TOPIC_CHART_ID:
+                        continue
                 lst_topic.append(lst_dash_charts[i][5])
 
         print(lst_topic)
@@ -246,18 +264,21 @@ class Dashboard:
 
         return lst_topic
 
-    def charts(self,focus_chart,default_charts_inactive=False): # focus_chart ["id","layout"]
+    def charts(self,focus_chart, default_charts_inactive=False, without_default_charts=False): # focus_chart ["id","layout"]
         lst_charts = []
         if default_charts_inactive:
             lst_dash_charts = self._conn.select("user_dashboard_charts_inactive",(self._user_id, self._dashboard_id, self._dashboard_type))
 
             for i in range(0, len(lst_dash_charts)):
-                if lst_dash_charts[i][7] in self.lst_default_topic_chart_id:
-                    lst_charts.append(lst_dash_charts[i][6])
+                if lst_dash_charts[i][7] in LST_DEFAULT_TOPIC_CHART_ID:
+                    lst_charts.append(lst_dash_charts[i][6])        
         else:
             lst_dash_charts = self._conn.select("user_dashboard_charts_active",(self._user_id, self._dashboard_id, self._dashboard_type))
         
             for i in range(0, len(lst_dash_charts)):
+                if without_default_charts:
+                    if lst_dash_charts[i][7] in LST_DEFAULT_TOPIC_CHART_ID:
+                        continue
                 lst_charts.append(lst_dash_charts[i][6])
 
         print(lst_charts)
