@@ -8,9 +8,12 @@ class PreprocessedView:
     def __init__(self):
         pass
     
-    def random_data(self, n_students=20):
-        names = pd.read_csv("assets/names.csv")
-        self._student_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,n_students)]
+    def random_data(self, n_students=20,names=[]):
+        if len(names)==0:
+            names = pd.read_csv("assets/names.csv")
+            self._student_names = [names.group_name[np.random.randint(0,len(names.group_name)+1)] for n in range(0,n_students)]
+        else:
+            self._student_names = [names[n] for n in range(0,n_students)]
         self._student_names.sort()
 
     def generate_view_001(self,n_students):
@@ -145,9 +148,9 @@ class PreprocessedView:
         
         print('V011 done!')
 
-    def generate_all_views(self,n_students):
+    def generate_all_views(self,n_students,names=[]):
         print('Selecting names...')
-        self.random_data(n_students)
+        self.random_data(n_students,names)
         print('Generating views...')
         self.generate_view_001(n_students)
         self.generate_view_002(n_students)
@@ -161,5 +164,8 @@ class PreprocessedView:
         self.generate_view_010(n_students)
         self.generate_view_011(n_students)
 
+
+
+names = ["Arthur","Enzo" ,"Gabriel","Miguel","Carlos","Heitor","Pedro","Henrique","Jorge","Francisco","Caio","Lucas","Rafael","Samuel","Diego","Alana","Luana","Dandara","Laura","Marcela","Maria","Eduarda","Clara","Alice","Ana","Sandra","Amanda","Camila","Valentina","Joana"]
 instance = PreprocessedView()
-instance.generate_all_views(30)
+instance.generate_all_views(len(names),names)
