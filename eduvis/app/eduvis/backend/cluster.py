@@ -1,8 +1,5 @@
 import numpy as np
 import pandas as pd
-import os, sys
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath("visualizations"))))
 
 from app.eduvis.constants import LANGUAGE
 from app.eduvis.constants import RANDOM_NUMBER_STUDENTS
