@@ -96,6 +96,7 @@ def left_menu_info():
         if len(lst_question) > 1:
             for j in range(len(lst_question)):
                 sub_menu.append(lst_question[j]["Label_pt"])
+            # sub_menu = sorted(sub_menu)
 
         curr_dict = {"id":lst[i]["id"], "label_pt":lst[i]["Label_pt"], "label_en":lst[i]["Label_en"],"view":int(lst[i]["View"].replace("V","")),"sub_menu":sub_menu}
 
