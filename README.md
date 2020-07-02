@@ -19,6 +19,7 @@
 - `[MP-017]` Students can be clustered into different groups based on their access or interaction patterns.
 
 ### Student performance
+- `[MP-009]` Students who increased or has a high click activity have a higher probability of passing the course.
 - `[MP-028]` Student groups that use more forums tend to have a good performance.
 - `[MP-030]` Students groups that do more replies in forums tend to have a good performance.
 - `[MP-031]` Students groups that init threads in forums tend to have a good performance.
@@ -27,7 +28,10 @@
 - `[MP-040]` It is possible to obtain accurate classification models to predict students’ drop out through the analysis of the students’ interaction.
 - `[MP-051]` Forum can be used as a predictor of students completing the course.
 - `[MP-079]` It is possible to obtain accurate classification models to predict students’ performance through the analysis of the students’ interaction.
+- `[MP-088]` There is a positive correlation between the number of questions students asked to the instructor and their final grade for both courses.
+- `[MP-102]` Comments can be used as a predictor of students performance.
 - `[MP-106]` Student groups that have more posts are more likely to complete the course.
+- `[MP-114]` Students with Negative Self-regulated have negative relation with academic performance.
 
 ## Requirements raised by instructors
 
@@ -40,7 +44,7 @@
 ````bash
 -------------------- Raised by 1 instructors --------------------
 ````
-- `*[RQ-35]` Provide a course progress bar to student.
+- `*[RQ-35]` Provide a course progress bar to students.
 
 ### Student patterns
 - `[RQ-02]` Identify student access patterns (e.g., login, materials).
@@ -50,7 +54,7 @@
 - `[RQ-07]` Identify student interaction patterns (e.g., materials).
 - `[RQ-08]` Identify student participation patterns on the course.
 - `[RQ-09]` Identify student drop out patterns.
-- `[RQ-10]` Identify student navigate patterns on the VLE.
+- `[RQ-10]` Identify student navigation patterns on the VLE.
 ````bash
 -------------------- Raised by 2 instructors --------------------
 ````
@@ -79,26 +83,26 @@
 
 ### Misc.
 - `[RQ-11]` Identify self-regulated students.
-- `[RQ-12]` Know if the student has understood the video.
-- `*[RQ-13]` Capture students' reactions with materials.
+- `[RQ-12]` Know whether the student has understood the video.
+- `*[RQ-13]` Capture students' reactions to materials.
 ````bash
 -------------------- Raised by 2 instructors --------------------
 ````
 - `[RQ-14]` Identify pace learning student.
 - `*[RQ-19]` Markers on the video showing where begins each topic.
-- `[RQ-20]` Know what videos (or segments) the students have liked.
+- `[RQ-20]` Know which videos (or video segments) the students have liked.
 ````bash
 -------------------- Raised by 1 instructors --------------------
 ````
 - `*[RQ-22]` Know the backjump reason.
 - `*[RQ-23]` Video's content be interactive.
-- `[RQ-23]` Know video segments that the students have difficulty.
+- `[RQ-24]` Know in which video segments the students have difficulty.
 - `*[RQ-27]` Know if another material was accessed with the video.
 - `[RQ-28]` Know when students has connection problems.
 - `*[RQ-29]` Identify students' expectations.
 - `*[RQ-32]` Automatic content recommendation to student.
 - `*[RQ-33]` Self-regulated content to student (using tree decision).
-- `*[RQ-34]` Resources to students evaluate the materials.
+- `*[RQ-34]` Resources for students to evaluate the materials.
 - `*[RQ-36]` Provide achievements to engage the students.
 - `*[RQ-37]` Relate content presentation with student behavior.
 - `*[RQ-38]` VLE show a schedule customized to student.
@@ -154,6 +158,7 @@
 - `[MP-031]` Students groups that init threads in forums tend to have a good performance.
 - `[MP-035]` Successful students are more frequently and regularly participating and engaged in online activities.
 - `[MP-106]` Student groups that have more posts are more likely to complete the course.
+- `[MP-114]` Students with Negative Self-regulated have negative relation with academic performance.
 - `[RQ-02]` Identify student access patterns (e.g., login, materials).
 - `[RQ-03]` Identify student performance patterns.
 - `[RQ-04]` Identify student interest patterns on the course.
@@ -198,10 +203,14 @@
   - What is the relation between students' age and forum threads?
 
 ### View 007
+- `[MP-009]` Students who increased or has a high click activity have a higher probability of passing the course.
 - `[MP-037]` Completing activities or assessment can be used as a predictor of students completing the course.
 - `[MP-040]` It is possible to obtain accurate classification models to predict students’ drop out through the analysis of the students’ interaction.
 - `[MP-051]` Forum can be used as a predictor of students completing the course.
 - `[MP-079]` It is possible to obtain accurate classification models to predict students’ performance through the analysis of the students’ interaction.
+- `[MP-088]` There is a positive correlation between the number of questions students asked to the instructor and their final grade for both courses.
+- `[MP-102]` Comments can be used as a predictor of students performance.
+- `[MP-114]` Students with Negative Self-regulated have negative relation with academic performance.
 - `[RQ-06]` Predict student performance.
 - **Topics:**
   - Prediction of students' grades and dropout.
@@ -220,8 +229,8 @@
 ### View 009
 - `[RQ-01]` Statistics of interactions on video (e.g., access, re-watch, seek).
 - `[RQ-16]` Know if the student is watching the video.
-- `[RQ-20]` Know what videos (or segments) the students have liked.
-- `[RQ-23]` Know video segments that the students have difficulty.
+- `[RQ-20]` Know which videos (or video segments) the students have liked.
+- `[RQ-24]` Know in which video segments the students have difficulty.
 - `[RQ-26]` Know how students navigate in the video.
 - `[RQ-28]` Know when students has connection problems.
 - **Topics:**
@@ -230,15 +239,15 @@
   - What are the statistics of interactions with video (e.g., play, pause, seek backward, seek forward)?
 
 ### View 010
-- `[RQ-12]` Know if the student has understood the video.
-- `[RQ-20]` Know what videos (or segments) the students have liked.
+- `[RQ-12]` Know whether the student has understood the video.
+- `[RQ-20]` Know which videos (or video segments) the students have liked.
 - **Topics:**
   - Videos were understood by students.
 - **Questions:**
   - Which videos were understood by students?
 
 ### View 011
-- `[RQ-10]` Identify student navigate patterns on the VLE.
+- `[RQ-10]` Identify student navigation patterns on the VLE.
 - `[RQ-25]` Know how students navigate among the video lectures.
 - **Topics:**
   - Students' navigation patterns on the VLE.
